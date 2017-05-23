@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.persist.mapper.PermissionMapper">
+	<resultMap type="org.ack.pojo.Permission" id="permissionResultMap">
+		<result property="id" column="id" />
+		<result property="permissionName" column="permissionName" />
+		<result property="flag" column="url" />
+		<result property="createTime" column="createTime" />
+	</resultMap>
+	
+	<resultMap type="permission" id="permissionMenuResultMap" extends="permissionResultMap">
+	    <collection property="menus" ofType="menu" >
+	        <id property="id" column="mid"/>
+	        <result property="menuName" column="menuName"/>
+	        <result property="url" column="url"/>
+	        <result property="menuType" column="menuType"/>
+	        <result property="isLeaf" column="isLeaf"/>
+	        <result property="isPage" column="isPage"/>
+	        <result property="menuLevel" column="menuLevel"/>
+	        <result property="css" column="css"/>
+	        <result property="domId" column="domId"/>
+	        <result property="parentId" column="parentId"/>
+	    </collection>
+	</resultMap>
+
+	<insert id="insert">
+		INSERT INTO
+		ack_permission(permissionName,flag,comments,createTime)
+		VALUES
+		(#{permissionName},#{flag}, #{comments}, now())
+	</insert>
+	
+	<select id="findMenuById" parameterType="int" resultType="menu" >
+	    SELECT
+		    am.id AS id,
+			am.menuName AS menuName,
+			am.url as url,
+			am.menuType as menuType,
+			am.isLeaf as isLeaf,
+			am.isPage as isPage,
+			am.css as css,
+			am.domId as domId,
+			am.menuLevel as menuLevel,
+			am.parentId as parentId
+		FROM
+			ack_menu am
+		LEFT JOIN ack_permission_menu apm ON apm.mid = am.id
+		LEFT JOIN ack_permission ap ON ap.id = apm.pid
+		WHERE
+			ap.id = #{id}
+	</select>
+	<select id="findPermissionMenuById" parameterType="int" resultMap="permissionMenuResultMap">
+	     SELECT
+			ap.id as id,
+			ap.permissionName as permissionName,
+			ap.flag as flag,
+			ap.comments as comments,
+			ap.createTime as createTime,
+		    am.id as mid,
+		    am.menuName as menuName,
+		    am.url as url,
+			am.menuType as menuType,
+			am.isLeaf as isLeaf,
+			am.isPage as isPage,
+			am.css as css,
+			am.domId as domId,
+			am.menuLevel as menuLevel,
+			am.parentId as parentId
+		FROM
+			ack_permission ap
+		LEFT JOIN ack_permission_menu apm ON apm.pid = ap.id
+		LEFT JOIN ack_menu am ON am.id = apm.mid
+		WHERE
+			ap.id = #{id}
+	</select>
+	
+	<select id="find" parameterType="menu" resultMap="permissionResultMap">
+		SELECT
+		id,
+		permissionName,
+		flag,
+		comments,
+		createTime
+		FROM
+		ack_permission
+		WHERE id = #{id}
+	</select>
+
+	<select id="findById" parameterType="int" resultMap="permissionResultMap">
+		SELECT
+		id,
+		permissionName,
+		flag,
+		comments,
+		createTime
+		FROM
+		ack_permission
+		WHERE id = #{id}
+	</select>
+	
+	<update id="update" parameterType="menu">
+		UPDATE
+		ack_permission ar
+		SET
+	    <if test="permissionName != null and permissionName !=''">
+	       ar.permissionName = #{permissionName},
+	    </if>
+	    <if test="flag != null and flag !=''">
+	       ar.flag = #{flag},
+	    </if>
+	    <if test="comments != null and comments !=''">
+	       ar.comments = #{comments},
+	    </if>
+	    <if test="createTime != null and createTime !=''">
+	       ar.createTime = #{createTime},
+	    </if>
+	    ar.id = ar.id
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+	   DELETE FROM ack_permission
+	   WHERE id = #{id}
+	</delete>
+	
+	<delete id="delete" parameterType="role">
+	   DELETE FROM ack_permission
+	   WHERE id = #{id}
+	</delete>
+
+	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+		resultMap="permissionResultMap">
+		SELECT
+		id,
+		permissionName,
+		flag,
+		comments,
+		createTime
+		FROM
+		ack_permission
+		WHERE 1 = 1
+		<if test="condition.permissionName != null and condition.permissionName !=''">
+			and permissionName=#{condition.permissionName}
+		</if>
+		<if test="condition.menuType != null and condition.menuType !=''">
+			and flag=#{condition.flag}
+		</if>
+	</select> 
+	
+</mapper>

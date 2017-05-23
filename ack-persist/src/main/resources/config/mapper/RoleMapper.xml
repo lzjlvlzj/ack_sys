@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.persist.mapper.RoleMapper">
+	<resultMap type="org.ack.pojo.Role" id="roleResultMap">
+		<result property="id" column="id" />
+		<result property="roleName" column="roleName" />
+		<result property="menuIds" column="menuIds" />
+		<result property="comments" column="comments" />
+		<result property="createTime" column="createTime" />
+	</resultMap>
+	
+	<resultMap type="role" id="rolePermissionResultMap" extends="roleResultMap" >
+	    <collection property="permissions" ofType="org.ack.pojo.Permission">
+	        <id property="id" column="pid"/>
+	        <result property="permissionName" column="permissionName"/>
+	        <result property="flag" column="flag"/>
+	    </collection>
+	</resultMap>
+	
+	<insert id="insert">
+		INSERT INTO
+		ack_role(roleName,comments,menuIds,createTime)
+		VALUES
+		<if test="createTime != null and createTime !=''">
+			(#{roleName},#{comments},#{menuIds},#{createTime})
+		</if>
+		<if test="createTime == null or createTime ==''">
+			(#{roleName},#{comments},#{menuIds},now())
+		</if>
+	</insert>
+	
+	<select id="findByIds" parameterType="int" resultMap="roleResultMap">
+		SELECT *
+        FROM ack_role ar
+        where ar.id in
+        <foreach collection="array" item="ids" index="index"
+            open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+	</select>
+	
+	<select id="findPermissionById" parameterType="int" resultType="permission">
+		SELECT
+			ap.id AS id,
+			ap.permissionName AS permissionName,
+			ap.flag AS flag
+		FROM
+			ack_permission ap
+		LEFT JOIN ack_role_permission arp ON arp.pid = ap.id
+		LEFT JOIN ack_role ar ON ar.id = arp.rid
+		WHERE
+			ar.id = #{id}
+	</select>
+	
+	<select id="findRolePermissionById" parameterType="int" resultMap="rolePermissionResultMap">
+		SELECT
+			ar.id as id,
+			ar.roleName as roleName,
+			ar.comments as comments,
+			ar.createTime as createTime,
+		    ap.id as pid,
+		    ap.permissionName as permissionName,
+		    ap.flag as flag
+		FROM
+			ack_role ar
+		LEFT JOIN ack_role_permission arp ON arp.rid = ar.id
+		LEFT JOIN ack_permission ap ON ap.id = arp.pid
+		WHERE
+		    ar.id = #{id}
+	</select>
+	
+	<select id="find" parameterType="role" resultMap="roleResultMap">
+		SELECT
+		id,
+		roleName,
+		menuIds,
+		comments,
+		createTime
+		FROM
+		ack_role
+		WHERE id = #{id}
+	</select>
+
+	<select id="findById" parameterType="int" resultMap="roleResultMap">
+		SELECT
+		id,
+		roleName,
+		menuIds,
+		comments,
+		createTime
+		FROM
+		ack_role
+		WHERE id = #{id}
+	</select>
+	
+	<update id="update" parameterType="role">
+		UPDATE
+		ack_role ar
+		SET
+	    <if test="roleName != null and roleName !=''">
+	       ar.roleName = #{roleName},
+	    </if>
+	    <if test="menuIds != null and menuIds !=''">
+	       ar.menuIds = #{menuIds},
+	    </if>
+	    <if test="comments != null and comments !=''">
+	       ar.comments = #{comments},
+	    </if>
+	    <if test="createTime != null and createTime !=''">
+	       ar.createTime = #{createTime},
+	    </if>
+	    ar.id = ar.id
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+	   DELETE FROM ack_role
+	   WHERE id = #{id}
+	</delete>
+	
+	<delete id="delete" parameterType="role">
+	   DELETE FROM ack_role
+	   WHERE id = #{id}
+	</delete>
+	
+	<select id="findAll"  resultMap="roleResultMap">
+		SELECT
+		id,
+		roleName,
+		comments,
+		menuIds,
+		createTime
+		FROM
+		ack_role
+	</select>
+
+</mapper>
