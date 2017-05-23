@@ -19,6 +19,14 @@ ACK SYSTEM
 --
 权限部分采用了map存储这个修改权限后要跟新，要不然不起作用。这个部分以后是要放到redis或者memcache缓存中的。
 
+例子
+--
+[这里](http://www.itblg.com:8080/)
+
+`user : zsan`
+
+`pass : 123`
+
 安装使用
 ------
 **下载**
