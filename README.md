@@ -15,6 +15,10 @@ ACK SYSTEM
 * 用户列表采用的是`datatable`这个前端组件，功能很强大(没有做排序和搜索)
 * 其他列表采用自己写的一个基于bootstrap分页工具[https://github.com/lzjlvlzj/pagination](https://github.com/lzjlvlzj/pagination)
 
+注意
+--
+权限部分采用了map存储这个修改权限后要跟新，要不然不起作用。这个部分以后是要放到redis或者memcache缓存中的。
+
 安装使用
 ------
 **下载**
