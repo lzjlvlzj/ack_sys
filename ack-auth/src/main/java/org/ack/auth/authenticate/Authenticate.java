@@ -3,6 +3,7 @@ package org.ack.auth.authenticate;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import org.ack.auth.PermissionStringIsNotRightException;
 import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.pojo.User;
 import org.ack.service.UserService;
@@ -24,10 +25,12 @@ public class Authenticate {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(Authenticate.class);
-    @Autowired
+	@Autowired
 	UserService userServiceImpl;
 	User user;
 
+	public Authenticate() {
+	}
 	public Authenticate(UserService userServiceImpl) {
 		this.userServiceImpl = userServiceImpl;
 	}
@@ -35,29 +38,58 @@ public class Authenticate {
 	public User getUser() {
 		return user;
 	}
-	
-	
 
 	public String getPermissionString(Method method) {
 		AckPermission ap = method.getAnnotation(AckPermission.class);
 		if (null == ap) {
 			return null;
 		}
-		return ap.value();
+		String value = ap.value();
+		return value;
 	}
-	
-	public boolean checkPermission(Method method, User user){
-		String currentPermission = getPermissionString(method);
-		if(null == currentPermission){
+
+	/**
+	 * 匹配权限
+	 * */
+	public boolean matchPermission(String value, Set<String> permissions) {
+        String logic = AuthLogic.AND.getValue() + "|"
+				+ AuthLogic.OR.getValue();
+		String[] strs = value.split(logic);
+		int flag = 0;// 出现次数
+		for (String pm : strs) {
+			pm = pm.trim();
+			for (String p : permissions) {
+				if (pm.equals(p)) {
+					flag++;
+				}
+			}
+		}
+		if (value.indexOf(AuthLogic.AND.getValue()) >= 0) {
+			if (flag >= 2) {
+				return true;
+			}
+		} else if (value.indexOf(AuthLogic.OR.getValue()) >= 0) {
+			if (flag >= 1) {
+				return true;
+			}
+		} else {
+			throw new PermissionStringIsNotRightException("权限字符串[" + value
+					+ "]格式不正确");
+		}
+		return false;
+	}
+
+	/**
+	 * 检查用户是否有权限
+	 * */
+	public boolean checkPermission(Method method, User user) {
+		String strs = getPermissionString(method);
+		if (null == strs) {
 			return true;
 		}
 		Set<String> permissions = userServiceImpl.getPermissionString(user);
-		for(String p : permissions){
-		   if(p.equals(currentPermission)){
-			   return true;
-		   }	
-		}
-	    return false;	
+		boolean b = matchPermission(strs, permissions);
+		return b;
 	}
 
 	/**

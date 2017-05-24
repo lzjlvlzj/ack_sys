@@ -134,7 +134,7 @@ public class DepartmentController extends
 		return "dept/deptEdit";
 	}
 	@RequestMapping(value = "/id/{id}")
-	@AckPermission(value="dept:find")
+	@AckPermission(value="dept:find or dept:update")
 	@ResponseBody
 	@Override
 	public Department findById(HttpServletRequest request,

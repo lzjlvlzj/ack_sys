@@ -181,7 +181,7 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	
 	
 	@RequestMapping(value = "/id/{id}")
-	@AckPermission(value="menu:find")
+	@AckPermission(value="menu:find or menu:update")
 	@ResponseBody
 	@Override
 	public Menu findById(HttpServletRequest request,

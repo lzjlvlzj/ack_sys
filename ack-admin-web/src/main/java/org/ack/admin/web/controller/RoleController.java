@@ -129,7 +129,7 @@ public class RoleController extends AckDeaultController<Role, Integer> {
 		return super.list(request, response, model);
 	}
 	@RequestMapping(value = "/id/{id}")
-	@AckPermission(value="role:find")
+	@AckPermission(value="role:find or role:update")
 	@Override
 	public Role findById(HttpServletRequest request,
 			HttpServletResponse response, Model model, @PathVariable Integer id) {

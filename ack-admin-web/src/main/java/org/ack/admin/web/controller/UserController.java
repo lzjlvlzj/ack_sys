@@ -196,7 +196,7 @@ public class UserController extends AckPageController<User, Long> {
 	}
     
 	@RequestMapping(value = "/id/{id}")
-	@AckPermission(value="user:find")
+	@AckPermission(value="user:find or user:update")
 	@ResponseBody
 	@Override
 	public User findById(HttpServletRequest request,
