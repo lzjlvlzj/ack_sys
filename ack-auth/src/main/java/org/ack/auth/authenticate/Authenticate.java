@@ -54,7 +54,11 @@ public class Authenticate {
 	public boolean matchPermission(String value, Set<String> permissions) {
         String logic = AuthLogic.AND.getValue() + "|"
 				+ AuthLogic.OR.getValue();
-		String[] strs = value.split(logic);
+		String[] strs = value.trim().split(logic);
+		if(null == strs || strs.length == 0 ){
+			throw new PermissionStringIsNotRightException("权限字符串[" + value
+					+ "]格式不正确");
+		}
 		int flag = 0;// 出现次数
 		for (String pm : strs) {
 			pm = pm.trim();
@@ -73,8 +77,9 @@ public class Authenticate {
 				return true;
 			}
 		} else {
-			throw new PermissionStringIsNotRightException("权限字符串[" + value
-					+ "]格式不正确");
+			if(flag >= 1){
+				return true;
+			}
 		}
 		return false;
 	}
