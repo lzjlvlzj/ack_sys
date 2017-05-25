@@ -14,7 +14,7 @@
 		<result property="comments" column="comments" />
 		<result property="createTime" column="createTime" />
 	</resultMap>
-	
+
 	<resultMap type="org.ack.pojo.User" id="userListResultMap">
 		<result property="id" column="id" />
 		<result property="loginName" column="loginName" />
@@ -24,103 +24,107 @@
 		<result property="roleIds" column="roleIds" />
 		<result property="createTime" column="createTime" />
 	</resultMap>
-	
-	<resultMap type="org.ack.pojo.User" id="userAuthResultMap" extends="userResultMap">
-		<collection property="roles" ofType="org.ack.pojo.Role" >
-		    <id property="id" column="rid"/>
-		    <result property="roleName" column="roleName"/>
-		    <result property="comments" column="roleComments"/>
-		    <result property="createTime" column="RolecreateTime"/>
+
+	<resultMap type="org.ack.pojo.User" id="userAuthResultMap"
+		extends="userResultMap">
+		<collection property="roles" ofType="org.ack.pojo.Role">
+			<id property="id" column="rid" />
+			<result property="roleName" column="roleName" />
+			<result property="comments" column="roleComments" />
+			<result property="createTime" column="RolecreateTime" />
 		</collection>
 	</resultMap>
-	
+
 
 	<insert id="insert">
 		INSERT INTO
 		ack_user(loginName,password,salt,surname,name,status,roleids,createTime)
 		VALUES
-		(#{loginName}, #{password},#{salt},#{surname},#{name},#{status},#{roleIds}, now())
+		(#{loginName},
+		#{password},#{salt},#{surname},#{name},#{status},#{roleIds}, now())
 	</insert>
-	
+
 	<update id="update" parameterType="user">
 		UPDATE
 		ack_user ar
 		SET
-	    <if test="loginName != null and loginName !=''">
-	       ar.loginName = #{loginName},
-	    </if>
-	    <if test="salt != null and salt !=''">
-	       ar.salt = #{salt},
-	    </if>
-	    <if test="surname != null and surname !=''">
-	       ar.surname = #{surname},
-	    </if>
-	    <if test="name != null and name !=''">
-	       ar.name = #{name},
-	    </if>
-	    <if test="status != null and status !=''">
-	       ar.status = #{status},
-	    </if>
-	    <if test="password != null and password !=''">
-	       ar.password = #{password},
-	    </if>
-	    <if test="roleIds != null and roleIds !=''">
-	       ar.roleIds = #{roleIds},
-	    </if>
-	    <if test="comments != null and comments !=''">
-	       ar.comments = #{comments},
-	    </if>
-	    <if test="createTime != null and createTime !=''">
-	       ar.createTime = #{createTime},
-	    </if>
-	    ar.id = ar.id
+		<if test="loginName != null and loginName !=''">
+			ar.loginName = #{loginName},
+		</if>
+		<if test="salt != null and salt !=''">
+			ar.salt = #{salt},
+		</if>
+		<if test="surname != null and surname !=''">
+			ar.surname = #{surname},
+		</if>
+		<if test="name != null and name !=''">
+			ar.name = #{name},
+		</if>
+		<if test="status != null and status !=''">
+			ar.status = #{status},
+		</if>
+		<if test="password != null and password !=''">
+			ar.password = #{password},
+		</if>
+		<if test="roleIds != null and roleIds !=''">
+			ar.roleIds = #{roleIds},
+		</if>
+		<if test="comments != null and comments !=''">
+			ar.comments = #{comments},
+		</if>
+		<if test="createTime != null and createTime !=''">
+			ar.createTime = #{createTime},
+		</if>
+		ar.id = ar.id
 		WHERE id = #{id}
 	</update>
-	
+
 	<delete id="delete">
 	</delete>
-	
+
 	<select id="findRoleById" parameterType="long" resultType="role">
-	    
+
 
 	</select>
-	
+
 	<select id="findUserRoleById" parameterType="long" resultMap="userAuthResultMap">
-	    SELECT
-			au.id as id,
-			au.loginName as loginName,
-			au.PASSWORD as password,
-			au.salt as salt,
-			au.surname as surname,
-			au.NAME as name,
-			au.STATUS as status,
-			au.createTime as createTime,
-		    ar.id as rid,
-		    ar.roleName as roleName
+		SELECT
+		au.id as id,
+		au.loginName as loginName,
+		au.PASSWORD as password,
+		au.salt as salt,
+		au.surname as surname,
+		au.NAME as name,
+		au.STATUS as status,
+		au.createTime as createTime,
+		ar.id as rid,
+		ar.roleName as roleName
 		FROM
-			ack_user au 
+		ack_user au
 		LEFT JOIN ack_user_role aur on aur.uid = au.id
-		LEFT JOIN ack_role ar on ar.id = aur.rid
+		LEFT JOIN ack_role ar on
+		ar.id = aur.rid
 		WHERE
-			au.id = #{id}
+		au.id = #{id}
 	</select>
-	
-	<select id="findUserByLoginName" parameterType="user" resultMap="userAuthResultMap">
-	     SELECT
-			au.id as id,
-			au.loginName as loginName,
-			au.PASSWORD as password,
-			au.salt as salt,
-			au.surname as surname,
-			au.NAME as name,
-			au.STATUS as status,
-			au.createTime as createTime
+
+	<select id="findUserByLoginName" parameterType="user"
+		resultMap="userAuthResultMap">
+		SELECT
+		au.id as id,
+		au.loginName as loginName,
+		au.PASSWORD as password,
+		au.salt as salt,
+		au.surname as surname,
+		au.NAME as name,
+		au.STATUS as status,
+		au.createTime as createTime
 		FROM
-			ack_user au 
+		ack_user au
 		WHERE
-			au.loginName = #{loginName}
+		au.loginName = #{loginName}
 	</select>
-	
+
 	<select id="find" parameterType="user" resultMap="userResultMap">
 		SELECT
 		id,
@@ -147,7 +151,8 @@
 		createTime
 		FROM
 		ack_user
-		WHERE id = #{id}
+		WHERE id =
+		#{id}
 	</select>
 
 	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
@@ -163,15 +168,22 @@
 		FROM
 		ack_user
 		WHERE 1 = 1
-		<if test="condition.loginName != null and condition.loginName !=''">
-			and loginName=#{condition.loginName}
+		<if test="condition.loginName != null and condition.loginName !='' or condition.loginName != null and condition.loginName !='' or condition.surname != null and condition.surname !='' or condition.name != null and condition.name !='' or condition.status != null and condition.status !=''">
+			and (
+			loginName=#{condition.loginName}<!-- this is a default value -->
+			<if test="condition.surname != null and condition.surname !=''">
+				or surname=#{condition.surname}
+			</if>
+			<if test="condition.name != null and condition.name !=''">
+				or name=#{condition.name}
+			</if>
+			<!-- <if test="condition.status != null and condition.status !='' and (condition.status=='0' or condition.status=='1')"> -->
+			<if test="condition.status != null and condition.status !=''">
+				or status=#{condition.status}
+			</if>
+			)
 		</if>
-		<if test="condition.surname != null and condition.surname !=''">
-			and surname=#{condition.surname}
-		</if>
-		<if test="condition.name != null and condition.name !=''">
-			and name=#{condition.name}
-		</if>
+
 	</select>
 
 </mapper>
