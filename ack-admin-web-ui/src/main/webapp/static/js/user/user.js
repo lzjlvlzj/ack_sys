@@ -183,6 +183,9 @@ User.showList = function() {
              "dataSrc" : "data",
              "type" : "POST"
          },
+         "search" : {
+        	"regex" : true 
+         },
          "rowId" : "id",//将数据中的id绑定到tr上
          "columns": [
              { "data": "loginName" },
