@@ -12,6 +12,40 @@ import java.util.Date;
  */
 public class StringUtils {
 
+	/**
+	 * 判断一个字符串不是纯数字
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static boolean isString(String s) {
+		return !isNumeric(s);
+	}
+
+	/**
+	 * 判断一个字符串是否由纯数字组成
+	 * */
+	public static boolean isNumeric(String s) {
+		if (null == s || s.length() == 0) {
+			return false;
+		}
+		int n = 0;
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			boolean b = Character.isDigit(c);
+			if (!b) {
+				n = 1;
+				break;
+			}
+		}
+		if (n == 1) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
 	public static String array2String(Integer[] arrays) {
 		String s = "";
 		for (Integer n : arrays) {

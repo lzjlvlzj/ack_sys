@@ -2,6 +2,8 @@ package org.ack.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * 反射工具
@@ -12,9 +14,38 @@ import java.lang.reflect.Method;
 public class ReflectUtil {
 	
 	/**
+	 * 获得所有字段名称
+	 * */
+	public static String[] getAllFieldNames(Class<?> clazz){
+		
+		Field[] fields = clazz.getDeclaredFields();
+		if(null == fields || fields.length == 0){
+			return null;
+		}
+		String[] names = new String[fields.length];
+		for(int i = 0; i < fields.length; i++){
+			Field field  = fields[i];
+			names[i] = field.getName();
+		}
+		return names;
+	}
+
+	/**
+	 * 获得泛型类型
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	public static Type[] getRealClassType(Class<?> clazz) {
+		ParameterizedType pt = (ParameterizedType) clazz.getGenericSuperclass();
+		Type[] type = pt.getActualTypeArguments();
+		return type;
+	}
+
+	/**
 	 * 获得method
 	 * */
-	public static Method getMethod(String className, String methodName){
+	public static Method getMethod(String className, String methodName) {
 		Method method = null;
 		try {
 			method = Class.forName(className).getDeclaredMethod(methodName);
