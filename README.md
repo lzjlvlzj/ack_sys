@@ -15,6 +15,28 @@ ACK SYSTEM
 * 用户列表采用的是`datatable`这个前端组件，功能很强大(没有做排序和搜索)
 * 其他列表采用自己写的一个基于bootstrap分页工具[https://github.com/lzjlvlzj/pagination](https://github.com/lzjlvlzj/pagination)
 
+工程目录简介
+--------
+
+
+|序号|工程名称|功能|备注|
+|--|--|--|--|
+|1|ack_sys|工程总文件夹|母工程|
+|2|ack-pojo|java bean||
+|3|ack-base-persist|基础数据持久层|提供数据基本curd接口|
+|4|ack-persist|mysql数据库持久层|依赖ack-base-persist|
+|5|ack-base-service|服务层基础封装|提供简单curd|
+|6|ack-service|服务层封装|依赖ack-base-service|
+|7|ack-base-web|控制层封装|主要对基本curd进行了封装|
+|8|ack-admin-web|后台管理控制层主要逻辑|依赖ack-base-web|
+|9|ack-admin-web-ui|页面和css,js,图片等静态资源|母工程|
+|10|ack-web|pc端展示给用户用|暂时没有开发|
+|11|ack-common|常用的东西|逻辑复杂|
+|12|ack-util|工具类|逻辑简单|
+|13|ack-exception|异常|自定义异常|
+
+
+
 注意
 --
 权限部分采用了map存储这个修改权限后要跟新，要不然不起作用。这个部分以后是要放到redis或者memcache缓存中的。
