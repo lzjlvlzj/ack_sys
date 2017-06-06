@@ -59,6 +59,10 @@ ACK SYSTEM
 
 下载后，导入到 Eclipse或者MyEclipse(注意是Maven工程)
 
+正确导入后是这个样子的
+
+![image](https://github.com/lzjlvlzj/ack_sys/blob/master/image/1.png)
+
 **部署**
 
 数据初始化:
