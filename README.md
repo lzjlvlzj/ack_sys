@@ -54,14 +54,39 @@ ACK SYSTEM
 **下载**
 
 `git clone https://github.com/lzjlvlzj/ack_sys.git`
-
 **开发**
 
 下载后，导入到 Eclipse或者MyEclipse(注意是Maven工程)
 
-正确导入后是这个样子的
+正确导入后是这个样子的:
 
 ![image](https://github.com/lzjlvlzj/ack_sys/blob/master/image/1.png)
+
+导入到开发环境后，我们还需要为开发做下面的准备(这个需要把数据提前导入到数据库)
+
+* 配置maven命令
+
+点击菜单栏上的[image](https://github.com/lzjlvlzj/ack_sys/blob/master/image/2.png) 选择 `Debug Configrations`
+
+按步骤创建命令
+[image](https://github.com/lzjlvlzj/ack_sys/blob/master/image/3.png)
+
+`install`:
+
+[image](https://github.com/lzjlvlzj/ack_sys/blob/master/image/4.png)
+
+`jetty:run`:
+
+这个是jetty运行的命令(容器是在响应工程里的pom.xml配置的例子请看`ack-admin-web-ui`的`pom.xml`,当然也可以配置`tomcat`,需要的请自行配置)
+
+[image](https://github.com/lzjlvlzj/ack_sys/blob/master/image/5.png)
+
+注意：第一次启动项目时间会久点，请耐心等待。
+
+`clean`:
+
+[image](https://github.com/lzjlvlzj/ack_sys/blob/master/image/6.png)
+
 
 **部署**
 
