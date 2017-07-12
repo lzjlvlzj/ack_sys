@@ -27,7 +27,6 @@
 				</thead>
 
 				<tbody id='tab-body'>
-					
 
 				</tbody>
 			</table>
