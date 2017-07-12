@@ -23,7 +23,7 @@
 						<th>结束时间</th>
 						<th>备注</th>
 						<th>操作</th>
-					</tr>
+					</tr> 
 				</thead>
 
 				<tbody id='tab-body'>
