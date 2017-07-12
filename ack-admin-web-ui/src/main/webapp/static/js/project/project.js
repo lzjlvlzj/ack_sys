@@ -52,7 +52,7 @@ Project.getOneTr = function(n, data, option) {
 	//操作
 	/*
 	var optionTd = $("<td></td>");
-	optionTd.append(AckTool.optionButton.simpleOption);
+	optionTd.append(AckTool.optionButton.simpleOption); 
 	tr.append(optionTd);
 	*/
 	//获得操作按钮
