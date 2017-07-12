@@ -145,7 +145,11 @@ AckTool.optionButton = {
 /**
  * data change
  */
-AckTool.date = function(time, fmt) {
+AckTool.date = function(time, format) {
+	if(!time){
+		return "";
+	}
+	var fmt = format || "yyyy-MM-dd";
 	var d = new Date(time);
 	var o = {
 		"M+" : d.getMonth() + 1, // 月份

@@ -141,7 +141,7 @@ public class DepartmentController extends
 			HttpServletResponse response, Model model, @PathVariable Integer id) {
 		return super.findById(request, response, model, id);
 	}
-	@RequestMapping(value = "/insert")
+	@RequestMapping(value = "/add")
 	@AckPermission(value="dept:add")
 	@ResponseBody
 	@Override

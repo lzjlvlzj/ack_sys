@@ -102,9 +102,9 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 	public List<Menu> findMenuByUser(User user) {
 		String loginName = user.getLoginName();
 		
-		if (null != menuMap.get(loginName)) {
+		/*if (null != menuMap.get(loginName)) {
 			return menuMap.get(loginName);
-		}
+		}*/
 		Set<Menu> menus = getMenus(user);
 		// 组织菜单成树形结构
 		List<Menu> menuList = processMenus(menus);

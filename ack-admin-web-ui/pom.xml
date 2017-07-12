@@ -33,9 +33,9 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
 					<httpConnector>
-						<port>80</port>
+						<port>8040</port>
 					</httpConnector>
-					<stopPort>8889</stopPort>
+					<stopPort>8819</stopPort>
 					<stopKey>QUIT</stopKey>
 					<scanIntervalSeconds>1</scanIntervalSeconds>
 					<webApp>

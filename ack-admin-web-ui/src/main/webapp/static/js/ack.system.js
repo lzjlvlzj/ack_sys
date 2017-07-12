@@ -471,8 +471,6 @@ AckSystem.menu = {
 		var hasSysMenu = false;
 		for (var i = 0; i < len; i++) {
 			var m = obj[i];
-			console.log("----------");
-			console.log(m.menuLevel);
 			//展示系统菜单
 			if(m.menuLevel == 0){
 				hasSysMenu = true;
