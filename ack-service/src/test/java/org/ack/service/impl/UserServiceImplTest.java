@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.ack.common.tree.Tree;
 import org.ack.pojo.Menu;
 import org.ack.pojo.Permission;
 import org.ack.pojo.Role;
@@ -28,8 +29,16 @@ public class UserServiceImplTest {
 	public final ObjectMapper mapper = new ObjectMapper();
 	
 	@Test
+	public void testFindMenuTreeByUser() throws JsonProcessingException{
+		User user = userServiceImpl.findUserByLoginName("admin");
+		Tree tree = userServiceImpl.findMenuTreeByUser(user);
+		String s = mapper.writeValueAsString(tree);
+		
+		System.out.println(s);
+	}
+	@Test
 	public void testFindMenuByUser() throws JsonProcessingException{
-		User user = userServiceImpl.findUserByLoginName("lisi");
+		User user = userServiceImpl.findUserByLoginName("admin");
 		List<Menu> menus = userServiceImpl.findMenuByUser(user);
 		String s = mapper.writeValueAsString(menus);
 		

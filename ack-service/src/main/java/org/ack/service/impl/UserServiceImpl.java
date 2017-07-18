@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.ack.base.service.impl.AckMapperServiceImpl;
+import org.ack.common.tree.Node;
+import org.ack.common.tree.Tree;
 import org.ack.persist.AckMapper;
 import org.ack.persist.mapper.UserMapper;
 import org.ack.pojo.Menu;
@@ -78,25 +80,43 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		return null;
 	}
 	
-	private List<Menu> processMenus(Set<Menu> menuList) {
+	private List<Menu> processMenus(Set<Menu> menuSet) {
+		Menu root = new Menu();
+		root.setId(0);//数据库中root id 为0
+		Tree tree = new Tree(root);
 	    List<Menu> list = new ArrayList<Menu>();
-	    for (Menu menu : menuList) {
-	    	List<Menu> child = new ArrayList<Menu>();
-	    	if (menu.getMenuType() == 0) {
-	    		for(Menu m : menuList){
-		    		if(m.getParentId() == -1){
-		    			continue;
-		    		}
-		    		if(m.getParentId() == menu.getId()){
-		    			child.add(m);
-		    		}
-		    	}
-		    	menu.setChildMenus(child);
-		    	list.add(menu);
-	    	}
+	    for(Menu menu : menuSet){
+	    	Node  parent = new Node();
+			Menu mp = new Menu();
+			mp.setId(menu.getParentId());
+			parent.setValue(mp);
+			
+			Node node = new Node();
+			node.setValue(menu);
+			node.setParent(parent);
+			tree.add(node);
 	    }
 		return list;
 	}
+	
+	private Tree getMenuTree(Set<Menu> menuSet) {
+		Menu root = new Menu();
+		root.setId(0);//数据库中root id 为0
+		Tree tree = new Tree(root);
+	    for(Menu menu : menuSet){
+	    	Node  parent = new Node();
+			Menu mp = new Menu();
+			mp.setId(menu.getParentId());
+			parent.setValue(mp);
+			
+			Node node = new Node();
+			node.setValue(menu);
+			node.setParent(parent);
+			tree.add(node);
+	    }
+		return tree;
+	}
+
 
 	@Override
 	public List<Menu> findMenuByUser(User user) {
@@ -110,6 +130,16 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		List<Menu> menuList = processMenus(menus);
 		menuMap.put(loginName, menuList);
 		return menuList;
+	}
+	
+	@Override
+	public Tree findMenuTreeByUser(User user) {
+        //String loginName = user.getLoginName();
+		
+		Set<Menu> menus = getMenus(user);
+		Tree t = getMenuTree(menus);
+		//menuMap.put(loginName, t);
+		return t;
 	}
 
 	private Set<Menu> getMenus(User user) {

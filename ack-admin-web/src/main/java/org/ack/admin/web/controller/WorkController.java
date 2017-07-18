@@ -24,7 +24,7 @@ public class WorkController {
 	@RequestMapping(value = "/list/ui")
 	public String listUI(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		return "work/work";
+		return "work/workList";
 	}
 	
 }
