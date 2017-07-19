@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ack.persist.mapper.ProjectMapper">
+	<resultMap type="org.ack.pojo.Project" id="projectResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="departmentId" column="deptId" />
+		<result property="departmentName" column="departmentName" />
+		<result property="managerId" column="managerId" />
+		<result property="managerName" column="managerName" />
+		<result property="status" column="status" />
+		<result property="startTime" column="startTime" />
+		<result property="endTime" column="endTime" />
+		<result property="remark" column="remark" />
+	</resultMap>
+     
+     <sql id="base_column">
+         id,name,deptId,managerId,status,startTime,endTime,remark
+     </sql>
+
+	<insert id="insert">
+		INSERT INTO
+		ack_project(name,deptId,managerId,status,startTime,endTime,remark)
+		VALUES
+		(#{name}, #{departmentId},#{managerId},#{status},#{startTime},#{endTime},#{remark})
+	</insert>
+
+	<update id="update" parameterType="project">
+		UPDATE
+		ack_project ar
+		<set>
+			<if test="name != null and name !=''">
+				ar.name = #{name},
+			</if>
+			<if test="departmentId != null and departmentId !=''">
+				ar.deptId = #{departmentId},
+			</if>
+			<if test="managerId != null and managerId !=''">
+				ar.managerId = #{managerId},
+			</if>
+			<if test="status != null and status !=''">
+				ar.status = #{status},
+			</if>
+			<if test="startTime != null and startTime !=''">
+				ar.startTime = #{startTime},
+			</if>
+			<if test="endTime != null and endTime !=''">
+				ar.endTime = #{endTime},
+			</if>
+			<if test="remark != null and remark !=''">
+				ar.remark = #{remark},
+			</if>
+		</set>
+		WHERE ar.id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+	    DELETE FROM ack_project
+        WHERE id = #{id}
+	</delete>
+
+	<select id="find" parameterType="project" resultMap="projectResultMap">
+		SELECT
+		<include refid="base_column"/>
+		FROM ack_project
+		WHERE id = #{id}
+	</select>
+
+	<select id="findById" parameterType="long" resultMap="projectResultMap">
+		SELECT
+		<include refid="base_column"/>
+		FROM ack_project
+		WHERE id = #{id}
+	</select>
+
+	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+		resultMap="projectResultMap">
+		SELECT
+		ap.id,
+		ap.NAME,
+		ap.deptId,
+		ap.managerId,
+		ap.STATUS,
+		ap.startTime,
+		ap.endTime,
+		ap.remark,
+	    ad.departmentName as departmentName,
+	    au.`name` as managerName
+		FROM
+		ack_project ap
+		LEFT JOIN ack_department  ad ON ap.deptId = ad.id
+        LEFT JOIN ack_user au ON ap.managerId = au.id
+		<where>
+			<if test="condition.name != null and condition.name !=''">
+				ap.name=#{condition.name}
+			</if>
+			<if test="condition.status != null and condition.status !=''">
+				ap.status=#{condition.status}
+			</if>
+			<if test="condition.managerId != null and condition.managerId !=''">
+				ap.managerId=#{condition.managerId}
+			</if>
+			<if test="condition.departmentId != null and condition.departmentId !=''">
+				ap.deptId=#{condition.departmentId}
+			</if>
+		</where>
+	</select>
+
+</mapper>

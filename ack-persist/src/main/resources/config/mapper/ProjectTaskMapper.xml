@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ack.persist.mapper.ProjectTaskMapper">
+	<resultMap type="org.ack.pojo.ProjectTask" id="projectTaskResultMap">
+		<result property="id" column="id" />
+		<result property="projectId" column="projectId" />
+		<result property="task" column="task" />
+		<result property="workerId" column="workerId" />
+		<result property="priority" column="priority" />
+		<result property="status" column="status" />
+		<result property="startTime" column="startTime" />
+		<result property="endTime" column="endTime" />
+	</resultMap>
+     
+     <sql id="base_column">
+         id,projectId,task,workerId,priority,status,startTime,endTime
+     </sql>
+
+	<insert id="insert">
+		INSERT INTO
+		ack_project_task(projectId,task,workerId,priority,status,startTime,endTime)
+		VALUES
+		(#{projectId}, #{task},#{workerId},#{priority},#{status},#{startTime},#{endTime})
+	</insert>
+
+	<update id="update" parameterType="project">
+		UPDATE
+		ack_project_task ar
+		<set>
+			<if test="projectId != null and projectId !=''">
+				ar.projectId = #{projectId},
+			</if>
+			<if test="task != null and task !=''">
+				ar.task = #{task},
+			</if>
+			<if test="workerId != null and workerId !=''">
+				ar.workerId = #{workerId},
+			</if>
+			<if test="priority != null and priority !=''">
+				ar.priority = #{priority},
+			</if>
+			<if test="status != null and status !=''">
+				ar.status = #{status},
+			</if>
+			<if test="startTime != null and startTime !=''">
+				ar.startTime = #{startTime},
+			</if>
+			<if test="endTime != null and endTime !=''">
+				ar.endTime = #{endTime},
+			</if>
+		</set>
+		WHERE ar.id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+	    DELETE FROM ack_project_task
+        WHERE id = #{id}
+	</delete>
+
+	<select id="find" parameterType="project" resultMap="projectTaskResultMap">
+		SELECT
+		<include refid="base_column"/>
+		FROM ack_project_task
+		WHERE id = #{id}
+	</select>
+
+	<select id="findById" parameterType="long" resultMap="projectTaskResultMap">
+		SELECT
+		<include refid="base_column"/>
+		FROM ack_project_task
+		WHERE id = #{id}
+	</select>
+
+	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+		resultMap="projectTaskResultMap">
+		SELECT
+			apt.id,
+			apt.projectId,
+			apt.task,
+			apt.workerId,
+			apt.priority,
+			apt.STATUS,
+			apt.startTime,
+			apt.endTime,
+		    ap.name as projectName,
+		    au.`name` as workerName
+	   FROM
+		    ack_project_task apt
+	   LEFT JOIN ack_project ap ON ap.id = apt.projectId
+	   LEFT JOIN ack_user au ON au.id = apt.workerId
+		<where>
+			<if test="condition.priority != null and condition.priority !=''">
+				apt.priority=#{condition.priority}
+			</if>
+			<if test="condition.status != null and condition.status !=''">
+				apt.status=#{condition.status}
+			</if>
+			<if test="condition.startTime != null and condition.startTime !=''">
+				apt.startTime=#{condition.startTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>

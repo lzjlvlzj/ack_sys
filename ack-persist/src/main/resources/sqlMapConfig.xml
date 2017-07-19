@@ -10,6 +10,7 @@
 		<typeAlias type="org.ack.pojo.Permission" alias="permission" />
 		<typeAlias type="org.ack.pojo.Department" alias="department" />
 		<typeAlias type="org.ack.pojo.Project" alias="project" />
+		<typeAlias type="org.ack.pojo.ProjectTask" alias="projectTask" />
 	</typeAliases>
 	<!-- 分页拦截器 -->
 	<plugins>
@@ -36,6 +37,7 @@
 		<mapper resource="config/mapper/RoleMapper.xml" />
 		<mapper resource="config/mapper/MenuMapper.xml" />
 		<mapper resource="config/mapper/ProjectMapper.xml" />
+		<mapper resource="config/mapper/ProjectTaskMapper.xml" />
 		<mapper resource="config/mapper/PermissionMapper.xml" />
 		<mapper resource="config/mapper/DepartmentMapper.xml" />
 	</mappers>
