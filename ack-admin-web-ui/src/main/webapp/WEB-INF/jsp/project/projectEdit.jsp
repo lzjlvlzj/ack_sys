@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../public/common.jsp"%>
 <div class="modal-dialog">
 	<div class="modal-content">
 		<div class="modal-header no-padding">
@@ -8,53 +9,52 @@
 					aria-hidden="true">
 					<span class="white">×</span>
 				</button>
-				角色信息
+				项目信息
 				<input type="hidden" id="optionFlag" value="">
 			</div>
 		</div>
 
 		<div class="modal-body no-padding">
 			<form class="form-horizontal" role="form" id="ack-add-form">
-			    <input type="hidden" name="id" id="id" value="">
+				<input type="hidden" name="id" id="id" value="">
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="roleName"> 角色名称 </label>
+						for="projectName"> 项目名称 </label>
 
 					<div class="col-sm-9">
-						<input type="text" placeholder="角色名称"
-							name="roleName" id="roleName" value="" class="col-xs-10 col-sm-8">
+						<input type="text" id="name" placeholder="项目名称"
+							name="name" value="" class="col-xs-10 col-sm-8">
 					</div>
 				</div>
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="abbreviation"> 角色简称</label>
+						for="departmentName"> 部门名称 
+					</label>
 
 					<div class="col-sm-9">
-						<input type="text" placeholder="角色简称"
-							name="abbreviation" id="abbreviation" value="" class="col-xs-10 col-sm-8">
+						<select class="col-xs-10 col-sm-8" id="departmentName">
+						</select>
 					</div>
-				</div>
-				
-				<div class="form-group">
+				</div> -->
+				<div class="form-group control-group" id="projectType">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="menuIds"> 菜单id </label>
+						for="managerName" > 项目经理 </label>
 
 					<div class="col-sm-9">
-						<input type="text" placeholder="菜单id"
-							name="menuIds" id="menuIds" value="" class="col-xs-10 col-sm-8">
+						<select class="col-xs-10 col-sm-8" id="managerName" name="managerName">
+						</select>	 
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="form-comments"> 角色备注信息</label>
+						for="comments"> 项目备注信息</label>
 
 					<div class="col-sm-9">
 						<textarea class="col-xs-10 col-sm-8" id="comments"
-							placeholder="角色备注信息" name="comments"></textarea>
+							placeholder="项目备注信息" name="comments"></textarea>
 					</div>
 				</div>
-
 
 			</form>
 		</div>
