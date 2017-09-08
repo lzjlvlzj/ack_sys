@@ -28,6 +28,10 @@ public class Tree {
 	public void add(Node node) {
 		// 根据value获得父节点
 		Node parent = find(node.getParent());
+		if(null == parent) {
+			System.out.println(111);
+			return;
+		}
 		parent.getChildren().add(node);
 	}
 

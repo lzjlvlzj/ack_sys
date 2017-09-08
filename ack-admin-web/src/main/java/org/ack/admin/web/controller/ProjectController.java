@@ -7,10 +7,13 @@ import org.ack.base.service.AckMapperService;
 import org.ack.persist.page.Page;
 import org.ack.pojo.Project;
 import org.ack.service.ProjectService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/project")
 public class ProjectController extends AckPageController<Project, Long>{
+	
+	private static final Logger logger = LoggerFactory
+			.getLogger(ProjectController.class);
     
 	@Autowired
 	private ProjectService projectServiceImpl;
@@ -29,6 +35,33 @@ public class ProjectController extends AckPageController<Project, Long>{
 	@Override
 	public AckMapperService<Project, Long> getService() {
 		return projectServiceImpl;
+	}
+	 
+	
+	
+	@Override
+	public Integer insert(HttpServletRequest request,
+			HttpServletResponse response, Model model, Project project) {
+		
+		return super.insert(request, response, model, project);
+	}
+
+
+
+	@RequestMapping("/edit/ui/{id}")
+	public String eidtUI(@PathVariable Integer id){
+		if (logger.isDebugEnabled()) {
+			logger.debug("修改项目:{}", id);
+		}
+		return "project/projectEdit";
+	}
+	
+	@RequestMapping("/add/ui")
+	public String addUI(){
+		if (logger.isDebugEnabled()) {
+			logger.debug("新建项目");
+		}
+		return "project/projectEdit";
 	}
 	
 	/**

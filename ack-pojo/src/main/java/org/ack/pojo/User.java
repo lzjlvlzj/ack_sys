@@ -24,6 +24,8 @@ public class User implements Serializable {
 	private String roleIds;                // 角色id逗号分隔
 	private Date createTime;               // 创建时间
 	private String comments;               // 备注
+	private Integer departmentId;          // 
+	private Department department;         // 
 	private Set<Role> roles;               // 角色
 	
 	public Long getId() {
@@ -85,6 +87,18 @@ public class User implements Serializable {
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+	public Integer getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
+	}
+	public Department getDepartment() {
+		return department;
+	}
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 	public Set<Role> getRoles() {
 		return roles;

@@ -1,5 +1,8 @@
 package org.ack.admin.web.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,6 +43,16 @@ public class DepartmentController extends
 	@Override
 	public AckMapperService<Department, Integer> getService() {
 		return departmentServiceImpl;
+	}
+	
+	@RequestMapping(value = "/all")
+	@AckPermission(value="dept:list")
+	@ResponseBody
+	public List<Department> findAll(){
+		if(logger.isDebugEnabled()){
+			logger.debug("查询全部部门信息");
+		}
+		return departmentServiceImpl.findAll();
 	}
 
 	/**
@@ -83,13 +96,14 @@ public class DepartmentController extends
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
+			Map<String, Object> extraCondition,
 			@ModelAttribute() Department t,
 			@RequestParam(required = false, defaultValue = "0") int start,/*第一条记录的起始位置*/
 			@RequestParam(required = false, defaultValue = "10") int length,/*每页显示多少记录*/
 			@RequestParam(required = false, defaultValue = "1") int draw,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.dataTable(request, response, model, t, start, length, draw,
+		return super.dataTable(request, response, model, extraCondition, t, start, length, draw,
 				orderColumn, orderType);
 	}
 	

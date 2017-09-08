@@ -1,5 +1,7 @@
 package org.ack.admin.web.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -181,8 +183,21 @@ public class UserController extends AckPageController<User, Long> {
 	public Page<User> findPage(HttpServletRequest request,
 			HttpServletResponse response, Model model, User t, int currentPage,
 			int count, String orderColumn, String orderType) {
-		return super.findPage(request, response, model, t, currentPage, count,
-				orderColumn, orderType);
+		User user = getCurrentUser(request);
+		// 查询条件
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if(!Content.ADMIN_USER.equals(user.getLoginName())){
+			map.put("departmentId", user.getDepartmentId());
+		}
+		// 构造查询page参数
+		Page<User> page = new Page<User>(currentPage, count);
+		page.setOrderColumn(orderColumn);
+		page.setOrderType(orderType);
+		page.setCondition(map);
+		// 查询
+		page = getService().findPage(page);
+		return page;
 	}
 
 	@RequestMapping(value = "/table")
@@ -190,9 +205,15 @@ public class UserController extends AckPageController<User, Long> {
 	@ResponseBody
 	@Override
 	public DataTableTemplate<User> dataTable(HttpServletRequest request,
-			HttpServletResponse response, Model model, User t, int start,
+			HttpServletResponse response, Model model,Map<String, Object> map, 
+			User t, int start,
 			int length, int draw, String orderColumn, String orderType) {
-		return super.dataTable(request, response, model, t, start, length,
+		User user = getCurrentUser(request);
+		map = new HashMap<String, Object>();
+		if(!Content.ADMIN_USER.equals(user.getLoginName())){
+			map.put("departmentId", user.getDepartmentId());
+		}
+		return super.dataTable(request, response, model, map, t, start, length,
 				draw, orderColumn, orderType);
 	}
 

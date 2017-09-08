@@ -3,6 +3,7 @@ package org.ack.admin.web.controller;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,13 +89,14 @@ public class MenuController extends AckPageController<Menu, Integer> {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
+			Map<String, Object> extraCondition,
 			@ModelAttribute() Menu t,
 			@RequestParam(required = false, defaultValue = "0") int start,/*第一条记录的起始位置*/
 			@RequestParam(required = false, defaultValue = "10") int length,/*每页显示多少记录*/
 			@RequestParam(required = false, defaultValue = "1") int draw,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.dataTable(request, response, model, t, start, length, draw,
+		return super.dataTable(request, response, model, extraCondition, t, start, length, draw,
 				orderColumn, orderType);
 	}
 	

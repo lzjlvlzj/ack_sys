@@ -1,5 +1,7 @@
 package org.ack.admin.web.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -58,10 +60,11 @@ public class ProjectTaskController extends AckPageController<ProjectTask, Long> 
 	@ResponseBody
 	@Override
 	public DataTableTemplate<ProjectTask> dataTable(HttpServletRequest request,
-			HttpServletResponse response, Model model, ProjectTask t, int start,
+			HttpServletResponse response, Model model,
+			Map<String, Object> extraCondition, ProjectTask t, int start,
 			int length, int draw, String orderColumn, String orderType) {
-		return super.dataTable(request, response, model, t, start, length,
-				draw, orderColumn, orderType);
+		return super.dataTable(request, response, model, extraCondition, t,
+				start, length, draw, orderColumn, orderType);
 	}
 
 }

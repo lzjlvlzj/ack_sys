@@ -14,6 +14,7 @@ public class ProjectTask implements Serializable {
 	
 	private Long id;                         // 数据库id
 	private Long projectId;                  // 项目id
+	private String projectName;				 // 项目名称
 	private String task;                     // 项目明细相
 	private Long workerId;                   // 责任人id
 	private Integer status;                  // 状态 0 : 完成 , 1 : 进行中
@@ -35,6 +36,12 @@ public class ProjectTask implements Serializable {
 	}
 	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
+	}
+	public String getProjectName() {
+		return projectName;
+	}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 	public String getTask() {
 		return task;

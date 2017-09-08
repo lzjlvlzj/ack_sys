@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.ack.base.service.AckMapperService;
+import org.ack.common.Content;
+import org.ack.pojo.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +27,33 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public abstract class BaseController<T extends Object, PK extends Serializable> {
 
 	/**
+	 * get current user
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public User getCurrentUser(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute(Content.USER);
+		return user;
+	}
+
+	/**
+	 * set current user
+	 * 
+	 * @param request
+	 * @param user
+	 */
+	public void setCurrentUser(HttpServletRequest request, User user) {
+		HttpSession session = request.getSession();
+		session.setAttribute(Content.USER, user);
+	}
+
+	/**
 	 * @return 获得服务层接口
 	 */
 	public abstract AckMapperService<T, PK> getService();
-	
+
 	/**
 	 * 查询
 	 * 

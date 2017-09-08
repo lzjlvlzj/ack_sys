@@ -30,7 +30,7 @@ public class UserServiceImplTest {
 	
 	@Test
 	public void testFindMenuTreeByUser() throws JsonProcessingException{
-		User user = userServiceImpl.findUserByLoginName("admin");
+		User user = userServiceImpl.findUserByLoginName("lisi");
 		Tree tree = userServiceImpl.findMenuTreeByUser(user);
 		String s = mapper.writeValueAsString(tree);
 		
