@@ -1,5 +1,6 @@
 package org.ack.persist.mapper;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,5 +44,13 @@ public interface UserMapper extends AckMapper<User, Long> {
 	 * @param map
 	 */
 	public void updateRoleByUser(Map<String, Object> map);
+
+	/**
+	 * 查找
+	 * 
+	 * @param currentUser
+	 * @return
+	 */
+	public List<User> findDepartmentUser(User currentUser);
 
 }

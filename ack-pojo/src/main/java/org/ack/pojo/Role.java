@@ -16,6 +16,7 @@ public class Role implements Serializable {
 	
 	private Integer id;                        // id
 	private String roleName;                   // 角色名称
+	private String abbreviation;               // 简写
 	private String comments;                   // 备注
 	private Date createTime;                   // 创建时间
 	private String menuIds;                    // 菜单id
@@ -31,6 +32,12 @@ public class Role implements Serializable {
 	}
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
 	}
 	public String getComments() {
 		return comments;

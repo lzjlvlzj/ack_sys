@@ -19,6 +19,8 @@ import org.ack.pojo.User;
 import org.ack.service.PermissionService;
 import org.ack.service.RoleService;
 import org.ack.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		UserService {
-
+	private static final Logger logger = LoggerFactory
+			.getLogger(UserServiceImpl.class);
 	/**
 	 * 存放
 	 */
@@ -122,9 +125,6 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 	public List<Menu> findMenuByUser(User user) {
 		String loginName = user.getLoginName();
 		
-		/*if (null != menuMap.get(loginName)) {
-			return menuMap.get(loginName);
-		}*/
 		Set<Menu> menus = getMenus(user);
 		// 组织菜单成树形结构
 		List<Menu> menuList = processMenus(menus);
@@ -183,5 +183,24 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 			set.add(s);
 		}
 		return set;
+	}
+
+	@Override
+	public List<User> findManagers(User currentUser) {
+		Role role = roleServiceImpl.findManager();
+		List<User> list = userMapper.findDepartmentUser(currentUser);
+		List<User> managers = new ArrayList<User>();
+		String roleId = role.getId().toString();
+		for(User user : list){
+			String ids = user.getRoleIds();
+			if(ids.indexOf(roleId) >= 0){
+				if(logger.isDebugEnabled()){
+					String name = user.getSurname() + user.getName();
+					logger.debug("项目经理为: {}", name);
+				}
+				managers.add(user);
+			}
+		}
+		return managers;
 	}
 }

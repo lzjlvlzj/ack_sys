@@ -27,11 +27,18 @@ public interface RoleService extends AckMapperService<Role, Integer> {
 	 * @return
 	 */
 	public Set<Role> findByIds(String[] roleIds);
- 
+
 	/**
 	 * @param role
 	 * @return
 	 */
 	public Set<Menu> findMenusByRole(Role role);
-	
+
+	/**
+	 * 查找项目经理
+	 * 
+	 * @return
+	 */
+	public Role findManager();
+
 }

@@ -12,6 +12,10 @@ public class Content {
 	 * session key
 	 */
 	public static final String USER = "user";
+	/**
+	 * session key
+	 */
+	public static final String PROJECT_MANAGE = "PM";
 	
 	/**
 	 * session key

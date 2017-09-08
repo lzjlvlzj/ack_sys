@@ -2,8 +2,8 @@ package org.ack.service.impl;
 
 import java.util.Set;
 
-
 import org.ack.base.service.impl.AckMapperServiceImpl;
+import org.ack.common.Content;
 import org.ack.persist.AckMapper;
 import org.ack.persist.mapper.RoleMapper;
 import org.ack.pojo.Menu;
@@ -53,6 +53,11 @@ public class RoleServiceImpl extends AckMapperServiceImpl<Role, Integer>
 		String[] ids = menuIds.split(",");
 		Set<Menu> menus = menuServiceImpl.findByIds(ids);
 		return menus;
+	}
+
+	@Override
+	public Role findManager() {
+		return roleMapper.findByAbbreviation(Content.PROJECT_MANAGE);
 	}
 
 }

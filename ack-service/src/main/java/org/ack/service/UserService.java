@@ -39,7 +39,7 @@ public interface UserService extends AckMapperService<User, Long> {
 	 * @return
 	 */
 	public List<Menu> findMenuByUser(User user);
-	
+
 	/**
 	 * 根据id查询菜单
 	 * 
@@ -75,5 +75,13 @@ public interface UserService extends AckMapperService<User, Long> {
 	 * 获得用户权限字符串
 	 * */
 	public Set<String> getPermissionString(User user);
+
+	/**
+	 * 查找项目经理
+	 * 
+	 * @param currentUser
+	 * @return
+	 */
+	public List<User> findManagers(User currentUser);
 
 }

@@ -38,4 +38,10 @@ public interface RoleMapper extends AckMapper<Role, Integer> {
 	 */
 	public Set<Role> findByIds(String[] ids);
 
+	/** 
+	 * @param projectManage
+	 * @return
+	 */
+	public Role findByAbbreviation(String projectManage);
+
 }

@@ -136,7 +136,7 @@ public class RoleController extends AckDeaultController<Role, Integer> {
 			HttpServletResponse response, Model model, @PathVariable Integer id) {
 		return super.findById(request, response, model, id);
 	}
-	@RequestMapping(value = "/insert")
+	@RequestMapping(value = "/add")
 	@AckPermission(value="role:add")
 	@ResponseBody
 	@Override

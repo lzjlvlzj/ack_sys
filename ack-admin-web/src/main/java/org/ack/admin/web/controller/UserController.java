@@ -1,6 +1,7 @@
 package org.ack.admin.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -49,6 +50,25 @@ public class UserController extends AckPageController<User, Long> {
 		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute(Content.USER);
 		return user;
+	}
+
+	/**
+	 * 查找当前部门的项目经理
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/managers")
+	@ResponseBody
+	public List<User> findManagers(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("查找项目经理");
+		}
+		User currentUser = getCurrentUser(request);
+		return userServiceImpl.findManagers(currentUser);
 	}
 
 	/**
@@ -186,8 +206,8 @@ public class UserController extends AckPageController<User, Long> {
 		User user = getCurrentUser(request);
 		// 查询条件
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		if(!Content.ADMIN_USER.equals(user.getLoginName())){
+
+		if (!Content.ADMIN_USER.equals(user.getLoginName())) {
 			map.put("departmentId", user.getDepartmentId());
 		}
 		// 构造查询page参数
@@ -205,12 +225,12 @@ public class UserController extends AckPageController<User, Long> {
 	@ResponseBody
 	@Override
 	public DataTableTemplate<User> dataTable(HttpServletRequest request,
-			HttpServletResponse response, Model model,Map<String, Object> map, 
-			User t, int start,
-			int length, int draw, String orderColumn, String orderType) {
+			HttpServletResponse response, Model model, Map<String, Object> map,
+			User t, int start, int length, int draw, String orderColumn,
+			String orderType) {
 		User user = getCurrentUser(request);
 		map = new HashMap<String, Object>();
-		if(!Content.ADMIN_USER.equals(user.getLoginName())){
+		if (!Content.ADMIN_USER.equals(user.getLoginName())) {
 			map.put("departmentId", user.getDepartmentId());
 		}
 		return super.dataTable(request, response, model, map, t, start, length,
