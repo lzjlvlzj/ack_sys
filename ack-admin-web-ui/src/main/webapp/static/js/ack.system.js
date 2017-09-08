@@ -296,7 +296,6 @@ AckSystem.event =  {
 		var parent = p || $("#menu-list");
 		var id = "#" + m.domId;
 		var url = m.url;
-		
 		//绑定事件
 		parent.on("click", id, function() {
 			var _self = $(this);
@@ -414,9 +413,17 @@ AckSystem.menu = {
 		
 	    var ul = $("<ul class='submenu nav-show'>");
 	    var len = nodes.length;
+	    var parentA = parent.find("a").eq(0);
+	    var dropwonB = $("<b class='arrow fa fa-angle-down'></b>");
+	    var flag = 0;
 	    for(var i in nodes){
 		   var node = nodes[i];
 		   var menu = node.value;
+		   //排除是按钮类型的子菜单
+		   if(menu.menuType == 1){
+			   continue;
+		   }
+		   flag++;
 		   var li = $("<li class=''></li>");
 		   var a = $('<a href="javascript:void(0);" id="' + menu.domId + '"></a>');
 		   var i = $("<i class='menu-icon fa fa-caret-right'></i>");
@@ -430,6 +437,10 @@ AckSystem.menu = {
 		   //绑定事件
 		   AckSystem.event.menu(menu, parent);
 		   
+	    }
+	    if(flag >= 1){
+	    	parentA.attr("class", "dropdown-toggle");
+	    	parentA.append(dropwonB);
 	    }
 	    parent.append(ul);
 	},	
@@ -448,9 +459,11 @@ AckSystem.menu = {
 		
 		var childMenus = node.children;
 		if(childMenus && childMenus.length > 0){
+			/*
 			var dropwonB = $("<b class='arrow fa fa-angle-down'></b>");
 			a.attr("class", "dropdown-toggle");
 			a.append(dropwonB);
+			*/
 			this.twoLevel(li, childMenus);
 		} 
 		//绑定事件

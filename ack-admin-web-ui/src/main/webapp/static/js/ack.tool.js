@@ -18,7 +18,7 @@ AckTool.optionButton = {
 		var val = value || "";
 		var div = $("<div class='checkbox'></div>");
 		var label = $("<label></label>");
-		var input = $('<input name="' + itn + '" type="checkbox" class="ace" value=" '+ value + '">');
+		var input = $('<input name="' + itn + '" type="checkbox" class="ace ace-check" value=" '+ value + '">');
 		var span = $('<span class="lbl">' + n + '</span>');
 		label.append(input);
 		label.append(span);

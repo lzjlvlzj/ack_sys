@@ -188,7 +188,7 @@ ProjectTask.showList = function() {
          },
          "rowId" : "id",//将数据中的id绑定到tr上
          "columns": [
-             { "data": "projectId" },
+             { "data": "projectName"},
              { "data": "task" },
              { "data": "workerId" },
              { "data": "status" },
