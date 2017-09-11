@@ -11,8 +11,53 @@ ProjectTask.init = function() {
 	ProjectTask.bind();
 }
 
+ProjectTask.showProject = function(){
+	var deptId = $("#index-user-dept-id", ProjectTask.document).val();
+	var url = "/project/dept/"+deptId;
+	var data = {};
+	var select = $("#projectId", ProjectTask.document);
+	AckTool.postReq(data, url, function(obj){
+		if(obj){
+			var len = obj.length;
+			for(var i = 0; i < len; i++){
+				var item = obj[i];
+				var id = item.id;
+				var projectName = item.name;
+				var option = $("<option value='"+ id +"'>" + projectName + "</option>");
+				select.append(option);
+			}
+		}
+	});
+}
+
 ProjectTask.eidtUI = function (id){
-	alert("修改操作 : " + id);
+	var url = "";
+	var data = {};
+	data.reqData = {};
+	if (id) {
+		url = "/ptask/edit/ui/" + id;
+		var projectDataUrl = "/ptask/id/" + id;
+		//这里需要有个请求回显数据
+		Project.modal.open(url, data, function() {
+			AckTool.postReq({}, projectDataUrl, function(obj) {
+				$("#optionFlag", ProjectTask.document).val("1");
+				$("#id", ProjectTask.document).val(obj.id);
+				$("#name", ProjectTask.document).val(obj.name);
+				$("#departmentId", ProjectTask.document).val(obj.departmentId);
+				$("#departmentName", ProjectTask.document).val(obj.departmentName);
+				$("#deptName", ProjectTask.document).val(obj.departmentName);
+				$("#remark", ProjectTask.document).val(obj.remark);
+				Project.showMananger(obj.managerId);
+			});
+		});
+	} else {
+		url = "/ptask/add/ui";
+		ProjectTask.modal.open(url, data, function() {
+			$("#optionFlag", ProjectTask.document).val("0");
+			// 加载当前部门的所有项目
+			ProjectTask.showProject();
+		});
+	}
 }
 
 ProjectTask.del = function (id){
@@ -56,61 +101,7 @@ ProjectTask.bind = function() {
 	});
 }
 
-ProjectTask.getOneTr = function(n, data, option) {
-	var excludeFields = option.excludeFields;
-	var item;
-	var tr = $("<tr></tr>");
-	var num = $("<td class='center'>" + n + "</td>");
-	tr.append(num);
-	for (item in data) {
-		var tdData = data[item];
-		var flag = false;
-		//id特殊处理
-		if ("id" == item) {
-			tr.attr("id", tdData);
-			continue;
-		}
-		//过滤
-		if (excludeFields && excludeFields > 0) {
-			for (var i = 0; i < excludeFields.length; i++) {
-				var ex = option.excludeFileds[i];
-				if (item == ex) {
-					flag = true;
-					break;
-				}
-			}
-		}
-		if (flag) {
-			continue;
-		}
-		//状态特殊处理
-		if ("status" == item) {
-            var isabled = '<span class="label label-sm label-success">正常</span>';
-            var disabled = '<span class="label label-sm label-inverse arrowed-in">禁用</span>';
-            if(tdData == 0){
-            	tdData = $(isabled);
-            } else {
-            	tdData = $(disabled);
-            } 
-		}
-		//时间特殊处理
-		if("createTime" == item){
-			tdData = AckSystem.date(tdData, 'yyyy-MM-dd hh:mm:ss');
-		}
-		
-		//空值处理
-		if (!tdData) {
-			continue;
-		}
-		var td = $("<td></td>");
-		td.append(tdData);
-		tr.append(td);
-	}
-	var optionTd = $("<td></td>");
-	optionTd.append(AckSystem.optionButton.defaultOption);
-	tr.append(optionTd);
-	return tr;
-}
+
 
 ProjectTask.config = function (){
 	var tb = $("#tab-body");
@@ -120,55 +111,6 @@ ProjectTask.config = function (){
 	option.getOneTr = ProjectTask.getOneTr;
 	return option;
 }
-
-ProjectTask.setRoles = function(){
-   var url = "/user/role2user";
-   var form = $("#ack-modal-form",ProjectTask.document);
-   var data = form.serialize();
-   AckSystem.postReq(data, url, function(obj){
-	   ProjectTask.modal.close();
-   });
-}
-
-ProjectTask.userRoleUI = function(id, self){
-	var url = "/user/role2user/ui";
-	var data = {};
-	data.reqData = {};
-	var callback = function(){
-		var user = {};
-		user.id = id;
-		//查询用户角色
-		AckTool.postReq(user,"/user/roles/list",function(roles){
-			var role = {};
-			var roleUrl = "/role/list";
-			//注意这里form是在父页面,也就是说在index页面
-			var form = $("#ack-modal-form",ProjectTask.document);
-			var input = $('<input type="hiden" value="'+id+'" name="id"/>');
-			form.append(input);
-			AckTool.postReq(role,roleUrl,function(obj){
-				if(obj){
-					//展示数据
-					var div = $("<div class=''></div>");
-					for(var i = 0; i < obj.length; i++){
-						var role = obj[i];
-						var checkBox = AckTool.optionButton.checkBox(role.roleName, "rid", role.id);
-						for(var j = 0; j < roles.length; j++){
-							var r = roles[j];
-							if(role.id == r.id){
-								checkBox.find("input").attr("checked","checked");
-								break;
-							}
-						}
-						div.append(checkBox);
-					}
-					form.append(div);
-				}
-			});
-		});
-	};
-	ProjectTask.modal.open(url, data, callback);
-}
-
 
 ProjectTask.showList = function() {
 	var option = ProjectTask.config();

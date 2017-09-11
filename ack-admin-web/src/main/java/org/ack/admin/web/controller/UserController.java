@@ -201,13 +201,28 @@ public class UserController extends AckPageController<User, Long> {
 	@ResponseBody
 	@Override
 	public Page<User> findPage(HttpServletRequest request,
-			HttpServletResponse response, Model model, User t, int currentPage,
+			HttpServletResponse response, Model model, Map<String, Object> map, 
+			User t, int currentPage,
 			int count, String orderColumn, String orderType) {
 		User user = getCurrentUser(request);
 		// 查询条件
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		if (!Content.ADMIN_USER.equals(user.getLoginName())) {
+		map = new HashMap<String, Object>();
+		// 非admin用户只能查询当前用户所在部门的员工信息
+		Set<Role> roles = user.getRoles();
+		boolean b = true;
+		for(Role role : roles){
+			String abbr = role.getAbbreviation();
+			if(abbr.indexOf(Content.ADMIN_USER) > 1
+				|| abbr.equals(Content.CEO_USER)
+				|| abbr.equals(Content.CTO_USER)
+				|| abbr.equals(Content.CFO_USER)
+				|| abbr.equals(Content.COO_USER)
+			  ){
+				b = false;
+				break;
+			}
+		}
+		if(b){
 			map.put("departmentId", user.getDepartmentId());
 		}
 		// 构造查询page参数
@@ -230,8 +245,14 @@ public class UserController extends AckPageController<User, Long> {
 			String orderType) {
 		User user = getCurrentUser(request);
 		map = new HashMap<String, Object>();
-		if (!Content.ADMIN_USER.equals(user.getLoginName())) {
-			map.put("departmentId", user.getDepartmentId());
+		// 非admin用户只能查询当前用户所在部门的员工信息
+		Set<Role> roles = user.getRoles();
+		for (Role role : roles) {
+			String abbreviation = role.getAbbreviation();
+			if (abbreviation.indexOf(Content.ADMIN_USER) < 1) {
+				map.put("departmentId", user.getDepartmentId());
+				break;
+			}
 		}
 		return super.dataTable(request, response, model, map, t, start, length,
 				draw, orderColumn, orderType);

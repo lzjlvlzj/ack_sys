@@ -79,12 +79,13 @@ public class DepartmentController extends
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
+			Map<String, Object> map,
 			@ModelAttribute() Department t,
 			@RequestParam(required = false, defaultValue = "1") int currentPage,
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.findPage(request, response, model, t, currentPage, count,
+		return super.findPage(request, response, model, map, t, currentPage, count,
 				orderColumn, orderType);
 	}
 	

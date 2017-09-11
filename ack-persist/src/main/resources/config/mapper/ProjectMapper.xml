@@ -9,21 +9,55 @@
 		<result property="departmentName" column="departmentName" />
 		<result property="managerId" column="managerId" />
 		<result property="managerName" column="managerName" />
+		<result property="type" column="type" />
 		<result property="status" column="status" />
 		<result property="startTime" column="startTime" />
 		<result property="endTime" column="endTime" />
 		<result property="remark" column="remark" />
 	</resultMap>
+	
+	<resultMap type="org.ack.pojo.Project" id="projectDeptResultMap" extends="projectResultMap">
+	    <collection property="cooperativeSectors" ofType="org.ack.pojo.Department" column="id" select="findDepartment">
+	    </collection>
+	</resultMap>
      
      <sql id="base_column">
-         id,name,deptId,managerId,status,startTime,endTime,remark
+         id,name,deptId,managerId,type,status,startTime,endTime,remark
      </sql>
+     <select id="findDepartment" parameterType="long" resultType="org.ack.pojo.Department">
+         SELECT
+			ad.id,
+			ad.departmentName
+		 FROM
+			ack_department ad,
+			ack_project_dept apd
+		 WHERE
+			apd.departmentId = ad.id
+		 AND apd.projectId = #{id}
+     </select>
+     <select id="findByDepartmentId" parameterType="int" resultMap="projectResultMap">
+        SELECT
+		<include refid="base_column"/>
+		FROM ack_project
+		WHERE deptId = #{departmentId}
+		OR ap.type = 1
+     </select>
 
 	<insert id="insert">
 		INSERT INTO
-		ack_project(name,deptId,managerId,status,startTime,endTime,remark)
+		ack_project(name,deptId,managerId, type, status,startTime,endTime,remark)
 		VALUES
-		(#{name}, #{departmentId},#{managerId},#{status},#{startTime},#{endTime},#{remark})
+		(#{name}, #{departmentId},#{managerId},#{type}, #{status},#{startTime},#{endTime},#{remark})
+	</insert>
+	
+	<insert id="insertReturnId" parameterType="project" >
+	    <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="projectId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+		INSERT INTO
+		ack_project(name,deptId,managerId, type, status,startTime,endTime,remark)
+		VALUES
+		(#{name}, #{departmentId},#{managerId},#{type}, #{status},#{startTime},#{endTime},#{remark})
 	</insert>
 
 	<update id="update" parameterType="project">
@@ -38,6 +72,9 @@
 			</if>
 			<if test="managerId != null and managerId !=''">
 				ar.managerId = #{managerId},
+			</if>
+			<if test="type != null and type !=''">
+				ar.type = #{type},
 			</if>
 			<if test="status != null and status !=''">
 				ar.status = #{status},
@@ -60,18 +97,22 @@
         WHERE id = #{id}
 	</delete>
 
-	<select id="find" parameterType="project" resultMap="projectResultMap">
-		SELECT
-		<include refid="base_column"/>
-		FROM ack_project
-		WHERE id = #{id}
+	<select id="find" parameterType="project" resultMap="projectDeptResultMap">
+		 SELECT
+	    <include refid="base_column"></include>
+	    FROM
+			ack_project
+		WHERE
+			id = #{id}
 	</select>
 
-	<select id="findById" parameterType="long" resultMap="projectResultMap">
-		SELECT
-		<include refid="base_column"/>
-		FROM ack_project
-		WHERE id = #{id}
+	<select id="findById" parameterType="long" resultMap="projectDeptResultMap">
+	    SELECT
+	    <include refid="base_column"></include>
+	    FROM
+			ack_project
+		WHERE
+			id = #{id}
 	</select>
 
 	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
@@ -81,6 +122,7 @@
 		ap.NAME,
 		ap.deptId,
 		ap.managerId,
+		ap.type,
 		ap.STATUS,
 		ap.startTime,
 		ap.endTime,
@@ -92,17 +134,19 @@
 		LEFT JOIN ack_department  ad ON ap.deptId = ad.id
         LEFT JOIN ack_user au ON ap.managerId = au.id
 		<where>
+		    1 = 1
+		    OR ap.type = 1
 			<if test="condition.name != null and condition.name !=''">
-				ap.name=#{condition.name}
+				ADN ap.name=#{condition.name}
 			</if>
 			<if test="condition.status != null and condition.status !=''">
-				ap.status=#{condition.status}
+				ADN ap.status=#{condition.status}
 			</if>
 			<if test="condition.managerId != null and condition.managerId !=''">
-				ap.managerId=#{condition.managerId}
+				ADN ap.managerId=#{condition.managerId}
 			</if>
 			<if test="condition.departmentId != null and condition.departmentId !=''">
-				ap.deptId=#{condition.departmentId}
+				ADN ap.deptId=#{condition.departmentId}
 			</if>
 		</where>
 	</select>

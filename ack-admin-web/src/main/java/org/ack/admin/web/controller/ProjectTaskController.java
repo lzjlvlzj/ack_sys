@@ -9,9 +9,12 @@ import org.ack.base.service.AckMapperService;
 import org.ack.common.datatable.DataTableTemplate;
 import org.ack.pojo.ProjectTask;
 import org.ack.service.ProjectTaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,11 +24,31 @@ public class ProjectTaskController extends AckPageController<ProjectTask, Long> 
 
 	@Autowired
 	private ProjectTaskService projectTaskServiceImpl;
+	
+	private static final Logger logger = LoggerFactory
+			.getLogger(ProjectTaskController.class);
 
 	@Override
 	public AckMapperService<ProjectTask, Long> getService() {
 		return projectTaskServiceImpl;
 	}
+	
+	@RequestMapping("/edit/ui/{id}")
+	public String eidtUI(@PathVariable Integer id){
+		if (logger.isDebugEnabled()) {
+			logger.debug("修改项目任务:{}", id);
+		}
+		return "projectTask/projecTaskEdit";
+	}
+	
+	@RequestMapping("/add/ui")
+	public String addUI(){
+		if (logger.isDebugEnabled()) {
+			logger.debug("新建项目任务");
+		}
+		return "projectTask/projectTaskEdit";
+	}
+	
 
 	/**
 	 * 列表

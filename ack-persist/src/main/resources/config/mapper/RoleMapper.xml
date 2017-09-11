@@ -4,6 +4,7 @@
 	<resultMap type="org.ack.pojo.Role" id="roleResultMap">
 		<result property="id" column="id" />
 		<result property="roleName" column="roleName" />
+		<result property="abbreviation" column="abbreviation" />
 		<result property="menuIds" column="menuIds" />
 		<result property="comments" column="comments" />
 		<result property="createTime" column="createTime" />
@@ -16,16 +17,24 @@
 	        <result property="flag" column="flag"/>
 	    </collection>
 	</resultMap>
-	
+	<sql id="base_column">
+	   id, roleName, abbreviation, menuIds,comments,createTime
+	</sql>
+	<select id="findByAbbreviation" parameterType="string" resultType="role">
+	    SELECT
+	    <include refid="base_column"></include>
+	    FROM ack_role
+	    where abbreviation = #{abbreviation}
+	</select>
 	<insert id="insert">
 		INSERT INTO
-		ack_role(roleName,comments,menuIds,createTime)
+		ack_role(roleName,abbreviation,comments,menuIds,createTime)
 		VALUES
 		<if test="createTime != null and createTime !=''">
-			(#{roleName},#{comments},#{menuIds},#{createTime})
+			(#{roleName},#{abbreviation},#{comments},#{menuIds},#{createTime})
 		</if>
 		<if test="createTime == null or createTime ==''">
-			(#{roleName},#{comments},#{menuIds},now())
+			(#{roleName},#{abbreviation},#{comments},#{menuIds},now())
 		</if>
 	</insert>
 	
@@ -56,6 +65,7 @@
 		SELECT
 			ar.id as id,
 			ar.roleName as roleName,
+			ar.abbreviation as abbreviation,
 			ar.comments as comments,
 			ar.createTime as createTime,
 		    ap.id as pid,
@@ -73,6 +83,7 @@
 		SELECT
 		id,
 		roleName,
+		abbreviation,
 		menuIds,
 		comments,
 		createTime
@@ -85,6 +96,7 @@
 		SELECT
 		id,
 		roleName,
+		abbreviation,
 		menuIds,
 		comments,
 		createTime
@@ -127,6 +139,7 @@
 		SELECT
 		id,
 		roleName,
+		abbreviation,
 		comments,
 		menuIds,
 		createTime

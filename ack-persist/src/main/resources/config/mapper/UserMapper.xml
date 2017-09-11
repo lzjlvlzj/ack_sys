@@ -11,7 +11,7 @@
 		<result property="status" column="status" />
 		<result property="password" column="password" />
 		<result property="roleIds" column="roleids" />
-		<result property="comments" column="comments" />
+		<result property="departmentId" column="departmentId" />
 		<result property="createTime" column="createTime" />
 	</resultMap>
 
@@ -22,6 +22,7 @@
 		<result property="name" column="name" />
 		<result property="status" column="status" />
 		<result property="roleIds" column="roleIds" />
+		<result property="departmentId" column="departmentId" />
 		<result property="createTime" column="createTime" />
 	</resultMap>
 
@@ -34,7 +35,9 @@
 			<result property="createTime" column="RolecreateTime" />
 		</collection>
 	</resultMap>
-
+    <sql id="base_column">
+       id, loginName, surname, name, salt, status, roleids, departmentId, createTime
+    </sql>
 
 	<insert id="insert">
 		INSERT INTO
@@ -78,12 +81,19 @@
 		ar.id = ar.id
 		WHERE id = #{id}
 	</update>
+	
+	<select id="findDepartmentUser" parameterType="user" resultType="user">
+	    SELECT
+	    <include refid="base_column"></include>
+	    FROM ack_user
+	    WHERE 1 = 1
+	    AND departmentId = #{departmentId}
+	</select>
 
 	<delete id="delete">
 	</delete>
 
 	<select id="findRoleById" parameterType="long" resultType="role">
-
 
 	</select>
 
@@ -118,6 +128,8 @@
 		au.surname as surname,
 		au.NAME as name,
 		au.STATUS as status,
+		au.departmentId,
+		au.roleIds as roleIds,
 		au.createTime as createTime
 		FROM
 		ack_user au
@@ -164,11 +176,16 @@
 		name,
 		status,
 		roleIds,
+		departmentId,
 		createTime
 		FROM
 		ack_user
-		WHERE 1 = 1
-		<if test="condition.loginName != null and condition.loginName !='' or condition.loginName != null and condition.loginName !='' or condition.surname != null and condition.surname !='' or condition.name != null and condition.name !='' or condition.status != null and condition.status !=''">
+		<where>
+		   1 = 1
+		   <if test="condition.departmentId != null and condition.departmentId !=''">
+				AND departmentId=#{condition.departmentId}
+		   </if>
+		   <if test="condition.loginName != null and condition.loginName !='' or condition.loginName != null and condition.loginName !='' or condition.surname != null and condition.surname !='' or condition.name != null and condition.name !='' or condition.status != null and condition.status !=''">
 			and (
 			loginName=#{condition.loginName}<!-- this is a default value -->
 			<if test="condition.surname != null and condition.surname !=''">
@@ -182,8 +199,9 @@
 				or status=#{condition.status}
 			</if>
 			)
-		</if>
-
+		   </if>
+		</where>
+		
 	</select>
 
 </mapper>

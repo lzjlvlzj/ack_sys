@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.ack.persist.page.Page;
+import org.ack.pojo.Department;
 import org.ack.pojo.Project;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,6 +22,24 @@ public class ProjectMapperTest extends BaseTest{
 	@Before
 	public void init() {
 		projectMapper = sqlSession.getMapper(ProjectMapper.class);
+	}
+	
+	@Test
+	public void testInsertReturnId(){
+		Project p = new Project();
+		p.setName("数据生成2");
+		p.setDepartmentId(17);
+		p.setManagerId(13L);
+		p.setStatus(0);
+		p.setType(0);
+		p.setStartTime(new Date());
+		p.setEndTime(new Date());
+		p.setRemark("this is a test33!");
+		
+		projectMapper.insertReturnId(p);
+		System.out.println("-------------------");
+		System.out.println(p.getProjectId());
+		
 	}
 	
 	
@@ -53,6 +72,14 @@ public class ProjectMapperTest extends BaseTest{
 	@Test
 	public void testFind() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testFindById() {
+		Long id = 2L;
+		Project p = projectMapper.findById(id);
+		List<Department> depts = p.getCooperativeSectors();
+		Assert.assertEquals(2, depts.size());
 	}
 
 	@Test

@@ -5,12 +5,25 @@
 	<resultMap type="org.ack.pojo.ProjectTask" id="projectTaskResultMap">
 		<result property="id" column="id" />
 		<result property="projectId" column="projectId" />
+		<result property="projectName" column="projectName" />
 		<result property="task" column="task" />
 		<result property="workerId" column="workerId" />
 		<result property="priority" column="priority" />
 		<result property="status" column="status" />
 		<result property="startTime" column="startTime" />
 		<result property="endTime" column="endTime" />
+	</resultMap>
+	
+	<resultMap type="org.ack.pojo.ProjectTask" id="taskAndProjectResultMap" extends="projectTaskResultMap">
+	      <association property="project" javaType="org.ack.pojo.Project">
+	          <id property="id" column="projectId"/>
+	          <result property="name" column="projectName"/>
+	      </association>
+	      
+	      <association property="worker" javaType="org.ack.pojo.User">
+	          <id property="id" column="userId"/>
+	          <result property="loginName" column="workerName"/>
+	      </association>
 	</resultMap>
      
      <sql id="base_column">
@@ -73,18 +86,18 @@
 	</select>
 
 	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
-		resultMap="projectTaskResultMap">
+		resultMap="taskAndProjectResultMap">
 		SELECT
 			apt.id,
-			apt.projectId,
+			apt.projectId as projectId,
 			apt.task,
-			apt.workerId,
+			apt.workerId as userId,
 			apt.priority,
 			apt.STATUS,
 			apt.startTime,
 			apt.endTime,
 		    ap.name as projectName,
-		    au.`name` as workerName
+		    au.loginName as workerName
 	   FROM
 		    ack_project_task apt
 	   LEFT JOIN ack_project ap ON ap.id = apt.projectId

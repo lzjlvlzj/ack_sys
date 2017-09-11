@@ -16,6 +16,15 @@
 		(#{departmentName},#{parentId},#{comments}, now())
 	</insert>
 	
+	<select id="findAll" resultMap="departmentResultMap">
+	    SELECT
+		id,
+		departmentName,
+		createTime
+		FROM
+		ack_department
+	</select>
+	
 	<select id="find" parameterType="menu" resultMap="departmentResultMap">
 		SELECT
 		id,

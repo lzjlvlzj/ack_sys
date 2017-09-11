@@ -33,6 +33,10 @@ AckSystem.user = {
 		AckTool.postReq(data, url, function(user){
 			var userInfo = "<small>Welcome,</small>" + user.loginName
 			$("#login-user-info").html(userInfo);
+			var deptId = $("<input type='hidden' id='index-user-dept-id' value='" + user.departmentId + "'/>");
+			var roleIds = $("<input type='hidden' id='index-user-role-ids' value='" + user.roleIds + "'/>");
+			$("#login-user-info").append(deptId);
+			$("#login-user-info").append(roleIds);
 		});
 	},
 	_tmp : "",

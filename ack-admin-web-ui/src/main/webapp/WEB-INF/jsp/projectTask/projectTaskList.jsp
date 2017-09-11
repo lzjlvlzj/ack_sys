@@ -62,10 +62,10 @@
 					</table>
 				</div>
 			</div>
-			<div class='col-xs-12'>
-			    <div class='col-xs-12'>
-			    <button class="btn btn-primary" id="ack-add-btn">新建</button>
-			    </div>
+		</div>
+		<div class='col-xs-12'>
+			<div class='col-xs-12 ack-datatable-new'>
+			  <button class="btn btn-primary" id="ack-add-btn" onclick="ProjectTask.eidtUI();">新建</button>
 			</div>
 		</div>
 	</div>

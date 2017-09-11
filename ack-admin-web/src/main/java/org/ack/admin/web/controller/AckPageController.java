@@ -40,6 +40,8 @@ public abstract class AckPageController<T extends Object, PK extends Serializabl
 	 * @param request
 	 * @param response
 	 * @param model
+	 * @param map2 
+	 * @param map2 
 	 * @return
 	 */
 	@RequestMapping(value = "/page")
@@ -48,6 +50,7 @@ public abstract class AckPageController<T extends Object, PK extends Serializabl
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
+			Map<String, Object> extraCondition, 
 			@ModelAttribute() T t,
 			@RequestParam(required = false, defaultValue = "1") int currentPage,
 			@RequestParam(required = false, defaultValue = "10") int count,
@@ -55,6 +58,7 @@ public abstract class AckPageController<T extends Object, PK extends Serializabl
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
 		// 查询条件
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.putAll(extraCondition);
 		// 构造查询page参数
 		Page<T> page = new Page<T>(currentPage, count);
 		page.setOrderColumn(orderColumn);

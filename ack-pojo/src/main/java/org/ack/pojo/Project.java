@@ -2,6 +2,7 @@ package org.ack.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 项目实体
@@ -16,22 +17,31 @@ public class Project implements Serializable{
 	 */
 	private static final long serialVersionUID = 6315298765202641582L;
 	
-	private Long id;                          // 数据id
-	private String name;                      // 工程名
-	private Integer departmentId;             // 部门id
-	private String departmentName;            // 部门名称(冗余数据)
-	private Long managerId;                   // 项目负责人id
-	private String managerName;               // 项目负责人名称(冗余数据)
-	private Integer status;                   // 工程状态 0 : 打开, 1 : 关闭
-	private Date startTime;                   // 项目开始时间
-	private Date endTime;                     // 项目结束时间
-	private String remark;                    // 备注
+	private Long id;                           // 数据id
+	private Long projectId;                    // insert return value
+	private String name;                       // 工程名
+	private Integer departmentId;              // 部门id
+	private String departmentName;             // 部门名称(冗余数据)
+	private Long managerId;                    // 项目负责人id
+	private String managerName;                // 项目负责人名称(冗余数据)
+	private Integer type;                      // 工程状态 0 : 非公开, 1 : 公开
+	private Integer status;                    // 工程状态 0 : 打开, 1 : 关闭
+	private Date startTime;                    // 项目开始时间
+	private Date endTime;                      // 项目结束时间
+	private List<Department> cooperativeSectors;// 合作部门 
+	private String remark;                     // 备注
 	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Long getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
 	}
 	public String getName() {
 		return name;
@@ -63,6 +73,12 @@ public class Project implements Serializable{
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
 	}
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
+	}
 	public Integer getStatus() {
 		return status;
 	}
@@ -80,6 +96,12 @@ public class Project implements Serializable{
 	}
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+	public List<Department> getCooperativeSectors() {
+		return cooperativeSectors;
+	}
+	public void setCooperativeSectors(List<Department> cooperativeSectors) {
+		this.cooperativeSectors = cooperativeSectors;
 	}
 	public String getRemark() {
 		return remark;

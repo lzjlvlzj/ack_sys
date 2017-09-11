@@ -18,9 +18,37 @@ public class Content {
 	public static final String PROJECT_MANAGE = "PM";
 	
 	/**
-	 * session key
+	 * role 
 	 */
-	public static final String ADMIN_USER = "admin";
+	public static final String ADMIN_USER = "ADMIN";
+	/**
+	 * CTO 
+	 */
+	public static final String CTO_USER = "CTO";
+	/**
+	 * CFO 
+	 */
+	public static final String CFO_USER = "CFO";
+	/**
+	 * role 
+	 */
+	public static final String CEO_USER = "CEO";
+	/**
+	 * COO 
+	 */
+	public static final String COO_USER = "COO";
+	/**
+	 * DM
+	 */
+	public static final String DM_USER = "DM";
+	/**
+	 * PM
+	 */
+	public static final String PM_USER = "PM";
+	/**
+	 * STAFF 
+	 */
+	public static final String STAFF_USER = "STAFF";
 	
 	/**
 	 * login html
