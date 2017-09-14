@@ -127,6 +127,10 @@ public class ProjectController extends AckPageController<Project, Long>{
 		if (logger.isDebugEnabled()) {
 			logger.debug("部门id: {}", id);
 		}
+		/*
+		 * 当前部门所有项目 + 公开项目  + 和其他部门合作的项目
+		 * 
+		 * */
 		return projectServiceImpl.findByDepartmentId(id);
 	}
 	
@@ -156,18 +160,16 @@ public class ProjectController extends AckPageController<Project, Long>{
 	 */
 	@RequestMapping(value = "/page")
 	@ResponseBody
-	@Override
 	public Page<Project> findPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
-			Map<String, Object> map,
 			@ModelAttribute() Project t,
 			@RequestParam(required = false, defaultValue = "1") int currentPage,
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "startTime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		map = new HashMap<String, Object>(); 
+		Map<String, Object> map = new HashMap<String, Object>(); 
 		User user = getCurrentUser(request);
 		Set<Role> roles = user.getRoles();
 		boolean b = true;

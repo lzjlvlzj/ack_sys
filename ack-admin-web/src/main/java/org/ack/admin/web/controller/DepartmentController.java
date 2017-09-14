@@ -1,5 +1,6 @@
 package org.ack.admin.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,17 +75,16 @@ public class DepartmentController extends
 	@RequestMapping(value = "/page")
 	@AckPermission(value="dept:list")
 	@ResponseBody
-	@Override
 	public Page<Department> findPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
-			Map<String, Object> map,
 			@ModelAttribute() Department t,
 			@RequestParam(required = false, defaultValue = "1") int currentPage,
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		return super.findPage(request, response, model, map, t, currentPage, count,
 				orderColumn, orderType);
 	}

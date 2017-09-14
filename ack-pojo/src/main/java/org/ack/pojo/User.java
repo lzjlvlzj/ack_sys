@@ -115,5 +115,20 @@ public class User implements Serializable {
 				+ "}";
 		return user;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof User){
+			User o = (User)obj;
+			boolean b = (o.getId()== id);
+			return b;
+		}
+		return super.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
 
 }

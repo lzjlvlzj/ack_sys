@@ -1,6 +1,7 @@
 package org.ack.admin.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -67,17 +68,16 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	@RequestMapping(value = "/page")
 	@AckPermission(value="menu:list")
 	@ResponseBody
-	@Override
 	public Page<Menu> findPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
-			Map<String, Object> map,
 			@ModelAttribute() Menu t,
 			@RequestParam(required = false, defaultValue = "1") int currentPage,
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		return super.findPage(request, response, model, map, t,currentPage, count,
 				orderColumn, orderType);
 	}

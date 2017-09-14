@@ -2,6 +2,7 @@ package org.ack.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**项目任务细节
  * 
@@ -16,14 +17,13 @@ public class ProjectTask implements Serializable {
 	private Long projectId;                  // 项目id
 	private String projectName;				 // 项目名称
 	private String task;                     // 项目明细相
-	private Long workerId;                   // 责任人id
 	private Integer status;                  // 状态 0 : 完成 , 1 : 进行中
 	private Integer priority;                // 优先级 1 ,2 ,3 ,4 ... 
 	private Date startTime;                  // 开始时间
 	private Date endTime;                    // 结束时间
 	
 	private Project project;                 // 项目
-	private User worker;                     // 责任人
+	private List<User> workers;              // 参与工作的用户
 	
 	public Long getId() {
 		return id;
@@ -48,12 +48,6 @@ public class ProjectTask implements Serializable {
 	}
 	public void setTask(String task) {
 		this.task = task;
-	}
-	public Long getWorkerId() {
-		return workerId;
-	}
-	public void setWorkerId(Long workerId) {
-		this.workerId = workerId;
 	}
 	public Integer getStatus() {
 		return status;
@@ -85,18 +79,16 @@ public class ProjectTask implements Serializable {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-	public User getWorker() {
-		return worker;
+    public List<User> getWorkers() {
+		return workers;
 	}
-	public void setWorker(User worker) {
-		this.worker = worker;
+	public void setWorkers(List<User> workers) {
+		this.workers = workers;
 	}
-	
-    @Override
+	@Override
     public String toString() {
     	String s = "{id : " + id + 
     			", projectId : " + projectId + 
-    			", workerId : " + workerId + 
     			", task : " + task + 
     			", status : " + status + 
     			", priority : " + priority + 

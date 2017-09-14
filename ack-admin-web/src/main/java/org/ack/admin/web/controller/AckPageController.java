@@ -15,10 +15,6 @@ import org.ack.persist.page.Page;
 import org.ack.util.ReflectUtil;
 import org.ack.util.StringUtils;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 如果需要分页功能可以继承这个
@@ -30,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 public abstract class AckPageController<T extends Object, PK extends Serializable>
 		extends AckController<T, PK> {
+	
+	Map<String, Object> extraCondition = null;
 	/**
 	 * 默认简单分页查询
 	 * <p>
@@ -44,21 +42,21 @@ public abstract class AckPageController<T extends Object, PK extends Serializabl
 	 * @param map2 
 	 * @return
 	 */
-	@RequestMapping(value = "/page")
-	@ResponseBody
 	public Page<T> findPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
 			Map<String, Object> extraCondition, 
-			@ModelAttribute() T t,
-			@RequestParam(required = false, defaultValue = "1") int currentPage,
-			@RequestParam(required = false, defaultValue = "10") int count,
-			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
-			@RequestParam(required = false, defaultValue = "desc") String orderType) {
+			T t,
+			int currentPage,
+			int count,
+			String orderColumn,
+			String orderType) {
 		// 查询条件
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.putAll(extraCondition);
+		if(null != map){
+			map.putAll(extraCondition);
+		}
 		// 构造查询page参数
 		Page<T> page = new Page<T>(currentPage, count);
 		page.setOrderColumn(orderColumn);
@@ -94,19 +92,17 @@ public abstract class AckPageController<T extends Object, PK extends Serializabl
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/table")
-	@ResponseBody
 	public DataTableTemplate<T> dataTable(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
 			Map<String, Object> extraCondition,
-			@ModelAttribute() T t,
-			@RequestParam(required = false, defaultValue = "0") int start,/* 第一条记录的起始位置 */
-			@RequestParam(required = false, defaultValue = "10") int length,/* 每页显示多少记录 */
-			@RequestParam(required = false, defaultValue = "1") int draw,
-			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
-			@RequestParam(required = false, defaultValue = "desc") String orderType) {
+			T t,
+			int start,/* 第一条记录的起始位置 */
+			int length,/* 每页显示多少记录 */
+			int draw,
+			String orderColumn,
+			String orderType) {
 		// 获得当前排序字段序号
 		String orderNum = request.getParameter("order[0][column]");
 		// 要排序字段的参数key

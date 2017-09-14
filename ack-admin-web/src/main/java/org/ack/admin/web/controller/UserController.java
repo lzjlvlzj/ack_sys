@@ -24,8 +24,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -238,13 +240,19 @@ public class UserController extends AckPageController<User, Long> {
 	@RequestMapping(value = "/table")
 	@AckPermission(value = "user:list")
 	@ResponseBody
-	@Override
-	public DataTableTemplate<User> dataTable(HttpServletRequest request,
-			HttpServletResponse response, Model model, Map<String, Object> map,
-			User t, int start, int length, int draw, String orderColumn,
-			String orderType) {
+	public DataTableTemplate<User> dataTable(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Model model,
+			Map<String, Object> extraCondition, 
+			@ModelAttribute() User t,
+			@RequestParam(required = false, defaultValue = "1") int draw,
+			@RequestParam(required = false, defaultValue = "1") int start,
+			@RequestParam(required = false, defaultValue = "10") int count,
+			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
+			@RequestParam(required = false, defaultValue = "desc") String orderType) {
 		User user = getCurrentUser(request);
-		map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		// 非admin用户只能查询当前用户所在部门的员工信息
 		Set<Role> roles = user.getRoles();
 		for (Role role : roles) {
@@ -254,7 +262,7 @@ public class UserController extends AckPageController<User, Long> {
 				break;
 			}
 		}
-		return super.dataTable(request, response, model, map, t, start, length,
+		return super.dataTable(request, response, model, map, t, start, count,
 				draw, orderColumn, orderType);
 	}
 
