@@ -17,6 +17,7 @@ public class Role implements Serializable {
 	private Integer id;                        // id
 	private String roleName;                   // 角色名称
 	private String abbreviation;               // 简写
+	private Integer viewStatus;                // 是否拥有查看所有数据的权限 : 0, 没有 1 , 有
 	private String comments;                   // 备注
 	private Date createTime;                   // 创建时间
 	private String menuIds;                    // 菜单id
@@ -38,6 +39,12 @@ public class Role implements Serializable {
 	}
 	public void setAbbreviation(String abbreviation) {
 		this.abbreviation = abbreviation;
+	}
+	public Integer getViewStatus() {
+		return viewStatus;
+	}
+	public void setViewStatus(Integer viewStatus) {
+		this.viewStatus = viewStatus;
 	}
 	public String getComments() {
 		return comments;

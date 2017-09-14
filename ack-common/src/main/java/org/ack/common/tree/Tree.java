@@ -1,89 +1,122 @@
 package org.ack.common.tree;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Tree {
+public class Tree extends Node {
+	private int size;
 
-	Node root = null; // 根节点
-	Object value = null; // 根节点值
-
-	public Tree(Node root, Object v) {
-		this.root = root;
-		this.value = v;
+	public Tree(Object value) {
+		this.value = value;
+		this.parent = null;
 	}
 	
-	public Tree() {
+	public void sort(List<Node> list){
+		Object pValue = value;
+		
+		int i = 0;
+		int size = list.size();
+		while(size > 0){
+			if(i == size - 1){
+				break;
+			}
+			Node node = list.get(i);
+			Node p = node.getParent();
+			if(pValue.equals(p.getValue())){
+				i++;
+				Node tmp = node;
+				list.remove(i);
+				list.add(0, tmp);
+			}
+		}
+	}
+	
+	public void add(List<Node> list) {
+		if(null != list){
+			for(Node n : list){
+				add(n);
+			}
+			System.out.println("---------add complete---------");
+		}
 	}
 
-	public Tree(Object v) {
-		this.root = new Node();
-		this.value = v;
-		this.root.setValue(v);
-	}
-
-	/**
-	 * 添加
-	 */
 	public void add(Node node) {
-		// 根据value获得父节点
-		Node parent = find(node.getParent());
-		if(null == parent) {
-			System.out.println(111);
+		if (null == node) {
 			return;
 		}
+		// 查找父节点
+		Node parent = findParent(node);
 		parent.getChildren().add(node);
+
 	}
 
 	/**
-	 * 查找
-	 * */
-	public Node find(Node node) {
-		Node tmp = root;
-		// 查找当前
-		Object vl = tmp.getValue();
-		Object nodeVal = node.getValue();
-		if (vl.equals(nodeVal)) {
-			return tmp;
+	 * 查询当前node的父节点
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public Node findParent(Node node) {
+		Node p = findParent(node, value);
+		return p;
+	}
+
+	public Node findParent(Node node, Object tmpValue) {
+
+		System.out.println("当前 : " + node + ", 查询node : " + tmpValue);
+
+		if (null == tmpValue) {
+			tmpValue = value;
 		}
-		// 查找子
-		List<Node> list = tmp.getChildren();
-		Node n = find(list, nodeVal);
+		if (node.getParent().getValue().equals(tmpValue)) {
+			return this;
+		}
+		List<Node> list = this.getChildren();
+		Node n = find(node, list);
 		return n;
 	}
 
-	private Node find(List<Node> list, Object nodeVal) {
-		List<Node> tmpList = new ArrayList<Node>();
-		for (Node n : list) {
-			Object val = n.getValue();
-			if (val.equals(nodeVal)) {
+	/**
+	 * 递归转循环
+	 * 
+	 * */
+	private Node find(Node node, List<Node> list) {
+		int size = list.size();
+		int i = 0;
+		while (size > 0) {
+			Node n = list.get(i);
+			i++;
+			if (n.getValue().equals(node.getParent().getValue())) {
 				return n;
+			} else {
+				if (i == size) {
+					list = n.getChildren();
+					size = list.size();
+					i = 0;
+				}
 			}
-			if (!n.isLeaf()) {
-				tmpList.addAll(n.getChildren());
-			}
+
 		}
-		// 当没有子node时候跳出
-		if (null == tmpList || tmpList.size() == 0) {
+		return null;
+	}
+
+	public List<Node> findChildren(Node node) {
+		List<Node> children = node.getChildren();
+		if (null == children || children.size() == 0) {
 			return null;
 		}
-		return find(tmpList, nodeVal);
+		return node.getChildren();
 	}
 
-	public Node getRoot() {
-		return root;
+	public int size() {
+		return size;
 	}
 
-	public void setRoot(Node root) {
-		this.root = root;
+	public void show() {
+		List<Node> list = this.getChildren();
+		for (Node n : list) {
+			System.out.println(n.getValue());
+		}
 	}
 
-	public Object getValue() {
-		return value;
-	}
-
-	public void setValue(Object v) {
-		this.value = v;
-	}
-
+	
 }

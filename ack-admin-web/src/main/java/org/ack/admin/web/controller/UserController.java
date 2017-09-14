@@ -213,13 +213,8 @@ public class UserController extends AckPageController<User, Long> {
 		Set<Role> roles = user.getRoles();
 		boolean b = true;
 		for(Role role : roles){
-			String abbr = role.getAbbreviation();
-			if(abbr.indexOf(Content.ADMIN_USER) > 1
-				|| abbr.equals(Content.CEO_USER)
-				|| abbr.equals(Content.CTO_USER)
-				|| abbr.equals(Content.CFO_USER)
-				|| abbr.equals(Content.COO_USER)
-			  ){
+			Integer viewStatus = role.getViewStatus();
+			if(viewStatus == 1){
 				b = false;
 				break;
 			}

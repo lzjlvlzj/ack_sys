@@ -19,9 +19,9 @@ public class TreeTest {
 	public void init(){
 		Menu m0 = new Menu();
 		m0.setId(0);
-		
+		m0.setMenuName("tianditu");
 		tree = new Tree(m0);
-    	Menu m1 = new Menu();
+    	/*Menu m1 = new Menu();
     	m1.setId(1);
     	m1.setParentId(0);
     	m1.setMenuName("用户管理");
@@ -34,26 +34,42 @@ public class TreeTest {
     	Menu m2 = new Menu();
     	m2.setId(2);
     	m2.setParentId(1);
-    	m2.setMenuName("用户添加");
+    	m2.setMenuName("用户添加");*/
     	
     	
     	Menu m4 = new Menu();
     	m4.setId(4);
-    	m4.setParentId(3);
+    	m4.setParentId(0);
     	m4.setMenuName("项目任务管理");
     	
     	Menu m5 = new Menu();
     	m5.setId(5);
-    	m5.setParentId(3);
+    	m5.setParentId(4);
     	m5.setMenuName("员工日志管理");
     	
+    	Menu m6 = new Menu();
+    	m6.setId(6);
+    	m6.setParentId(5);
+    	m6.setMenuName("员工日志删除");
     	
-    	menuList.add(m1);
+    	
+    	/*menuList.add(m1);
     	menuList.add(m2);
-    	menuList.add(m3);
+    	menuList.add(m3);*/
     	menuList.add(m4);
     	menuList.add(m5);
+    	menuList.add(m6);
     }
+	
+	@Test
+	public void testList(){
+		int len = menuList.size();
+		System.out.println("menuList size : " + len);
+		for(int i = 0; i < len; i++){
+			Menu m = menuList.get(i);
+			System.out.println("菜单id : " + m.getId() + " ,菜单名称 : " + m.getMenuName());
+		}
+	}
 	
 	@Test
 	public void testFind(){
@@ -69,7 +85,7 @@ public class TreeTest {
 	public void testAdd(){
 		final ObjectMapper mapper = new ObjectMapper();
 		for(Menu m : menuList){
-			
+			System.out.println("循环-----------------");
 			Node  parent = new Node();
 			Menu mp = new Menu();
 			mp.setId(m.getParentId());

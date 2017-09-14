@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * 菜单表
  * 
  * @author ack
  *
  */
-public class Menu implements Serializable {
+public class Menu implements Serializable,Comparable<Menu> {
 
 	private static final long serialVersionUID = 907686414602177841L;
 	
@@ -124,6 +125,17 @@ public class Menu implements Serializable {
 				",url : " + url +
 				"}";
 		return s;
+	}
+	@Override
+	public int compareTo(Menu o) {
+		Integer oid = o.getId();
+		if(oid > id){
+			return -1;
+		} 
+		if(oid < id){
+			return 1;
+		}
+		return 0;
 	}
 
 }

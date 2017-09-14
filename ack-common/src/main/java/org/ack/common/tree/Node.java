@@ -5,45 +5,39 @@ import java.util.List;
 
 public class Node {
 	
-	private Object value; // 当前节点值
-	private Node parent; // 父节点
-	private List<Node> children = new LinkedList<Node>(); // 子节点
-	
-
-	public Node getParent() {
-		return parent;
-	}
-
-	public void setParent(Node parent) {
-		this.parent = parent;
-	}
-
-	public List<Node> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<Node> children) {
-		this.children = children;
-	}
-
+    protected Object value;       
+    protected Node parent;
+    protected List<Node> children = new LinkedList<Node>();
+    
+    public Node(){
+    	
+    }
+    public Node(Object value, Node parent){
+    	this.value = value;
+    	this.parent = parent;
+    }
+    
 	public Object getValue() {
 		return value;
 	}
-
 	public void setValue(Object value) {
 		this.value = value;
 	}
-
-	public boolean isLeaf() {
-		if (null == children || children.size() == 0) {
-			return true;
-		}
-		return false;
+	public Node getParent() {
+		return parent;
 	}
-	
+	public void setParent(Node parent) {
+		this.parent = parent;
+	}
+	public List<Node> getChildren() {
+		return children;
+	}
+	public void setChildren(List<Node> children) {
+		this.children = children;
+	}
 	@Override
 	public String toString() {
+		
 		return value.toString();
 	}
-
 }

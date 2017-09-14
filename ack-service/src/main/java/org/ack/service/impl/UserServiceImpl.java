@@ -1,6 +1,7 @@
 package org.ack.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -102,11 +103,11 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		return list;
 	}
 	
-	private Tree getMenuTree(Set<Menu> menuSet) {
+	private Tree getMenuTree(List<Menu> menuList) {
 		Menu root = new Menu();
 		root.setId(0);//数据库中root id 为0
 		Tree tree = new Tree(root);
-	    for(Menu menu : menuSet){
+	    for(Menu menu : menuList){
 	    	Node  parent = new Node();
 			Menu mp = new Menu();
 			mp.setId(menu.getParentId());
@@ -137,7 +138,11 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
         //String loginName = user.getLoginName();
 		
 		Set<Menu> menus = getMenus(user);
-		Tree t = getMenuTree(menus);
+		List<Menu> menuList = new ArrayList<Menu>(menus.size());
+		menuList.addAll(menus);
+		//排序
+		Collections.sort(menuList);
+		Tree t = getMenuTree(menuList);
 		//menuMap.put(loginName, t);
 		return t;
 	}
