@@ -36,11 +36,42 @@
 		 AND apd.projectId = #{id}
      </select>
      <select id="findByDepartmentId" parameterType="int" resultMap="projectResultMap">
-        SELECT
-		<include refid="base_column"/>
-		FROM ack_project
-		WHERE deptId = #{departmentId}
-		OR ap.type = 1
+         SELECT
+			 ap.id,
+			 ap. NAME,
+			 ap.deptId,
+			 ap.managerId,
+			 ap.type,
+			 ap.STATUS,
+			 ap.startTime,
+			 ap.endTime,
+			 ap.remark
+		 FROM
+			 ack_project ap,
+			 ack_project_dept apd
+		 WHERE
+			 ap.id = apd.projectId
+		 AND apd.departmentId = #{departmentId}
+		 AND ap.STATUS = 0
+		
+		 UNION
+		
+		 SELECT
+			 ap.id,
+			 ap. NAME,
+			 ap.deptId,
+			 ap.managerId,
+			 ap.type,
+			 ap.STATUS,
+			 ap.startTime,
+			 ap.endTime,
+			 ap.remark
+		 FROM
+			 ack_project ap
+		 WHERE
+			 ap.deptId = #{departmentId}
+			 AND ap.STATUS = 0
+		     OR ap.type = 1
      </select>
 
 	<insert id="insert">
@@ -92,7 +123,12 @@
 		WHERE ar.id = #{id}
 	</update>
 
-	<delete id="delete" parameterType="long">
+	<delete id="delete" parameterType="project">
+	    DELETE FROM ack_project
+        WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteById" parameterType="long">
 	    DELETE FROM ack_project
         WHERE id = #{id}
 	</delete>

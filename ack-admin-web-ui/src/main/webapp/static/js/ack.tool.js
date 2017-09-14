@@ -9,6 +9,16 @@ AckTool.document = window.parent.document || window.document;
 
 
 AckTool.optionButton = {
+		
+	/**
+	 * 状态信息按钮
+	 * 
+	 * */
+	statusButton : function(msg){
+		var btn = '<span class="label label-sm label-success">' + msg + '</span>';
+		return btn;
+	}, 
+		
 	/**
 	 * checkbox
 	 * */	
@@ -98,15 +108,20 @@ AckTool.optionButton = {
 		var del = prefix + ":delete";//删除
 		var userRole = "user:role";//用户添加角色
 		var roleMenu = "role:menu";//用户添加角色
+		var ptaskAllocate = "ptask:allocate"//
 		
 		var array = new Array();
 		array[update] = AckTool.optionButton.defaultButton('修改操作', 'btn btn-xs btn-info ack-simple-btn-edit', 'fa-pencil');
 		array[del] = AckTool.optionButton.defaultButton('删除操作', 'btn btn-xs btn-danger ack-simple-btn-del', 'fa-trash-o');
+		// 特殊处理 TODO 菜单按钮最好存数据库
 		if("user" == prefix){
 			array[userRole] = AckTool.optionButton.defaultButton('添加角色', 'btn btn-xs btn-info ack-simple-btn-user-role', 'fa-circle-o');	
 		}
 		if("role" == prefix){
 			array[roleMenu] = AckTool.optionButton.defaultButton('添加菜单', 'btn btn-xs btn-info ack-simple-btn-role-menu', 'fa-circle-o');
+		}
+		if("ptask" == prefix){
+			array[ptaskAllocate] = AckTool.optionButton.defaultButton('分配人员', 'btn btn-xs btn-info ack-simple-btn-ptask-user', 'fa-users');;
 		}
 		
 		return array;
@@ -124,7 +139,7 @@ AckTool.optionButton = {
 		if(div){
 			return div;
 		}
-		div = $("<div class='hidden-sm hidden-xs btn-group'>");
+		div = $("<div class='hidden-sm hidden-xs btn-group'></div>");
 		var array = AckTool.optionButton.authButtonPermissionsConfig(prefix);
 		var permissons = option.permissions || parent.AckSystem.user.permissions();
 		

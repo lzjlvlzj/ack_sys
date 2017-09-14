@@ -135,10 +135,10 @@ Menu.eidt = function(flag) {
 	var url = "";
 	//添加
 	if("0" == flag){
-		url = "/menu/add"
+		url = "/menu/add";
 	}
 	if("1" == flag){
-		url = "/menu/edit"
+		url = "/menu/edit";
 	}
 	
 	var data = $("#ack-add-form", Menu.document).serialize();

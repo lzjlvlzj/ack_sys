@@ -16,6 +16,9 @@
 <!-- ace styles -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/3part/ace/css/ace.min.css"
 	class="ace-main-stylesheet" id="main-ace-style" />
+<!-- multiselect -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/3part/ace/css/bootstrap-multiselect.min.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/3part/ace/css/bootstrap-duallistbox.min.css" />
 
 <!--[if lte IE 9]>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/3part/ace/css/ace-part2.min.css" class="ace-main-stylesheet" />

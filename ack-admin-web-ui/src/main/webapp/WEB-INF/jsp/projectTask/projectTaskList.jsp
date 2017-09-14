@@ -30,10 +30,6 @@
 									aria-controls="dynamic-table" >
 									任务内容
 								</th>
-								<th class="sorting" 
-									aria-label="dynamic-table">
-									责任人
-                                </th>
 								<th class="hidden-480 sorting" tabindex="0"
 									aria-controls="dynamic-table" >
 									任务状态
@@ -73,6 +69,7 @@
 	<%@include file="../public/table.jsp"%>
 	<script type="text/javascript" src="/static/js/projectTask/projectTask.js"></script>
 	<script type="text/javascript" src="/static/js/lib/simple-paginator-1.0.js"></script>
+	<script type="text/javascript" src="/static/js/ack.multiple.list.box.js"></script>
 	<script type="text/javascript">
         $(document).ready(function(){
             ProjectTask.init();

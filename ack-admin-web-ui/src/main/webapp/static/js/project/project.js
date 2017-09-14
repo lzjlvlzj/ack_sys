@@ -57,7 +57,6 @@ Project.getOneTr = function(n, data, option) {
 	// 评论
 	var remark = $("<td class='center'>" + data.remark + "</td>");
 	tr.append(remark);
-	console.log(tr);
 	// 操作
 	// 获得操作按钮
 	var optionTd = $("<td></td>");

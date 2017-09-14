@@ -14,6 +14,12 @@
 <script src="${pageContext.request.contextPath}/static/3part/ace/js/ace.min.js"></script>
 <!-- vue script -->
 <script src="${pageContext.request.contextPath}/static/3part/vue.min.js" type="text/javascript"></script>
+<!-- page specific plugin scripts -->
+<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.bootstrap-duallistbox.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.raty.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/3part/ace/js/bootstrap-multiselect.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/3part/ace/js/select2.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery-typeahead.js"></script>
 <!-- our script -->
 <script src="${pageContext.request.contextPath}/static/js/ack.tool.js" type="text/javascript"></script>
 <!-- inline scripts related to this page -->

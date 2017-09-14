@@ -7,7 +7,6 @@
 		<result property="projectId" column="projectId" />
 		<result property="projectName" column="projectName" />
 		<result property="task" column="task" />
-		<result property="workerId" column="workerId" />
 		<result property="priority" column="priority" />
 		<result property="status" column="status" />
 		<result property="startTime" column="startTime" />
@@ -19,22 +18,17 @@
 	          <id property="id" column="projectId"/>
 	          <result property="name" column="projectName"/>
 	      </association>
-	      
-	      <association property="worker" javaType="org.ack.pojo.User">
-	          <id property="id" column="userId"/>
-	          <result property="loginName" column="workerName"/>
-	      </association>
 	</resultMap>
      
      <sql id="base_column">
-         id,projectId,task,workerId,priority,status,startTime,endTime
+         id,projectId,task,priority,status,startTime,endTime
      </sql>
 
 	<insert id="insert">
 		INSERT INTO
-		ack_project_task(projectId,task,workerId,priority,status,startTime,endTime)
+		ack_project_task(projectId,task,priority,status,startTime,endTime)
 		VALUES
-		(#{projectId}, #{task},#{workerId},#{priority},#{status},#{startTime},#{endTime})
+		(#{projectId}, #{task},#{priority},#{status},#{startTime},#{endTime})
 	</insert>
 
 	<update id="update" parameterType="project">
@@ -46,9 +40,6 @@
 			</if>
 			<if test="task != null and task !=''">
 				ar.task = #{task},
-			</if>
-			<if test="workerId != null and workerId !=''">
-				ar.workerId = #{workerId},
 			</if>
 			<if test="priority != null and priority !=''">
 				ar.priority = #{priority},
@@ -66,12 +57,65 @@
 		WHERE ar.id = #{id}
 	</update>
 
-	<delete id="delete" parameterType="long">
+	<delete id="delete" parameterType="projectTask">
 	    DELETE FROM ack_project_task
         WHERE id = #{id}
 	</delete>
+	
+	<delete id="deleteById" parameterType="long">
+	    DELETE FROM ack_project_task
+        WHERE id = #{id}
+	</delete>
+	
+	<select id="findAllProjectCooperator" parameterType="projectTask" resultType="user">
+	    SELECT
+			au.id,
+			au.loginName,
+			au.surname,
+			au.`name`,
+		    au.departmentId
+		FROM
+			ack_user au
+		WHERE
+			au.departmentId IN (
+				SELECT
+					apd.departmentId
+				FROM
+					ack_project_dept apd,
+					ack_project_task apt
+				WHERE
+					1 = 1
+				AND apt.projectId = apd.projectId
+				AND apt.id = #{id}
+			)
+	</select>
+	
+	<select id="findExistProjectCooperator" parameterType="projectTask" resultType="user">
+	    SELECT
+			au.id,
+			au.loginName,
+			au.surname,
+			au.`name`,
+			au.departmentId
+		FROM
+			ack_user au, ack_project_task_user aptu
+		WHERE
+		  au.id = aptu.userId
+		  AND aptu.projectTaskId = #{id}
+		  AND au.departmentId IN (
+				SELECT
+					apd.departmentId
+				FROM
+					ack_project_dept apd,
+					ack_project_task apt
+				WHERE
+					1 = 1
+				AND apt.projectId = apd.projectId
+				AND apt.id = #{id}
+		   )
+	</select>
 
-	<select id="find" parameterType="project" resultMap="projectTaskResultMap">
+	<select id="find" parameterType="projectTask" resultMap="projectTaskResultMap">
 		SELECT
 		<include refid="base_column"/>
 		FROM ack_project_task
@@ -91,18 +135,18 @@
 			apt.id,
 			apt.projectId as projectId,
 			apt.task,
-			apt.workerId as userId,
 			apt.priority,
 			apt.STATUS,
 			apt.startTime,
 			apt.endTime,
-		    ap.name as projectName,
-		    au.loginName as workerName
+		    ap.name as projectName
 	   FROM
 		    ack_project_task apt
 	   LEFT JOIN ack_project ap ON ap.id = apt.projectId
-	   LEFT JOIN ack_user au ON au.id = apt.workerId
 		<where>
+			<if test="condition.projectName != null and condition.projectName !=''">
+				ap.projectName=#{condition.projectName}
+			</if>
 			<if test="condition.priority != null and condition.priority !=''">
 				apt.priority=#{condition.priority}
 			</if>

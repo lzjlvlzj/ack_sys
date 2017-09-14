@@ -132,7 +132,7 @@ AckSystem.modal = {
 
 	closeAndOk : $(""),
 
-	ok : $("<button class='btn btn-sm btn-info pull-right ack-modal-ok-btn' data-dismiss='modal'><i class='ace-icon fa fa-times '></i> 确定</button>"),
+	ok : $("<button class='btn btn-sm btn-info pull-right ack-modal-ok-btn' data-dismiss='modal'> 确定</button>"),
 	/**
 	 * @param url 要打开的url
 	 * @param data 参数封装 {selfData :{}, reqData{}}

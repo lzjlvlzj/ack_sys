@@ -17,9 +17,6 @@
 		<div class="modal-body no-padding">
 			<form class="form-horizontal" role="form" id="ack-add-form">
 				<input type="hidden" name="id" id="id" value="">
-				<input type="hidden" name="managerName" id="managerName" value="">
-				<input type="hidden" name="departmentId" id="departmentId" value="">
-				<input type="hidden" name="departmentName" id="departmentName" value="">
 				
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
@@ -36,16 +33,16 @@
 					<label class="col-sm-3 control-label no-padding-right"
 						for="task"> 项目任务内容 </label>
 					<div class="col-sm-9">
-					    <textarea class="col-xs-10 col-sm-8" placeholder="项目任务名称" name="task"></textarea>
+					    <textarea class="col-xs-10 col-sm-8" placeholder="项目任务名称" name="task" id="task"></textarea>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="departmentName"> 优先级 
+						for="priority"> 优先级 
 					</label>
 
 					<div class="col-sm-9">
-						<select class="col-xs-10 col-sm-8" id="projectId" name="managerId">
+						<select class="col-xs-10 col-sm-8" id="priority" name="priority">
 						     <option value="1">1</option>
 						     <option value="2">2</option>
 						     <option value="3">3</option>
