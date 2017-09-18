@@ -31,6 +31,7 @@
 		<collection property="roles" ofType="org.ack.pojo.Role">
 			<id property="id" column="rid" />
 			<result property="roleName" column="roleName" />
+			<result property="viewStatus" column="viewStatus" />
 			<result property="comments" column="roleComments" />
 			<result property="createTime" column="RolecreateTime" />
 		</collection>
@@ -108,7 +109,8 @@
 		au.STATUS as status,
 		au.createTime as createTime,
 		ar.id as rid,
-		ar.roleName as roleName
+		ar.roleName as roleName,
+		ar.viewStatus as viewStatus,
 		FROM
 		ack_user au
 		LEFT JOIN ack_user_role aur on aur.uid = au.id

@@ -35,6 +35,22 @@
 					</div>
 				</div>
 				
+				<div class="form-group" id="viewStatus">
+					<label class="col-sm-3 control-label no-padding-right"
+						for="menuType"> 查看类型 </label>
+
+					<div class="radio col-sm-4">
+						<label> <input name="viewStatus" id="" type="radio"
+							class="ace" value="1"> <span class="lbl"> 全部</span>
+						</label>
+					</div>
+					<div class="radio col-sm-5">
+						<label> <input name="viewStatus" id="" type="radio"
+							class="ace" value="0"> <span class="lbl"> 部分</span>
+						</label>
+					</div>
+				</div>
+				
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
 						for="menuIds"> 菜单id </label>

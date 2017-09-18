@@ -42,5 +42,6 @@
 		<mapper resource="config/mapper/PermissionMapper.xml" />
 		<mapper resource="config/mapper/DepartmentMapper.xml" />
 		<mapper resource="config/mapper/ProjectTaskLinkUserMapper.xml" />
+		<mapper resource="config/mapper/EmployeeMapper.xml" />
 	</mappers>
 </configuration>

@@ -144,17 +144,18 @@
 		    ack_project_task apt
 	   LEFT JOIN ack_project ap ON ap.id = apt.projectId
 		<where>
+		    1 = 1
 			<if test="condition.projectName != null and condition.projectName !=''">
-				ap.projectName=#{condition.projectName}
+				and ap.projectName=#{condition.projectName}
 			</if>
 			<if test="condition.priority != null and condition.priority !=''">
-				apt.priority=#{condition.priority}
+				and apt.priority=#{condition.priority}
 			</if>
 			<if test="condition.status != null and condition.status !=''">
-				apt.status=#{condition.status}
+				and apt.status=#{condition.status}
 			</if>
 			<if test="condition.startTime != null and condition.startTime !=''">
-				apt.startTime=#{condition.startTime}
+				and apt.startTime=#{condition.startTime}
 			</if>
 		</where>
 	</select>

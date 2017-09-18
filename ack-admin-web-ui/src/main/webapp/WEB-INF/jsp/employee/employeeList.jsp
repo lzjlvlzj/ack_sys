@@ -9,7 +9,7 @@
 <body>
 	<div class="row">
 		<div class="col-xs-12">
-			<h3 class="header smaller lighter blue">工作任务管理</h3>
+			<h3 class="header smaller lighter blue">工作任务</h3>
 			<div class="table-header">工作任务列表</div>
 			<!-- div.table-responsive -->
 			<!-- div.dataTables_borderWrap -->
@@ -24,21 +24,28 @@
 								<!-- <th class="sorting_disabled" 
 									aria-label="">序号</th> -->
 								<th class="sorting" tabindex="0" aria-controls="dynamic-table">
-								     项目名称
+									项目名称
 								</th>
 								<th class="hidden-480 sorting" tabindex="0"
 									aria-controls="dynamic-table" >
-								  任务内容
+									任务内容
+								</th>
+								<th class="hidden-480 sorting" tabindex="0"
+									aria-controls="dynamic-table" >
+									任务状态
+								</th>
+								<th class="sorting" 
+									aria-label="dynamic-table">
+									优先级
                                 </th>
 								<th class="sorting" 
-									aria-label="dynamic-table">名</th>
-								<th class="hidden-480 sorting" tabindex="0"
-									aria-controls="dynamic-table" >
-									工作任务状态</th>
-								<th class="sorting" tabindex="0" aria-controls="dynamic-table"
-									><i
-									class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i> 创建时间
-								</th>
+									aria-label="dynamic-table">
+									开始时间
+                                </th>
+								<th class="sorting" 
+									aria-label="dynamic-table">
+									结束时间
+                                </th>
 								<th class="sorting_disabled" 
 									aria-label="">操作</th>
 							</tr>
@@ -51,20 +58,21 @@
 					</table>
 				</div>
 			</div>
-			<div class='col-xs-12'>
-			    <div class='col-xs-12'>
-			    <button class="btn btn-primary" id="ack-add-btn">新建</button>
-			    </div>
+		</div>
+		<div class='col-xs-12'>
+			<div class='col-xs-12 ack-datatable-new'>
+			  <button class="btn btn-primary" id="ack-add-btn" onclick="ProjectTask.eidtUI();">新建</button>
 			</div>
 		</div>
 	</div>
 	<%@include file="../public/footer.jsp"%>
 	<%@include file="../public/table.jsp"%>
-	<script type="text/javascript" src="/static/js/work/employee.js"></script>
 	<script type="text/javascript" src="/static/js/lib/simple-paginator-1.0.js"></script>
+	<script type="text/javascript" src="/static/js/ack.multiple.list.box.js"></script>
+	<script type="text/javascript" src="/static/js/employee/employee.js"></script>
 	<script type="text/javascript">
         $(document).ready(function(){
-            Work.init();
+        	Employee.init();
         });
     </script>
 </body>

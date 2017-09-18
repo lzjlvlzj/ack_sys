@@ -100,8 +100,8 @@ AckTool.optionButton = {
 		div.append(del);
 		return div;
 	},
-	/**
-	 * 按钮拥有的权限字符
+	/**TODO 这块其实应该放到后端
+	 * 按钮拥有的权限字符(权限操作和按钮对应关系)
 	 * */
 	authButtonPermissionsConfig : function(prefix){
 		var update = prefix + ":update";//修改
@@ -109,6 +109,7 @@ AckTool.optionButton = {
 		var userRole = "user:role";//用户添加角色
 		var roleMenu = "role:menu";//用户添加角色
 		var ptaskAllocate = "ptask:allocate"//
+		var employeeComplete = "employee:complete";
 		
 		var array = new Array();
 		array[update] = AckTool.optionButton.defaultButton('修改操作', 'btn btn-xs btn-info ack-simple-btn-edit', 'fa-pencil');
@@ -121,7 +122,10 @@ AckTool.optionButton = {
 			array[roleMenu] = AckTool.optionButton.defaultButton('添加菜单', 'btn btn-xs btn-info ack-simple-btn-role-menu', 'fa-circle-o');
 		}
 		if("ptask" == prefix){
-			array[ptaskAllocate] = AckTool.optionButton.defaultButton('分配人员', 'btn btn-xs btn-info ack-simple-btn-ptask-user', 'fa-users');;
+			array[ptaskAllocate] = AckTool.optionButton.defaultButton('分配人员', 'btn btn-xs btn-info ack-simple-btn-ptask-user', 'fa-users');
+		}
+		if("employee" == prefix){
+			array[employeeComplete] = AckTool.optionButton.defaultButton('结束项目', 'btn btn-xs btn-info ack-simple-btn-employee-complete', 'fa-coffee');
 		}
 		
 		return array;

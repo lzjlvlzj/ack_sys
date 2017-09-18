@@ -42,7 +42,7 @@ AckSystem.user = {
 	_tmp : "",
     loginName : "",//TODO
 	permissions : function(){
-	   AckSystem.user._tmp = null;
+	   AckSystem.user._tmp = "";
 	   AckSystem.user.calcPermissions();
 	   var s = AckSystem.user._tmp;
 	   if(!s){
@@ -54,7 +54,7 @@ AckSystem.user = {
 	},
 	calcPermissions : function(m){
 		
-		var menuNodes = m || AckSystem.authMenus.root.children;
+		var menuNodes = m || AckSystem.authMenus.children;
 		if(!menuNodes || menuNodes.length == 0){
 			return "";
 		}
@@ -330,7 +330,7 @@ AckSystem.menu = {
 		AckSystem.postReq(data, url, function(obj) {
 			if (obj) {
 				AckSystem.authMenus = obj;
-				AckSystem.menu.show(obj.root.children);
+				AckSystem.menu.show(obj.children);
 				//默认显示
 				$("#dashborad-mem").click();
 			}

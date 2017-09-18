@@ -96,6 +96,13 @@ Role.eidtUI = function(id) {
 			   $("#abbreviation",Role.document).val(obj.abbreviation);
 			   $("#menuIds",Role.document).val(obj.menuIds);
 			   $("#comments",Role.document).val(obj.comments);
+			   var inputs = $("#viewStatus",Role.document).find("input");
+			   inputs.each(function(){
+				   var val = $(this).val();
+				   if(val == obj.viewStatus){
+					   $(this).attr("checked","checked");
+				   }
+			   });
 		   });
 	   });
 	} else {

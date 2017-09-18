@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ack.persist.mapper.EmployeeMapper">
+	<resultMap type="org.ack.pojo.ProjectTask" id="projectTaskResultMap">
+		<result property="id" column="id" />
+		<result property="projectId" column="projectId" />
+		<result property="projectName" column="projectName" />
+		<result property="task" column="task" />
+		<result property="priority" column="priority" />
+		<result property="status" column="status" />
+		<result property="startTime" column="startTime" />
+		<result property="endTime" column="endTime" />
+	</resultMap>
+	
+	<resultMap type="org.ack.pojo.ProjectTask" id="taskAndProjectResultMap" extends="projectTaskResultMap">
+	      <association property="project" javaType="org.ack.pojo.Project">
+	          <id property="id" column="projectId"/>
+	          <result property="name" column="projectName"/>
+	      </association>
+	</resultMap>
+     
+     <sql id="base_column">
+         id,projectId,task,priority,status,startTime,endTime
+     </sql>
+
+	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+		resultMap="taskAndProjectResultMap">
+		SELECT
+			apt.id,
+			apt.projectId AS projectId,
+			apt.task,
+			apt.priority,
+			apt.`status`,
+			apt.startTime,
+			apt.endTime,
+		    ap.`name` as projectName
+		FROM
+			ack_project_task apt
+		LEFT JOIN ack_project_task_user atu ON atu.projectTaskId = apt.id
+		LEFT JOIN ack_project ap ON ap.id = apt.projectId
+		<where>
+			1 = 1
+		    AND atu.userId = #{condition.userId}
+			<!-- <if test="condition.projectName != null and condition.projectName !=''">
+				or ap.name=#{condition.projectName}
+			</if> -->
+			<if test="condition.priority != null and condition.priority !=''">
+				or apt.priority=#{condition.priority}
+			</if>
+			<if test="condition.status != null and condition.status !=''">
+				or apt.status=#{condition.status}
+			</if>
+			<if test="condition.startTime != null and condition.startTime !=''">
+				or apt.startTime=#{condition.startTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>
