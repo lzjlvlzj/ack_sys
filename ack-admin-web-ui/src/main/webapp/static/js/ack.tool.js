@@ -206,6 +206,15 @@ AckTool.postReq = function(data, url, callback) {
 			callback(resObj);
 		},
 		complete : function(req, status){
+			var ifm = AckTool.document.getElementById("mainFrame");
+			var subWeb = AckTool.document.frames ? AckTool.document.frames["mainFrame"].document
+					: ifm.contentDocument;
+			if (ifm != null && subWeb != null) {
+				var subH = subWeb.body.scrollHeight;
+				if (ifm.height != subH) {
+					ifm.height = subH
+				}
+			}
 		}
 	});
 };

@@ -121,7 +121,7 @@ ProjectTask.eidtUI = function (id){
 		ProjectTask.modal.open(url, data, function() {
 			$("#optionFlag", ProjectTask.document).val("0");
 			// 加载当前部门的所有项目
-			//ProjectTask.showProject();
+			ProjectTask.showProject();
 		});
 	}
 }

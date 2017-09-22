@@ -28,7 +28,7 @@ User.setRoleUI = function(id, self){
 		//查询用户角色
 		AckTool.postReq(user,"/user/roles/list",function(roles){
 			var role = {};
-			var roleUrl = "/role/list";
+			var roleUrl = "/user/role/list";
 			//注意这里form是在父页面,也就是说在index页面
 			var form = $("#ack-modal-form",User.document);
 			var input = $('<input type="hidden" value="'+id+'" name="id"/>');
