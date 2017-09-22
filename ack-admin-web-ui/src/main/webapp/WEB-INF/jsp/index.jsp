@@ -639,6 +639,13 @@
 		<!-- basic scripts -->
 		<%@include file="public/footer.jsp" %>
 		<script src="${pageContext.request.contextPath}/static/js/ack.system.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery-ui.custom.min.js"></script>
+		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.easypiechart.min.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.sparkline.index.min.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.flot.min.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.flot.pie.min.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.flot.resize.min.js" type="text/javascript"></script>
 		<script type="text/javascript">
 		//自适应iframe
 		function changeFrameHeight(){
