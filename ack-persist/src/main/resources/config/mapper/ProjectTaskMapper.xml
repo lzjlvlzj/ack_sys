@@ -159,5 +159,27 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="findUsableProjectTaskList" parameterType="user" resultMap="taskAndProjectResultMap">
+	     SELECT
+			apt.id,
+			apt.projectId AS projectId,
+			apt.task,
+			apt.priority,
+			apt.`status`,
+			apt.startTime,
+			apt.endTime,
+			ap.`name` AS projectName
+		FROM
+			ack_project_task apt
+		LEFT JOIN ack_project_task_user atu ON atu.projectTaskId = apt.id
+		LEFT JOIN ack_project ap ON ap.id = apt.projectId
+		WHERE
+			1 = 1
+		AND atu.userId = #{id}
+		AND apt.`status` = 0
+		ORDER BY
+			startTime DESC
+	</select>
 
 </mapper>

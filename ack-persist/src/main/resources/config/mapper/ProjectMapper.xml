@@ -171,19 +171,19 @@
         LEFT JOIN ack_user au ON ap.managerId = au.id
 		<where>
 		    1 = 1
-		    OR ap.type = 1
 			<if test="condition.name != null and condition.name !=''">
-				ADN ap.name=#{condition.name}
+				AND ap.name=#{condition.name}
 			</if>
 			<if test="condition.status != null and condition.status !=''">
-				ADN ap.status=#{condition.status}
+				AND ap.status=#{condition.status}
 			</if>
 			<if test="condition.managerId != null and condition.managerId !=''">
-				ADN ap.managerId=#{condition.managerId}
+				AND ap.managerId=#{condition.managerId}
 			</if>
 			<if test="condition.departmentId != null and condition.departmentId !=''">
-				ADN ap.deptId=#{condition.departmentId}
+				AND ap.deptId=#{condition.departmentId}
 			</if>
+			OR ap.type = 1
 		</where>
 	</select>
 
