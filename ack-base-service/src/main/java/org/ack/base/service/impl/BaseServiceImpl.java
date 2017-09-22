@@ -57,7 +57,7 @@ public abstract class BaseServiceImpl<T extends Object, PK extends Serializable>
 
 	@Override
 	public int deleteByIds(String[] ids) {
-		return 0;
+		return getMapper().deleteByIds(ids);
 	}
 
 	@Override

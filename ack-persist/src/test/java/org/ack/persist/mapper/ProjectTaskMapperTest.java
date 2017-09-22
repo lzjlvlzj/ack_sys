@@ -10,6 +10,7 @@ import java.util.Map;
 import org.ack.persist.page.Page;
 import org.ack.pojo.Project;
 import org.ack.pojo.ProjectTask;
+import org.ack.pojo.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,14 @@ public class ProjectTaskMapperTest extends BaseTest{
 	@Before
 	public void init(){
 		projectTaskMapper = sqlSession.getMapper(ProjectTaskMapper.class);
+	}
+	
+	@Test
+	public void testFindUsableProjectTaskList(){
+		User user = new User();
+		user.setId(20L);
+		List<ProjectTask> list = projectTaskMapper.findUsableProjectTaskList(user);
+		Assert.assertEquals(1, list.size());
 	}
 	
 	@Test

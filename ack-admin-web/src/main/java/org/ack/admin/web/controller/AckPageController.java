@@ -68,11 +68,15 @@ public abstract class AckPageController<T extends Object, PK extends Serializabl
 		// 排序字段
 		Type[] type = ReflectUtil.getRealClassType(this.getClass());
 		Class<T> clazz = (Class<T>) type[0];
-		Map<String, Object> map = getQueryConditions(request,
-				extraCondition, clazz);
+		Map<String, Object> map = getQueryConditions(request, extraCondition,
+				clazz);
 		return map;
 	}
 
+	/**
+	 * DataTable查询用这个
+	 * 
+	 * */
 	protected Page<T> getPage(HttpServletRequest request,
 			Map<String, Object> extraCondition, T t, int currentPage, int length) {
 		// 排序条件
@@ -81,6 +85,17 @@ public abstract class AckPageController<T extends Object, PK extends Serializabl
 		String orderType = sortMap.get("orderType");
 		// 排序字段
 		String orderColumn = sortMap.get("orderColumn");
+		Page<T> page = getPage(request, extraCondition, t, currentPage, length,
+				orderColumn, orderType);
+		return page;
+	}
+
+	/**
+	 * 普通查询用这个
+	 * */
+	protected Page<T> getPage(HttpServletRequest request,
+			Map<String, Object> extraCondition, T t, int currentPage,
+			int length, String orderColumn, String orderType) {
 		// 查询条件
 		Map<String, Object> map = getQueryConditions(request, extraCondition, t);
 		// 构造查询page参数
@@ -88,6 +103,12 @@ public abstract class AckPageController<T extends Object, PK extends Serializabl
 		page.setOrderColumn(orderColumn);
 		page.setOrderType(orderType);
 		page.setCondition(map);
+		return page;
+	}
+	
+	public Page<T> findPage(Page<T> page){
+		// 查询
+		page = getService().findPage(page);
 		return page;
 	}
 
@@ -140,4 +161,5 @@ public abstract class AckPageController<T extends Object, PK extends Serializabl
 		dt.setRecordsFiltered(page.getTotalRecord());
 		return dt;
 	}
+
 }

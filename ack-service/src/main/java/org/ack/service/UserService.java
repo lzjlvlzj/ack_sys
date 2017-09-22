@@ -84,4 +84,9 @@ public interface UserService extends AckMapperService<User, Long> {
 	 */
 	public List<User> findManagers(User currentUser);
 
+	/** 查询所有角色信息
+	 * @return
+	 */
+	public List<Role> findRoleList();
+
 }

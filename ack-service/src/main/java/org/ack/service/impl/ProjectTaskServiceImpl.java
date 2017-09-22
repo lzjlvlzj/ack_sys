@@ -95,4 +95,12 @@ public class ProjectTaskServiceImpl extends
 		return existList;
 	}
 
+	@Override
+	public List<ProjectTask> findUsableProjectTaskList(User user) {
+		if(logger.isDebugEnabled()){
+			logger.debug("当前用户 : {}", user);
+		}
+		return projectTaskMapper.findUsableProjectTaskList(user);
+	}
+
 }

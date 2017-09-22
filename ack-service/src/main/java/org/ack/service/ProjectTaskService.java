@@ -38,4 +38,12 @@ public interface ProjectTaskService extends AckMapperService<ProjectTask, Long> 
 	 */
 	public List<User> findExistProjectCooperator(ProjectTask t);
 
+	/**
+	 * 查询可进行的项目任务
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public List<ProjectTask> findUsableProjectTaskList(User user);
+
 }

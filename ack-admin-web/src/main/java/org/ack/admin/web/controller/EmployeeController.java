@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +31,22 @@ public class EmployeeController extends PageController {
 
 	@Autowired
 	private EmployeeService employeeServiceImpl;
+
+	/**
+	 * 结束任务
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param taskId
+	 * @return
+	 */
+	@RequestMapping("/complete/{taskId}")
+	@ResponseBody
+	public Integer completeTask(HttpServletRequest request,
+			HttpServletResponse response, Model model, @PathVariable Long taskId) {
+		return employeeServiceImpl.completeTask(taskId);
+	}
 
 	/**
 	 * 列表
@@ -76,8 +93,9 @@ public class EmployeeController extends PageController {
 			logger.debug("员工任务分页查询");
 		}
 		// 查询条件
-		Map<String, Object> map = this.getQueryConditions(request, null, ProjectTask.class);
-		User user = (User)getCurrentUser(request);
+		Map<String, Object> map = this.getQueryConditions(request, null,
+				ProjectTask.class);
+		User user = (User) getCurrentUser(request);
 		map.put("userId", user.getId());
 		// 排序map
 		Map<String, String> sortMap = getSortCondition(request);

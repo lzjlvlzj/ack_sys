@@ -13,4 +13,10 @@ public interface EmployeeService {
 	 */
 	public Page<ProjectTask> findPage(Page<ProjectTask> page);
 
+	/** 完成任务
+	 * @param taskId
+	 * @return
+	 */
+	public Integer completeTask(Long taskId);
+
 }

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.ack.base.service.AckMapperService;
-import org.ack.common.Content;
 import org.ack.persist.page.Page;
 import org.ack.pojo.Department;
 import org.ack.pojo.Project;
@@ -171,16 +170,12 @@ public class ProjectController extends AckPageController<Project, Long>{
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
 		Map<String, Object> map = new HashMap<String, Object>(); 
 		User user = getCurrentUser(request);
+		// 非admin用户只能查询当前用户所在部门的员工信息
 		Set<Role> roles = user.getRoles();
 		boolean b = true;
 		for(Role role : roles){
-			String abbr = role.getAbbreviation();
-			if(abbr.indexOf(Content.ADMIN_USER) > 1
-				|| abbr.equals(Content.CEO_USER)
-				|| abbr.equals(Content.CTO_USER)
-				|| abbr.equals(Content.CFO_USER)
-				|| abbr.equals(Content.COO_USER)
-			  ){
+			Integer viewStatus = role.getViewStatus();
+			if(viewStatus == 1){
 				b = false;
 				break;
 			}

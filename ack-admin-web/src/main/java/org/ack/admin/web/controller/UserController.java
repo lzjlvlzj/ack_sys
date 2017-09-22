@@ -156,6 +156,23 @@ public class UserController extends AckPageController<User, Long> {
 	}
 
 	/**
+	 * 角色列表
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/role/list")
+	@AckPermission(value = "user:role")
+	@ResponseBody
+	public List<Role> findRoleList(HttpServletRequest request, User user,
+			Integer[] rid, HttpServletResponse response, Model model) {
+		List<Role> roleList = userServiceImpl.findRoleList();
+		return roleList;
+	}
+	/**
 	 * 用户授予角色页面
 	 * 
 	 * @param request
@@ -250,13 +267,18 @@ public class UserController extends AckPageController<User, Long> {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 非admin用户只能查询当前用户所在部门的员工信息
 		Set<Role> roles = user.getRoles();
-		for (Role role : roles) {
-			String abbreviation = role.getAbbreviation();
-			if (abbreviation.indexOf(Content.ADMIN_USER) < 1) {
-				map.put("departmentId", user.getDepartmentId());
+		boolean b = true;
+		for(Role role : roles){
+			Integer viewStatus = role.getViewStatus();
+			if(viewStatus == 1){
+				b = false;
 				break;
 			}
 		}
+		if(b){
+			map.put("departmentId", user.getDepartmentId());
+		}
+		
 		return super.dataTable(request, response, model, map, t, start, count,
 				draw, orderColumn, orderType);
 	}

@@ -208,4 +208,9 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		}
 		return managers;
 	}
+
+	@Override
+	public List<Role> findRoleList() {
+		return roleServiceImpl.findAll();
+	}
 }
