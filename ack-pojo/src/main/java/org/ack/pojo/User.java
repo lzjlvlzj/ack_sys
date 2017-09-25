@@ -19,6 +19,7 @@ public class User implements Serializable {
 	private String salt;                   // 密码盐值
 	private String surname;                // 姓
 	private String name;                   // 名字
+	private String realName;               // 姓 + 名字
 	private Integer status;                // 用户状态 0 ： 可用 , 1 禁用
 	private String password;               // 密码
 	private String roleIds;                // 角色id逗号分隔
@@ -57,6 +58,13 @@ public class User implements Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getRealName() {
+		realName = surname + name;
+		return realName;
+	}
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 	public Integer getStatus() {
 		return status;

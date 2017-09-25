@@ -56,6 +56,11 @@ public class EmployeeJobLogController extends
 		User user = getCurrentUser(request);
 		return employeeJobServiceImpl.findProjectTaskList(user);
 	}
+	
+	@RequestMapping("/statistics/ui")
+	public String employeeStatisticsUI(){
+		return "employeeJob/employeeJobStatistics";
+	}
 
 	@RequestMapping("/cache/list")
 	@ResponseBody
@@ -150,6 +155,12 @@ public class EmployeeJobLogController extends
 		}
 		return list;
 	}
+	
+	@RequestMapping("/log/edit/ui")
+	public String editUI(){
+		return "employeeJob/employeeJobEdit";
+	}
+	
 
 	@RequestMapping("/log/update")
 	@ResponseBody
@@ -162,38 +173,40 @@ public class EmployeeJobLogController extends
 		}
 		Date startTime = null;
 		Date endTime = null;
-		if (flag == 0) {
-			String t = request.getParameter("time");
-			Long time = Long.parseLong(t);
-			Date d = new Date();
-			d.setTime(time);
-			startTime = d;
-			endTime = d;
-			employeeJobLog.setCacheStatus(1);
-		}
-		if (flag == 1) {
-			String start = request.getParameter("st");
-			String end = request.getParameter("et");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-			try {
-				startTime = sdf.parse(start);
-			} catch (ParseException e) {
-				logger.error("日期格式化出错", e);
-				return 0;
+		if(null != flag){
+			if (flag == 0) {
+				String t = request.getParameter("time");
+				Long time = Long.parseLong(t);
+				Date d = new Date();
+				d.setTime(time);
+				startTime = d;
+				endTime = d;
+				employeeJobLog.setCacheStatus(1);
 			}
-			try {
-				endTime = sdf.parse(end);
-			} catch (ParseException e) {
-				logger.error("日期格式化出错", e);
-				return 0;
+			if (flag == 1) {
+				String start = request.getParameter("st");
+				String end = request.getParameter("et");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+				try {
+					startTime = sdf.parse(start);
+				} catch (ParseException e) {
+					logger.error("日期格式化出错", e);
+					return 0;
+				}
+				try {
+					endTime = sdf.parse(end);
+				} catch (ParseException e) {
+					logger.error("日期格式化出错", e);
+					return 0;
+				}
 			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("修改开始时间", startTime.toString());
+				logger.debug("修改结束时间", endTime.toString());
+			}
+			employeeJobLog.setStartTime(startTime);
+			employeeJobLog.setEndTime(endTime);
 		}
-		if (logger.isDebugEnabled()) {
-			logger.debug("修改开始时间", startTime.toString());
-			logger.debug("修改结束时间", endTime.toString());
-		}
-		employeeJobLog.setStartTime(startTime);
-		employeeJobLog.setEndTime(endTime);
 
 		int r = employeeJobServiceImpl.update(employeeJobLog);
 		return r;
