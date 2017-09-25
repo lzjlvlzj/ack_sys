@@ -1,7 +1,7 @@
 package org.ack.service;
 
 import org.ack.persist.page.Page;
-import org.ack.pojo.ProjectTask;
+import org.ack.pojo.Project;
 
 public interface EmployeeService {
 
@@ -11,7 +11,7 @@ public interface EmployeeService {
 	 * @param page
 	 * @return
 	 */
-	public Page<ProjectTask> findPage(Page<ProjectTask> page);
+	public Page<Project> findPage(Page<Project> page);
 
 	/** 完成任务
 	 * @param taskId

@@ -15,7 +15,7 @@ import org.ack.admin.web.template.CalendarEvent;
 import org.ack.base.service.AckMapperService;
 import org.ack.persist.page.Page;
 import org.ack.pojo.EmployeeJobLog;
-import org.ack.pojo.ProjectTask;
+import org.ack.pojo.Project;
 import org.ack.pojo.User;
 import org.ack.service.EmployeeJobLogService;
 import org.slf4j.Logger;
@@ -49,12 +49,12 @@ public class EmployeeJobLogController extends
 		return "employeeJob/employeeJob";
 	}
 
-	@RequestMapping("/ptask")
+	@RequestMapping("/project")
 	@ResponseBody
-	public List<ProjectTask> findProjectTaskList(HttpServletRequest request,
+	public List<Project> findProjectList(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		User user = getCurrentUser(request);
-		return employeeJobServiceImpl.findProjectTaskList(user);
+		return employeeJobServiceImpl.findProjectList(user);
 	}
 	
 	@RequestMapping("/statistics/ui")
@@ -80,6 +80,32 @@ public class EmployeeJobLogController extends
 		User user = getCurrentUser(request);
 		map.put("userId", user.getId());
 		map.put("flag", 1);
+		// 计算当前页，构造page
+		int currentPage = start / count + 1;
+		Page<EmployeeJobLog> page = super.getPage(request, map, employeeJobLog,
+				currentPage, count, orderColumn, orderType);
+		page = super.findPage(page);
+		return page;
+	}
+	
+	@RequestMapping("/log/statistics")
+	@ResponseBody
+	public Page<EmployeeJobLog> findStatistics(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Model model,
+			EmployeeJobLog employeeJobLog,
+			@RequestParam(required = false, defaultValue = "1") int draw,
+			@RequestParam(required = false, defaultValue = "1") int start,
+			@RequestParam(required = false, defaultValue = "10") int count,
+			@RequestParam(required = false, defaultValue = "createTime") String orderColumn,
+			@RequestParam(required = false, defaultValue = "desc") String orderType) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cacheStatus", "1");
+		/*User user = getCurrentUser(request);
+		map.put("userId", user.getId());
+		map.put("flag", 1);*/
 		// 计算当前页，构造page
 		int currentPage = start / count + 1;
 		Page<EmployeeJobLog> page = super.getPage(request, map, employeeJobLog,

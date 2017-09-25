@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.ack.base.web.PageController;
 import org.ack.common.datatable.DataTableTemplate;
 import org.ack.persist.page.Page;
-import org.ack.pojo.ProjectTask;
+import org.ack.pojo.Project;
 import org.ack.pojo.User;
 import org.ack.service.EmployeeService;
 import org.slf4j.Logger;
@@ -79,11 +79,11 @@ public class EmployeeController extends PageController {
 	 */
 	@RequestMapping(value = "/table")
 	@ResponseBody
-	public DataTableTemplate<ProjectTask> dataTable(
+	public DataTableTemplate<Project> dataTable(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
-			@ModelAttribute() ProjectTask t,
+			@ModelAttribute() Project t,
 			@RequestParam(required = false, defaultValue = "1") int draw,
 			@RequestParam(required = false, defaultValue = "1") int start,
 			@RequestParam(required = false, defaultValue = "10") int length,
@@ -94,7 +94,7 @@ public class EmployeeController extends PageController {
 		}
 		// 查询条件
 		Map<String, Object> map = this.getQueryConditions(request, null,
-				ProjectTask.class);
+				Project.class);
 		User user = (User) getCurrentUser(request);
 		map.put("userId", user.getId());
 		// 排序map
@@ -105,20 +105,20 @@ public class EmployeeController extends PageController {
 		orderColumn = sortMap.get("orderColumn");
 		// 计算当前页，构造page
 		int currentPage = start / length + 1;
-		Page<ProjectTask> page = new Page<ProjectTask>(currentPage, length);
+		Page<Project> page = new Page<Project>(currentPage, length);
 		page.setOrderColumn(orderColumn);
 		page.setOrderType(orderType);
 		page.setCondition(map);
 
 		page = employeeServiceImpl.findPage(page);
-		DataTableTemplate<ProjectTask> dt = changePage2DataTableTemplate(page,
+		DataTableTemplate<Project> dt = changePage2DataTableTemplate(page,
 				draw);
 		return dt;
 	}
 
-	private DataTableTemplate<ProjectTask> changePage2DataTableTemplate(
-			Page<ProjectTask> page, int draw) {
-		DataTableTemplate<ProjectTask> dt = new DataTableTemplate<ProjectTask>();
+	private DataTableTemplate<Project> changePage2DataTableTemplate(
+			Page<Project> page, int draw) {
+		DataTableTemplate<Project> dt = new DataTableTemplate<Project>();
 		dt.setDraw(draw);
 		dt.setError("");
 		dt.setData(page.getResult());

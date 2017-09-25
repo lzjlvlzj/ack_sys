@@ -2,49 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.ack.persist.mapper.EmployeeMapper">
-	<resultMap type="org.ack.pojo.ProjectTask" id="projectTaskResultMap">
+	<resultMap type="org.ack.pojo.Project" id="projectResultMap">
 		<result property="id" column="id" />
 		<result property="projectId" column="projectId" />
 		<result property="projectName" column="projectName" />
+		<result property="managerId" column="managerId" />
+		<result property="managerName" column="managerName" />
 		<result property="task" column="task" />
-		<result property="priority" column="priority" />
+		<result property="type" column="type" />
 		<result property="status" column="status" />
 		<result property="startTime" column="startTime" />
 		<result property="endTime" column="endTime" />
 	</resultMap>
-	
-	<resultMap type="org.ack.pojo.ProjectTask" id="taskAndProjectResultMap" extends="projectTaskResultMap">
-	      <association property="project" javaType="org.ack.pojo.Project">
-	          <id property="id" column="projectId"/>
-	          <result property="name" column="projectName"/>
-	      </association>
-	</resultMap>
      
      <sql id="base_column">
-         id,projectId,task,priority,status,startTime,endTime
+          id,name,deptId,managerId,type,status,startTime,endTime,remark
      </sql>
 
 	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
-		resultMap="taskAndProjectResultMap">
+		resultMap="projectResultMap">
 		SELECT
 			apt.id,
-			apt.projectId AS projectId,
-			apt.task,
-			apt.priority,
+			apt.`name`,
+			apt.managerId,
 			apt.`status`,
+		    apt.type,
 			apt.startTime,
 			apt.endTime,
-		    ap.`name` as projectName
+		    apt.remark,
+		    CONCAT(au.surname,au.`name`) AS managerName
 		FROM
-			ack_project_task apt
-		LEFT JOIN ack_project_task_user atu ON atu.projectTaskId = apt.id
-		LEFT JOIN ack_project ap ON ap.id = apt.projectId
+			ack_project apt
+		LEFT JOIN ack_project_user atu ON atu.projectId = apt.id
+		LEFT JOIN ack_user au ON au.id = apt.managerId
 		<where>
-			1 = 1
-		    AND atu.userId = #{condition.userId}
-			<!-- <if test="condition.projectName != null and condition.projectName !=''">
-				or ap.name=#{condition.projectName}
-			</if> -->
+		    1 = 1
+			<if test="condition.userId != null and condition.userId !=''">
+				AND atu.userId = #{condition.userId}
+			</if>
+			<if test="condition.name != null and condition.name !=''">
+				or apt.`name`=#{condition.name}
+			</if>
 			<if test="condition.priority != null and condition.priority !=''">
 				or apt.priority=#{condition.priority}
 			</if>

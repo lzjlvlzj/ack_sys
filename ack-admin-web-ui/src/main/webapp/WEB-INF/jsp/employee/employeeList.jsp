@@ -28,15 +28,15 @@
 								</th>
 								<th class="hidden-480 sorting" tabindex="0"
 									aria-controls="dynamic-table" >
-									任务内容
+									项目经理
 								</th>
 								<th class="hidden-480 sorting" tabindex="0"
 									aria-controls="dynamic-table" >
-									任务状态
+									项目状态
 								</th>
 								<th class="sorting" 
 									aria-label="dynamic-table">
-									优先级
+									项目类型
                                 </th>
 								<th class="sorting" 
 									aria-label="dynamic-table">
@@ -45,6 +45,10 @@
 								<th class="sorting" 
 									aria-label="dynamic-table">
 									结束时间
+                                </th>
+								<th class="sorting" 
+									aria-label="dynamic-table">
+									备注
                                 </th>
 								<th class="sorting_disabled" 
 									aria-label="">操作</th>

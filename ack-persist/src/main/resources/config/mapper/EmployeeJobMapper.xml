@@ -5,9 +5,10 @@
 	<resultMap type="org.ack.pojo.EmployeeJobLog" id="employeeJobLogResultMap">
 		<result property="id" column="id" />
 		<result property="userId" column="userId" />
-		<result property="projectTaskId" column="projectTaskId" />
 		<result property="projectId" column="projectId" />
+		<result property="projectName" column="projectName" />
 		<result property="departmentId" column="departmentId" />
+		<result property="departmentName" column="departmentName" />
 		<result property="content" column="content" />
 		<result property="color" column="color" />
 		<result property="cacheStatus" column="cacheStatus" />
@@ -26,10 +27,6 @@
 	         <id property="id" column="projectId"/>
 	         <result property="name" column="projectName"/>
 	    </association>
-	    <association property="projectTask" javaType="projectTask">
-	         <id property="id" column="projectTaskId"/>
-	         <result property="task" column="task"/>
-	    </association>
 	    <association property="department" javaType="department">
 	         <id property="id" column="departmentId"/>
 	         <result property="departmentName" column="departmentName"/>
@@ -37,7 +34,7 @@
 	</resultMap>
      
     <sql id="base_column">
-        id,userId,projectTaskId,departmentId,content,color,cacheStatus,startTime,endTime,createTime
+        id,userId,projectId,departmentId,content,color,cacheStatus,startTime,endTime,createTime
     </sql>
     <delete id="deleteById" parameterType="long">
        DELETE FROM ack_employee_job_log
@@ -60,8 +57,8 @@
 			<if test="userId != null and userId !=''">
 				ar.userId = #{userId},
 			</if>
-			<if test="projectTaskId != null and projectTaskId !=''">
-				ar.projectTaskId = #{projectTaskId},
+			<if test="projectId != null and projectId !=''">
+				ar.projectId = #{projectId},
 			</if>
 			<if test="departmentId != null and departmentId !=''">
 				ar.departmentId = #{departmentId},
@@ -91,9 +88,9 @@
     
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-		ack_employee_job_log(userId,projectTaskId,departmentId,content,color,cacheStatus,startTime,endTime,createTime)
+		ack_employee_job_log(userId,projectId,departmentId,content,color,cacheStatus,startTime,endTime,createTime)
 		VALUES
-		(#{userId}, #{projectTaskId}, #{departmentId}, #{content}, #{color}, #{cacheStatus}, #{startTime}, #{endTime}, #{createTime})
+		(#{userId}, #{projectId}, #{departmentId}, #{content}, #{color}, #{cacheStatus}, #{startTime}, #{endTime}, #{createTime})
     </insert> 
     
     <select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
@@ -102,7 +99,7 @@
 		SELECT
 			aji.id,
 			aji.userId,
-			aji.projectTaskId,
+			aji.projectId,
 			aji.departmentId,
 			aji.content,
 			aji.color,
@@ -112,16 +109,14 @@
 			aji.createTime,
 			au.surname,
 			au.`name`,
-		    apt.task,
 		    ap.id AS projectId,
 		    ap.`name`  AS projectName,
 		    ad.departmentName
 		FROM
 			ack_employee_job_log aji
 		LEFT JOIN ack_user au ON au.id = aji.userId
-		LEFT JOIN ack_project_task apt ON apt.id = aji.projectTaskId
 		LEFT JOIN ack_department ad ON aji.departmentId = ad.id
-		LEFT JOIN ack_project ap ON ap.id = apt.projectId
+		LEFT JOIN ack_project ap ON ap.id = aji.projectId
 		<where>
 		     1 = 1
 		     <if test="condition.userId != null and condition.userId !=''">
@@ -133,8 +128,8 @@
 		     <if test="condition.cacheStatus != null and condition.cacheStatus !=''">
 				AND aji.cacheStatus=#{condition.cacheStatus}
 		     </if>
-		     <if test="condition.projectTaskId != null and condition.projectTaskId !=''">
-				AND aji.projectTaskId=#{condition.projectTaskId}
+		     <if test="condition.projectId != null and condition.projectId !=''">
+				AND aji.projectId=#{condition.projectId}
 		     </if>
 		     <if test="condition.surname != null and condition.surname !=''">
 				AND au.surname=#{condition.surname}

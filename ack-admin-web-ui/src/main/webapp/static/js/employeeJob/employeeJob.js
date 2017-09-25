@@ -33,15 +33,15 @@ EmployeeJob.init = function() {
 
 EmployeeJob.showProjectTask = function(){
 	var data = {};
-	var url = "/job/ptask";
-	var select = $("#projectTaskId");
+	var url = "/job/project";
+	var select = $("#projectId");
 	AckTool.postReq(data, url, function(obj) {
 		if (obj) {
 			for(var i = 0; i < obj.length; i++){
 				var item = obj[i];
 				var option = $("<option></option>");
 				option.attr("value",item.id);
-				option.html(item.task);
+				option.html(item.name);
 				select.append(option);
 			}
 		}
@@ -74,6 +74,7 @@ EmployeeJob.editLog = function(calEvent, jsEvent, view){
  * 
  * */
 EmployeeJob.delLog = function(){
+	console.log("删除测试11111111111111111");
 	var id = $("#id", EmployeeJob.document).val();
 	var eventId = $("#_id", EmployeeJob.document).val();
 	var data = {};
@@ -106,8 +107,11 @@ EmployeeJob.selectEvent = function(calEvent, jsEvent, view){
 		 $("#_id", EmployeeJob.document).val(calEvent._id);
 		 $("#event-content", EmployeeJob.document).val(title);
 	});
+	//这里可能因为 日期控件的原因造成按钮事件重复绑定
+	ackModal.off("click",".ack-modal-save-btn");
 	//保存
-	ackModal.on("click",".ack-modal-save-btn", function(){
+	ackModal.on("click",".ack-modal-save-btn", function(e){
+		e.preventDefault();
 		var val = $('input:radio[name="event-option-flag"]:checked', EmployeeJob.document).val();
 		if("0" == val){//删除
 			EmployeeJob.delLog();
@@ -175,6 +179,7 @@ EmployeeJob.drop = function(eventObj, date, allDay, ui, resourceId){
 	
 	AckTool.postReq(data, url, function(obj){
 		if(obj){
+			
 			var originalEventObject = eventObj.data('eventObject');
 
 		    // we need to copy it, so that multiple events don't have a reference to the same object
@@ -188,8 +193,10 @@ EmployeeJob.drop = function(eventObj, date, allDay, ui, resourceId){
 		    copiedEventObject.borderColor     = eventObj.css('border-color');
 
 		    $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+		    
 		    //拖动到日志控件后直接删除面面板上的
 		    eventObj.remove();
+		    //$('#calendar').fullCalendar('render');
 		}
 	});
 }
@@ -501,7 +508,6 @@ EmployeeJob.calendar = {
 				};
 		    }*/
 			dayRender : function(date, cell){
-				console.log("----------------");
 				//console.log(date);
 				//console.log(cell);
 			}

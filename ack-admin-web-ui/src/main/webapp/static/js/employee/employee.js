@@ -204,8 +204,8 @@ Employee.showList = function() {
          "order": [[ 4, "desc" ]], // default sort column
          "rowId" : "id",//将数据中的id绑定到tr上
          "columns": [
-             { "data": "projectName"},
-             { "data": "task"},
+             { "data": "name"},
+             { "data": "managerName"},
              { "data": "status",
                "render" : function(data, type, full, meta){
             	   var span = '<span class="status-span" style="display:none">' + data + '</span>';
@@ -217,9 +217,20 @@ Employee.showList = function() {
               	   return disabled;
                 } 
              },
-             { "data": "priority"},
+             { "data": "type",
+                 "render" : function(data, type, full, meta){
+              	   var span = '<span class="status-span" style="display:none">' + data + '</span>';
+                	   var enabled = AckTool.optionButton.statusButton("公开") + span;
+                	   var disabled = AckTool.optionButton.statusButton("私有") + span; 
+                	   if(data == 0){
+                		   return enabled;
+                	   }
+                	   return disabled;
+                  } 
+             },
              { "data": "startTime"},
              { "data": "endTime" },
+             { "data": "remark"},
              {
              	"data" : "id",
              	"render" : function(data, type, full, meta){
@@ -229,6 +240,7 @@ Employee.showList = function() {
                  },
                 "order" : false
              }
+             
          ]
          
         });

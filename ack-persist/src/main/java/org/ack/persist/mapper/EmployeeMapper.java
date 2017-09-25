@@ -3,7 +3,7 @@ package org.ack.persist.mapper;
 import java.util.List;
 
 import org.ack.persist.page.Page;
-import org.ack.pojo.ProjectTask;
+import org.ack.pojo.Project;
 
 /**
  * @author GeoStar
@@ -11,6 +11,6 @@ import org.ack.pojo.ProjectTask;
  */
 public interface EmployeeMapper {
 
-	public List<ProjectTask> findInterceptorPageList (Page<ProjectTask> page);
+	public List<Project> findInterceptorPageList (Page<Project> page);
 
 }

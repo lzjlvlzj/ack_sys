@@ -85,7 +85,7 @@
 							              </ul>
 									</fieldset>
 									<fieldset>
-											<select class="col-xs-12 col-sm-12" id="projectTaskId" name="projectTaskId">
+											<select class="col-xs-12 col-sm-12" id="projectId" name="projectId">
 											     <option value="">--请选择工作计划--</option>
 											</select>
 									</fieldset>

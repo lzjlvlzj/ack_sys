@@ -17,7 +17,6 @@ public class EmployeeJobLog implements Serializable {
 	@NotNull
 	private Long userId;                    // 用户id
 	private String realName;                // 用户名称
-	private Long projectTaskId;             // 项目任务id
 	private Long projectId;                 // 项目id
 	private String projectName;             // 项目名称
 	@NotNull
@@ -34,7 +33,6 @@ public class EmployeeJobLog implements Serializable {
 	private Date createTime;                // 缓存创建时间
 	
 	private User user;
-	private ProjectTask projectTask;
 	private Department department;
 	private Project project;
 	
@@ -49,12 +47,6 @@ public class EmployeeJobLog implements Serializable {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
-	}
-	public Long getProjectTaskId() {
-		return projectTaskId;
-	}
-	public void setProjectTaskId(Long projectTaskId) {
-		this.projectTaskId = projectTaskId;
 	}
 	public String getContent() {
 		return content;
@@ -90,6 +82,7 @@ public class EmployeeJobLog implements Serializable {
 		return createTime;
 	}
 	public String getRealName() {
+		realName = user.getRealName();
 		return realName;
 	}
 	public void setRealName(String realName) {
@@ -121,12 +114,6 @@ public class EmployeeJobLog implements Serializable {
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
-	public ProjectTask getProjectTask() {
-		return projectTask;
-	}
-	public void setProjectTask(ProjectTask projectTask) {
-		this.projectTask = projectTask;
 	}
 	public Department getDepartment() {
 		return department;

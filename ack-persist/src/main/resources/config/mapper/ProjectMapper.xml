@@ -24,6 +24,58 @@
      <sql id="base_column">
          id,name,deptId,managerId,type,status,startTime,endTime,remark
      </sql>
+     
+     <select id="findAllProjectCooperator" parameterType="project" resultType="user">
+	    SELECT
+			au.id,
+			au.loginName,
+			au.surname,
+			au.`name`,
+			au.departmentId
+		FROM
+			ack_user au
+		WHERE
+			au.departmentId IN (
+				SELECT
+					apd.departmentId
+				FROM
+					ack_project_dept apd,
+					ack_project apt
+				WHERE
+					1 = 1
+				AND apt.id = apd.projectId
+				AND apt.id = #{id}
+			)
+	</select>
+	
+	<select id="findExistProjectCooperator" parameterType="project" resultType="user">
+	    SELECT
+			au.id,
+			au.loginName,
+			au.surname,
+			au.`name`,
+			au.departmentId
+		FROM
+			ack_user au,
+			ack_project_user aptu
+		WHERE
+			au.id = aptu.userId
+		AND aptu.projectId = #{id}
+		AND au.departmentId IN (
+			SELECT
+				apd.departmentId
+			FROM
+				ack_project_dept apd,
+				ack_project apt
+			WHERE
+				1 = 1
+			AND apt.id = apd.projectId
+			AND apt.id = #{id}
+		)
+	</select>
+     
+     
+     
      <select id="findDepartment" parameterType="long" resultType="org.ack.pojo.Department">
          SELECT
 			ad.id,
@@ -150,6 +202,27 @@
 		WHERE
 			id = #{id}
 	</select>
+	
+	<select id="findUsableProjectList" parameterType="user" resultMap="projectResultMap">
+	     SELECT
+			apt.id,
+			apt.`name`,
+			apt.type,
+			apt.`status`,
+			apt.startTime,
+			apt.endTime
+		FROM
+			ack_project apt
+		LEFT JOIN ack_project_user atu ON atu.projectId = apt.id
+		WHERE
+			1 = 1
+		AND atu.userId = #{id}
+		AND apt.`status` = 0
+		ORDER BY
+			startTime DESC
+	</select>
+	
+	
 
 	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
 		resultMap="projectResultMap">

@@ -6,7 +6,6 @@ import java.util.Date;
 
 import org.ack.pojo.EmployeeJobLog;
 import org.ack.service.EmployeeJobLogService;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +43,11 @@ public class EmployeeJobLogServiceImplTest {
 	public void testInsert() {
 		EmployeeJobLog log = new EmployeeJobLog();
 		log.setUserId(20L);
-		log.setProjectTaskId(2L);
+		log.setProjectId(2L);
 		log.setDepartmentId(18);
 		log.setColor("#378006");
 		log.setContent("spring session 研究");
-		log.setEndTime(new Date());
+		log.setCreateTime(new Date());
 		log.setCacheStatus(0);
 		
 		Long n = employeeJobLogServiceImpl.insertCache(log);

@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.ack.persist.mapper.EmployeeMapper;
 import org.ack.persist.page.Page;
-import org.ack.pojo.ProjectTask;
+import org.ack.pojo.Project;
 import org.ack.service.EmployeeService;
-import org.ack.service.ProjectTaskService;
+import org.ack.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeMapper employeeMapper;
 	@Autowired
-	private ProjectTaskService projectTaskServiceImpl;
+	private ProjectService projectServiceImpl;
 
 	@Override
-	public Page<ProjectTask> findPage(Page<ProjectTask> page) {
-		List<ProjectTask> list = employeeMapper.findInterceptorPageList(page);
+	public Page<Project> findPage(Page<Project> page) {
+		List<Project> list = employeeMapper.findInterceptorPageList(page);
 		page.setResult(list);
 		return page;
 	}
@@ -38,9 +38,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 			logger.debug("完成任务id : {}" , taskId);
 		}
 		Date endTime = new Date();
-		ProjectTask pt = new ProjectTask();
+		Project pt = new Project();
 		pt.setEndTime(endTime);
-		return projectTaskServiceImpl.update(pt);
+		return projectServiceImpl.update(pt);
 	}
 
 

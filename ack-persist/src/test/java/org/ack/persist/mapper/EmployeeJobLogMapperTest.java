@@ -80,7 +80,7 @@ public class EmployeeJobLogMapperTest extends BaseTest{
 	public void testInsertCache() {
 		EmployeeJobLog log = new EmployeeJobLog();
 		log.setUserId(20L);
-		log.setProjectTaskId(2L);
+		log.setProjectId(2L);
 		log.setDepartmentId(18);
 		log.setColor("#378006");
 		log.setContent("spring session 研究");
@@ -97,7 +97,7 @@ public class EmployeeJobLogMapperTest extends BaseTest{
 	public void testInsert() {
 		EmployeeJobLog log = new EmployeeJobLog();
 		log.setUserId(20L);
-		log.setProjectTaskId(2L);
+		log.setProjectId(2L);
 		log.setDepartmentId(18);
 		log.setColor("#378006");
 		log.setContent("spring session 研究");

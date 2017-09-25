@@ -15,6 +15,7 @@ import org.ack.base.service.AckMapperService;
 import org.ack.persist.page.Page;
 import org.ack.pojo.Department;
 import org.ack.pojo.Project;
+import org.ack.pojo.ProjectLinkUser;
 import org.ack.pojo.Role;
 import org.ack.pojo.User;
 import org.ack.service.ProjectService;
@@ -47,6 +48,67 @@ public class ProjectController extends AckPageController<Project, Long>{
 	public AckMapperService<Project, Long> getService() {
 		return projectServiceImpl;
 	}
+	
+	
+	@RequestMapping("/cooperators/{id}")
+	public String setCooperatorsUI(@PathVariable Integer id) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("分配项目人员:{}", id);
+		}
+		return "project/projectCooperators";
+	}
+	
+	/**
+	 * 查询惨目的所有参与人员
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param t
+	 * @return
+	 */
+	@RequestMapping(value = "/cooperators")
+	@ResponseBody
+	public List<User> findProjectCooperator(HttpServletRequest request,
+			HttpServletResponse response, Model model, Project t) {
+	    String flag = request.getParameter("flag");
+	    if(logger.isDebugEnabled()){
+			logger.debug("项目任务id : {}, 查询标志位  : {}", t.getId(), flag);
+		}
+	    List<User> list = null;
+	    if("0".equals(flag)){
+	    	list = projectServiceImpl.findAllProjectCooperator(t);
+	    }
+	    
+	    if("1".equals(flag)){
+	    	list = projectServiceImpl.findExistProjectCooperator(t);
+	    }
+		return list;
+	}
+	
+	/**
+	 * 设置合作用户
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param t
+	 * @return
+	 */
+	@RequestMapping("/cooperator/add")
+	@ResponseBody
+	public Integer setCooperatorAdd(HttpServletRequest request,
+			HttpServletResponse response, Model model, ProjectLinkUser t) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("设置合作用户");
+		}
+		String userIds = request.getParameter("userIds");
+		String projectId = request.getParameter("projectId");
+		Long taskId = Long.parseLong(projectId);
+		//return 1;
+		return projectServiceImpl.setCooperatorAdd(taskId, userIds);
+	}
+	
 	 
 	
 	/**

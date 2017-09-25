@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ack.persist.mapper.ProjectLinkUserMapper">
+                                                               
+     <insert id="insert" parameterType="org.ack.pojo.ProjectLinkUser">
+        INSERT INTO
+		ack_project_user(projectId,userId)
+		VALUES
+		(#{projectId}, #{userId})
+     </insert>
+     
+     <delete id="deleteByProjectId" parameterType="long">
+        DELETE
+		FROM
+			ack_project_user
+		WHERE
+			projectId = #{projectId}
+     </delete>
+</mapper>

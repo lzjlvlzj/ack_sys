@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.ack.base.service.AckMapperService;
 import org.ack.pojo.EmployeeJobLog;
-import org.ack.pojo.ProjectTask;
+import org.ack.pojo.Project;
 import org.ack.pojo.User;
 
 public interface EmployeeJobLogService extends
@@ -24,6 +24,6 @@ public interface EmployeeJobLogService extends
 	 * @param user
 	 * @return
 	 */
-	public List<ProjectTask> findProjectTaskList(User user);
+	public List<Project> findProjectList(User user);
 
 }

@@ -47,6 +47,7 @@
 	<script type="text/javascript"
 		src="/static/js/lib/simple-paginator-1.0.js"></script>
 	<script type="text/javascript" src="/static/js/project/project.js"></script>
+	<script type="text/javascript" src="/static/js/ack.multiple.list.box.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			Project.init();

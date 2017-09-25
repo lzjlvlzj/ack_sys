@@ -300,6 +300,90 @@ Project.del = function(id) {
 
 }
 
+Project.setProjectCooperator = function(){
+	var url = "/project/cooperator/add";
+    var data = {};
+    data.projectId = $("#projectId", Project.document).val();
+    data.userIds = AckMultipleListBox.getResult(Project.document);
+    AckTool.postReq(data, url, function(obj){
+	    // 关闭modal
+		Project.modal.close();
+    });
+}
+
+Project.showExistProjectCooperator = function(id){
+	var url = "/project/cooperators";
+	var data = {};
+	data.id = id;
+	data.flag = 1;
+	var select = AckMultipleListBox.target.select(Project.document);
+	select.empty();
+	AckTool.postReq(data, url, function(obj) {
+		if(obj){
+			var len = obj.length;
+			for(var i = 0; i < len; i++){
+				var item = obj[i];
+				var name = item.surname + item.name;
+				var option = $("<option value='"+ item.id+"'>" + name + "</option>");
+				select.append(option);
+			}
+		}
+	});
+}
+
+
+Project.showAllProjectCooperator = function(id){
+	var url = "/project/cooperators";
+	var data = {};
+	data.id = id;
+	data.flag = 0;
+	var select = AckMultipleListBox.src.select(Project.document);
+	select.empty();
+	AckTool.postReq(data, url, function(obj) {
+		if(obj){
+			var len = obj.length;
+			for(var i = 0; i < len; i++){
+				var item = obj[i];
+				var name = item.surname + item.name;
+				var option = $("<option value='"+ item.id+"'>" + name + "</option>");
+				select.append(option);
+			}
+		}
+	});
+}
+
+/**
+ * 
+ * multil box
+ * */
+Project.setCooperatorUI = function(id, btn){
+	//如果状态为 1说明该项目任务已经完成,不需要再分配人员.
+	var span = btn.parents("tr").find("span[class='status-span']");
+	var status = span.text();
+	if(status == 1){
+		var option = {fun : {}};
+		option.header = "消息提示";
+		option.headerCss = "ack-medal-header-default";
+		option.content = "该项目任务已经完结，不能再分配人员.";
+		option.fun.selector = ".ack-modal-ok-btn";
+		var modal = this.modal.modalTemplate(option);
+		modal.modal('show');
+	} else {
+		var data = {};
+		var url = "/project/cooperators/" + id;
+		Project.modal.open(url, data, function() {
+			$("#projectId", Project.document).val(id);
+			// 加载当前项目合作的所有人员
+			Project.showAllProjectCooperator(id);
+			// 加载已有合作人员
+			Project.showExistProjectCooperator(id);
+			// 初始化事件
+			AckMultipleListBox.init(Project.document);
+		});
+	}
+	
+}
+
 /**
  * 绑定事件
  */
@@ -323,6 +407,11 @@ Project.bind = function() {
 		// ztree();
 		Project.menu2ProjectUI(menuIds, id);
 	});
+	//项目任务分配
+	$("#simple-table").on("click",".ack-simple-btn-ptask-user",function(){
+		var id = $(this).parents("tr").attr("id");
+		Project.setCooperatorUI(id, $(this));
+	});
 	// 项目菜单保存
 	ackModal.on("click", ".ack-modal-Project-menu-save-btn", function() {
 		Project.menu2Project();
@@ -332,6 +421,11 @@ Project.bind = function() {
 		var fp = $("#optionFlag", Project.document);
 		var flag = fp.val();
 		Project.eidt(flag);
+	});
+	
+	//设置项目任务
+	ackModal.on("click",".ack-modal-task-cooperator-btn", function(){
+		Project.setProjectCooperator();
 	});
 }
 

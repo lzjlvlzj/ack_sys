@@ -108,7 +108,7 @@ AckTool.optionButton = {
 		var del = prefix + ":delete";//删除
 		var userRole = "user:role";//用户添加角色
 		var roleMenu = "role:menu";//用户添加角色
-		var ptaskAllocate = "ptask:allocate"//
+		var ptaskAllocate = "project:allocate"//
 		var employeeComplete = "employee:complete";
 		
 		var array = new Array();
@@ -121,7 +121,10 @@ AckTool.optionButton = {
 		if("role" == prefix){
 			array[roleMenu] = AckTool.optionButton.defaultButton('添加菜单', 'btn btn-xs btn-info ack-simple-btn-role-menu', 'fa-circle-o');
 		}
-		if("ptask" == prefix){
+		/*if("ptask" == prefix){
+			array[ptaskAllocate] = AckTool.optionButton.defaultButton('分配人员', 'btn btn-xs btn-info ack-simple-btn-ptask-user', 'fa-users');
+		}*/
+		if("project" == prefix){
 			array[ptaskAllocate] = AckTool.optionButton.defaultButton('分配人员', 'btn btn-xs btn-info ack-simple-btn-ptask-user', 'fa-users');
 		}
 		if("employee" == prefix){

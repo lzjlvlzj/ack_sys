@@ -8,10 +8,10 @@ import org.ack.base.service.impl.BaseServiceImpl;
 import org.ack.persist.mapper.EmployeeJobLogMapper;
 import org.ack.persist.page.Page;
 import org.ack.pojo.EmployeeJobLog;
-import org.ack.pojo.ProjectTask;
+import org.ack.pojo.Project;
 import org.ack.pojo.User;
 import org.ack.service.EmployeeJobLogService;
-import org.ack.service.ProjectTaskService;
+import org.ack.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class EmployeeJobLogServiceImpl extends BaseServiceImpl<EmployeeJobLog, L
 	@Autowired
 	private EmployeeJobLogMapper employeeJobMapper;
 	@Autowired
-	ProjectTaskService projectTaskServiceImpl;
+	ProjectService projectServiceImpl;
 
 	@Override
 	public BaseMapper<EmployeeJobLog, Long> getMapper() {
@@ -54,8 +54,8 @@ public class EmployeeJobLogServiceImpl extends BaseServiceImpl<EmployeeJobLog, L
 	}
 
 	@Override
-	public List<ProjectTask> findProjectTaskList(User user) {
-		return projectTaskServiceImpl.findUsableProjectTaskList(user);
+	public List<Project> findProjectList(User user) {
+		return projectServiceImpl.findUsableProjectList(user);
 	}
 
 }

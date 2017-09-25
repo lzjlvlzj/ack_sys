@@ -1,21 +1,21 @@
-var EmployeeJobList = window.EmployeeJobList || {};
+var EmployeeJobStatistics = window.EmployeeJobStatistics || {};
 
-EmployeeJobList.modal = parent.AckSystem.modal;
+EmployeeJobStatistics.modal = parent.AckSystem.modal;
 
-EmployeeJobList.document = window.parent.document || window.document;
+EmployeeJobStatistics.document = window.parent.document || window.document;
 
-EmployeeJobList.init = function() {
+EmployeeJobStatistics.init = function() {
 	// 展示列表
-	EmployeeJobList.showList();
+	EmployeeJobStatistics.showList();
 	//绑定事件
-	EmployeeJobList.bind();
+	EmployeeJobStatistics.bind();
 }
 
-EmployeeJobList.showProject = function(pid){
-	var deptId = $("#index-user-dept-id", EmployeeJobList.document).val();
+EmployeeJobStatistics.showProject = function(pid){
+	var deptId = $("#index-user-dept-id", EmployeeJobStatistics.document).val();
 	var url = "/project/dept/"+deptId;
 	var data = {};
-	var select = $("#projectId", EmployeeJobList.document);
+	var select = $("#projectId", EmployeeJobStatistics.document);
 	AckTool.postReq(data, url, function(obj){
 		if(obj){
 			var len = obj.length;
@@ -33,24 +33,24 @@ EmployeeJobList.showProject = function(pid){
 	});
 }
 
-EmployeeJobList.setEmployeeJobListsCooperator = function(){
+EmployeeJobStatistics.setEmployeeJobStatisticssCooperator = function(){
    var url = "/ptask/cooperator/add";
    var data = {};
-   data.projectTaskId = $("#projectTaskId", EmployeeJobList.document).val();
-   data.userIds = AckMultipleListBox.getResult(EmployeeJobList.document);
+   data.projectTaskId = $("#projectTaskId", EmployeeJobStatistics.document).val();
+   data.userIds = AckMultipleListBox.getResult(EmployeeJobStatistics.document);
    AckTool.postReq(data, url, function(obj){
 	    // 关闭modal
-		EmployeeJobList.modal.close();
+		EmployeeJobStatistics.modal.close();
    });
 }
 
 
-EmployeeJobList.showExistProjectCooperator = function(id){
+EmployeeJobStatistics.showExistProjectCooperator = function(id){
 	var url = "/ptask/cooperators";
 	var data = {};
 	data.id = id;
 	data.flag = 1;
-	var select = AckMultipleListBox.target.select(EmployeeJobList.document);
+	var select = AckMultipleListBox.target.select(EmployeeJobStatistics.document);
 	select.empty();
 	AckTool.postReq(data, url, function(obj) {
 		if(obj){
@@ -66,12 +66,12 @@ EmployeeJobList.showExistProjectCooperator = function(id){
 }
 
 
-EmployeeJobList.showAllProjectCooperator = function(id){
+EmployeeJobStatistics.showAllProjectCooperator = function(id){
 	var url = "/ptask/cooperators";
 	var data = {};
 	data.id = id;
 	data.flag = 0;
-	var select = AckMultipleListBox.src.select(EmployeeJobList.document);
+	var select = AckMultipleListBox.src.select(EmployeeJobStatistics.document);
 	select.empty();
 	AckTool.postReq(data, url, function(obj) {
 		if(obj){
@@ -86,7 +86,7 @@ EmployeeJobList.showAllProjectCooperator = function(id){
 	});
 }
 
-EmployeeJobList.eidtUI = function (id){
+EmployeeJobStatistics.eidtUI = function (id){
 	var url = "";
 	var data = {};
 	data.reqData = {};
@@ -94,17 +94,17 @@ EmployeeJobList.eidtUI = function (id){
 		url = "/ptask/edit/ui/" + id;
 		var projectDataUrl = "/ptask/id/" + id;
 		//这里需要有个请求回显数据
-		EmployeeJobList.modal.open(url, data, function() {
+		EmployeeJobStatistics.modal.open(url, data, function() {
 			AckTool.postReq({}, projectDataUrl, function(obj) {
-				$("#optionFlag", EmployeeJobList.document).val("1");
-				$("#id", EmployeeJobList.document).val(obj.id);
-				$("#task", EmployeeJobList.document).val(obj.task);
+				$("#optionFlag", EmployeeJobStatistics.document).val("1");
+				$("#id", EmployeeJobStatistics.document).val(obj.id);
+				$("#task", EmployeeJobStatistics.document).val(obj.task);
 				//load project
 				var pid = obj.projectId;
-				EmployeeJobList.showProject(pid);
+				EmployeeJobStatistics.showProject(pid);
 				//load priority
 				var priority = obj.priority;
-				var options = $("#priority", EmployeeJobList.document).find("option");
+				var options = $("#priority", EmployeeJobStatistics.document).find("option");
 				var len = options.length;
 				for(var i = 0; i < len; i++){
 					var opt = $(options[i]);
@@ -118,15 +118,15 @@ EmployeeJobList.eidtUI = function (id){
 		});
 	} else {
 		url = "/ptask/add/ui";
-		EmployeeJobList.modal.open(url, data, function() {
-			$("#optionFlag", EmployeeJobList.document).val("0");
+		EmployeeJobStatistics.modal.open(url, data, function() {
+			$("#optionFlag", EmployeeJobStatistics.document).val("0");
 			// 加载当前部门的所有项目
-			EmployeeJobList.showProject();
+			EmployeeJobStatistics.showProject();
 		});
 	}
 }
 
-EmployeeJobList.eidt = function(flag) {
+EmployeeJobStatistics.eidt = function(flag) {
 	var url = "";
 	// 添加
 	if ("0" == flag) {
@@ -135,24 +135,24 @@ EmployeeJobList.eidt = function(flag) {
 	if ("1" == flag) {
 		url = "/ptask/edit";
 	}
-	var data = $("#ack-add-form", EmployeeJobList.document).serialize();
+	var data = $("#ack-add-form", EmployeeJobStatistics.document).serialize();
 	AckTool.postReq(data, url, function(obj) {
 		if (obj == 1) {
 			// 关闭modal
-			EmployeeJobList.modal.close();
+			EmployeeJobStatistics.modal.close();
 			// 刷新当前页面
-			EmployeeJobList.showList();
+			EmployeeJobStatistics.showList();
 		} else {
 			alert("系统错误");
 			// 关闭modal
-			EmployeeJobList.modal.close();
+			EmployeeJobStatistics.modal.close();
 		}
 	});
 
 }
 
 
-EmployeeJobList.del = function (id){
+EmployeeJobStatistics.del = function (id){
 	var url = "/ptask/del/"+id;
 	var modalUrl = "";
 	var option = {fun : {}};
@@ -165,13 +165,13 @@ EmployeeJobList.del = function (id){
 		AckTool.postReq(data, url, function(obj) {
 			if (obj == 1) {
 				//关闭modal
-				EmployeeJobList.modal.close();
+				EmployeeJobStatistics.modal.close();
 				//刷新当前页面
-				EmployeeJobList.showList();
+				EmployeeJobStatistics.showList();
 			} else {
 				alert("系统错误");
 				//关闭modal
-				EmployeeJobList.modal.close();
+				EmployeeJobStatistics.modal.close();
 			}
 			
 		});
@@ -180,7 +180,7 @@ EmployeeJobList.del = function (id){
 	modal.modal('show');
 }
 
-EmployeeJobList.setCooperatorUI = function(id, btn){
+EmployeeJobStatistics.setCooperatorUI = function(id, btn){
 	//如果状态为 1说明该项目任务已经完成,不需要再分配人员.
 	var span = btn.parents("tr").find("span[class='status-span']");
 	var status = span.text();
@@ -195,14 +195,14 @@ EmployeeJobList.setCooperatorUI = function(id, btn){
 	} else {
 		var data = {};
 		var url = "/ptask/cooperators/" + id;
-		EmployeeJobList.modal.open(url, data, function() {
-			$("#projectTaskId", EmployeeJobList.document).val(id);
+		EmployeeJobStatistics.modal.open(url, data, function() {
+			$("#projectTaskId", EmployeeJobStatistics.document).val(id);
 			// 加载当前项目合作的所有人员
-			EmployeeJobList.showAllProjectCooperator(id);
+			EmployeeJobStatistics.showAllProjectCooperator(id);
 			// 加载已有合作人员
-			EmployeeJobList.showExistProjectCooperator(id);
+			EmployeeJobStatistics.showExistProjectCooperator(id);
 			// 初始化事件
-			AckMultipleListBox.init(EmployeeJobList.document);
+			AckMultipleListBox.init(EmployeeJobStatistics.document);
 		});
 	}
 	
@@ -211,49 +211,49 @@ EmployeeJobList.setCooperatorUI = function(id, btn){
 /**
  * 绑定事件
  * */
-EmployeeJobList.bind = function() {
-	var ackModal = $("#ack-modal", EmployeeJobList.document);
+EmployeeJobStatistics.bind = function() {
+	var ackModal = $("#ack-modal", EmployeeJobStatistics.document);
 	var table = $("#ack-dynamic-table");
 	//修改
 	table.on("click",".ack-simple-btn-edit",function(){
 		var id = $(this).parents("tr").attr("id");
-		EmployeeJobList.eidtUI(id);
+		EmployeeJobStatistics.eidtUI(id);
 	});
 	//删除
 	table.on("click",".ack-simple-btn-del",function(){
     	var id = $(this).parents("tr").attr("id");
-    	EmployeeJobList.del(id);
+    	EmployeeJobStatistics.del(id);
 	});
 	//项目任务分配
 	table.on("click",".ack-simple-btn-ptask-user",function(){
 		var id = $(this).parents("tr").attr("id");
-		EmployeeJobList.setCooperatorUI(id, $(this));
+		EmployeeJobStatistics.setCooperatorUI(id, $(this));
 	});
 	//保存
 	ackModal.on("click",".ack-modal-save-btn", function(){
-		var fp = $("#optionFlag", EmployeeJobList.document);
+		var fp = $("#optionFlag", EmployeeJobStatistics.document);
 		var flag = fp.val();
-		EmployeeJobList.eidt(flag);
+		EmployeeJobStatistics.eidt(flag);
 	});
 	//设置项目任务
 	ackModal.on("click",".ack-modal-task-cooperator-btn", function(){
-		EmployeeJobList.setEmployeeJobListsCooperator();
+		EmployeeJobStatistics.setEmployeeJobStatisticssCooperator();
 	});
 }
 
 
 
-EmployeeJobList.config = function (){
+EmployeeJobStatistics.config = function (){
 	var tb = $("#tab-body");
 	var option = {};
 	option.tab = tb;
 	option.excludeFileds = [];
-	option.getOneTr = EmployeeJobList.getOneTr;
+	option.getOneTr = EmployeeJobStatistics.getOneTr;
 	return option;
 }
 
-EmployeeJobList.showList = function() {
-	var option = EmployeeJobList.config();
+EmployeeJobStatistics.showList = function() {
+	var option = EmployeeJobStatistics.config();
 	var data = {};
 	var opt = {};
 	opt.prefix = "ptask";
@@ -266,7 +266,7 @@ EmployeeJobList.showList = function() {
      	 "processing": true,
          "serverSide": true,
          "ajax": {
-             "url" : "/ptask/table",
+             "url" : "/job/log/list",
              "dataSrc" : "data",
              "type" : "POST"
          },
@@ -277,10 +277,11 @@ EmployeeJobList.showList = function() {
          "rowId" : "id",//将数据中的id绑定到tr上
          "columns": [
              { "data": "realName"},
+             { "data": "departmentName"},
              { "data": "projectName"},
              { "data": "content"},
-             { "data": "createTime"
-             },
+             { "data": "priority"},
+             { "data": "createTime"},
              {
              	"data" : "id",
              	"render" : function(data, type, full, meta){
@@ -296,13 +297,13 @@ EmployeeJobList.showList = function() {
 	}    
 }
 
-EmployeeJobList.list = function(pageNo){
+EmployeeJobStatistics.list = function(pageNo){
 	
 	var url = "/user/page";
 	var data = {};
 	data.currentPage = pageNo;
 	data.loginName = $("#loginName").val();
-	var option = EmployeeJobList.config();
+	var option = EmployeeJobStatistics.config();
 	$.ajax({
 		url:url,
 		type:"post", 

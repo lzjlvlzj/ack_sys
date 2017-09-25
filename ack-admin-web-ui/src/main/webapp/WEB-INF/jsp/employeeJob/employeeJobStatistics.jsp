@@ -39,12 +39,10 @@
 	</div>
 	<%@include file="../public/footer.jsp"%>
 	<%@include file="../public/table.jsp"%>
-	<script type="text/javascript"
-		src="/static/js/lib/simple-paginator-1.0.js"></script>
 	<script type="text/javascript" src="/static/js/employeeJob/employeeJobStatistics.js"></script>
 	<script type="text/javascript">
         $(document).ready(function(){
-        	//EmployeeJobList.init();
+        	EmployeeJobStatistics.init();
         });
     </script>
 </body>
