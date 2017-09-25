@@ -6,6 +6,7 @@
 		<result property="id" column="id" />
 		<result property="userId" column="userId" />
 		<result property="projectTaskId" column="projectTaskId" />
+		<result property="projectId" column="projectId" />
 		<result property="departmentId" column="departmentId" />
 		<result property="content" column="content" />
 		<result property="color" column="color" />
@@ -20,6 +21,10 @@
 	         <id property="id" column="userId"/>
 	         <result property="surname" column="surname"/>
 	         <result property="name" column="name"/>
+	    </association>
+	    <association property="project" javaType="project">
+	         <id property="id" column="projectId"/>
+	         <result property="name" column="projectName"/>
 	    </association>
 	    <association property="projectTask" javaType="projectTask">
 	         <id property="id" column="projectTaskId"/>
@@ -108,12 +113,15 @@
 			au.surname,
 			au.`name`,
 		    apt.task,
+		    ap.id AS projectId,
+		    ap.`name`  AS projectName,
 		    ad.departmentName
 		FROM
 			ack_employee_job_log aji
 		LEFT JOIN ack_user au ON au.id = aji.userId
 		LEFT JOIN ack_project_task apt ON apt.id = aji.projectTaskId
 		LEFT JOIN ack_department ad ON aji.departmentId = ad.id
+		LEFT JOIN ack_project ap ON ap.id = apt.projectId
 		<where>
 		     1 = 1
 		     <if test="condition.userId != null and condition.userId !=''">
@@ -133,6 +141,9 @@
 		     </if>
 		     <if test="condition.name != null and condition.name !=''">
 				AND au.`name`=#{condition.name}
+		     </if>
+		     <if test="condition.projectName != null and condition.projectName !=''">
+				AND ap.`name`=#{condition.projectName}
 		     </if>
 		     <if test="condition.startTime != null and condition.startTime !=''">
 				AND aji.startTime &gt;= #{startTime}
