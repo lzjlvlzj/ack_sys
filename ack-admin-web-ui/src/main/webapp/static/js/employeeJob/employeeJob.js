@@ -12,7 +12,7 @@ EmployeeJob.init = function() {
 	
 	var option = {};
 	option.calendarId = "calendar";
-	option.delEvent = EmployeeJob.delLog;
+	option.selectEvent = EmployeeJob.selectEvent;
 	option.drop = EmployeeJob.drop;
 	option.eventDrop = EmployeeJob.eventDrop;
 	
@@ -49,10 +49,77 @@ EmployeeJob.showProjectTask = function(){
 	});
 }
 /**
+ * 修改
+ * 
+ * */
+EmployeeJob.editLog = function(calEvent, jsEvent, view){
+	var id = $("#id", EmployeeJob.document).val();
+	var content = $("#event-content", EmployeeJob.document).val();
+	var url = "/job/log/update";
+	var data = {};
+	data.id = id;
+	data.content = content;
+	
+	AckTool.postReq(data, url, function(obj) {
+		if(obj){
+			calEvent.title = content;
+			EmployeeJob.calendar._self.fullCalendar('updateEvent', calEvent);
+			EmployeeJob.modal.close();
+		}
+	});
+	
+}
+/**
+ * 删除
+ * 
+ * */
+EmployeeJob.delLog = function(){
+	var id = $("#id", EmployeeJob.document).val();
+	var eventId = $("#_id", EmployeeJob.document).val();
+	var data = {};
+	var url = "/job/log/del/"+id;
+	AckTool.postReq(data, url, function(obj) {
+		if (obj == 1) {
+			EmployeeJob.calendar._self.fullCalendar('removeEvents' , function(ev){
+				return (ev._id == eventId);
+			});
+			EmployeeJob.modal.close();
+		} else {
+			alert("删除失败");
+		}
+		
+	});
+}
+
+/**
  * 删除事件
  * 
  * */
-EmployeeJob.delLog = function(calEvent, jsEvent, view){
+EmployeeJob.selectEvent = function(calEvent, jsEvent, view){
+	var id = calEvent.id;
+	var title = calEvent.title;
+	var url = "/job/log/edit/ui";
+	var ackModal = $("#ack-modal", EmployeeJob.document);
+	var data = {};
+	EmployeeJob.modal.open(url,data,function(){
+		 $("#id", EmployeeJob.document).val(id);
+		 $("#_id", EmployeeJob.document).val(calEvent._id);
+		 $("#event-content", EmployeeJob.document).val(title);
+	});
+	//保存
+	ackModal.on("click",".ack-modal-save-btn", function(){
+		var val = $('input:radio[name="event-option-flag"]:checked', EmployeeJob.document).val();
+		if("0" == val){//删除
+			EmployeeJob.delLog();
+		}
+		if("1" == val){//修改
+			EmployeeJob.editLog(calEvent, jsEvent, view);
+		}
+		
+	});
+	
+	
+	/*
 	var id = calEvent.id;
 	var option = {fun : {}};
 	option.header = "确认操作";
@@ -77,6 +144,7 @@ EmployeeJob.delLog = function(calEvent, jsEvent, view){
 	};
 	var modal = EmployeeJob.modal.modalTemplate(option);
 	modal.modal('show');
+	*/
 }
 
 EmployeeJob.eventDrop = function(event, delta, revertFunc){
@@ -176,6 +244,18 @@ EmployeeJob.log = {
 				}
 			} else {
 			}
+		});
+	},
+	
+	logItemEditEvent : function(){
+		var ackModal = $("#ack-modal", EmployeeJob.document);
+		ackModal.on("click","#ack-log-del",function(){
+			$("#ack-del-msg", EmployeeJob.document).show();
+			$("#ack-edit-msg", EmployeeJob.document).hide();
+		});
+		ackModal.on("click","#ack-log-edit",function(){
+			$("#ack-edit-msg", EmployeeJob.document).show();
+			$("#ack-del-msg", EmployeeJob.document).hide();
 		});
 	},
 	
@@ -298,6 +378,7 @@ EmployeeJob.log = {
 
 EmployeeJob.bind = function(){
 	EmployeeJob.log.logItemEvent();
+	EmployeeJob.log.logItemEditEvent();
 	EmployeeJob.log.create();
 	EmployeeJob.log.deleteLogItem();
 }
@@ -357,7 +438,7 @@ EmployeeJob.calendar = {
 			},
 			events : option.events,
 			//eventColor: '#378006',
-			editable : true,
+			editable : false,
 		    eventDrop: function(event, delta, revertFunc) {
 		    	option.eventDrop(event, delta, revertFunc);
 		    	//console.log(event);
@@ -388,7 +469,7 @@ EmployeeJob.calendar = {
 				
 			},
 			eventClick: function(calEvent, jsEvent, view){
-				option.delEvent(calEvent, jsEvent, view);
+				option.selectEvent(calEvent, jsEvent, view);
 				/*
 				EmployeeJob.calendar._self.fullCalendar('removeEvents' , function(ev){
 					return (ev._id == calEvent._id);
@@ -401,7 +482,6 @@ EmployeeJob.calendar = {
 	            alert("这里可以为日期添加事件");
 			},*/
 			dayClick: function(date, jsEvent, view) {
-
 		        //alert('Clicked on: ' + date.format());
 
 		        //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
@@ -413,34 +493,19 @@ EmployeeJob.calendar = {
 
 		    },
 			defaultView: 'month',
-			/*
-			validRange: function(nowDate){
+			
+			/*validRange: function(nowDate){
 				return {
 				  start: nowDate,
 	              end: nowDate.clone().add(1, 'months')
 				};
-		    }
-		    */
-		    /*	
-		    visibleRange: function(currentDate) {
-                return {
-                    start: currentDate.clone().subtract(1, 'days'),
-                    end: currentDate.clone().add(3, 'days') // exclusive end, so 3
-                };
-	        }, 
-		     
-			 visibleRange: function(currentDate) {
-	                return {
-	                    start: currentDate.clone().subtract(1, 'days'),
-	                    end: currentDate.clone().add(3, 'days') // exclusive end, so 3
-	                };
-	         },
+		    }*/
 			dayRender : function(date, cell){
 				console.log("----------------");
 				//console.log(date);
-				console.log(cell);
+				//console.log(cell);
 			}
-			*/
+		    
 		};
 		return config;
 	},
