@@ -36,9 +36,10 @@ public class EmployeeJobLogMapperTest extends BaseTest{
 		Page<EmployeeJobLog> page = new Page<EmployeeJobLog>();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cacheStatus", 1);
 		map.put("userId", 20L);
-		//map.put("departmentId", 18);
-		map.put("cacheStatus", "0");
+		map.put("startTime", "2017-09-01");
+		map.put("endTime", "2017-09-30");
 		page.setCondition(map);
 		List<EmployeeJobLog> list = employeeJobLogMapper.findInterceptorPageList(page);
 		System.out.println(list.size());

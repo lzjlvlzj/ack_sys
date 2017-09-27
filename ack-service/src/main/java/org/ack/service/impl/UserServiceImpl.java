@@ -210,7 +210,29 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 	}
 
 	@Override
-	public List<Role> findRoleList() {
-		return roleServiceImpl.findAll();
+	public List<Role> findRoleList(User user) {
+		Set<Role> roles = user.getRoles();
+		int max = findMaxWeight(roles);
+		List<Role> list = roleServiceImpl.findAll();
+		List<Role> roleList = new ArrayList<Role>();
+		for(int i = 0; i < list.size(); i++){
+			Role role = list.get(i);
+			int weight = role.getWeight();
+			if(weight < max){
+				roleList.add(role);
+			}
+		}
+		return roleList;
+	}
+
+	private int findMaxWeight(Set<Role> roles) {
+		int max = 0;
+		for(Role role : roles){
+			int weight = role.getWeight();
+			if(weight > max){
+				max = weight;
+			}
+		}
+		return max;
 	}
 }

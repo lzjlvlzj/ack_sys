@@ -34,6 +34,15 @@
 							name="abbreviation" id="abbreviation" value="" class="col-xs-10 col-sm-8">
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right"
+						for="abbreviation"> 角色权重</label>
+
+					<div class="col-sm-9">
+						<input type="text" placeholder="角色权重"
+							name="weight" id="weight" value="" class="col-xs-10 col-sm-8">
+					</div>
+				</div>
 				
 				<div class="form-group" id="viewStatus">
 					<label class="col-sm-3 control-label no-padding-right"

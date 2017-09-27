@@ -22,5 +22,9 @@
 	    VALUES
 	    (#{projectId}, #{departmentId})
 	</insert>
+	<delete id="deleteByProjectId" parameterType="long">
+	    DELETE FROM ack_project_dept
+        WHERE projectId = #{id}
+	</delete>
 </mapper>
 

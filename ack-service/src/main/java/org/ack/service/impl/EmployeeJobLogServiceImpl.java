@@ -1,10 +1,10 @@
 package org.ack.service.impl;
 
-
 import java.util.List;
+import java.util.Map;
 
-import org.ack.base.persist.BaseMapper;
-import org.ack.base.service.impl.BaseServiceImpl;
+import org.ack.base.service.impl.AckMapperServiceImpl;
+import org.ack.persist.AckMapper;
 import org.ack.persist.mapper.EmployeeJobLogMapper;
 import org.ack.persist.page.Page;
 import org.ack.pojo.EmployeeJobLog;
@@ -18,9 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmployeeJobLogServiceImpl extends BaseServiceImpl<EmployeeJobLog, Long>
-		implements EmployeeJobLogService {
-	
+public class EmployeeJobLogServiceImpl extends
+		AckMapperServiceImpl<EmployeeJobLog, Long> implements
+		EmployeeJobLogService {
+
 	private static final Logger logger = LoggerFactory
 			.getLogger(EmployeeJobLogServiceImpl.class);
 	@Autowired
@@ -29,23 +30,16 @@ public class EmployeeJobLogServiceImpl extends BaseServiceImpl<EmployeeJobLog, L
 	ProjectService projectServiceImpl;
 
 	@Override
-	public BaseMapper<EmployeeJobLog, Long> getMapper() {
+	protected AckMapper<EmployeeJobLog, Long> getAckMapper() {
 		return employeeJobMapper;
-	}
-
-	@Override
-	public Page<EmployeeJobLog> findPage(Page<EmployeeJobLog> page) {
-		List<EmployeeJobLog> list = employeeJobMapper.findInterceptorPageList(page);
-		page.setResult(list);
-		return page;
 	}
 
 	@Override
 	public Long insertCache(EmployeeJobLog employeeJobLog) {
 		int n = employeeJobMapper.insert(employeeJobLog);
-		if(n > 0){
+		if (n > 0) {
 			long id = employeeJobLog.getId();
-			if(logger.isDebugEnabled()){
+			if (logger.isDebugEnabled()) {
 				logger.debug("插入的主键id : {}", id);
 			}
 			return id;
@@ -56,6 +50,21 @@ public class EmployeeJobLogServiceImpl extends BaseServiceImpl<EmployeeJobLog, L
 	@Override
 	public List<Project> findProjectList(User user) {
 		return projectServiceImpl.findUsableProjectList(user);
+	}
+
+	@Override
+	public List<EmployeeJobLog> findExportList(Map<String, Object> condition) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("查询导出excel数据");
+		}
+		Page<EmployeeJobLog> page = new Page<EmployeeJobLog>();
+		page.setCondition(condition);
+		page.setCurrentPage(1);
+		page.setPageSize(31 * 100);// 最大月份  * 人数
+		page.setOrderColumn("departmentId,realName");
+		page.setOrderType("desc");
+		List<EmployeeJobLog> list = employeeJobMapper.findInterceptorPageList(page);
+		return list;
 	}
 
 }

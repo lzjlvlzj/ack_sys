@@ -4,37 +4,64 @@
 <html>
 <head>
 <%@ include file="../public/header.jsp"%>
-<link rel="stylesheet" href="/static/3part/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-<title>员工日志列表</title>
+<title></title>
 </head>
 <body>
 	<div class="row">
 		<div class="col-xs-12">
-			<h3 class="header smaller lighter blue">员工日志管理</h3>
-			<table id="simple-table" class="table  table-bordered table-hover">
-				<thead>
-					<tr>
-						<th>员工名称</th>
-						<th>项目名称</th>
-						<th>日志内容</th>
-						<th>创建时间</th>
-						<th>操作</th>
-					</tr> 
-				</thead>
-
-				<tbody id='tab-body'>
-				</tbody>
-			</table>
-			<div class='col-xs-12'>
-				<div class="dataTables_paginate paging_simple_numbers" id="page">
-					
+			<h3 class="header smaller lighter blue">日志统计</h3>
+			<div class="table-header">项目任务列表</div>
+			<!-- div.table-responsive -->
+			<!-- div.dataTables_borderWrap -->
+			<div>
+				<div id="dynamic-table_wrapper"
+					class="dataTables_wrapper form-inline no-footer">
+					<table id="ack-dynamic-table"
+						class="table table-striped table-bordered table-hover dataTable no-footer"
+						role="grid" aria-describedby="dynamic-table_info">
+						<thead>
+							<tr role="row">
+								<!-- <th class="sorting_disabled" 
+									aria-label="">序号</th> -->
+								<th class="sorting" tabindex="0" aria-controls="dynamic-table">
+									员工名称
+								</th>
+								<th class="hidden-480 sorting" tabindex="0"
+									aria-controls="dynamic-table" >
+									部门名称
+								</th>
+								<th class="hidden-480 sorting" tabindex="0"
+									aria-controls="dynamic-table" >
+									项目名称
+								</th>
+								<th class="sorting" 
+									aria-label="dynamic-table">
+									日志内容
+                                </th>
+								<th class="sorting" 
+									aria-label="dynamic-table">
+									日志类型
+                                </th>
+								<th class="sorting" 
+									aria-label="dynamic-table">
+									创建时间
+                                </th>
+								<th class="sorting_disabled" 
+									aria-label="">操作</th>
+							</tr>
+						</thead>
+                        <!-- body -->
+						<!-- <tbody id='tab-body'>
+						</tbody> -->
+						<tfoot>
+                        </tfoot>
+					</table>
 				</div>
 			</div>
 		</div>
-		<!-- /.span -->
 		<div class='col-xs-12'>
 			<button class="btn btn-primary" id="ack-add-btn" data-toggle="modal"
-				onclick="Project.eidtUI();">新建</button>
+				onclick="EmployeeJobStatistics.exportExcel();">导出</button>
 		</div>
 	</div>
 	<%@include file="../public/footer.jsp"%>
@@ -42,7 +69,7 @@
 	<script type="text/javascript" src="/static/js/employeeJob/employeeJobStatistics.js"></script>
 	<script type="text/javascript">
         $(document).ready(function(){
-        	EmployeeJobStatistics.init();
+            EmployeeJobStatistics.init();
         });
     </script>
 </body>

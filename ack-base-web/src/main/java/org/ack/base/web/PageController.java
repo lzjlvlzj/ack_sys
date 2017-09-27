@@ -2,6 +2,7 @@ package org.ack.base.web;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import org.ack.common.Content;
 import org.ack.util.StringUtils;
 
 public abstract class PageController extends BaseController {
+
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
 
 	/**
 	 * DataTable 排序信息
@@ -57,29 +60,34 @@ public abstract class PageController extends BaseController {
 		// 搜索字段
 		String searchContent = request.getParameter("search[value]");
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(null != extraCondition){
+		if (null != extraCondition) {
 			map.putAll(extraCondition);
 		}
-		
+        if(StringUtils.isBlank(searchContent)){
+        	return map;
+        }
 		Field[] fields = clazz.getDeclaredFields();
 		boolean isNumberic = StringUtils.isNumeric(searchContent);
+		boolean isDate = StringUtils.isDateString(searchContent);
 		for (Field field : fields) {
 			Type tp = field.getGenericType();
 			String fieldName = field.getName();
-			boolean b = Content.BASE_TYPE_STRING.equals(tp.getTypeName());
-			// 参数数字,字段字符
-			if (b && isNumberic) {
-				continue;
-			}
+			boolean str = Content.BASE_TYPE_STRING.equals(tp.getTypeName());
+			boolean d = Content.BASE_TYPE_DATE.equals(tp.getTypeName());
 			// 参数字符,字段数字
-			b = fieldTypeIsNumber(tp.getTypeName());
-			if (b && !isNumberic) {
-				continue;
+			boolean num = fieldTypeIsNumber(tp.getTypeName());
+			if(str){
+				map.put(fieldName, searchContent);
 			}
-			map.put(fieldName, searchContent);
+			if(isNumberic && num){
+				map.put(fieldName, searchContent);
+			}
+			if(isDate && d){
+				map.put(fieldName, searchContent);
+			}
+			
 		}
 		return map;
 	}
-	
 
 }

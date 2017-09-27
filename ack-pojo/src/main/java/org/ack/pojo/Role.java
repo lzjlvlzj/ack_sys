@@ -16,6 +16,7 @@ public class Role implements Serializable {
 	
 	private Integer id;                        // id
 	private String roleName;                   // 角色名称
+	private Integer weight;                    // 权重(权重高的可以任命权重低的角色)
 	private String abbreviation;               // 简写
 	private Integer viewStatus;                // 是否拥有查看所有数据的权限 : 0, 没有 1 , 有
 	private String comments;                   // 备注
@@ -69,6 +70,12 @@ public class Role implements Serializable {
 	}
 	public void setPermissions(Set<Permission> permissions) {
 		this.permissions = permissions;
+	}
+	public Integer getWeight() {
+		return weight;
+	}
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 	@Override
 	public boolean equals(Object obj) {

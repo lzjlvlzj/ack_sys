@@ -82,7 +82,6 @@ public class EmployeeJobLog implements Serializable {
 		return createTime;
 	}
 	public String getRealName() {
-		realName = user.getRealName();
 		return realName;
 	}
 	public void setRealName(String realName) {

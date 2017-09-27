@@ -56,4 +56,10 @@ public interface ProjectService extends AckMapperService<Project, Long> {
 	 */
 	public List<Project> findUsableProjectList(User user);
 
+	/** 查询项目经理
+	 * @param currentUser
+	 * @return
+	 */
+	public List<User> findManagers(User currentUser);
+
 }

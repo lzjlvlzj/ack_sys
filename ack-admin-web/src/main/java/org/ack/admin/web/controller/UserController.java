@@ -55,25 +55,6 @@ public class UserController extends AckPageController<User, Long> {
 	}
 
 	/**
-	 * 查找当前部门的项目经理
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping("/managers")
-	@ResponseBody
-	public List<User> findManagers(HttpServletRequest request,
-			HttpServletResponse response, Model model) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("查找项目经理");
-		}
-		User currentUser = getCurrentUser(request);
-		return userServiceImpl.findManagers(currentUser);
-	}
-
-	/**
 	 * dashboard页面
 	 * 
 	 * @param request
@@ -167,9 +148,10 @@ public class UserController extends AckPageController<User, Long> {
 	@RequestMapping(value = "/role/list")
 	@AckPermission(value = "user:role")
 	@ResponseBody
-	public List<Role> findRoleList(HttpServletRequest request, User user,
+	public List<Role> findRoleList(HttpServletRequest request,
 			Integer[] rid, HttpServletResponse response, Model model) {
-		List<Role> roleList = userServiceImpl.findRoleList();
+		User user = getCurrentUser(request);
+		List<Role> roleList = userServiceImpl.findRoleList(user);
 		return roleList;
 	}
 	/**

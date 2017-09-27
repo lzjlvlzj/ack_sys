@@ -64,6 +64,12 @@ public class Content {
 	 * 基本字符数据类型
 	 * */
 	public static final String BASE_TYPE_STRING = "java.lang.String";
+	
+	/**
+	 * 基本字符数据类型
+	 * */
+	public static final String BASE_TYPE_DATE = "java.util.Date";
+	
 	/**
 	 * 基本数值数据类型
 	 * */

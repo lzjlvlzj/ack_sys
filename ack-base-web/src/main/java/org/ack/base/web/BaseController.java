@@ -1,13 +1,13 @@
 package org.ack.base.web;
 
-
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.ack.common.Content;
+import org.ack.pojo.Role;
 import org.ack.pojo.User;
-
 
 /**
  * Controller 父接口
@@ -39,5 +39,37 @@ public abstract class BaseController {
 		HttpSession session = request.getSession();
 		session.setAttribute(Content.USER, user);
 	}
-	
+
+	/**
+	 * 是否只查看当前部门
+	 * 
+	 * @param request
+	 * @return
+	 */
+	protected boolean onlyDepartment(HttpServletRequest request) {
+		return onlyDepartment(null, request);
+	}
+	/**
+	 * 是否只查看当前部门
+	 * 
+	 * @param request
+	 * @param user
+	 * @return
+	 */
+	protected boolean onlyDepartment(User user, HttpServletRequest request) {
+		if(null == user){
+			user = getCurrentUser(request);
+		}
+		Set<Role> roles = user.getRoles();
+		boolean b = true;
+		for (Role role : roles) {
+			Integer viewStatus = role.getViewStatus();
+			if (viewStatus == 1) {
+				b = false;
+				break;
+			}
+		}
+		return b;
+	}
+
 }

@@ -4,6 +4,7 @@
 	<resultMap type="org.ack.pojo.Role" id="roleResultMap">
 		<result property="id" column="id" />
 		<result property="roleName" column="roleName" />
+		<result property="weight" column="weight" />
 		<result property="viewStatus" column="viewStatus" />
 		<result property="abbreviation" column="abbreviation" />
 		<result property="menuIds" column="menuIds" />
@@ -19,7 +20,7 @@
 	    </collection>
 	</resultMap>
 	<sql id="base_column">
-	   id, roleName, viewStatus, abbreviation, menuIds,comments,createTime
+	   id, roleName, weight, viewStatus, abbreviation, menuIds,comments,createTime
 	</sql>
 	<select id="findByAbbreviation" parameterType="string" resultType="role">
 	    SELECT
@@ -29,13 +30,13 @@
 	</select>
 	<insert id="insert">
 		INSERT INTO
-		ack_role(roleName, viewStatus, abbreviation,comments,menuIds,createTime)
+		ack_role(roleName, weight, viewStatus, abbreviation,comments,menuIds,createTime)
 		VALUES
 		<if test="createTime != null and createTime !=''">
-			(#{roleName}, #{viewStatus}, #{abbreviation},#{comments},#{menuIds},#{createTime})
+			(#{roleName}, #{weight}, #{viewStatus}, #{abbreviation},#{comments},#{menuIds},#{createTime})
 		</if>
 		<if test="createTime == null or createTime ==''">
-			(#{roleName},#{viewStatus}, #{abbreviation},#{comments},#{menuIds},now())
+			(#{roleName}, #{weight}, #{viewStatus}, #{abbreviation},#{comments},#{menuIds},now())
 		</if>
 	</insert>
 	
@@ -66,6 +67,7 @@
 		SELECT
 			ar.id as id,
 			ar.roleName as roleName,
+			ar.weight as weight,
 			ar.viewStatus as viewStatus,
 			ar.abbreviation as abbreviation,
 			ar.comments as comments,
@@ -86,6 +88,7 @@
 		id,
 		roleName,
 		viewStatus,
+		weight,
 		abbreviation,
 		menuIds,
 		comments,
@@ -100,6 +103,7 @@
 		id,
 		roleName,
 		viewStatus,
+		weight,
 		abbreviation,
 		menuIds,
 		comments,
@@ -116,8 +120,14 @@
 		    <if test="roleName != null and roleName !=''">
 		       ar.roleName = #{roleName},
 		    </if>
+		    <if test="weight != null and weight !=''">
+		       ar.weight = #{weight},
+		    </if>
 		    <if test="viewStatus != null and viewStatus !=''">
 		       ar.viewStatus = #{viewStatus},
+		    </if>
+		    <if test="abbreviation != null and abbreviation !=''">
+		       ar.abbreviation = #{abbreviation},
 		    </if>
 		    <if test="menuIds != null and menuIds !=''">
 		       ar.menuIds = #{menuIds},
@@ -146,6 +156,7 @@
 		SELECT
 		id,
 		roleName,
+		weight,
 		viewStatus,
 		abbreviation,
 		comments,

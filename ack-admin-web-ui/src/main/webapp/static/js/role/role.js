@@ -32,6 +32,9 @@ Role.getOneTr = function(n, data, option) {
 	//角色简称
 	var abbreviation = $("<td class='center'>" + data.abbreviation + "</td>");
 	tr.append(abbreviation);
+	//角色权重
+	var weight = $("<td class='center'>" + data.weight + "</td>");
+	tr.append(weight);
 	//菜单id
 	var ids = data.menuIds;
 	var menuIds = $("<td class='center menu-ids'>" + ids + "</td>");
@@ -94,6 +97,7 @@ Role.eidtUI = function(id) {
 			   $("#id",Role.document).val(obj.id);
 			   $("#roleName",Role.document).val(obj.roleName);
 			   $("#abbreviation",Role.document).val(obj.abbreviation);
+			   $("#weight",Role.document).val(obj.weight);
 			   $("#menuIds",Role.document).val(obj.menuIds);
 			   $("#comments",Role.document).val(obj.comments);
 			   var inputs = $("#viewStatus",Role.document).find("input");

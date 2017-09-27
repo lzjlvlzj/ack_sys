@@ -1,6 +1,7 @@
 package org.ack.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.ack.base.service.AckMapperService;
 import org.ack.pojo.EmployeeJobLog;
@@ -25,5 +26,13 @@ public interface EmployeeJobLogService extends
 	 * @return
 	 */
 	public List<Project> findProjectList(User user);
+
+	/**
+	 * 查询导出excel
+	 * 
+	 * @param condition
+	 * @return
+	 */
+	public List<EmployeeJobLog> findExportList(Map<String, Object> condition);
 
 }

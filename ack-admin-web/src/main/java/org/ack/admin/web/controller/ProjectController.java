@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
 import org.ack.persist.page.Page;
 import org.ack.pojo.Department;
@@ -51,12 +52,49 @@ public class ProjectController extends AckPageController<Project, Long>{
 	
 	
 	@RequestMapping("/cooperators/{id}")
+	@AckPermission(value = "project:allocate")
 	public String setCooperatorsUI(@PathVariable Integer id) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("分配项目人员:{}", id);
 		}
 		return "project/projectCooperators";
 	}
+	
+	/**
+	 * 查找当前部门的项目经理
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/managers")
+	@AckPermission(value = "project:add or project:update")
+	@ResponseBody
+	public List<User> findManagers(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("查找项目经理");
+		}
+		User currentUser = getCurrentUser(request);
+		return projectServiceImpl.findManagers(currentUser);
+	}
+	
+	@RequestMapping("/dept/{id}")
+	@AckPermission(value = "project:add or project:update")
+	@ResponseBody
+	public List<Project> findByDepartmentId(HttpServletRequest request,
+			HttpServletResponse response, Model model, @PathVariable Integer id){
+		if (logger.isDebugEnabled()) {
+			logger.debug("部门id: {}", id);
+		}
+		/*
+		 * 当前部门所有项目 + 公开项目  + 和其他部门合作的项目
+		 * 
+		 * */
+		return projectServiceImpl.findByDepartmentId(id);
+	}
+	
 	
 	/**
 	 * 查询惨目的所有参与人员
@@ -68,6 +106,7 @@ public class ProjectController extends AckPageController<Project, Long>{
 	 * @return
 	 */
 	@RequestMapping(value = "/cooperators")
+	@AckPermission(value = "project:allocate")
 	@ResponseBody
 	public List<User> findProjectCooperator(HttpServletRequest request,
 			HttpServletResponse response, Model model, Project t) {
@@ -96,6 +135,7 @@ public class ProjectController extends AckPageController<Project, Long>{
 	 * @return
 	 */
 	@RequestMapping("/cooperator/add")
+	@AckPermission(value = "project:allocate")
 	@ResponseBody
 	public Integer setCooperatorAdd(HttpServletRequest request,
 			HttpServletResponse response, Model model, ProjectLinkUser t) {
@@ -109,13 +149,21 @@ public class ProjectController extends AckPageController<Project, Long>{
 		return projectServiceImpl.setCooperatorAdd(taskId, userIds);
 	}
 	
+	@RequestMapping("/add/ui")
+	@AckPermission(value = "project:add")
+	public String addUI(){
+		if (logger.isDebugEnabled()) {
+			logger.debug("新建项目");
+		}
+		return "project/projectEdit";
+	}
 	 
-	
 	/**
 	 * 插入
 	 * 
 	 * */
 	@RequestMapping("/add")
+	@AckPermission(value = "project:add")
 	@ResponseBody
 	@Override
 	public Integer insert(HttpServletRequest request,
@@ -149,6 +197,7 @@ public class ProjectController extends AckPageController<Project, Long>{
 	}
 	
 	@RequestMapping(value = "/del/{id}")
+	@AckPermission(value = "project:delete")
 	@ResponseBody
 	@Override
 	public Integer deleteById(HttpServletRequest request,
@@ -157,6 +206,7 @@ public class ProjectController extends AckPageController<Project, Long>{
 	}
 
 	@RequestMapping("/edit/ui/{id}")
+	@AckPermission(value = "project:update")
 	public String eidtUI(@PathVariable Integer id){
 		if (logger.isDebugEnabled()) {
 			logger.debug("修改项目:{}", id);
@@ -165,34 +215,25 @@ public class ProjectController extends AckPageController<Project, Long>{
 	}
 	
 	@RequestMapping(value = "/edit")
+	@AckPermission(value = "project:update")
 	@ResponseBody
 	@Override
 	public Integer edit(HttpServletRequest request,
-			HttpServletResponse response, Model model, Project t) {
-		return super.edit(request, response, model, t);
-	}
-	
-	
-	@RequestMapping("/add/ui")
-	public String addUI(){
-		if (logger.isDebugEnabled()) {
-			logger.debug("新建项目");
+			HttpServletResponse response, Model model, Project project) {
+		List<Department> list = new ArrayList<Department>();
+		String[] cooperativeSector = request.getParameterValues("cooperativeSector");
+		if(null != cooperativeSector){
+			int len = cooperativeSector.length;
+			for(int i = 0; i < len; i++){
+				int deptId = Integer.parseInt(cooperativeSector[i]);
+				Department dept = new Department();
+				dept.setId(deptId);
+				list.add(dept);
+			}
 		}
-		return "project/projectEdit";
-	}
-	
-	@RequestMapping("/dept/{id}")
-	@ResponseBody
-	public List<Project> findByDepartmentId(HttpServletRequest request,
-			HttpServletResponse response, Model model, @PathVariable Integer id){
-		if (logger.isDebugEnabled()) {
-			logger.debug("部门id: {}", id);
-		}
-		/*
-		 * 当前部门所有项目 + 公开项目  + 和其他部门合作的项目
-		 * 
-		 * */
-		return projectServiceImpl.findByDepartmentId(id);
+		project.setCooperativeSectors(list);
+		
+		return projectServiceImpl.update(project);
 	}
 	
 	/**
@@ -205,6 +246,7 @@ public class ProjectController extends AckPageController<Project, Long>{
 	 * @return
 	 */
 	@RequestMapping(value = "/list/ui")
+	@AckPermission(value = "project:list")
 	public String listUI(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		return "project/projectList";
@@ -220,6 +262,7 @@ public class ProjectController extends AckPageController<Project, Long>{
 	 * @return
 	 */
 	@RequestMapping(value = "/page")
+	@AckPermission(value = "project:list")
 	@ResponseBody
 	public Page<Project> findPage(
 			HttpServletRequest request,

@@ -38,7 +38,6 @@
 	        <bean class="org.ack.admin.web.Interceptor.AuthenticationInterceptor"></bean>
 	    </mvc:interceptor>
 	</mvc:interceptors>
-
 	<!-- 以下 validator ConversionService 在使用 mvc:annotation-driven 会 自动注册 -->
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">

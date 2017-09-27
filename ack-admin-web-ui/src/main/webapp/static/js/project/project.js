@@ -106,7 +106,7 @@ Project.showList = function() {
 }
 
 Project.showMananger = function(id) {
-	var url = "/user/managers";
+	var url = "/project/managers";
 	var data = {};
 	var select = $("#managerId", Project.document).empty();
 	AckTool.postReq(data, url, function(obj) {

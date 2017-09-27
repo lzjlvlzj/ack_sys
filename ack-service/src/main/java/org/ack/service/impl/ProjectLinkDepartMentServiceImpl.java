@@ -22,6 +22,11 @@ public class ProjectLinkDepartMentServiceImpl extends
 		return projectLinkDepartMentMapper;
 	}
 
+	@Override
+	public int deleteByProjectId(long pid) {
+		return projectLinkDepartMentMapper.deleteByProjectId(pid);
+	}
+
 	
 
 }

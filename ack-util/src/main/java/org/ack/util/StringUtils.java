@@ -3,6 +3,8 @@ package org.ack.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 工具类
@@ -11,6 +13,31 @@ import java.util.Date;
  *
  */
 public class StringUtils {
+	
+	Pattern pattern = null;
+	
+	/** is date
+	 * @param s
+	 * @return
+	 */
+	public static boolean isDateString(String s){
+		if(isBlank(s)){
+			return false;
+		}
+		String p = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+		return matcher(p, s);
+	}
+
+	/** is
+	 * @param p
+	 * @param s
+	 * @return
+	 */
+	public static boolean matcher(String p, String s) {
+		Pattern r = Pattern.compile(p);
+		Matcher m = r.matcher(s);
+		return m.find();
+	}
 
 	/**
 	 * 判断一个字符串不是纯数字

@@ -12,6 +12,9 @@
 	<packaging>jar</packaging>
 	<name>ack-admin-web</name>
 	<url>http://maven.apache.org</url>
+	<properties>
+	    <poi.version>3.16</poi.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.ack</groupId>
@@ -23,6 +26,18 @@
 			<artifactId>ack-auth</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- excel 操作 -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-excelant -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-excelant</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
 	</dependencies>
-	
+
 </project>

@@ -53,7 +53,7 @@
 				</div>
 				<div class="form-group control-group" id="projectType">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="managerName" > 项目经理 </label>
+						for="managerName" > 项目负责人 </label>
 
 					<div class="col-sm-9">
 						<select class="col-xs-10 col-sm-8" id="managerId" name="managerId">
@@ -62,7 +62,7 @@
 				</div>
 				<div class="form-group control-group" id="projectType">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="cooperativeSector" > 合作部门 </label>
+						for="cooperativeSector" > 参与部门 </label>
 
 					<div class="col-sm-9">
 						<select class="col-xs-10 col-sm-8" id="cooperativeSector" name="cooperativeSector" multiple="multiple">

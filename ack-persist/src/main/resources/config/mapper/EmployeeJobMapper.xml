@@ -7,6 +7,7 @@
 		<result property="userId" column="userId" />
 		<result property="projectId" column="projectId" />
 		<result property="projectName" column="projectName" />
+		<result property="realName" column="realName" />
 		<result property="departmentId" column="departmentId" />
 		<result property="departmentName" column="departmentName" />
 		<result property="content" column="content" />
@@ -107,8 +108,7 @@
 			aji.startTime,
 			aji.endTime,
 			aji.createTime,
-			au.surname,
-			au.`name`,
+			CONCAT(au.surname, au.`name`) as realName,
 		    ap.id AS projectId,
 		    ap.`name`  AS projectName,
 		    ad.departmentName
@@ -131,6 +131,11 @@
 		     <if test="condition.projectId != null and condition.projectId !=''">
 				AND aji.projectId=#{condition.projectId}
 		     </if>
+		    <!--  
+		     <if test="condition.departmentId != null and condition.departmentId !=''">
+				AND ad.id=#{condition.departmentId}
+		     </if> 
+		     -->
 		     <if test="condition.surname != null and condition.surname !=''">
 				AND au.surname=#{condition.surname}
 		     </if>
@@ -141,10 +146,10 @@
 				AND ap.`name`=#{condition.projectName}
 		     </if>
 		     <if test="condition.startTime != null and condition.startTime !=''">
-				AND aji.startTime &gt;= #{startTime}
+				AND aji.startTime &gt;= #{condition.startTime}
 		     </if>
 		     <if test="condition.endTime != null and condition.endTime !=''">
-				AND aji.endTime &lt;= #{endTime}
+				AND aji.endTime &lt;= #{condition.endTime}
 		     </if>
 		     <if test="condition.flag == 1"><!-- 这里查询距离今天7天内的缓存 -->
 				AND (TO_DAYS(now()) - TO_DAYS(aji.createTime)) &lt; 8

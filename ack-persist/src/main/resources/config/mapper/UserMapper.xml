@@ -111,6 +111,7 @@
 		ar.id as rid,
 		ar.roleName as roleName,
 		ar.viewStatus as viewStatus,
+		ar.weight as weight
 		FROM
 		ack_user au
 		LEFT JOIN ack_user_role aur on aur.uid = au.id

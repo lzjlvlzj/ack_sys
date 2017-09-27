@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.web.PageController;
 import org.ack.common.datatable.DataTableTemplate;
 import org.ack.persist.page.Page;
@@ -57,6 +58,7 @@ public class EmployeeController extends PageController {
 	 * @param userId
 	 * @return
 	 */
+	@AckPermission(value="employee:list")
 	@RequestMapping(value = "/list/ui")
 	public String listUI(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -78,6 +80,7 @@ public class EmployeeController extends PageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/table")
+	@AckPermission(value="employee:list")
 	@ResponseBody
 	public DataTableTemplate<Project> dataTable(
 			HttpServletRequest request,

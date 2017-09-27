@@ -14,6 +14,7 @@ import org.ack.service.DepartmentService;
 import org.ack.service.ProjectLinkDepartMentService;
 import org.ack.service.ProjectLinkUserService;
 import org.ack.service.ProjectService;
+import org.ack.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,12 +42,48 @@ public class ProjectServiceImpl extends AckMapperServiceImpl<Project, Long>
 	private ProjectLinkDepartMentService projectLinkDepartMentServiceImpl;
 	@Autowired
 	private ProjectLinkUserService projectLinkUserServiceImpl;
+	@Autowired
+	private UserService userServiceImpl;
 
 	@Override
 	protected AckMapper<Project, Long> getAckMapper() {
 		return projectMapper;
 	}
 	
+	
+	
+	@Override
+	public int update(Project t) {
+		long pid = t.getId();
+		if(logger.isDebugEnabled()){
+			logger.debug("修改项目id : {}", pid);
+		}
+		// 修改
+		int r = super.update(t);
+		//先删除
+		r = projectLinkDepartMentServiceImpl.deleteByProjectId(pid);
+		if(r <= 0){
+			logger.error("修改项目失败 : {}", t);
+			return  -1;
+		}
+		//修改中间表
+		for(Department dept : t.getCooperativeSectors()){
+			int id = dept.getId();
+			ProjectLinkDepartMent pdm = new ProjectLinkDepartMent();
+			pdm.setDepartmentId(id);
+			pdm.setProjectId(pid);
+			//再插入
+			r = projectLinkDepartMentServiceImpl.insert(pdm);
+			if(r <= 0){
+				logger.error("修改项目失败 : {}", t);
+				return  -1;
+			}
+		}
+		return r;
+	}
+
+
+
 	@Override
 	public int insert(Project t) {
 		// 插入工程
@@ -147,6 +184,14 @@ public class ProjectServiceImpl extends AckMapperServiceImpl<Project, Long>
 	@Override
 	public List<Project> findUsableProjectList(User user) {
 		return projectMapper.findUsableProjectList(user);
+	}
+
+	@Override
+	public List<User> findManagers(User currentUser) {
+		if(logger.isDebugEnabled()){
+			logger.debug("当前用户 :" + currentUser);
+		}
+		return userServiceImpl.findManagers(currentUser);
 	}
 
 

@@ -13,6 +13,18 @@ import java.lang.reflect.Type;
  */
 public class ReflectUtil {
 	
+	
+	public static Class<?> getInstance(String s){
+		Class<?> cls = null;
+		try {
+			cls = Class.forName(s);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return cls;
+	}
+	
+	
 	/**
 	 * 获得所有字段名称
 	 * */
