@@ -327,7 +327,7 @@ public class EmployeeJobLogController extends
 	 * @return
 	 */
 	@RequestMapping(value = "/exportExcel")
-	@AckPermission(value="job:export")
+	@AckPermission(value="job:excel")
 	public ModelAndView exportExcel(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		if(logger.isDebugEnabled()){
