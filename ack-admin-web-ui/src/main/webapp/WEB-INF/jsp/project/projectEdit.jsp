@@ -22,50 +22,50 @@
 				<input type="hidden" name="departmentName" id="departmentName" value="">
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
-						for="projectName"> 项目名称 </label>
+					<label class="col-sm-2 control-label no-padding-right"
+						for="name"> 项目名称 </label>
 
 					<div class="col-sm-9">
 						<input type="text" id="name" placeholder="项目名称"
-							name="name" value="" class="col-xs-10 col-sm-8">
+							name="name" value="" class="form-control col-xs-10 col-sm-8">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
-						for="departmentName"> 部门名称 
+					<label class="col-sm-2 control-label no-padding-right"
+						for="deptName"> 部门名称 
 					</label>
 
 					<div class="col-sm-9">
 						<input type="text" id="deptName" placeholder="部门名称"
-							name="deptName" value="" class="col-xs-10 col-sm-8" readonly="readonly">
+							name="deptName" value="" class="form-control col-xs-10 col-sm-8" readonly="readonly">
 					</div>
 				</div>
 				<div class="form-group control-group" id="projectType">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="type" > 项目类型 </label>
 
 					<div class="col-sm-9">
-						<select class="col-xs-10 col-sm-8" id="type" name="type">
+						<select class="form-control col-xs-10 col-sm-8" id="type" name="type">
 						    <option value='0'>非公开</option>
 						    <option value='1'>公开</option>
 						</select>	 
 					</div>
 				</div>
 				<div class="form-group control-group" id="projectType">
-					<label class="col-sm-3 control-label no-padding-right"
-						for="managerName" > 项目负责人 </label>
+					<label class="col-sm-2 control-label no-padding-right"
+						for="managerId" > 项目负责人 </label>
 
 					<div class="col-sm-9">
-						<select class="col-xs-10 col-sm-8" id="managerId" name="managerId">
+						<select class="form-control col-xs-10 col-sm-8" id="managerId" name="managerId">
 						</select>	 
 					</div>
 				</div>
 				<div class="form-group control-group" id="projectType">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="cooperativeSector" > 参与部门 </label>
 
 					<div class="col-sm-9">
-						<select class="col-xs-10 col-sm-8" id="cooperativeSector" name="cooperativeSector" multiple="multiple">
+						<select class="form-control col-xs-10 col-sm-8" id="cooperativeSector" name="cooperativeSector" multiple="multiple">
 						     <!-- <option value='0'>非公开</option>
 						     <option value='1'>公开2</option>
 						     <option value='0'>非公开34</option>
@@ -75,11 +75,11 @@
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="remark"> 项目备注信息</label>
 
 					<div class="col-sm-9">
-						<textarea class="col-xs-10 col-sm-8" id="remark"
+						<textarea class="form-control col-xs-10 col-sm-8" id="remark"
 							placeholder="项目备注信息" name="remark"></textarea>
 					</div>
 				</div>

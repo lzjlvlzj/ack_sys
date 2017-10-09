@@ -5,6 +5,7 @@
 	<head>
 		<title>ACK管理系统</title>
         <%@ include file="public/header.jsp" %>
+         <link href='/static/3part/bootstrapValidator/css/bootstrapValidator.min.css' rel='stylesheet' />
 	</head>
 
 	<body class="no-skin">
@@ -368,6 +369,7 @@
 				<!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list" id="menu-list">
+				    <!--  
 					<li class="">
 						<a href="index.html">
 							<i class="menu-icon fa fa-tachometer"></i>
@@ -490,6 +492,7 @@
 							</li>
 						</ul>
 					</li>
+					-->
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
@@ -646,6 +649,7 @@
 		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.flot.min.js" type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.flot.pie.min.js" type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/static/3part/ace/js/jquery.flot.resize.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="/static/3part/bootstrapValidator/js/bootstrapValidator.js"></script>
 		<script type="text/javascript">
 		//自适应iframe
 		function changeFrameHeight(){

@@ -18,31 +18,31 @@
 			<form class="form-horizontal" role="form" id="ack-add-form">
 			    <input type="hidden" name="id"  id="id" value="">
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="departmentName"> 部门名称 </label>
 
 					<div class="col-sm-9">
 						<input type="text" id="departmentName" placeholder="部门名称"
-							name="departmentName" value="" class="col-xs-10 col-sm-8">
+							name="departmentName" value="" class="form-control col-xs-10 col-sm-8">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="parentId"> 部门父id </label>
 
 					<div class="col-sm-9">
 					   <input type="text" id="parentId" placeholder="父部门id"
-							name="parentId" value="" class="col-xs-10 col-sm-8">
+							name="parentId" value="" class="form-control col-xs-10 col-sm-8">
 						
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="comments"> 部门备注信息</label>
 
 					<div class="col-sm-9">
-						<textarea class="col-xs-10 col-sm-8" id="comments"
+						<textarea class="form-control col-xs-10 col-sm-8" id="comments"
 							placeholder="部门备注信息" name="comments"></textarea>
 					</div>
 				</div>

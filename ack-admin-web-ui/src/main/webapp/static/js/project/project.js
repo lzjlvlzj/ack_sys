@@ -217,6 +217,8 @@ Project.eidtUI = function(id) {
 					idArray = deptIds.split(",");
 				}
 				Project.showALLDepartment(idArray);
+				//validator
+				Project.validate();
 			});
 		});
 	} else {
@@ -229,6 +231,8 @@ Project.eidtUI = function(id) {
 			Project.showALLDepartment();
 			// 加载项目经理
 			Project.showMananger();
+			// validator
+			Project.validate();
 		});
 	}
 
@@ -251,22 +255,46 @@ Project.eidt = function(flag) {
 	if ("1" == flag) {
 		url = "/project/edit";
 	}
-
+    /*
 	var data = $("#ack-add-form", Project.document).serialize();
 	AckTool.postReq(data, url, function(obj) {
-		if (obj == 1) {
+		if (obj.code >= 1) {
 			// 关闭modal
 			Project.modal.close();
 			// 刷新当前页面
 			Project.showList();
-		} else {
+			
+		} else if(obj.code == 0){ 
+			AckTool.formValidator.validate("#ack-add-form", Project.document, obj.message);
+	    }else {
 			alert("系统错误");
 			// 关闭modal
 			Project.modal.close();
 		}
 
 	});
+	*/
+	var form = $("#ack-add-form", Project.document).bootstrapValidator('validate');
+	form.on('success.form.bv', function(e){
+		e.preventDefault();
+		var data = $("#ack-add-form", Project.document).serialize();
+		AckTool.postReq(data, url, function(obj) {
+			if (obj.code >= 1) {
+				// 关闭modal
+				Project.modal.close();
+				// 刷新当前页面
+				Project.showList();
+				
+			} else if(obj.code == 0){ 
+				AckTool.formValidator.validate("#ack-add-form", Project.document, obj.message);
+		    }else {
+				alert("系统错误");
+				// 关闭modal
+				Project.modal.close();
+			}
 
+		}); 
+	});
 }
 
 Project.del = function(id) {
@@ -428,6 +456,61 @@ Project.bind = function() {
 		Project.setProjectCooperator();
 	});
 }
+
+Project.validate = function(){
+	var form = $("#ack-add-form", Project.document);
+	form.bootstrapValidator({
+		message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+        	name : {
+        		 message: '项目名称校验',
+                 validators: {
+                     notEmpty: {
+                         message: '项目名称不能为空'
+                     },
+                     stringLength: {
+                         min: 1,
+                         max: 64,
+                         message: '项目名称长度为1-32个字符'
+                     }
+                 }
+        	},
+        	managerId : {
+        		message : '项目负责人',
+        		validators: {
+        			notEmpty: {
+                        message: '项目简称不能为空'
+                    }
+                }
+        		
+        	},
+        	cooperativeSector : {
+        		message : '项目负参与部门',
+        		validators: {
+        			notEmpty: {
+                        message: '项目负参与部门不能为空（要包括当前创建项目的部门）'
+                    }
+                }
+        	},
+        	remark : {
+        		validators: {
+                    stringLength: {
+                        min: 0,
+                        max: 200,
+                        message: '项目备注长度为0-200个字符'
+                    }
+                }
+        	}
+        	
+        }
+	});
+}
+
 
 /**
  * 

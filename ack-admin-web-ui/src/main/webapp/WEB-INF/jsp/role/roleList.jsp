@@ -5,6 +5,7 @@
 <head>
 <%@ include file="../public/header.jsp"%>
 <link rel="stylesheet" href="/static/3part/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link href='/static/3part/bootstrapValidator/css/bootstrapValidator.min.css' rel='stylesheet' />
 <title>角色列表</title>
 </head>
 <body>
@@ -99,6 +100,7 @@
 	<%@include file="../public/footer.jsp"%>
 	<%@include file="../public/table.jsp"%>
 	<script type="text/javascript" src="/static/js/role/role.js"></script>
+		<script type="text/javascript" src="/static/3part/bootstrapValidator/js/bootstrapValidator.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			Role.init();

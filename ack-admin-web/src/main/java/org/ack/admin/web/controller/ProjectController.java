@@ -10,9 +10,11 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
+import org.ack.common.ResultMessage;
 import org.ack.persist.page.Page;
 import org.ack.pojo.Department;
 import org.ack.pojo.Project;
@@ -25,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -165,12 +169,23 @@ public class ProjectController extends AckPageController<Project, Long>{
 	@RequestMapping("/add")
 	@AckPermission(value = "project:add")
 	@ResponseBody
-	@Override
-	public Integer insert(HttpServletRequest request,
-			HttpServletResponse response, Model model, Project project) {
+	public ResultMessage insert(HttpServletRequest request,
+			HttpServletResponse response, Model model,
+			@Valid Project project, BindingResult result) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("新建项目");
 		}
+		// validator
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new ResultMessage("0", msg);
+		}
+		// process
 		List<Department> list = new ArrayList<Department>();
 		String[] cooperativeSector = request.getParameterValues("cooperativeSector");
 		if(null != cooperativeSector){
@@ -185,7 +200,9 @@ public class ProjectController extends AckPageController<Project, Long>{
 		project.setCooperativeSectors(list);
 		project.setStartTime(new Date());
 		project.setStatus(0);
-		return projectServiceImpl.insert(project);
+		Integer r = projectServiceImpl.insert(project);
+		
+		return new ResultMessage(r.toString(), "");
 	}
 
 	@RequestMapping(value = "/id/{id}")
@@ -217,9 +234,18 @@ public class ProjectController extends AckPageController<Project, Long>{
 	@RequestMapping(value = "/edit")
 	@AckPermission(value = "project:update")
 	@ResponseBody
-	@Override
-	public Integer edit(HttpServletRequest request,
-			HttpServletResponse response, Model model, Project project) {
+	public ResultMessage edit(HttpServletRequest request,
+			HttpServletResponse response, Model model, 
+			@Valid Project project, BindingResult result) {
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new ResultMessage("0", msg);
+		}
 		List<Department> list = new ArrayList<Department>();
 		String[] cooperativeSector = request.getParameterValues("cooperativeSector");
 		if(null != cooperativeSector){
@@ -232,8 +258,9 @@ public class ProjectController extends AckPageController<Project, Long>{
 			}
 		}
 		project.setCooperativeSectors(list);
+		Integer r = projectServiceImpl.update(project);
 		
-		return projectServiceImpl.update(project);
+		return new ResultMessage(r.toString(), "");
 	}
 	
 	/**

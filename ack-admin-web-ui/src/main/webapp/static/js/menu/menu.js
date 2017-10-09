@@ -117,12 +117,17 @@ Menu.eidtUI = function(id) {
 			   $("#css",Menu.document).val(obj.css);
 			   $("#parentId",Menu.document).val(obj.parentId);
 			   $("#comments",Menu.document).val(obj.comments);
+			   // init form validator
+			   Menu.validate();
+			   
 		   });
 	   });
 	} else {
 	   url = "/menu/add/ui";
 	   Menu.modal.open(url,data,function(){
 		   $("#optionFlag",Menu.document).val("0");
+		   // init form validator
+		   Menu.validate();
 	   });
 	}
 }
@@ -141,21 +146,26 @@ Menu.eidt = function(flag) {
 		url = "/menu/edit";
 	}
 	
-	var data = $("#ack-add-form", Menu.document).serialize();
-	AckTool.postReq(data, url, function(obj) {
-		if (obj == 1) {
-			//关闭modal
-			Menu.modal.close();
-			//刷新当前页面
-			Menu.showList();
-		} else {
-			alert("系统错误");
-			//关闭modal
-			Menu.modal.close();
-		}
-		
+	var form = $("#ack-add-form", Menu.document).bootstrapValidator('validate');
+	form.on('success.form.bv', function(e){
+		 e.preventDefault();
+		 var data = $("#ack-add-form", Menu.document).serialize();
+		 AckTool.postReq(data, url, function(obj) {
+			if (obj.code >= 1) {
+				//关闭modal
+				Menu.modal.close();
+				//刷新当前页面
+				Menu.showList();
+			} else if(obj.code == 0){
+				AckTool.formValidator.validate("#ack-add-form", Menu.document, obj.message);
+			} else {
+				alert("系统错误,请联系管理员！");
+				//关闭modal
+				Menu.modal.close();
+			}
+			
+		 });
 	});
-	
 }
 /**
  * 删除
@@ -211,6 +221,107 @@ Menu.bind = function() {
 		var fp = $("#optionFlag", Menu.document);
 		var flag = fp.val();
 		Menu.eidt(flag);
+	});
+}
+
+
+Menu.validate = function(){
+	var form = $("#ack-add-form", Menu.document);
+	form.bootstrapValidator({
+		message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+        	menuName : {
+        		 message: '菜单名称校验',
+                 validators: {
+                     notEmpty: {
+                         message: '菜单名称不能为空'
+                     },
+                     stringLength: {
+                         min: 1,
+                         max: 32,
+                         message: '菜单名称长度为1-32个字符'
+                     }
+                 }
+        	},
+        	url : {
+        		message : '菜单url',
+        		validators: {
+        			stringLength: {
+                        min: 1,
+                        max: 256,
+                        message: '菜单url长度为1-256个字符'
+                    }
+                }
+        		
+        	},
+        	menulevel : {
+        		message : '菜单等级',
+        		validators: {
+            		regexp: {
+                        regexp: /^[0-9]+$/,
+                        message: '菜单等级必须是数字'
+                    }
+                }
+        	},
+        	//这个样式不好调
+        	permission : {
+        		message : '查看类型',
+        		validators: {
+        			notEmpty: {
+        				message: '权限字符串不能为空'
+        			},
+        			stringLength: {
+                        min: 1,
+                        max: 64,
+                        message: '权限字符串长度为1-64个字符'
+                    }
+        		}
+        	},
+        	domId : {
+        		message : '菜单的domId',
+        		validators: {
+        			stringLength: {
+                        min: 1,
+                        max: 64,
+                        message: '菜单的domId长度为1-64个字符'
+                    }
+        		}
+        	},
+        	css : {
+        		message : '菜单样式',
+        		validators: {
+        			stringLength: {
+        				min: 1,
+        				max: 128,
+        				message: '菜单样式长度为1-128个字符'
+        			}
+        		}
+        	},
+        	parentId : {
+        		message : '菜单父id',
+        		validators: {
+        			regexp: {
+                        regexp: /^[0-9]+$/,
+                        message: '菜单父id必须是数字'
+                    }
+        		}
+        	},
+        	comments : {
+        		validators: {
+                    stringLength: {
+                        min: 0,
+                        max: 200,
+                        message: '菜单简介长度为0-200个字符'
+                    }
+                }
+        	}
+        	
+        }
 	});
 }
 

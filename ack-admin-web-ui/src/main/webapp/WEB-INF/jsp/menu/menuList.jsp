@@ -5,8 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ include file="../public/header.jsp"%>
-<script
-	src="${pageContext.request.contextPath}/static/3part/ace/js/ace-extra.min.js"></script>
+<link href='/static/3part/bootstrapValidator/css/bootstrapValidator.min.css' rel='stylesheet' />
 <title>菜单管理</title>
 </head>
 <body>
@@ -57,8 +56,8 @@
 
 	<%@include file="../public/footer.jsp"%>
 	<%@include file="../public/table.jsp"%>
-	<script type="text/javascript"
-		src="/static/js/lib/simple-paginator-1.0.js"></script>
+	<script type="text/javascript" src="/static/js/lib/simple-paginator-1.0.js"></script>
+	<script type="text/javascript" src="/static/3part/bootstrapValidator/js/bootstrapValidator.js"></script>
 	<script type="text/javascript" src="/static/js/menu/menu.js"></script>
 	<script type="text/javascript">
         $(document).ready(function(){

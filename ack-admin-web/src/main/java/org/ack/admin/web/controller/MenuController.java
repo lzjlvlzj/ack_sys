@@ -9,10 +9,12 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.ack.admin.web.template.ZTreeNode;
 import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
+import org.ack.common.ResultMessage;
 import org.ack.common.datatable.DataTableTemplate;
 import org.ack.persist.page.Page;
 import org.ack.pojo.Menu;
@@ -22,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -195,10 +198,10 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	@RequestMapping(value = "/add")
 	@AckPermission(value="menu:add")
 	@ResponseBody
-	@Override
-	public Integer insert(HttpServletRequest request,
-			HttpServletResponse response, Model model, Menu t) {
-		return super.insert(request, response, model, t);
+	public ResultMessage insert(HttpServletRequest request,
+			HttpServletResponse response, Model model, 
+			@Valid Menu t, BindingResult result) {
+		return super.insert(request, response, model, t, result);
 	}
 
 	@RequestMapping(value = "/del/{id}")
@@ -212,10 +215,10 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	@RequestMapping(value = "/edit")
 	@AckPermission(value="menu:update")
 	@ResponseBody
-	@Override
-	public Integer edit(HttpServletRequest request,
-			HttpServletResponse response, Model model, Menu t) {
-		return super.edit(request, response, model, t);
+	public ResultMessage edit(HttpServletRequest request,
+			HttpServletResponse response, Model model,
+			@Valid Menu t, BindingResult result) {
+		return super.edit(request, response, model, t, result);
 	}
 
 	private List<ZTreeNode> changeMenu2ZTreeNode(Set<Menu> menus) {

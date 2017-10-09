@@ -83,7 +83,6 @@ Role.showList = function() {
  */
 
 Role.eidtUI = function(id) {
-	//alert(id);
 	var url = "";
 	var data = {};
 	data.reqData = {};
@@ -107,12 +106,14 @@ Role.eidtUI = function(id) {
 					   $(this).attr("checked","checked");
 				   }
 			   });
+			   Role.validate();
 		   });
 	   });
 	} else {
 	   url = "/role/add/ui";
 	   Role.modal.open(url,data,function(){
 		   $("#optionFlag",Role.document).val("0");
+		   Role.validate();
 	   });
 	}
 	
@@ -130,22 +131,25 @@ Role.eidt = function(flag) {
 	if("1" == flag){
 		url = "/role/edit"
 	}
-	
-	var data = $("#ack-add-form", Role.document).serialize();
-	AckTool.postReq(data, url, function(obj) {
-		if (obj == 1) {
-			//关闭modal
-			Role.modal.close();
-			//刷新当前页面
-			Role.showList();
-		} else {
-			alert("系统错误");
-			//关闭modal
-			Role.modal.close();
-		}
-		
+	var form = $("#ack-add-form", Role.document).bootstrapValidator('validate');
+	form.on('success.form.bv', function(e){
+		 e.preventDefault();
+		 var data = $("#ack-add-form", Role.document).serialize();
+		 AckTool.postReq(data, url, function(obj) {
+			if (obj.code > 0) {
+				//关闭modal
+				Role.modal.close();
+				//刷新当前页面
+				Role.showList();
+			} else if(obj.code == 0){
+				AckTool.formValidator.validate("#ack-add-form", Role.document, obj.message);
+			} else {
+				alert("系统错误");
+				//关闭modal
+				Role.modal.close();
+			}
+		});
 	});
-	
 }
 
 Role.del = function(id){
@@ -254,6 +258,88 @@ Role.bind = function() {
 		Role.eidt(flag);
 	});
 }
+
+Role.validate = function(){
+	var form = $("#ack-add-form", Role.document);
+	form.bootstrapValidator({
+		message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+        	roleName : {
+        		 message: '角色名称校验',
+                 validators: {
+                     notEmpty: {
+                         message: '角色名称不能为空'
+                     },
+                     stringLength: {
+                         min: 1,
+                         max: 32,
+                         message: '角色名称长度为1-32个字符'
+                     }
+                 }
+        	},
+        	abbreviation : {
+        		message : '角色简称',
+        		validators: {
+        			notEmpty: {
+                        message: '角色简称不能为空'
+                    },
+            		regexp: {
+                        regexp: /^[A-Z0-9]+$/,
+                        message: '角色简称必须是大写字母或者和数字的组合'
+                    }
+                }
+        		
+        	},
+        	weight : {
+        		message : '角色权重',
+        		validators: {
+        			notEmpty: {
+                        message: '角色权重不能为空'
+                    },
+            		regexp: {
+                        regexp: /^[0-9]+$/,
+                        message: '角色权重必须是数字'
+                    }
+                }
+        	},
+        	/*
+        	//这个样式不好调
+        	viewStatus : {
+        		message : '查看类型',
+        		validators: {
+        			notEmpty: {
+        				message: '查看类型不能为空'
+        			}
+        		}
+        	},
+        	*/
+        	menuIds : {
+        		message : '菜单id',
+        		validators: {
+        			notEmpty: {
+        				message: '菜单id不能为空'
+        			}
+        		}
+        	},
+        	comments : {
+        		validators: {
+                    stringLength: {
+                        min: 0,
+                        max: 200,
+                        message: '角色简介长度为0-200个字符'
+                    }
+                }
+        	}
+        	
+        }
+	});
+}
+
 
 /**
  * 

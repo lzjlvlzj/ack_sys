@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ include file="../public/header.jsp"%>
+<link href='/static/3part/bootstrapValidator/css/bootstrapValidator.min.css' rel='stylesheet' />
 <title>部门管理</title>
 </head>
 <body>
@@ -52,6 +53,7 @@
 	<script type="text/javascript"
 		src="/static/js/lib/simple-paginator-1.0.js"></script>
 	<script type="text/javascript" src="/static/js/dept/dept.js"></script>
+	<script type="text/javascript" src="/static/3part/bootstrapValidator/js/bootstrapValidator.js"></script>
 	<script type="text/javascript">
         $(document).ready(function(){
             Department.init();

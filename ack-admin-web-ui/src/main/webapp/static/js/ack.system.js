@@ -500,13 +500,21 @@ AckSystem.menu = {
 	}
 };
 
+AckSystem.beforeSend = function(){
+	
+}
 
+AckSystem.complete = function(){
+	
+}
 
 /**
  * ajax request
  */
-AckSystem.postReq = function(data, url, callback) {
+AckSystem.postReq = function(data, url, callback, bfs, complete) {
 	$.ajax({
+		beforeSend : bfs,
+		complete : complete,
 		url : url,
 		type : "post",
 		data : data,

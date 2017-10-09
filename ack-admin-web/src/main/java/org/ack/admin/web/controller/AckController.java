@@ -7,10 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.ack.base.service.AckMapperService;
 import org.ack.base.web.PageController;
+import org.ack.common.ResultMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 public abstract class AckController<T extends Object, PK extends Serializable>
 		extends PageController {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(AckController.class);
 
 	/**
 	 * @return 获得服务层接口
@@ -37,8 +43,6 @@ public abstract class AckController<T extends Object, PK extends Serializable>
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/id/{id}")
-	@ResponseBody
 	public T findById(HttpServletRequest request, HttpServletResponse response,
 			Model model, @PathVariable PK id) {
 		T t = getService().findById(id);
@@ -54,12 +58,34 @@ public abstract class AckController<T extends Object, PK extends Serializable>
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/add")
-	@ResponseBody
 	public Integer insert(HttpServletRequest request,
 			HttpServletResponse response, Model model, T t) {
 		int result = getService().insert(t);
 		return result;
+	}
+
+	/**
+	 * 添加数据
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param userId
+	 * @return
+	 */
+	public ResultMessage insert(HttpServletRequest request,
+			HttpServletResponse response, Model model, T t, BindingResult result) {
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new ResultMessage("0", msg);
+		}
+		Integer r = getService().insert(t);
+		return new ResultMessage(r.toString(), "");
 	}
 
 	/**
@@ -71,8 +97,6 @@ public abstract class AckController<T extends Object, PK extends Serializable>
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/del/{id}")
-	@ResponseBody
 	public Integer deleteById(HttpServletRequest request,
 			HttpServletResponse response, Model model, @PathVariable PK id) {
 		Integer t = getService().deleteById(id);
@@ -88,8 +112,30 @@ public abstract class AckController<T extends Object, PK extends Serializable>
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/edit")
-	@ResponseBody
+	public ResultMessage edit(HttpServletRequest request,
+			HttpServletResponse response, Model model, T t, BindingResult result) {
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new ResultMessage("0", msg);
+		}
+		Integer r = getService().update(t);
+		return new ResultMessage(r.toString(), "");
+	}
+
+	/**
+	 * 修改
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param userId
+	 * @return
+	 */
 	public Integer edit(HttpServletRequest request,
 			HttpServletResponse response, Model model, T t) {
 		int result = getService().update(t);

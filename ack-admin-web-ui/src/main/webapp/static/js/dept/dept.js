@@ -101,12 +101,14 @@ Department.eidtUI = function(id) {
 			   $("#departmentName",Department.document).val(obj.departmentName);
 			   $("#parentId",Department.document).val(obj.parentId);
 			   $("#comments",Department.document).val(obj.comments);
+			   Department.validate();
 		   });
 	   });
 	} else {
 	   url = "/dept/add/ui";
 	   Department.modal.open(url,data,function(){
 		   $("#optionFlag",Department.document).val("0");
+		   Department.validate();
 	   });
 	}
 	
@@ -126,19 +128,25 @@ Department.eidt = function(flag) {
 		url = "/dept/edit"
 	}
 	
-	var data = $("#ack-add-form", Department.document).serialize();
-	AckTool.postReq(data, url, function(obj) {
-		if (obj == 1) {
-			//关闭modal
-			Department.modal.close();
-			//刷新当前页面
-			Department.showList();
-		} else {
-			alert("系统错误");
-			//关闭modal
-			Department.modal.close();
-		}
-		
+	var form = $("#ack-add-form", Department.document).bootstrapValidator('validate');
+	form.on('success.form.bv', function(e){
+		 e.preventDefault();
+		 var data = $("#ack-add-form", Department.document).serialize();
+		 AckTool.postReq(data, url, function(obj) {
+			if (obj.code > 0) {
+				//关闭modal
+				Department.modal.close();
+				//刷新当前页面
+				Department.showList();
+			} else if(obj.code == 0){
+				AckTool.formValidator.validate("#ack-add-form", Department.document, obj.message);
+			} else  {
+				alert("系统错误");
+				//关闭modal
+				Department.modal.close();
+			}
+			
+		});
 	});
 	
 }
@@ -176,11 +184,63 @@ Department.del = function(id){
 	
 }
 
+Department.validate = function(){
+	var form = $("#ack-add-form", Department.document);
+	form.bootstrapValidator({
+		message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+        	departmentName : {
+        		 message: '部门名称校验',
+                 validators: {
+                     notEmpty: {
+                         message: '部门名称不能为空'
+                     },
+                     stringLength: {
+                         min: 1,
+                         max: 32,
+                         message: '部门名称长度为1-32个字符'
+                     }
+                 }
+        	},
+        	parentId : {
+        		message : '部门父id',
+        		validators: {
+        			notEmpty: {
+                        message: '父部门id不能为空'
+                    },
+            		regexp: {
+                        regexp: /^[0-9]*$/,
+                        message: '父部门id必须是数字(数据库中id)'
+                    }
+                }
+        		
+        	},
+        	comments : {
+        		validators: {
+                    stringLength: {
+                        min: 0,
+                        max: 200,
+                        message: '部门简介长度为0-200个字符'
+                    }
+                }
+        	}
+        	
+        }
+	});
+}
+
+
 /**
  * 绑定事件
  * */
 Department.bind = function() {
 	var ackModal = $("#ack-modal", Department.document);
+	
 	//修改
 	$("#tab-body").on("click",".ack-simple-btn-edit",function(){
 		var id = $(this).parents("tr").attr("id");
@@ -197,6 +257,7 @@ Department.bind = function() {
 		var flag = fp.val();
 		Department.eidt(flag);
 	});
+	
 }
 
 Department.init = function (){

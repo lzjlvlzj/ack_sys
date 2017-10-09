@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 
 /**
  * 菜单表
@@ -16,16 +20,34 @@ public class Menu implements Serializable,Comparable<Menu> {
 	private static final long serialVersionUID = 907686414602177841L;
 	
 	private Integer id;                      // 数据id
+	
+	@NotBlank(message="{menu.name.null}")
+	@Size(min=1, max=32, message="{menu.name.length.illegal}")
 	private String menuName;                 // 菜单名称 
+	
+	@Size(min=1, max=256, message="{menu.url.length.illegal}")
 	private String url;                      // 页面url
+	
 	private Integer menuType;                // 菜单类型 0 : 普通功能, 1 : button
+	
+	@Size(min=1, max=256, message="{menu.url.length.illegal}")
 	private String css;                      // 样式
+	
+	@Size(min=1, max=256, message="{menu.domId.length.illegal}")
 	private String domId;                    // 菜单domid
+	
 	private Integer parentId;                // 菜单父id
+	
 	private Integer menuLevel;               // 菜单等级
+	
+	@Size(min=1, max=200, message="{menu.comments.length.illegal}")
 	private String comments;                 // 菜单
+	
+	@Size(min=1, max=64, message="{menu.permission.length.illegal}")
 	private String permission;				 // 权限字符串
+	
 	private Date createTime;                 // 菜单创建时间
+	
 	private List<Menu> childMenus;           // 子菜单
 	
 	public Integer getId() {
@@ -106,6 +128,9 @@ public class Menu implements Serializable,Comparable<Menu> {
 	public boolean equals(Object obj) {
 		if(obj instanceof Menu){
 			Menu m = (Menu) obj;
+			if(null == m.getId() || null == id){
+				return super.equals(obj);
+			}
 			boolean b = (m.getId() == id);
 			return b;
 		}
@@ -114,6 +139,9 @@ public class Menu implements Serializable,Comparable<Menu> {
 	@Override
 	public int hashCode() {
 		Menu m = (Menu)this;
+		if(null == m.getId()){
+			return super.hashCode();
+		}
 		return m.getId().hashCode();
 	}
 	

@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * 项目实体
  * 
@@ -19,16 +24,32 @@ public class Project implements Serializable{
 	
 	private Long id;                           // 数据id
 	private Long projectId;                    // insert return value
+	
+	@NotBlank(message="{project.name.null}")
+	@Size(min=1, max=128, message="{project.name.length.illegal}")
 	private String name;                       // 工程名
+	
+	@NotNull(message="{project.departmentId.null}")
 	private Integer departmentId;              // 部门id
+	
 	private String departmentName;             // 部门名称(冗余数据)
+	
+	@NotNull(message="{project.managerId.null}")
 	private Long managerId;                    // 项目负责人id
+	
 	private String managerName;                // 项目负责人名称(冗余数据)
+	
 	private Integer type;                      // 工程状态 0 : 非公开, 1 : 公开
+	
 	private Integer status;                    // 工程状态 0 : 打开, 1 : 关闭
+	
 	private Date startTime;                    // 项目开始时间
+	
 	private Date endTime;                      // 项目结束时间
+	
 	private List<Department> cooperativeSectors;// 合作部门 
+	
+	@Size(min=1, max=200, message="{project.comments.length.illegal}")
 	private String remark;                     // 备注
 	
 	public Long getId() {

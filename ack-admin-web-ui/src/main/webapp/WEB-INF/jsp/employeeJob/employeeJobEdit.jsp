@@ -49,6 +49,7 @@
 						<textarea class="col-xs-10 col-sm-8" id="event-content"
 							placeholder="请输入日志信息" name="content"></textarea>
 					</div>
+					<small class="col-xs-12 col-sm-12 col-sm-offset-3 ack-form-validator" id="ack-add-log-msg">日志内容不能为空</small>
 				</div>
 			</form>
 		</div>

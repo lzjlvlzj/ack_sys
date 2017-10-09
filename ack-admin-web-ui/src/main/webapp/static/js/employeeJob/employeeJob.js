@@ -55,6 +55,10 @@ EmployeeJob.showProjectTask = function(){
 EmployeeJob.editLog = function(calEvent, jsEvent, view){
 	var id = $("#id", EmployeeJob.document).val();
 	var content = $("#event-content", EmployeeJob.document).val();
+	if(!content){
+		$("#ack-add-log-msg", EmployeeJob.document).show();
+		return ;
+	}
 	var url = "/job/log/update";
 	var data = {};
 	data.id = id;
@@ -74,7 +78,6 @@ EmployeeJob.editLog = function(calEvent, jsEvent, view){
  * 
  * */
 EmployeeJob.delLog = function(){
-	console.log("删除测试11111111111111111");
 	var id = $("#id", EmployeeJob.document).val();
 	var eventId = $("#_id", EmployeeJob.document).val();
 	var data = {};
@@ -205,8 +208,14 @@ EmployeeJob.drop = function(eventObj, date, allDay, ui, resourceId){
  * 添加
  * */
 EmployeeJob.addLog = function(e){
+	var form = $("#add-log-form");
 	var data = {};
-	data = $("#add-log-form").serialize();
+	data = form.serialize();
+	var content = $("#new-event").val();
+	if(!content){
+		$("#ack-add-log-msg").css({"display":"block"});
+		return ;
+	}
 	var url = "/job/log/cache/add";
 	AckTool.postReq(data, url, function(obj) {
 		if (obj) {
@@ -231,7 +240,6 @@ EmployeeJob.addLog = function(e){
 EmployeeJob.log = {
 		
 	color : "",
-	
 	showMsg : function (msg){
 		$("#ack-add-log-msg").css({"display":"block"}).html(msg);
 	},
@@ -263,6 +271,9 @@ EmployeeJob.log = {
 		ackModal.on("click","#ack-log-edit",function(){
 			$("#ack-edit-msg", EmployeeJob.document).show();
 			$("#ack-del-msg", EmployeeJob.document).hide();
+		});//event-content
+		ackModal.on("input propertychange", "#event-content", function(){
+			$("#ack-add-log-msg", EmployeeJob.document).hide();
 		});
 	},
 	
@@ -285,6 +296,10 @@ EmployeeJob.log = {
 		      revert        : true, // will cause the event to go back to its
 		      revertDuration: 0  //  original position after the drag
 		    });
+		});
+		
+		$('#new-event').unbind().bind('input propertychange', function() { 
+			$("#ack-add-log-msg").hide();
 		});
 		
 	},
@@ -375,8 +390,6 @@ EmployeeJob.log = {
 		$('#add-new-event').click(function (e) {
 			var color = $('#add-new-event').css('background-color');
 			var color1 = $('#add-new-event').css('border-color');
-			console.log(color);
-			console.log(color1);
 			$("#ack-log-event-color").val(color);
 			EmployeeJob.addLog(e);
 		});

@@ -17,35 +17,35 @@
 			<form class="form-horizontal" role="form" id="ack-add-form">
 			    <input type="hidden" name="id" id="id" value="">
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="roleName"> 角色名称 </label>
 
 					<div class="col-sm-9">
 						<input type="text" placeholder="角色名称"
-							name="roleName" id="roleName" value="" class="col-xs-10 col-sm-8">
+							name="roleName" id="roleName" value="" class="form-control col-xs-10 col-sm-8">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="abbreviation"> 角色简称</label>
 
 					<div class="col-sm-9">
 						<input type="text" placeholder="角色简称"
-							name="abbreviation" id="abbreviation" value="" class="col-xs-10 col-sm-8">
+							name="abbreviation" id="abbreviation" value="" class="form-control col-xs-10 col-sm-8">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="abbreviation"> 角色权重</label>
 
 					<div class="col-sm-9">
-						<input type="text" placeholder="角色权重"
-							name="weight" id="weight" value="" class="col-xs-10 col-sm-8">
+						<input type="text" placeholder="角色权重(权重高的可以给低的授权)"
+							name="weight" id="weight" value="" class="form-control col-xs-10 col-sm-8">
 					</div>
 				</div>
 				
 				<div class="form-group" id="viewStatus">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="menuType"> 查看类型 </label>
 
 					<div class="radio col-sm-4">
@@ -54,28 +54,28 @@
 						</label>
 					</div>
 					<div class="radio col-sm-5">
-						<label> <input name="viewStatus" id="" type="radio"
+						<label> <input name="viewStatus" id="" type="radio" checked="checked"
 							class="ace" value="0"> <span class="lbl"> 部分</span>
 						</label>
 					</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="menuIds"> 菜单id </label>
 
 					<div class="col-sm-9">
 						<input type="text" placeholder="菜单id"
-							name="menuIds" id="menuIds" value="" class="col-xs-10 col-sm-8">
+							name="menuIds" id="menuIds" value="" class="form-control col-xs-10 col-sm-8">
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-3 control-label no-padding-right"
+					<label class="col-sm-2 control-label no-padding-right"
 						for="form-comments"> 角色备注信息</label>
 
 					<div class="col-sm-9">
-						<textarea class="col-xs-10 col-sm-8" id="comments"
+						<textarea class="form-control col-xs-10 col-sm-8" id="comments"
 							placeholder="角色备注信息" name="comments"></textarea>
 					</div>
 				</div>

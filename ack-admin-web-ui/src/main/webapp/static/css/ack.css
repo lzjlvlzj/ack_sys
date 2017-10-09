@@ -4,6 +4,14 @@
 	position: absolute;
 	width: 99%;
 }
+/**
+Validator info
+*/
+.ack-form-validator{
+	color : red;
+	display : none;
+}
+
 
 body {
 	background-color: #fff;
