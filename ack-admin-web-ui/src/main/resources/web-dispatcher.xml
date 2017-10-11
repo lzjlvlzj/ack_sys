@@ -26,6 +26,7 @@
 	        <mvc:exclude-mapping path="/login"/>
 	        <mvc:exclude-mapping path="/logout"/>
 	        <mvc:exclude-mapping path="/static/**"/>
+	        <mvc:exclude-mapping path="*.ico"/>
 	        <bean class="org.ack.admin.web.Interceptor.LoginInterceptor"></bean>
 	    </mvc:interceptor>
 	   <mvc:interceptor>
@@ -35,6 +36,7 @@
 	        <mvc:exclude-mapping path="/login"/>
 	        <mvc:exclude-mapping path="/logout"/>
 	        <mvc:exclude-mapping path="/static/**"/>
+	        <mvc:exclude-mapping path="*.ico"/>
 	        <bean class="org.ack.admin.web.Interceptor.AuthenticationInterceptor"></bean>
 	    </mvc:interceptor>
 	</mvc:interceptors>
