@@ -25,22 +25,22 @@ public class Menu implements Serializable,Comparable<Menu> {
 	@Size(min=1, max=32, message="{menu.name.length.illegal}")
 	private String menuName;                 // 菜单名称 
 	
-	@Size(min=1, max=256, message="{menu.url.length.illegal}")
+	@Size(min=0, max=256, message="{menu.url.length.illegal}")
 	private String url;                      // 页面url
 	
 	private Integer menuType;                // 菜单类型 0 : 普通功能, 1 : button
 	
-	@Size(min=1, max=256, message="{menu.url.length.illegal}")
+	@Size(min=0, max=256, message="{menu.url.length.illegal}")
 	private String css;                      // 样式
 	
-	@Size(min=1, max=256, message="{menu.domId.length.illegal}")
+	@Size(min=0, max=256, message="{menu.domId.length.illegal}")
 	private String domId;                    // 菜单domid
 	
 	private Integer parentId;                // 菜单父id
 	
 	private Integer menuLevel;               // 菜单等级
 	
-	@Size(min=1, max=200, message="{menu.comments.length.illegal}")
+	@Size(min=0, max=200, message="{menu.comments.length.illegal}")
 	private String comments;                 // 菜单
 	
 	@Size(min=1, max=64, message="{menu.permission.length.illegal}")

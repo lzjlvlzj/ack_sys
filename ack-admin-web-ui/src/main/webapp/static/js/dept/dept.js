@@ -120,6 +120,7 @@ Department.eidtUI = function(id) {
 
 Department.eidt = function(flag) {
 	var url = "";
+	var form = $("#ack-add-form", Department.document);
 	//添加
 	if("0" == flag){
 		url = "/dept/add"
@@ -128,7 +129,27 @@ Department.eidt = function(flag) {
 		url = "/dept/edit"
 	}
 	
-	var form = $("#ack-add-form", Department.document).bootstrapValidator('validate');
+	form.bootstrapValidator('validate');
+	var flag = form.data("bootstrapValidator").isValid();
+	if(flag){
+		var data = $("#ack-add-form", Department.document).serialize();
+		 AckTool.postReq(data, url, function(obj) {
+			if (obj.code > 0) {
+				//关闭modal
+				Department.modal.close();
+				//刷新当前页面
+				Department.showList();
+			} else if(obj.code == 0){
+				AckTool.formValidator.validate("#ack-add-form", Department.document, obj.message);
+			} else  {
+				alert("系统错误");
+				//关闭modal
+				Department.modal.close();
+			}
+			
+		});
+	}
+	/*
 	form.on('success.form.bv', function(e){
 		 e.preventDefault();
 		 var data = $("#ack-add-form", Department.document).serialize();
@@ -148,6 +169,7 @@ Department.eidt = function(flag) {
 			
 		});
 	});
+	*/
 	
 }
 /**
@@ -184,9 +206,7 @@ Department.del = function(id){
 	
 }
 
-Department.validate = function(){
-	var form = $("#ack-add-form", Department.document);
-	form.bootstrapValidator({
+var option = {
 		message: 'This value is not valid',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
@@ -231,7 +251,92 @@ Department.validate = function(){
         	}
         	
         }
+	};
+
+Department.validate = function(){
+	var form = $("#ack-add-form", Department.document);
+	form.bootstrapValidator({
+		message: '输入的内容错误',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        submitButtons: '.ack-modal-save-btn',
+        fields: {
+        	departmentName : {
+        		 message: '部门名称校验',
+                 validators: {
+                     notEmpty: {
+                         message: '部门名称不能为空'
+                     },
+                     stringLength: {
+                         min: 1,
+                         max: 32,
+                         message: '部门名称长度为1-32个字符'
+                     }
+                 }
+        	},
+        	parentId : {
+        		message : '部门父id',
+        		validators: {
+        			notEmpty: {
+                        message: '父部门id不能为空'
+                    },
+            		regexp: {
+                        regexp: /^[0-9]*$/,
+                        message: '父部门id必须是数字(数据库中id)'
+                    }
+                }
+        		
+        	},
+        	comments : {
+        		validators: {
+                    stringLength: {
+                        min: 0,
+                        max: 200,
+                        message: '部门简介长度为0-200个字符'
+                    }
+                }
+        	}
+        	
+        },
+        submitHandler: function(validator, form, submitButton) { 
+        	console.log(1111);
+            // a)  
+            // Use Ajax to submit form data  
+            //$.post(form.attr('action'), form.serialize(), function(result) {  
+            // ... process the result ...  
+            //}, 'json');  
+      
+            //b)  
+            // Do your task  
+            // ...  
+            // Submit the form  
+            validator.defaultSubmit();  
+        }
 	});
+	var url = "/dept/add/ui";
+	form.on('success.form.bv', function(e){
+		 e.preventDefault();
+		 var data = $("#ack-add-form", Department.document).serialize();
+		 AckTool.postReq(data, url, function(obj) {
+			if (obj.code > 0) {
+				//关闭modal
+				Department.modal.close();
+				//刷新当前页面
+				Department.showList();
+			} else if(obj.code == 0){
+				AckTool.formValidator.validate("#ack-add-form", Department.document, obj.message);
+			} else  {
+				alert("系统错误");
+				//关闭modal
+				Department.modal.close();
+			}
+			
+		});
+	});
+	return form;
 }
 
 

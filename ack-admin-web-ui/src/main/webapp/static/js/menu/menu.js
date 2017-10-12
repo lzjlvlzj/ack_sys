@@ -47,7 +47,13 @@ Menu.getOneTr = function(n, data, option) {
 	tr.append(createTime);
 	//操作按钮
 	var optionTd = $("<td></td>");
-	optionTd.append(AckTool.optionButton.simpleOption);
+	var data = option.data;
+	var opt = {};
+	opt.data = data;
+	opt.prefix = "menu";
+	var buttons = AckTool.optionButton.getTrAuthButtons(opt);
+	optionTd.append(buttons);
+	//optionTd.append(AckTool.optionButton.simpleOption);
 	tr.append(optionTd);
 	return tr;
 }
@@ -138,6 +144,7 @@ Menu.eidtUI = function(id) {
 
 Menu.eidt = function(flag) {
 	var url = "";
+	var form = $("#ack-add-form", Menu.document);
 	//添加
 	if("0" == flag){
 		url = "/menu/add";
@@ -146,9 +153,9 @@ Menu.eidt = function(flag) {
 		url = "/menu/edit";
 	}
 	
-	var form = $("#ack-add-form", Menu.document).bootstrapValidator('validate');
-	form.on('success.form.bv', function(e){
-		 e.preventDefault();
+	form.bootstrapValidator('validate');
+	var flag = form.data("bootstrapValidator").isValid();
+	if(flag){
 		 var data = $("#ack-add-form", Menu.document).serialize();
 		 AckTool.postReq(data, url, function(obj) {
 			if (obj.code >= 1) {
@@ -165,7 +172,7 @@ Menu.eidt = function(flag) {
 			}
 			
 		 });
-	});
+	}
 }
 /**
  * 删除

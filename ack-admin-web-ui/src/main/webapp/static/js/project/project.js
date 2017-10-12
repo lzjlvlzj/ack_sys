@@ -243,6 +243,7 @@ Project.eidtUI = function(id) {
 
 Project.eidt = function(flag) {
 	var url = "";
+	var form = $("#ack-add-form", Project.document);
 	// 添加
 	if ("0" == flag) {
 		url = "/project/add";
@@ -255,28 +256,9 @@ Project.eidt = function(flag) {
 	if ("1" == flag) {
 		url = "/project/edit";
 	}
-    /*
-	var data = $("#ack-add-form", Project.document).serialize();
-	AckTool.postReq(data, url, function(obj) {
-		if (obj.code >= 1) {
-			// 关闭modal
-			Project.modal.close();
-			// 刷新当前页面
-			Project.showList();
-			
-		} else if(obj.code == 0){ 
-			AckTool.formValidator.validate("#ack-add-form", Project.document, obj.message);
-	    }else {
-			alert("系统错误");
-			// 关闭modal
-			Project.modal.close();
-		}
-
-	});
-	*/
-	var form = $("#ack-add-form", Project.document).bootstrapValidator('validate');
-	form.on('success.form.bv', function(e){
-		e.preventDefault();
+	form.bootstrapValidator('validate');
+	var flag = form.data("bootstrapValidator").isValid();
+	if(flag){
 		var data = $("#ack-add-form", Project.document).serialize();
 		AckTool.postReq(data, url, function(obj) {
 			if (obj.code >= 1) {
@@ -294,7 +276,7 @@ Project.eidt = function(flag) {
 			}
 
 		}); 
-	});
+	};
 }
 
 Project.del = function(id) {

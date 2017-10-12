@@ -22,7 +22,31 @@ EmployeeJob.init = function() {
 	     data: {},
 	     error: function() {
 	        alert('there was an error while fetching events!');
-	     },	
+	     }
+	     /*omplete : function(req, status){
+	 		var ifm = AckTool.document.getElementById("mainFrame");
+	 		var div = AckTool.document.getElementById("ack_content_iframe");
+	 		console.log("-----job div height-----------")
+	 		console.log(div);
+	 		console.log(div.clientHeight);
+	 		if(!div){
+	 			div = window.parent.document.getElementById("ack_content_iframe");;
+	 		}
+	 		var subWeb = AckTool.document.frames ? AckTool.document.frames["mainFrame"].document
+	 				: ifm.contentDocument;
+	 		if (ifm != null && subWeb != null) {
+	 			var subH = subWeb.body.scrollHeight;
+	 			if (ifm.height != subH) {
+	 				ifm.height = subH;
+	 			}
+	 			if(div.clientHeight < subH){
+	 				div.clientHeight = subH + 2;
+	 			}
+	 			
+	 			console.log(div.clientHeight);
+	 			
+	 		}
+	     }*/
 	};
 	
 	EmployeeJob.calendar.init(option);

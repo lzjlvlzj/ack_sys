@@ -594,7 +594,7 @@
 						</div><!-- /.ace-settings-container -->
 
 						<div class="row">
-							<div class="col-xs-12 show_iframe">
+							<div class="col-xs-12 show_iframe" id="ack_content_iframe">
 								<!-- PAGE CONTENT BEGINS -->
                                    <%-- <jsp:include page="public/test.jspf"></jsp:include> --%>
                                    <iframe id="mainFrame" scrolling="no" frameborder="0" src="" onload=""></iframe>

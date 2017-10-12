@@ -209,15 +209,17 @@ AckTool.postReq = function(data, url, callback) {
 			callback(resObj);
 		},
 		complete : function(req, status){
-			var ifm = AckTool.document.getElementById("mainFrame");
+			/*var ifm = AckTool.document.getElementById("mainFrame");
+			var div = AckTool.document.getElementById("ack_content_iframe");
 			var subWeb = AckTool.document.frames ? AckTool.document.frames["mainFrame"].document
 					: ifm.contentDocument;
 			if (ifm != null && subWeb != null) {
 				var subH = subWeb.body.scrollHeight;
 				if (ifm.height != subH) {
-					ifm.height = subH
+					ifm.height = subH;
+					div.height = subH + 2;
 				}
-			}
+			}*/
 		}
 	});
 };
@@ -366,6 +368,34 @@ AckTool.formValidator = {
 	}
     
 }
+
+$.ajaxSetup({ //设置全局性的Ajax选项
+	complete : function(req, status){
+		var ifm = AckTool.document.getElementById("mainFrame");
+		var div = AckTool.document.getElementById("ack_content_iframe");
+		/*console.log("-----div height start-----------")
+		console.log(div);
+		console.log(div.clientHeight);*/
+		if(!div){
+			div = window.parent.document.getElementById("ack_content_iframe");;
+		}
+		var subWeb = AckTool.document.frames ? AckTool.document.frames["mainFrame"].document
+				: ifm.contentDocument;
+		if (ifm != null && subWeb != null) {
+			var subH = subWeb.body.scrollHeight;
+			if (ifm.height != subH) {
+				ifm.height = subH;
+			}
+			if(div.clientHeight < subH){
+				var h = subH - 75 + "px";// 75 是footer padding高度
+				$(div).height(h);
+			}
+			/*
+			console.log(div.clientHeight);
+			console.log("-----div height end-----------")*/
+		}
+    }
+})
 
 
 

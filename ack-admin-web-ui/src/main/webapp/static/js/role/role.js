@@ -124,6 +124,7 @@ Role.eidtUI = function(id) {
 
 Role.eidt = function(flag) {
 	var url = "";
+	var form = $("#ack-add-form", Role.document);
 	//添加
 	if("0" == flag){
 		url = "/role/add"
@@ -131,9 +132,9 @@ Role.eidt = function(flag) {
 	if("1" == flag){
 		url = "/role/edit"
 	}
-	var form = $("#ack-add-form", Role.document).bootstrapValidator('validate');
-	form.on('success.form.bv', function(e){
-		 e.preventDefault();
+	form.bootstrapValidator('validate');
+	var flag = form.data("bootstrapValidator").isValid();
+	if(flag){
 		 var data = $("#ack-add-form", Role.document).serialize();
 		 AckTool.postReq(data, url, function(obj) {
 			if (obj.code > 0) {
@@ -149,7 +150,7 @@ Role.eidt = function(flag) {
 				Role.modal.close();
 			}
 		});
-	});
+	};
 }
 
 Role.del = function(id){
