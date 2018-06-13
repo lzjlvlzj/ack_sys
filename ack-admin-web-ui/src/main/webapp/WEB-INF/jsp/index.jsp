@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>ACK管理系统</title>
-        <%@ include file="public/header.jsp" %>
+	    <title>ACK管理系统</title>
+		<%@ include file="public/header.jsp" %>
+		<script type="text/javascript">
+		function changeFrameHeight(){
+		    var ifm= document.getElementById("mainFrame"); 
+		    ifm.height=document.documentElement.clientHeight;
+		}
+		</script>
 	</head>
 
 	<body class="no-skin">
@@ -24,7 +30,7 @@
 					<a href="index.html" class="navbar-brand">
 						<small>
 							<i class="fa fa-leaf"></i>
-							Ace Admin
+							Ack Admin
 						</small>
 					</a>
 				</div>
@@ -192,7 +198,7 @@
 									<ul class="dropdown-menu dropdown-navbar">
 										<li>
 											<a href="#" class="clearfix">
-												<img src="static/3part/ace/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<img src="/static/3part/ace/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -209,7 +215,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="static/3part/ace/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<img src="/static/3part/ace/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -226,7 +232,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="static/3part/ace/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<img src="/static/3part/ace/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -243,7 +249,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="static/3part/ace/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<img src="/static/3part/ace/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -260,7 +266,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="static/3part/ace/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<img src="/static/3part/ace/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -288,7 +294,7 @@
 
 						<li class="light-blue dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="static/3part/ace/images/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="/static/3part/ace/images/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info" id="login-user-info">
 									<small>Welcome,</small>
 									Jason
@@ -315,7 +321,7 @@
 								<li class="divider"></li>
 
 								<li>
-									<a href="/logout">
+									<a href="#">
 										<i class="ace-icon fa fa-power-off"></i>
 										Logout
 									</a>
@@ -336,160 +342,44 @@
 				<script type="text/javascript">
 					try{ace.settings.loadState('sidebar')}catch(e){}
 				</script>
+
 				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-						<!-- <button class="btn btn-warning" id="ack-sys-users-btn">
-							<i class="ace-icon fa fa-users"></i>
-						</button>
-						
-						<button class="btn btn-info" id="ack-sys-role-btn">
-							<i class="ace-icon fa fa-user"></i>
-						</button>
-						
-						<button class="btn btn-success" id="ack-sys-menu-btn">
-							<i class="ace-icon fa fa-cog"></i>
+					    <!--  
+						<button class="btn btn-success">
+							<i class="ace-icon fa fa-signal"></i>
 						</button>
 
-						<button class="btn btn-danger" id="ack-sys-dept-btn">
-							<i class="ace-icon fa fa-asterisk"></i>
-						</button> -->
+						<button class="btn btn-info">
+							<i class="ace-icon fa fa-pencil"></i>
+						</button>
+
+						<button class="btn btn-warning">
+							<i class="ace-icon fa fa-users"></i>
+						</button>
+
+						<button class="btn btn-danger">
+							<i class="ace-icon fa fa-cogs"></i>
+						</button>
+						-->
 					</div>
 
 					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-						<!-- <span class="btn btn-success"></span>
+					    <!--  
+						<span class="btn btn-success"></span>
 
 						<span class="btn btn-info"></span>
 
 						<span class="btn btn-warning"></span>
 
-						<span class="btn btn-danger"></span> -->
+						<span class="btn btn-danger"></span>
+						-->
 					</div>
-				</div>
-				<!-- /.sidebar-shortcuts -->
+				</div><!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list" id="menu-list">
-					<li class="">
-						<a href="index.html">
-							<i class="menu-icon fa fa-tachometer"></i>
-							<span class="menu-text"> Dashboard </span>
-						</a>
+				    <!-- 动态菜单-->
 
-						<b class="arrow"></b>
-					</li>
-
-					<li class="">
-						<a href="javascript:void(0);" id="user-mem">
-							<i class="menu-icon fa fa-users"></i>
-							<span class="menu-text">
-								用户管理
-							</span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="javascript:void(0);" id="role-mem">
-							<i class="menu-icon glyphicon glyphicon-user"></i>
-							<span class="menu-text">
-								角色管理
-							</span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="javascript:void(0);" id="menu-mem">
-							<i class="menu-icon fa fa-list"></i>
-							<span class="menu-text">
-								菜单管理
-							</span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="javascript:void(0);" id="permission-mem">
-							<i class="menu-icon fa fa-list"></i>
-							<span class="menu-text">
-								权限管理
-							</span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="javascript:void(0);" id="auth-mem">
-							<i class="menu-icon fa fa-cogs"></i>
-							<span class="menu-text">
-								授权管理
-							</span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-
-					<li class="active open">
-						<a href="#" class="dropdown-toggle">
-							<i class="menu-icon fa fa-file-o"></i>
-
-							<span class="menu-text">
-								Other Pages
-
-								<span class="badge badge-primary">5</span>
-							</span>
-
-							<b class="arrow fa fa-angle-down"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						<ul class="submenu">
-							<li class="">
-								<a href="faq.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									FAQ
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="error-404.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Error 404
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="error-500.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Error 500
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="grid.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Grid
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="active">
-								<a href="blank.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Blank Page
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-						</ul>
-					</li>
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
@@ -501,15 +391,7 @@
 				<div class="main-content-inner">
 					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
 						<ul class="breadcrumb" id="ack-navigation">
-							<li>
-								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="#">Home</a>
-							</li>
-
-							<li>
-								<a href="#">Other Pages</a>
-							</li>
-							<li class="active">Blank Page</li>
+						    <!--  导航-->
 						</ul><!-- /.breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
@@ -591,10 +473,9 @@
 						</div><!-- /.ace-settings-container -->
 
 						<div class="row">
-							<div class="col-xs-12 show_iframe">
+							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-                                   <%-- <jsp:include page="public/test.jspf"></jsp:include> --%>
-                                   <iframe id="mainFrame" scrolling="no" frameborder="0" src="" onload=""></iframe>
+                                <iframe id="mainFrame" scrolling="no" frameborder="0" src="" height="" width="100%" onload=""></iframe>
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
@@ -632,6 +513,9 @@
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>
 		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
 		<!-- 解决iframe modal只覆盖子页面问题 -->
 		<div class="modal fade" role="dialog" id="ack-modal"></div>
         <div id='ack-backdropId' class='modal-backdrop fade in' style="display:none"></div>
@@ -640,18 +524,14 @@
 		<%@include file="public/footer.jsp" %>
 		<script src="${pageContext.request.contextPath}/static/js/ack.system.js" type="text/javascript"></script>
 		<script type="text/javascript">
-		//自适应iframe
-		function changeFrameHeight(){
-		    var ifm= document.getElementById("mainFrame"); 
-		    ifm.height=document.documentElement.clientHeight;
-		}
 		window.onresize=function(){  
-		     changeFrameHeight();  
+			changeFrameHeight();  
 		} 
 		$(document).ready(function(){
 			 AckSystem.init();
 	    });
 		</script>
+
+		<!-- inline scripts related to this page -->
 	</body>
 </html>
-

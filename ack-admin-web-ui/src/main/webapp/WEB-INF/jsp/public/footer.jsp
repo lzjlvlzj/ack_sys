@@ -13,7 +13,6 @@
 <script src="${pageContext.request.contextPath}/static/3part/ace/js/ace-elements.min.js"></script>
 <script src="${pageContext.request.contextPath}/static/3part/ace/js/ace.min.js"></script>
 <!-- vue script -->
-<script src="${pageContext.request.contextPath}/static/3part/vue.min.js" type="text/javascript"></script>
 <!-- our script -->
 <script src="${pageContext.request.contextPath}/static/js/ack.tool.js" type="text/javascript"></script>
 <!-- inline scripts related to this page -->

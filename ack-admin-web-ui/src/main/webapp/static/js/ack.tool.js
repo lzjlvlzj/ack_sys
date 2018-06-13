@@ -7,7 +7,26 @@ var AckTool = window.AckTool || {};
 
 AckTool.document = window.parent.document || window.document;
 
-
+AckTool.iFrameHeight = function() {
+	var doc = window.parent.document;
+	var ifm = doc.getElementById("mainFrame");
+	var subWeb = null;
+	if(doc.frames){
+		subWeb = doc.frames["mainFrame"].document;
+	} else {
+		subWeb = ifm.contentDocument;
+	}
+	if (ifm != null && subWeb != null) {
+		var subH = subWeb.body.scrollHeight;
+		var subH1 = subWeb.documentElement.scrollHeight;
+		if(subH1 > subH){
+			subH = subH1;
+		}
+		if (ifm.height != subH) {
+			ifm.height = subH
+		}
+	}
+};
 AckTool.optionButton = {
 	/**
 	 * checkbox
@@ -178,8 +197,12 @@ AckTool.postReq = function(data, url, callback) {
 		type : "post",
 		data : data,
 		dataType : 'json',
+		complete : function(){
+			AckTool.iFrameHeight();
+		},
 		contentType : "application/x-www-form-urlencoded; charset=utf-8",
 		success : function(resObj) {
+			// iframe
 			callback(resObj);
 		}
 	});

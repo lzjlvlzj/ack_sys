@@ -181,7 +181,11 @@ User.showList = function() {
          "ajax": {
              "url" : "/user/table",
              "dataSrc" : "data",
-             "type" : "POST"
+             "type" : "POST",
+             "complete" : function(){
+            	 //自适应iframe
+            	 AckTool.iFrameHeight();
+             }
          },
          "search" : {
         	"regex" : true 

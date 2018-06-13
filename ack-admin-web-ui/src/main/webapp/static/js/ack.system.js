@@ -69,33 +69,23 @@ AckSystem.user = {
 AckSystem.init = function() {
 	AckSystem.user.init();
 	AckSystem.menu.init();
-	/*
-	//用户
-	$("#user-mem").click(function() {
-		AckSystem.iframe("/user/list/ui");
-	});
-	//角色
-	$("#role-mem").click(function() {
-		AckSystem.iframe("/role/list/ui");
-	});
-	//菜单
-	$("#menu-mem").click(function() {
-		AckSystem.iframe("/menu/list/ui");
-	});
-	//权限
-	$("#auth-mem").click(function() {
-		AckSystem.iframe("/auth/list/ui");
-	});
-	*/
 	
 }
 
 function iFrameHeight() {
 	var ifm = document.getElementById("mainFrame");
-	var subWeb = document.frames ? document.frames["mainFrame"].document
-			: ifm.contentDocument;
+	var subWeb = null;
+	if(document.frames){
+		subWeb = document.frames["mainFrame"].document;
+	} else {
+		subWeb = ifm.contentDocument;
+	}
 	if (ifm != null && subWeb != null) {
 		var subH = subWeb.body.scrollHeight;
+		var subH1 = subWeb.documentElement.scrollHeight;
+		if(subH1 > subH){
+			subH = subH1;
+		}
 		if (ifm.height != subH) {
 			ifm.height = subH
 		}
@@ -503,6 +493,7 @@ AckSystem.postReq = function(data, url, callback) {
 		dataType : 'json',
 		contentType : "application/x-www-form-urlencoded; charset=utf-8",
 		success : function(resObj) {
+			//iframe
 			callback(resObj);
 		}
 	});
