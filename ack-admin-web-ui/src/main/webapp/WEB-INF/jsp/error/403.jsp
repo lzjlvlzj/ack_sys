@@ -9,7 +9,7 @@
 					aria-hidden="true">
 					<span class="white">×</span>
 				</button>
-				设置角色
+				没有权限
 			</div>
 		</div>
 
