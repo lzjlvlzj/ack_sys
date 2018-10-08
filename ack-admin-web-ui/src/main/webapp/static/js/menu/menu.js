@@ -66,7 +66,8 @@ Menu.showList = function() {
 			option.data = obj.result;
 			var conf = {totalPage:obj.totalPage, pageNumSize : 5, callback : Menu.list};
 			$("#page").paginator(conf);
-			AckTool.table.show(option); 
+			AckTool.table.show(option);
+			
 		}
 	});
 }
