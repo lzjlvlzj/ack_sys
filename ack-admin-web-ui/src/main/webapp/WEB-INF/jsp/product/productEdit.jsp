@@ -19,7 +19,7 @@
 				<input type="hidden" name="id" id="id" value="">
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="productName"> 产品名称 </label>
+						for="name"> 产品名称 </label>
 
 					<div class="col-sm-9">
 						<input type="text" id="name" placeholder="产品名称"
@@ -31,7 +31,7 @@
 						for="url"> 产品单价(￥) </label>
 
 					<div class="col-sm-9">
-						<input type="text" id="unitPrice" placeholder="url" name="unitPrice"
+						<input type="text" id="unitPrice" placeholder="产品单价" name="unitPrice"
 							value="" class="col-xs-10 col-sm-8">
 					</div>
 				</div>
@@ -49,13 +49,13 @@
 						for="productType"> 产品类型 </label>
 
 					<div class="radio col-sm-4">
-						<label> <input name="type" id="" type="radio"
-							class="ace" value="0"> <span class="lbl"> 产品</span>
+						<label> <input name="type"  checked="checked" type="radio"
+							class="ace" value="0"> <span class="lbl"> 液体</span>
 						</label>
 					</div>
 					<div class="radio col-sm-5">
-						<label> <input name="type" id="" type="radio"
-							class="ace" value="1"> <span class="lbl"> 按钮</span>
+						<label> <input name="type"  type="radio"
+							class="ace" value="1"> <span class="lbl"> 粉末</span>
 						</label>
 					</div>
 				</div>

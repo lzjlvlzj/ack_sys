@@ -1,8 +1,5 @@
 package org.ack.admin.web.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
 import org.ack.persist.page.Page;
@@ -17,6 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/product")
@@ -60,7 +60,7 @@ public class ProductController extends AckPageController<Product, Long>{
 	public String addUI(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("新建产品菜单");
+			logger.debug("新建产品");
 		}
 		return "product/productEdit";
 	}
