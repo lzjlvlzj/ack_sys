@@ -62,11 +62,11 @@
 
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="comments"> 产品备注信息</label>
+						for="remark"> 产品备注信息</label>
 
 					<div class="col-sm-9">
-						<textarea class="col-xs-10 col-sm-8" id="comments"
-							placeholder="产品备注信息" name="comments"></textarea>
+						<textarea class="col-xs-10 col-sm-8" id="remark"
+							placeholder="产品备注信息" name="remark"></textarea>
 					</div>
 				</div>
 			</form>
