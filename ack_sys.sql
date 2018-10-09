@@ -1,16 +1,16 @@
-/*
+/* 
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50155
+Source Server Version : 50722
 Source Host           : localhost:3306
 Source Database       : ack_sys
 
 Target Server Type    : MYSQL
-Target Server Version : 50155
+Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2017-05-23 15:30:21
+Date: 2018-10-09 09:13:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -61,7 +61,7 @@ CREATE TABLE `ack_menu` (
   `comments` varchar(255) DEFAULT NULL,
   `createTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ack_menu
@@ -81,11 +81,14 @@ INSERT INTO `ack_menu` VALUES ('12', '菜单删除', '', '1', '9', null, '', '',
 INSERT INTO `ack_menu` VALUES ('13', '部门管理', '/dept/list/ui', '0', '0', '0', 'ace-icon fa fa-asterisk', 'dept-mem', 'dept:list', '部门管理', '2017-04-24 15:28:05');
 INSERT INTO `ack_menu` VALUES ('14', '部门添加', null, '1', '13', null, null, null, 'dept:add', '部门添加', '2017-04-24 15:28:41');
 INSERT INTO `ack_menu` VALUES ('15', '部门修改', null, '1', '13', null, null, null, 'dept:update', '部门修改', '2017-04-24 15:29:19');
-INSERT INTO `ack_menu` VALUES ('16', '部门删除', null, '1', '13', null, null, null, 'dept:delete', '部门删除1', '2017-04-24 15:29:49');
-INSERT INTO `ack_menu` VALUES ('17', 'dashborad1', '/user/dashboard', '0', '0', null, 'ace-icon fa fa-tachometer', 'dashborad-mem', 'user:dashboard', 'dashborad', '2017-04-25 12:42:53');
+INSERT INTO `ack_menu` VALUES ('16', '部门删除', null, '1', '13', null, '', null, 'dept:delete', '部门删除1', '2017-04-24 15:29:49');
+INSERT INTO `ack_menu` VALUES ('17', 'dashborad1', '/user/dashboard', '0', '0', null, 'menu-icon fa fa-tachometer', 'dashborad-mem', 'user:dashboard', 'dashborad', '2017-04-25 12:42:53');
 INSERT INTO `ack_menu` VALUES ('18', '用户角色', '', '1', '1', null, '', '', 'user:role', '为用户添加角色信息', '2017-05-18 14:41:48');
 INSERT INTO `ack_menu` VALUES ('19', '角色菜单', '', '1', '5', null, '', '', 'role:menu', '为角色分配菜单', '2017-05-18 14:56:26');
 INSERT INTO `ack_menu` VALUES ('20', '部门查看', '', '1', '13', null, '', '', 'dept:find', '查看部门信息', '2017-05-22 09:08:57');
+INSERT INTO `ack_menu` VALUES ('21', '角色查询', '', '1', '5', null, '', '', 'role:find', '查看单个角色信息', '2017-05-24 09:02:33');
+INSERT INTO `ack_menu` VALUES ('22', '菜单查询', '', '1', '9', null, '', '', 'menu:find', '菜单查询', '2017-05-24 09:03:51');
+INSERT INTO `ack_menu` VALUES ('23', '产品管理', '/product/list/ui', '0', '0', null, 'menu-icon fa fa-fire', 'product-mem', 'product:list', '产品管理', '2018-10-09 08:59:16');
 
 -- ----------------------------
 -- Table structure for ack_permission
@@ -134,6 +137,49 @@ INSERT INTO `ack_permission` VALUES ('25', '权限修改', '0', '0', '1', 'autho
 INSERT INTO `ack_permission` VALUES ('27', '用户角色', '0', '0', '1', 'user-role2user', '用户角色', '2017-04-12 16:34:09');
 
 -- ----------------------------
+-- Table structure for ack_product
+-- ----------------------------
+DROP TABLE IF EXISTS `ack_product`;
+CREATE TABLE `ack_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL COMMENT '产品名称',
+  `type` int(4) NOT NULL DEFAULT '0' COMMENT '商品类型',
+  `unitPrice` decimal(24,2) NOT NULL DEFAULT '0.00' COMMENT '单价',
+  `url` varchar(254) DEFAULT NULL COMMENT '图片地址',
+  `remark` varchar(256) DEFAULT NULL COMMENT '备注',
+  `createTime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ack_product
+-- ----------------------------
+INSERT INTO `ack_product` VALUES ('1', '凝胶', '0', '403.40', 'aaa.jpg', '测试', '2018-10-08 12:00:47');
+INSERT INTO `ack_product` VALUES ('2', '凝胶q', '0', '413.40', 'abb.jpg', '测试q', '2018-10-08 12:12:09');
+INSERT INTO `ack_product` VALUES ('3', '凝胶0', '0', '403.40', 'aaa.jpg', '测试0', '2018-10-08 12:04:01');
+INSERT INTO `ack_product` VALUES ('4', '凝胶1', '0', '403.40', 'aaa.jpg', '测试1', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('5', '凝胶2', '0', '403.40', 'aaa.jpg', '测试2', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('6', '凝胶3', '0', '403.40', 'aaa.jpg', '测试3', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('7', '凝胶4', '0', '403.40', 'aaa.jpg', '测试4', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('8', '凝胶5', '0', '403.40', 'aaa.jpg', '测试5', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('9', '凝胶6', '0', '403.40', 'aaa.jpg', '测试6', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('10', '凝胶7', '0', '403.40', 'aaa.jpg', '测试7', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('11', '凝胶8', '0', '403.40', 'aaa.jpg', '测试8', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('12', '凝胶9', '0', '403.40', 'aaa.jpg', '测试9', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('13', '凝胶10', '0', '403.40', 'aaa.jpg', '测试10', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('14', '凝胶11', '0', '403.40', 'aaa.jpg', '测试11', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('15', '凝胶12', '0', '403.40', 'aaa.jpg', '测试12', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('16', '凝胶13', '0', '403.40', 'aaa.jpg', '测试13', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('17', '凝胶14', '0', '403.40', 'aaa.jpg', '测试14', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('18', '凝胶15', '0', '403.40', 'aaa.jpg', '测试15', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('19', '凝胶16', '0', '403.40', 'aaa.jpg', '测试16', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('20', '凝胶17', '0', '403.40', 'aaa.jpg', '测试17', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('21', '凝胶18', '0', '403.40', 'aaa.jpg', '测试18', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('22', '凝胶19', '0', '403.40', 'aaa.jpg', '测试19', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('23', '凝胶20', '0', '403.40', 'aaa.jpg', '测试20', '2018-10-08 12:04:02');
+INSERT INTO `ack_product` VALUES ('24', '凝胶21', '0', '403.40', 'aaa.jpg', '测试21', '2018-10-08 12:04:02');
+
+-- ----------------------------
 -- Table structure for ack_role
 -- ----------------------------
 DROP TABLE IF EXISTS `ack_role`;
@@ -141,6 +187,9 @@ CREATE TABLE `ack_role` (
   `id` int(12) NOT NULL AUTO_INCREMENT COMMENT '数据id',
   `roleName` varchar(128) NOT NULL COMMENT '角色名称',
   `menuIds` varchar(128) DEFAULT NULL,
+  `weight` int(4) DEFAULT NULL,
+  `abbreviation` varchar(128) DEFAULT NULL,
+  `viewStatus` int(4) DEFAULT '0',
   `comments` varchar(128) DEFAULT NULL COMMENT '备注',
   `createTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -149,13 +198,13 @@ CREATE TABLE `ack_role` (
 -- ----------------------------
 -- Records of ack_role
 -- ----------------------------
-INSERT INTO `ack_role` VALUES ('1', 'admin', '1,2,3,4,18,5,6,7,8,19,9,10,11,12,13,14,15,16,20,17', '有系统管理权限没有业务权限3', '2017-03-29 16:30:29');
-INSERT INTO `ack_role` VALUES ('2', 'cto', '1,2,3,4,13,14,15,16,17', '公司首席技术官', '2017-03-30 10:40:37');
-INSERT INTO `ack_role` VALUES ('3', 'cfo', '17', '公司首席财务官', '2017-03-30 10:40:37');
-INSERT INTO `ack_role` VALUES ('4', 'ceo', '17', '首席执行官', '2017-03-30 10:42:34');
-INSERT INTO `ack_role` VALUES ('5', 'coo', '17', '首席运营官', '2017-03-30 10:43:08');
-INSERT INTO `ack_role` VALUES ('6', '普通员工', '17', '普通员工', '2017-04-13 08:31:25');
-INSERT INTO `ack_role` VALUES ('7', '部门经理', '1,2,13,15,20,17', '部门经理', '2017-04-24 10:04:34');
+INSERT INTO `ack_role` VALUES ('1', 'admin', '1,2,3,4,18,5,6,7,8,19,21,9,10,11,12,22,13,14,15,16,20,17,23', '99', 'S_ADMIN', '1', '有系统管理权限没有业务权限3', '2017-03-29 16:30:29');
+INSERT INTO `ack_role` VALUES ('2', 'cto', '1,2,3,13,14,20,17', '3', 'CTO', '1', '公司首席技术官', '2017-03-30 10:40:37');
+INSERT INTO `ack_role` VALUES ('3', 'cfo', '13,20,17', '3', 'CFO', '1', '公司首席财务官', '2017-03-30 10:40:37');
+INSERT INTO `ack_role` VALUES ('4', 'ceo', '13,14,15,16,20,17', '3', 'CEO', '1', '首席执行官', '2017-03-30 10:42:34');
+INSERT INTO `ack_role` VALUES ('5', 'coo', '13,20,17', '3', 'COO', '1', '首席运营官', '2017-03-30 10:43:08');
+INSERT INTO `ack_role` VALUES ('6', '普通员工', '17', '0', 'STAFF', '0', '普通员工', '2017-04-13 08:31:25');
+INSERT INTO `ack_role` VALUES ('7', '部门经理', '1,2,3,18,5,21,13,20,17', '2', 'PM', '0', '部门经理', '2017-04-24 10:04:34');
 
 -- ----------------------------
 -- Table structure for ack_user
@@ -178,10 +227,10 @@ CREATE TABLE `ack_user` (
 -- ----------------------------
 -- Records of ack_user
 -- ----------------------------
-INSERT INTO `ack_user` VALUES ('5', 'zhangsan', '2ffbc947b4af8c60b9df51dfca44d71d', '689', '张', '三', '0', '1', '2017-03-23 17:57:36');
-INSERT INTO `ack_user` VALUES ('6', 'lisi', '2ffbc947b4af8c60b9df51dfca44d71d', '689', '张0', '三0', '0', '7', '2017-03-27 16:12:44');
-INSERT INTO `ack_user` VALUES ('7', 'wangwu', '2ffbc947b4af8c60b9df51dfca44d71d', '689', '张1', '三1', '0', '6', '2017-03-27 16:12:44');
-INSERT INTO `ack_user` VALUES ('8', 'zhangsan2', '123', '689', '张2', '三2', '0', '6', '2017-03-27 16:12:44');
+INSERT INTO `ack_user` VALUES ('5', 'admin', '2ffbc947b4af8c60b9df51dfca44d71d', '689', '张', '三', '0', '1', '2017-03-23 17:57:36');
+INSERT INTO `ack_user` VALUES ('6', 'lisi', '2ffbc947b4af8c60b9df51dfca44d71d', '689', '张0', '三0', '0', '5,6,7', '2017-03-27 16:12:44');
+INSERT INTO `ack_user` VALUES ('7', 'wangwu', '2ffbc947b4af8c60b9df51dfca44d71d', '689', '张1', '三1', '0', '1', '2017-03-27 16:12:44');
+INSERT INTO `ack_user` VALUES ('8', 'welin', '2ffbc947b4af8c60b9df51dfca44d71d', '689', '张2', '三2', '0', '6', '2017-03-27 16:12:44');
 INSERT INTO `ack_user` VALUES ('9', 'zhangsan3', '123', '689', '张3', '三3', '0', '6', '2017-03-27 16:12:44');
 INSERT INTO `ack_user` VALUES ('10', 'zhangsan4', '123', '689', '张4', '三4', '0', '6', '2017-03-27 16:12:44');
 INSERT INTO `ack_user` VALUES ('11', 'zhangsan5', '123', '689', '张5', '三5', '0', '6', '2017-03-27 16:12:44');
