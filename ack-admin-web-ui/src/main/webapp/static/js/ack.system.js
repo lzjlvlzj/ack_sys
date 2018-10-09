@@ -49,15 +49,16 @@ AckSystem.user = {
 	   return array;
 	},
 	calcPermissions : function(m){
-		var menus = m || AckSystem.authMenus;
-		if(!menus || menus.length == 0){
+		var menuNodes = m || AckSystem.authMenus.children;
+		if(!menuNodes || menuNodes.length == 0){
 			return "";
 		}
-		var len = menus.length;
+		var len = menuNodes.length;
 		for(var i = 0; i < len; i++){
-			var item = menus[i];
+			var node = menuNodes[i];
+			var item = node.value;
 			AckSystem.user._tmp += item.permission + ",";
-			var childMenus = item.childMenus;
+			var childMenus = node.children;
 			if(!childMenus || childMenus.length == 0){
 				continue;
 			}
@@ -313,7 +314,7 @@ AckSystem.menu = {
 		AckSystem.postReq(data, url, function(obj) {
 			if (obj) {
 				AckSystem.authMenus = obj;
-				AckSystem.menu.show(obj);
+				AckSystem.menu.show(obj.children);
 				//默认显示
 				$("#dashborad-mem").click();
 			}
@@ -397,10 +398,19 @@ AckSystem.menu = {
 	},
 	//二级菜单
 	twoLevel : function(parent, childMenus){
-	    var ul = $("<ul class='submenu nav-show'>");
-	    var len = childMenus.length;
-	    for(var i in childMenus){
-		   var menu = childMenus[i];
+		var ul = $("<ul class='submenu nav-show'>");
+	    var len = nodes.length;
+	    var parentA = parent.find("a").eq(0);
+	    var dropwonB = $("<b class='arrow fa fa-angle-down'></b>");
+	    var flag = 0;
+	    for(var i in nodes){
+		   var node = nodes[i];
+		   var menu = node.value;
+		   //排除是按钮类型的子菜单
+		   if(menu.menuType == 1){
+			   continue;
+		   }
+		   flag++;
 		   var li = $("<li class=''></li>");
 		   var a = $('<a href="javascript:void(0);" id="' + menu.domId + '"></a>');
 		   var i = $("<i class='menu-icon fa fa-caret-right'></i>");
@@ -415,10 +425,15 @@ AckSystem.menu = {
 		   AckSystem.event.menu(menu, parent);
 		   
 	    }
+	    if(flag >= 1){
+	    	parentA.attr("class", "dropdown-toggle");
+	    	parentA.append(dropwonB);
+	    }
 	    parent.append(ul);
 	},	
 	//一级菜单	
-	oneLevel : function (menu){
+	oneLevel : function (node){
+		var menu = node.value;
 		var li = $("<li class=''></li>");
 		var a = $("<a href='javascript:void(0);' id='" + menu.domId + "'></a>");
 		var i = $("<i class='" + menu.css + "'></i>");
@@ -428,27 +443,16 @@ AckSystem.menu = {
 		a.append(span);
 		li.append(a);
 		li.append(b);
-		/*
-		var childMenus = menu.childMenus;
 		
-		if (childMenus && childMenus.length > 0) {
-			var tag = false;
-			for (var i = 0; i < childMenus.length; i++) {
-				var childMenu = childMenus[i];
-				// 必须是菜单而不是按钮 && 是个页面不是功能
-				if (childMenu.menuType == 0 && childMenu.isPage == 0) {
-					tag = true;
-					break;
-				}
-			}
-			if (tag) {
-				var dropwonB = $("<b class='arrow fa fa-angle-down'></b>");
-				a.attr("class", "dropdown-toggle");
-				a.append(dropwonB);
-				this.twoLevel(li, childMenus);
-			}
-		}
-		*/
+		var childMenus = node.children;
+		if(childMenus && childMenus.length > 0){
+			/*
+			var dropwonB = $("<b class='arrow fa fa-angle-down'></b>");
+			a.attr("class", "dropdown-toggle");
+			a.append(dropwonB);
+			*/
+			this.twoLevel(li, childMenus);
+		} 
 		//绑定事件
 		AckSystem.event.menu(menu);
 		return li;
@@ -460,15 +464,16 @@ AckSystem.menu = {
 		var sidebarShortcuts = $("#sidebar-shortcuts");
 		var hasSysMenu = false;
 		for (var i = 0; i < len; i++) {
-			var m = obj[i];
-			console.log("----------");
-			console.log(m.menuLevel);
+			var node = obj[i];
+			var m = node.value;
+			//console.log("----------");
+			//console.log(m.menuLevel);
 			//展示系统菜单
 			if(m.menuLevel == 0){
 				hasSysMenu = true;
 				AckSystem.menu.sysMenu(m);
 			} else {// 展示用户菜单
-				var li = this.oneLevel(m);
+				var li = this.oneLevel(node);
 				ul.append(li);
 			}
 		}

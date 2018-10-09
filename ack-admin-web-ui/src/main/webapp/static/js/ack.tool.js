@@ -143,7 +143,7 @@ AckTool.optionButton = {
 		if(div){
 			return div;
 		}
-		div = $("<div class='hidden-sm hidden-xs btn-group'>");
+		div = $("<div class='hidden-sm hidden-xs btn-group'></div>");
 		var array = AckTool.optionButton.authButtonPermissionsConfig(prefix);
 		var permissons = option.permissions || parent.AckSystem.user.permissions();
 		

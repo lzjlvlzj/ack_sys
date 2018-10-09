@@ -1,6 +1,5 @@
 package org.ack.admin.web.controller;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +10,8 @@ import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
 import org.ack.common.Content;
 import org.ack.common.datatable.DataTableTemplate;
+import org.ack.common.tree.Tree;
 import org.ack.persist.page.Page;
-import org.ack.pojo.Menu;
 import org.ack.pojo.Role;
 import org.ack.pojo.User;
 import org.ack.service.UserService;
@@ -109,11 +108,11 @@ public class UserController extends AckPageController<User, Long> {
 	 */
 	@RequestMapping(value = "/menus")
 	@ResponseBody
-	public List<Menu> getMenus(HttpServletRequest request,
+	public Tree getMenus(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		User user = (User)request.getSession().getAttribute(Content.USER);
-		List<Menu> menus = userServiceImpl.findMenuByUser(user);
-		return menus;
+		Tree tree = userServiceImpl.findMenuTreeByUser(user);
+		return tree;
 	}
 	
 	/**

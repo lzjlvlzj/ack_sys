@@ -9,6 +9,7 @@
 		<typeAlias type="org.ack.pojo.Role" alias="role" />
 		<typeAlias type="org.ack.pojo.Permission" alias="permission" />
 		<typeAlias type="org.ack.pojo.Department" alias="department" />
+		<typeAlias type="org.ack.pojo.Product" alias="product" />
 	</typeAliases>
 	<!-- 分页拦截器 -->
 	<plugins>
@@ -25,7 +26,7 @@
               <property name="driver" value="com.mysql.jdbc.Driver"/>   
               <property name="url" value="jdbc:mysql://127.0.0.1:3306/ack_sys"/>   
               <property name="username" value="root"/>   
-              <property name="password" value="123"/>   
+              <property name="password" value="root"/>   
            </dataSource>   
        </environment>   
     </environments> 
@@ -34,7 +35,7 @@
 		<mapper resource="config/mapper/UserMapper.xml" />
 		<mapper resource="config/mapper/RoleMapper.xml" />
 		<mapper resource="config/mapper/MenuMapper.xml" />
-		<!-- <mapper resource="config/mapper/MenuFunctionMapper.xml" /> -->
+		<mapper resource="config/mapper/ProductMapper.xml" />
 		<mapper resource="config/mapper/PermissionMapper.xml" />
 		<mapper resource="config/mapper/DepartmentMapper.xml" />
 	</mappers>

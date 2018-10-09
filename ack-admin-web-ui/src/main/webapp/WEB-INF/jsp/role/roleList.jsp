@@ -16,6 +16,8 @@
 					<tr>
 						<th class="center">序号</th>
 						<th>角色名称</th>
+						<th>角色简写</th>
+						<th>角色权重</th>
 						<th>menusId</th>
 						<th>备注</th>
 						<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>

@@ -29,8 +29,15 @@ Role.getOneTr = function(n, data, option) {
 	//角色名称
 	var roleName = $("<td class='center'>" + data.roleName + "</td>");
 	tr.append(roleName);
+	//角色简称
+	var abbreviation = $("<td class='center'>" + data.abbreviation + "</td>");
+	tr.append(abbreviation);
+	//角色权重
+	var weight = $("<td class='center'>" + data.weight + "</td>");
+	tr.append(weight);
 	//菜单id
-	var menuIds = $("<td class='center menu-ids'>" + data.menuIds + "</td>");
+	var ids = data.menuIds;
+	var menuIds = $("<td class='center menu-ids'>" + ids + "</td>");
 	tr.append(menuIds);
 	//评论
 	var comments = $("<td class='center'>" + data.comments + "</td>");
@@ -39,24 +46,20 @@ Role.getOneTr = function(n, data, option) {
 	var createTime = $("<td class='center'>" + data.createTime + "</td>");
 	tr.append(createTime);
 	//操作
-	/*
-	var optionTd = $("<td></td>");
-	optionTd.append(AckTool.optionButton.simpleOption);
-	tr.append(optionTd);
-	*/
 	//获得操作按钮
 	var optionTd = $("<td></td>");
-	var data = option.data;
+	var da = option.data;
 	var opt = {};
-	opt.data = data;
+	opt.data = da;
 	opt.prefix = "role";
 	var buttons = AckTool.optionButton.getTrAuthButtons(opt);
 	optionTd.append(buttons);
-	/*
-	var m2rBtn = AckTool.optionButton.defaultButton("角色菜单","ack-menu2role-btn","fa-circle-o");
-	optionTd.append(m2rBtn);
-	*/
+	
+	var menuIdInput = $("<input type='hidden' value='" + ids + "'></input>");
+	optionTd.append(menuIdInput);
+	
 	tr.append(optionTd);
+	
 	return tr;
 }
 /**
@@ -225,8 +228,8 @@ Role.bind = function() {
 	});
     //角色菜单
     $("#simple-table").on("click",".ack-simple-btn-role-menu",function(){
-    	var td = $(this).parents("tr").find("td").eq(2);
-    	var menuIds = td.text();
+    	var input = $(this).parents("td").find("input");
+    	var menuIds = input.val();
     	var id = $(this).parents("tr").attr("id");
     	//ztree();
     	Role.menu2roleUI(menuIds, id);

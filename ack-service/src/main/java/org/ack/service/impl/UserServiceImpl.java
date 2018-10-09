@@ -1,6 +1,7 @@
 package org.ack.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.ack.base.service.impl.AckMapperServiceImpl;
+import org.ack.common.tree.Node;
+import org.ack.common.tree.Tree;
 import org.ack.persist.AckMapper;
 import org.ack.persist.mapper.UserMapper;
 import org.ack.pojo.Menu;
@@ -78,22 +81,21 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		return null;
 	}
 	
-	private List<Menu> processMenus(Set<Menu> menuList) {
+	private List<Menu> processMenus(Set<Menu> menuSet) {
+		Menu root = new Menu();
+		root.setId(0);//数据库中root id 为0
+		Tree tree = new Tree(root);
 	    List<Menu> list = new ArrayList<Menu>();
-	    for (Menu menu : menuList) {
-	    	List<Menu> child = new ArrayList<Menu>();
-	    	if (menu.getMenuType() == 0) {
-	    		for(Menu m : menuList){
-		    		if(m.getParentId() == -1){
-		    			continue;
-		    		}
-		    		if(m.getParentId() == menu.getId()){
-		    			child.add(m);
-		    		}
-		    	}
-		    	menu.setChildMenus(child);
-		    	list.add(menu);
-	    	}
+	    for(Menu menu : menuSet){
+	    	Node  parent = new Node();
+			Menu mp = new Menu();
+			mp.setId(menu.getParentId());
+			parent.setValue(mp);
+			
+			Node node = new Node();
+			node.setValue(menu);
+			node.setParent(parent);
+			tree.add(node);
 	    }
 		return list;
 	}
@@ -102,9 +104,9 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 	public List<Menu> findMenuByUser(User user) {
 		String loginName = user.getLoginName();
 		
-		if (null != menuMap.get(loginName)) {
+		/*if (null != menuMap.get(loginName)) {
 			return menuMap.get(loginName);
-		}
+		}*/
 		Set<Menu> menus = getMenus(user);
 		// 组织菜单成树形结构
 		List<Menu> menuList = processMenus(menus);
@@ -154,4 +156,34 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		}
 		return set;
 	}
+	
+	private Tree getMenuTree(List<Menu> menuList) {
+		Menu root = new Menu();
+		root.setId(0);//数据库中root id 为0
+		Tree tree = new Tree(root);
+	    for(Menu menu : menuList){
+	    	Node  parent = new Node();
+			Menu mp = new Menu();
+			mp.setId(menu.getParentId());
+			parent.setValue(mp);
+			
+			Node node = new Node();
+			node.setValue(menu);
+			node.setParent(parent);
+			tree.add(node);
+	    }
+		return tree;
+	}
+
+	@Override
+	public Tree findMenuTreeByUser(User user) {
+		Set<Menu> menus = getMenus(user);
+		List<Menu> menuList = new ArrayList<Menu>(menus.size());
+		menuList.addAll(menus);
+		//排序
+		Collections.sort(menuList);
+		Tree t = getMenuTree(menuList);
+		return t;
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.ack.base.service.AckMapperService;
+import org.ack.common.tree.Tree;
 import org.ack.pojo.Menu;
 import org.ack.pojo.Permission;
 import org.ack.pojo.Role;
@@ -38,6 +39,13 @@ public interface UserService extends AckMapperService<User, Long> {
 	 * @return
 	 */
 	public List<Menu> findMenuByUser(User user);
+	
+	/**
+	 * 根据id查询菜单
+	 * 
+	 * @return
+	 */
+	public Tree findMenuTreeByUser(User user);
 
 	/**
 	 * 查询所有角色
