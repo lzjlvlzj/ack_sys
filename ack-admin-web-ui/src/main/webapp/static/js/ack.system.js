@@ -397,8 +397,8 @@ AckSystem.menu = {
 		});
 	},
 	//二级菜单
-	twoLevel : function(parent, childMenus){
-		var ul = $("<ul class='submenu nav-show'>");
+	twoLevel : function(parent, nodes){
+        var ul = $("<ul class='submenu nav-show'>");
 	    var len = nodes.length;
 	    var parentA = parent.find("a").eq(0);
 	    var dropwonB = $("<b class='arrow fa fa-angle-down'></b>");
