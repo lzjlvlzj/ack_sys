@@ -26,7 +26,7 @@
 		</if>
 	</insert>
 
-	<select id="findByIds" parameterType="int" resultMap="ProductResultMap">
+	<select id="findByIds" parameterType="string" resultMap="ProductResultMap">
 		SELECT
 		<include refid="base_column"></include>
 		FROM ack_product ar
@@ -39,7 +39,7 @@
 
 
 
-	<select id="findById" parameterType="long" resultMap="ProductResultMap">
+	<select id="findById" parameterType="int" resultMap="ProductResultMap">
 		SELECT
 		<include refid="base_column"></include>
 		FROM
@@ -47,7 +47,7 @@
 		WHERE id = #{id}
 	</select>
 	
-	<select id="find" parameterType="long" resultMap="ProductResultMap">
+	<select id="find" parameterType="int" resultMap="ProductResultMap">
 		SELECT
 		<include refid="base_column"></include>
 		FROM

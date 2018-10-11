@@ -1,6 +1,11 @@
 package org.ack.persist.mapper;
 
-import static org.junit.Assert.fail;
+import org.ack.persist.page.Page;
+import org.ack.pojo.Product;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -8,12 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ack.persist.page.Page;
-import org.ack.pojo.Product;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.junit.Assert.fail;
 
 public class ProductMapperTest extends BaseTest{
 	
@@ -50,7 +50,7 @@ public class ProductMapperTest extends BaseTest{
 	@Test
 	public void testFind() {
 		Product p = new Product();
-		p.setId(2L);
+		p.setId(2);
 		
 		p = productMapper.find(p);
 		
@@ -97,7 +97,7 @@ public class ProductMapperTest extends BaseTest{
 	@Test
 	public void testUpdate() {
 		Product p = new Product();
-		p.setId(2L);
+		p.setId(2);
 		p.setName("凝胶");
 		BigDecimal dec = new BigDecimal(413.4);
 		p.setUnitPrice(dec);
@@ -115,7 +115,7 @@ public class ProductMapperTest extends BaseTest{
 	@Test
 	public void testDelete() {
 		Product p = new Product();
-		p.setId(25L);
+		p.setId(25);
 		
 		int r = productMapper.delete(p);
 		sqlSession.commit();

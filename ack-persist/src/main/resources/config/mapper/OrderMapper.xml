@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.persist.mapper.OrderMapper">
+	<resultMap type="org.ack.pojo.Order" id="OrderResultMap">
+		<result property="id" column="id" />
+		<result property="number" column="number" />
+		<result property="productId" column="productId" />
+		<result property="clientId" column="clientId" />
+		<result property="amount" column="amount" />
+		<result property="sum" column="sum" />
+		<result property="remark" column="remark" />
+		<result property="createTime" column="createTime" />
+	</resultMap>
+
+	<sql id="base_column">
+		id,number,productId,clientId,amount,sum,remark,createTime
+	</sql>
+	<insert id="insert">
+		INSERT INTO
+		ack_order(number,productId,clientId,amount,sum,remark,createTime)
+		VALUES
+		<if test="createTime != null and createTime !=''">
+			(#{number},#{productId},#{clientId},#{amount},#{sum},#{remark},#{createTime})
+		</if>
+		<if test="createTime == null or createTime ==''">
+			(#{number},#{productId},#{clientId},#{amount},#{sum},#{remark},now())
+		</if>
+	</insert>
+
+	<select id="findByIds" parameterType="int" resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column"></include>
+		FROM ack_order ar
+		where ar.id in
+		<foreach collection="array" item="ids" index="index" open="("
+			close=")" separator=",">
+			#{ids}
+		</foreach>
+	</select>
+
+
+
+	<select id="findById" parameterType="long" resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column"></include>
+		FROM
+		ack_order
+		WHERE id = #{id}
+	</select>
+	
+	<select id="find" parameterType="long" resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column"></include>
+		FROM
+		ack_order
+		WHERE id = #{id}
+	</select>
+
+	<update id="update" parameterType="Order">
+		UPDATE
+		ack_order ar
+		<set>
+			<if test="number != null and number !=''">
+				ar.number = #{number},
+			</if>
+			<if test="productId != null and productId !=''">
+				ar.productId = #{productId},
+			</if>
+			<if test="clientId != null and clientId !=''">
+				ar.clientId = #{clientId},
+			</if>
+			<if test="amount != null and amount !=''">
+				ar.amount = #{amount},
+			</if>
+			<if test="sum != null and sum !=''">
+				ar.sum = #{sum},
+			</if>
+			<if test="createTime != null and createTime !=''">
+				ar.createTime = #{createTime},
+			</if>
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM ack_order
+		WHERE id = #{id}
+	</delete>
+
+	<delete id="delete" parameterType="Order">
+		DELETE FROM ack_order
+		WHERE id = #{id}
+	</delete>
+
+	<select id="findAll" resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column"></include>
+		FROM
+		ack_order
+	</select>
+	
+	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+		resultMap="OrderResultMap">
+		SELECT
+		<include refid="base_column"></include>
+		FROM
+		ack_order
+		<where>
+		    1 = 1
+		    <if test="condition.number != null and condition.number !=''">
+			    and number=#{condition.number}
+		    </if>
+		    <if test="condition.clientId != null and condition.clientId !=''">
+			    and clientId=#{condition.clientId}
+		    </if>
+			<if test="condition.amount != null and condition.amount !=''">
+				and amount=#{condition.amount}
+			</if>
+		</where>
+		
+	</select>
+
+</mapper>

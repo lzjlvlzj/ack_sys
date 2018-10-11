@@ -17,7 +17,7 @@ public class Product implements Serializable {
 	 */
 	private static final long serialVersionUID = 3945731745209434L;
 	
-	private Long id;                  // 数据库id
+	private Integer id;                  // 数据库id
 	private String name;              // 商品名称
 	private Integer type;             // 商品类型
 	private BigDecimal unitPrice;     // 单价
@@ -26,10 +26,10 @@ public class Product implements Serializable {
 	private Date createTime;          // 创建时间
 	
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {

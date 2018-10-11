@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductServiceImpl extends AckMapperServiceImpl<Product, Long>
+public class ProductServiceImpl extends AckMapperServiceImpl<Product, Integer>
 		implements ProductService {
 	@Autowired
 	ProductMapper productMapper;
 	@Override
-	protected AckMapper<Product, Long> getAckMapper() {
+	protected AckMapper<Product, Integer> getAckMapper() {
 		return productMapper;
 	}
 

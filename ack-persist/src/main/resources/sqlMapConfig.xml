@@ -10,6 +10,9 @@
 		<typeAlias type="org.ack.pojo.Permission" alias="permission" />
 		<typeAlias type="org.ack.pojo.Department" alias="department" />
 		<typeAlias type="org.ack.pojo.Product" alias="product" />
+		<typeAlias type="org.ack.pojo.Client" alias="client" />
+		<typeAlias type="org.ack.pojo.Order" alias="order" />
+		<typeAlias type="org.ack.pojo.Account" alias="account" />
 	</typeAliases>
 	<!-- 分页拦截器 -->
 	<plugins>
@@ -35,8 +38,12 @@
 		<mapper resource="config/mapper/UserMapper.xml" />
 		<mapper resource="config/mapper/RoleMapper.xml" />
 		<mapper resource="config/mapper/MenuMapper.xml" />
-		<mapper resource="config/mapper/ProductMapper.xml" />
 		<mapper resource="config/mapper/PermissionMapper.xml" />
 		<mapper resource="config/mapper/DepartmentMapper.xml" />
+		<!-- our Mapper-->
+		<mapper resource="config/mapper/ClientMapper.xml" />
+		<mapper resource="config/mapper/ProductMapper.xml" />
+		<mapper resource="config/mapper/OrderMapper.xml" />
+		<mapper resource="config/mapper/AccountMapper.xml" />
 	</mappers>
 </configuration>

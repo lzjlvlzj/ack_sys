@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/product")
-public class ProductController extends AckPageController<Product, Long>{
+public class ProductController extends AckPageController<Product, Integer>{
 	
 	@Autowired
     private ProductService productServiceImpl;
@@ -28,9 +28,10 @@ public class ProductController extends AckPageController<Product, Long>{
 			.getLogger(ProductController.class);
 
 	@Override
-	public AckMapperService<Product, Long> getService() {
+	public AckMapperService<Product, Integer> getService() {
 		return productServiceImpl;
 	}
+
 	@RequestMapping(value = "/list/ui")
 	@AckPermission(value="product:list")
 	public String listUI(HttpServletRequest request,

@@ -7,6 +7,6 @@ import org.ack.pojo.Product;
  * @author ack
  *
  */
-public interface ProductMapper extends AckMapper<Product, Long>{
+public interface ProductMapper extends AckMapper<Product, Integer>{
 
 }
