@@ -45,5 +45,6 @@
 		<mapper resource="config/mapper/ProductMapper.xml" />
 		<mapper resource="config/mapper/OrderMapper.xml" />
 		<mapper resource="config/mapper/AccountMapper.xml" />
+		<mapper resource="config/mapper/BrandMapper.xml" />
 	</mappers>
 </configuration>
