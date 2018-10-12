@@ -1,14 +1,14 @@
 package org.ack.service;
 
-import java.util.List;
-import java.util.Set;
-
 import org.ack.base.service.AckMapperService;
 import org.ack.common.tree.Tree;
 import org.ack.pojo.Menu;
 import org.ack.pojo.Permission;
 import org.ack.pojo.Role;
 import org.ack.pojo.User;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 用户业务逻辑封装
@@ -75,5 +75,12 @@ public interface UserService extends AckMapperService<User, Long> {
 	 * 获得用户权限字符串
 	 * */
 	public Set<String> getPermissionString(User user);
+
+	/**
+	 *
+	 * @param user
+	 * @return
+	 */
+	public List<Role> findRoleList(User user);
 
 }

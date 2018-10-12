@@ -42,7 +42,6 @@ public class ProductController extends AckPageController<Product, Integer>{
 	@RequestMapping(value = "/page")
 	@AckPermission(value="product:list")
 	@ResponseBody
-	@Override
 	public Page<Product> findPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -52,7 +51,7 @@ public class ProductController extends AckPageController<Product, Integer>{
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.findPage(request, response, model, t, currentPage, count,
+		return super.findPage(request, response, model, null, t, currentPage, count,
 				orderColumn, orderType);
 	}
 	

@@ -1,10 +1,14 @@
 package org.ack.pojo;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Brand {
     private Integer id;
-
+    @NotBlank(message="{brand.name.null}")
+    @Size(min=1, max=128, message="{brand.name.length.illegal}")
     private String name;
 
     private String address;

@@ -1,13 +1,5 @@
 package org.ack.admin.web.controller;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.ack.admin.web.template.ZTreeNode;
 import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
@@ -20,11 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 /**
  * 菜单控制器
@@ -53,7 +45,6 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/list/ui")
@@ -66,7 +57,6 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	@RequestMapping(value = "/page")
 	@AckPermission(value="menu:list")
 	@ResponseBody
-	@Override
 	public Page<Menu> findPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -76,26 +66,26 @@ public class MenuController extends AckPageController<Menu, Integer> {
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.findPage(request, response, model, t, currentPage, count,
+		return super.findPage(request, response, model, null, t, currentPage, count,
 				orderColumn, orderType);
 	}
 	
 	@RequestMapping(value = "/table")
 	@AckPermission(value="menu:list")
 	@ResponseBody
-	@Override
 	public DataTableTemplate<Menu> dataTable(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Model model,
+			Map<String, Object> extraCondition,
 			@ModelAttribute() Menu t,
 			@RequestParam(required = false, defaultValue = "0") int start,/*第一条记录的起始位置*/
-			@RequestParam(required = false, defaultValue = "10") int length,/*每页显示多少记录*/
+			@RequestParam(required = false, defaultValue = "10") int count,/*每页显示多少记录*/
 			@RequestParam(required = false, defaultValue = "1") int draw,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.dataTable(request, response, model, t, start, length, draw,
-				orderColumn, orderType);
+		return super.dataTable(request, response, model, extraCondition, t, start, count,
+				draw, orderColumn, orderType);
 	}
 	
 
@@ -105,7 +95,6 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/add/ui")
@@ -124,7 +113,6 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/edit/ui/{id}")
@@ -140,7 +128,6 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/tree")
@@ -163,7 +150,6 @@ public class MenuController extends AckPageController<Menu, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/tree2")

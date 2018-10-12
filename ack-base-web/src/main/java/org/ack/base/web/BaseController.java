@@ -1,15 +1,12 @@
 package org.ack.base.web;
 
-import java.io.Serializable;
+import org.ack.common.Content;
+import org.ack.pojo.Role;
+import org.ack.pojo.User;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.ack.base.service.AckMapperService;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import javax.servlet.http.HttpSession;
+import java.util.Set;
 
 /**
  * contoller父接口
@@ -21,79 +18,60 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author ack
  *
  */
-public abstract class BaseController<T extends Object, PK extends Serializable> {
+public abstract class BaseController {
 
 	/**
-	 * @return 获得服务层接口
-	 */
-	public abstract AckMapperService<T, PK> getService();
-	
-	/**
-	 * 查询
-	 * 
+	 * get current user
+	 *
 	 * @param request
-	 * @param response
-	 * @param model
-	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/id/{id}")
-	@ResponseBody
-	public T findById(HttpServletRequest request, HttpServletResponse response,
-			Model model, @PathVariable PK id) {
-		T t = getService().findById(id);
-		return t;
+	public User getCurrentUser(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute(Content.USER);
+		return user;
 	}
 
 	/**
-	 * 添加数据
-	 * 
+	 * set current user
+	 *
 	 * @param request
-	 * @param response
-	 * @param model
-	 * @param userId
-	 * @return
+	 * @param user
 	 */
-	@RequestMapping(value = "/add")
-	@ResponseBody
-	public Integer insert(HttpServletRequest request,
-			HttpServletResponse response, Model model, T t) {
-		int result = getService().insert(t);
-		return result;
+	public void setCurrentUser(HttpServletRequest request, User user) {
+		HttpSession session = request.getSession();
+		session.setAttribute(Content.USER, user);
 	}
 
 	/**
-	 * 根据删除
-	 * 
+	 * 是否只查看当前部门
+	 *
 	 * @param request
-	 * @param response
-	 * @param model
-	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/del/{id}")
-	@ResponseBody
-	public Integer deleteById(HttpServletRequest request,
-			HttpServletResponse response, Model model, @PathVariable PK id) {
-		Integer t = getService().deleteById(id);
-		return t;
+	protected boolean onlyDepartment(HttpServletRequest request) {
+		return onlyDepartment(null, request);
 	}
-
 	/**
-	 * 修改
-	 * 
+	 * 是否只查看当前部门
+	 *
 	 * @param request
-	 * @param response
-	 * @param model
-	 * @param userId
+	 * @param user
 	 * @return
 	 */
-	@RequestMapping(value = "/edit")
-	@ResponseBody
-	public Integer edit(HttpServletRequest request,
-			HttpServletResponse response, Model model, T t) {
-		int result = getService().update(t);
-		return result;
+	protected boolean onlyDepartment(User user, HttpServletRequest request) {
+		if(null == user){
+			user = getCurrentUser(request);
+		}
+		Set<Role> roles = user.getRoles();
+		boolean b = true;
+		for (Role role : roles) {
+			Integer viewStatus = role.getViewStatus();
+			if (viewStatus == 1) {
+				b = false;
+				break;
+			}
+		}
+		return b;
 	}
-
 }

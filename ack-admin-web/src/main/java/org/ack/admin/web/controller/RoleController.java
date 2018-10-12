@@ -1,11 +1,5 @@
 package org.ack.admin.web.controller;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
 import org.ack.pojo.Menu;
@@ -17,6 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 角色控制器
@@ -41,7 +40,6 @@ public class RoleController extends AckDeaultController<Role, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/list/ui")
@@ -56,7 +54,6 @@ public class RoleController extends AckDeaultController<Role, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/add/ui")
@@ -71,7 +68,6 @@ public class RoleController extends AckDeaultController<Role, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/edit/ui/{id}")
@@ -94,7 +90,6 @@ public class RoleController extends AckDeaultController<Role, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/menu2role/ui")
@@ -109,7 +104,6 @@ public class RoleController extends AckDeaultController<Role, Integer> {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/menu2role")

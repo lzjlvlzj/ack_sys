@@ -1,14 +1,13 @@
 package org.ack.admin.web.controller;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * 默认list全部查询
@@ -27,7 +26,6 @@ public abstract class AckDeaultController<T extends Object, PK extends Serializa
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param userId
 	 * @return
 	 */
 	@RequestMapping(value = "/list")

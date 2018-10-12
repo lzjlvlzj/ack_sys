@@ -1,13 +1,5 @@
 package org.ack.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.ack.base.service.impl.AckMapperServiceImpl;
 import org.ack.common.tree.Node;
 import org.ack.common.tree.Tree;
@@ -22,6 +14,8 @@ import org.ack.service.RoleService;
 import org.ack.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
  * 用户业务逻辑实现
@@ -184,6 +178,33 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		Collections.sort(menuList);
 		Tree t = getMenuTree(menuList);
 		return t;
+	}
+
+	@Override
+	public List<Role> findRoleList(User user) {
+		Set<Role> roles = user.getRoles();
+		int max = findMaxWeight(roles);
+		List<Role> list = roleServiceImpl.findAll();
+		List<Role> roleList = new ArrayList<Role>();
+		for(int i = 0; i < list.size(); i++){
+			Role role = list.get(i);
+			int weight = role.getWeight();
+			if(weight < max){
+				roleList.add(role);
+			}
+		}
+		return roleList;
+	}
+
+	private int findMaxWeight(Set<Role> roles) {
+		int max = 0;
+		for(Role role : roles){
+			int weight = role.getWeight();
+			if(weight > max){
+				max = weight;
+			}
+		}
+		return max;
 	}
 
 }

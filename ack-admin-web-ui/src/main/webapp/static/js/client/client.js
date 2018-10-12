@@ -122,6 +122,7 @@ Client.eidtUI = function(id) {
     } else {
         url = "/client/add/ui";
         Client.modal.open(url,data,function(){
+
             $("#optionFlag",Client.document).val("0");
         });
     }

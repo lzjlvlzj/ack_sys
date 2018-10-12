@@ -23,12 +23,17 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.ack.pojo.Brand" >
-    insert into ack_brand (id, name, address, 
-      phone, remark, createTime
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+    insert into ack_brand (name, address,phone, remark, createTime)
+    values
+    <if test="createTime != null and createTime !=''">
+      (#{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
+    </if>
+    <if test="createTime == null or createTime ==''">
+      (#{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},now())
+    </if>
   </insert>
   <insert id="insertSelective" parameterType="org.ack.pojo.Brand" >
     insert into ack_brand

@@ -300,3 +300,58 @@ AckTool.table = {
 		}
 	}
 };
+/**
+ * 验证
+ * @type {{form: string, msgDiv: string, validate: Window.AckTool.formValidator.validate, bind: Window.AckTool.formValidator.bind, getForm: (function(*=, *=): (*|jQuery|HTMLElement)), getMsgDiv: (function(*=): (*|jQuery|HTMLElement))}}
+ */
+AckTool.formValidator = {
+
+    form : '',
+
+    msgDiv : '',
+
+    validate : function(id, doc, msg){
+        var form = AckTool.formValidator.getForm(id, doc);
+        //AckTool.formValidator.form = form;
+        var msgDiv = AckTool.formValidator.getMsgDiv(msg);
+        //AckTool.formValidator.msgDiv = msgDiv;
+        form.prepend(msgDiv);
+        AckTool.formValidator.bind(form, msgDiv);
+    },
+    /**
+     * 绑定事件
+     * */
+    bind : function(form, msgDiv){
+        form.on("input propertychange", "input", function(){
+            msgDiv.hide();
+        });
+        form.on("input propertychange", "textarea", function(){
+            msgDiv.hide();
+        });
+        form.on("click", "radio", function(){
+            msgDiv.hide();
+        });
+        form.on("click", "checkbox", function(){
+            msgDiv.hide();
+        });
+    },
+
+    /**
+     * form对象
+     *
+     * */
+    getForm : function(id, doc){
+        var form = $(id, doc);
+        return form;
+    },
+
+    /**消息体*/
+    getMsgDiv : function(msg){
+        var msgDiv = $('<div class="form-group ack-form-validator" id="ack-validator-msg" style="display:block;">');
+        var div = $('<div class="col-sm-12  col-sm-offset-2"></div>');
+        div.html(msg);
+        msgDiv.html(div);
+        return msgDiv;
+    }
+
+}

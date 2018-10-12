@@ -1,14 +1,14 @@
 package org.ack.persist.mapper;
 
-import static org.junit.Assert.fail;
-
-import java.util.Date;
-
 import org.ack.pojo.Brand;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Date;
+
+import static org.junit.Assert.fail;
 
 public class BrandMapperTest extends BaseTest{
 	
@@ -34,10 +34,10 @@ public class BrandMapperTest extends BaseTest{
 	public void testInsert() {
 		Brand brand = new Brand();
 		
-		brand.setName("会满血");
-		brand.setAddress("保定");
+		brand.setName("阿胶");
+		brand.setAddress("山东");
 		brand.setPhone("152014546");
-		brand.setRemark("慧漫香");
+		brand.setRemark("山东");
 		brand.setCreateTime(new Date());
 		
 		int r = brandMapper.insert(brand);

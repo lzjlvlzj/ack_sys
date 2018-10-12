@@ -137,14 +137,17 @@ Brand.eidt = function(flag) {
 
     var data = $("#ack-add-form", Brand.document).serialize();
     AckTool.postReq(data, url, function(obj) {
-        if (obj == 1) {
-            //关闭modal
+        if (obj.code >= 1) {
+            // 关闭modal
             Brand.modal.close();
-            //刷新当前页面
+            // 刷新当前页面
             Brand.showList();
-        } else {
+
+        } else if(obj.code == 0){
+            AckTool.formValidator.validate("#ack-add-form", Brand.document, obj.message);
+        }else {
             alert("系统错误");
-            //关闭modal
+            // 关闭modal
             Brand.modal.close();
         }
 
@@ -207,6 +210,7 @@ Brand.bind = function() {
         Brand.eidt(flag);
     });
 }
+
 
 Brand.init = function (){
     Brand.showList();

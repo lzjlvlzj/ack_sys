@@ -43,7 +43,6 @@ public class AccountController extends AckPageController<Account, Integer>{
 	@RequestMapping(value = "/page")
 	@AckPermission(value="account:list")
 	@ResponseBody
-	@Override
 	public Page<Account> findPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -53,7 +52,7 @@ public class AccountController extends AckPageController<Account, Integer>{
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.findPage(request, response, model, t, currentPage, count,
+		return super.findPage(request, response, model, null, t, currentPage, count,
 				orderColumn, orderType);
 	}
 

@@ -11,6 +11,10 @@ public class MessageEntry implements Serializable {
 
 	private String message;
 	private Integer code;
+	public MessageEntry(int code, String message ){
+		this.code = code;
+		this.message = message;
+	}
 
 	public String getMessage() {
 		return message;
