@@ -108,7 +108,7 @@
 		SELECT
 		<include refid="Base_Column_List"></include>
 		FROM
-		ack_order
+		ack_brand
 		<where>
 		    1 = 1
 		    <if test="condition.name != null and condition.name !=''">

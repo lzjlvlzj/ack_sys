@@ -1,8 +1,5 @@
 package org.ack.auth.authenticate;
 
-import java.lang.reflect.Method;
-import java.util.Set;
-
 import org.ack.auth.PermissionStringIsNotRightException;
 import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.pojo.User;
@@ -13,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * 鉴权
@@ -55,6 +55,11 @@ public class Authenticate {
         String logic = AuthLogic.AND.getValue() + "|"
 				+ AuthLogic.OR.getValue();
 		String[] strs = value.trim().split(logic);
+		if(logger.isDebugEnabled()){
+			for(String s : strs){
+				logger.debug("当前要判断的权限字符串为:{}", s);
+			}
+		}
 		if(null == strs || strs.length == 0 ){
 			throw new PermissionStringIsNotRightException("权限字符串[" + value
 					+ "]格式不正确");
@@ -100,7 +105,7 @@ public class Authenticate {
 	/**
 	 * 0 : 登录成功 , 1 : 用户名错误, 2 :
 	 * 
-	 * @param user
+	 * @param u
 	 * @return
 	 */
 	public int checkUser(User u) {

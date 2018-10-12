@@ -54,7 +54,7 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- jetty 专用 -->
-	<!--<servlet>
+	<servlet>
 		<servlet-name>default</servlet-name>
 		<servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
 		<init-param>
@@ -62,13 +62,14 @@
 			<param-value>false</param-value>
 		</init-param>
 		<load-on-startup>0</load-on-startup>
-	</servlet>-->
+	</servlet>
 	<welcome-file-list>
 		<welcome-file>/</welcome-file>
 	</welcome-file-list>
 
 	<!-- error page -->
-	<error-page>
+
+	<!--<error-page>
 		<error-code>403</error-code>
 		<location>/error/403</location>
 	</error-page>
@@ -79,6 +80,6 @@
 	<error-page>
 		<error-code>500</error-code>
 		<location>/error/500</location>
-	</error-page>
+	</error-page>-->
 
 </web-app>
