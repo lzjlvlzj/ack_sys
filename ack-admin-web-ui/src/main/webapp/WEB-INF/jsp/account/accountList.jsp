@@ -12,8 +12,10 @@
 <body>
 	<!-- table2 -->
 	<div class="row">
+
 		<div class="col-xs-12">
 			<h3 class="header smaller lighter blue">账簿管理</h3>
+
 			<table id="simple-table" class="table  table-bordered table-hover">
 				<thead>
 					<tr role="row">
@@ -24,14 +26,8 @@
 							aria-controls="dynamic-table" rowspan="1" colspan="1">客户电话</th>
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">账户余额</th>
-						<th class="sorting" rowspan="1" colspan="1"
-							aria-label="dynamic-table">产品名称</th>
-						<th class="sorting" rowspan="1" colspan="1"
-							aria-label="dynamic-table">负责人</th>
-						<th class="sorting" rowspan="1" colspan="1"
-							aria-label="dynamic-table">提货数量</th>
-						<th class="sorting" rowspan="1" colspan="1"
-							aria-label="dynamic-table">产品应付</th>
+						<th class="hidden-480 sorting" tabindex="0"
+							aria-controls="dynamic-table" rowspan="1" colspan="1">交易流水</th>
 						<th class="sorting" rowspan="1" colspan="1"
 							aria-label="dynamic-table">收支情况</th>
 						<th class="sorting" rowspan="1" colspan="1"

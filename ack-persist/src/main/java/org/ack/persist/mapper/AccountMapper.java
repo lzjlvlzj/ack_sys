@@ -9,10 +9,11 @@ import org.ack.pojo.Account;
  * @author ack
  */
 public interface AccountMapper extends AckMapper<Account, Integer> {
+
     /**
-     * 充值
-     * @param account
+     * 根据用户查询账号信息
+     * @param clientId
      * @return
      */
-    int recharge(Account account);
+    Account findByClientId(int clientId);
 }

@@ -1,15 +1,16 @@
 package org.ack.persist.mapper;
 
-import static org.junit.Assert.fail;
-
-import java.util.Date;
-import java.util.Set;
-
 import org.ack.pojo.Role;
 import org.ack.pojo.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.fail;
 
 /**
  * @author ack
@@ -23,6 +24,16 @@ public class UserMapperTest extends BaseTest {
 	public void init() {
 		userMapper = sqlSession.getMapper(UserMapper.class);
 	}
+
+	@Test
+	public void findUserByRoleId(){
+		String id = "7";
+		List<User> list = userMapper.findUserByRoleId(id);
+		for(User user : list){
+			System.out.println(user);
+		}
+	}
+
 	
 	@Test
 	public void testInitData() {

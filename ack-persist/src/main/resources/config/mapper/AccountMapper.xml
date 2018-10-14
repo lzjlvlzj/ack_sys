@@ -1,213 +1,187 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.ack.persist.mapper.AccountMapper">
-	<resultMap type="org.ack.pojo.Account" id="AccountResultMap">
-		<result property="id" column="id" />
-		<result property="clientId" column="clientId" />
-		<result property="productId" column="productId" />
-		<result property="amount" column="amount" />
-		<result property="sum" column="sum" />
-		<result property="flow" column="flow" />
-		<result property="flowCase" column="flowCase" />
-		<result property="remark" column="remark" />
-		<result property="createTime" column="createTime" />
-		<association  property="client" javaType="org.ack.pojo.Client">
-			<id property="id" column="clientId"></id>
-			<result property="name" column="client_name"></result>
-			<result property="address" column="client_address"></result>
-			<result property="phone" column="client_phone"></result>
-		</association>
-		<association  property="product" javaType="org.ack.pojo.Product">
-			<id property="id" column="productId"></id>
-			<result property="name" column="product_name"></result>
-			<result property="unitPrice" column="product_unitprice"></result>
-		</association>
-		<association  property="user" javaType="org.ack.pojo.User">
-			<id property="id" column="user_id"></id>
-			<result property="surname" column="user_surname"></result>
-			<result property="name" column="user_name"></result>
-		</association>
-	</resultMap>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ack.persist.mapper.AccountMapper" >
+    <resultMap id="AccountResultMap" type="org.ack.pojo.Account" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="clientId" property="clientId" jdbcType="INTEGER" />
+        <result column="tradeNumber" property="tradeNumber" jdbcType="VARCHAR" />
+        <result column="balance" property="balance" jdbcType="DECIMAL" />
+        <result column="flow" property="flow" jdbcType="DECIMAL" />
+        <result column="flowCase" property="flowCase" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="userId" property="userId" jdbcType="BIGINT" />
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+        <association  property="client" javaType="org.ack.pojo.Client">
+            <id property="id" column="clientId"></id>
+            <result property="phone" column="client_phone"></result>
+            <result property="name" column="client_name"></result>
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List" >
+    id, clientId, tradeNumber, balance, flow, flowCase, remark, userId, createTime
+  </sql>
+    <select id="find" resultMap="AccountResultMap" parameterType="int" >
+        select
+        <include refid="Base_Column_List" />
+        from ack_account
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="findByClientId" resultMap="AccountResultMap" parameterType="int" >
+        select
+        <include refid="Base_Column_List" />
+        from ack_account
+        where clientId = #{clientId}
+    </select>
+    <select id="findById" resultMap="AccountResultMap" parameterType="int" >
+        select
+        <include refid="Base_Column_List" />
+        from ack_account
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from ack_account
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="org.ack.pojo.Account" >
+    insert into ack_account (id, clientId, tradeNumber,
+      balance, flow, flowCase,
+      remark, userId, createTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=INTEGER}, #{tradeNumber,jdbcType=VARCHAR},
+      #{balance,jdbcType=DECIMAL}, #{flow,jdbcType=DECIMAL}, #{flowCase,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="org.ack.pojo.Account" >
+        insert into ack_account
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="clientId != null" >
+                clientId,
+            </if>
+            <if test="tradeNumber != null" >
+                tradeNumber,
+            </if>
+            <if test="balance != null" >
+                balance,
+            </if>
+            <if test="flow != null" >
+                flow,
+            </if>
+            <if test="flowCase != null" >
+                flowCase,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="userId != null" >
+                userId,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="clientId != null" >
+                #{clientid,jdbcType=INTEGER},
+            </if>
+            <if test="tradeNumber != null" >
+                #{tradenumber,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null" >
+                #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="flow != null" >
+                #{flow,jdbcType=DECIMAL},
+            </if>
+            <if test="flowCase != null" >
+                #{flowcase,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateById" parameterType="org.ack.pojo.Account" >
+        update ack_account
+        <set >
+            <if test="clientId != null" >
+                clientId = #{clientid,jdbcType=INTEGER},
+            </if>
+            <if test="tradeNumber != null" >
+                tradeNumber = #{tradenumber,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null" >
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="flow != null" >
+                flow = #{flow,jdbcType=DECIMAL},
+            </if>
+            <if test="flowCase != null" >
+                flowCase = #{flowcase,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                userId = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="update" parameterType="org.ack.pojo.Account" >
+    update ack_account
+    set clientId = #{clientId,jdbcType=INTEGER},
+      tradeNumber = #{tradeNumber,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=DECIMAL},
+      flow = #{flow,jdbcType=DECIMAL},
+      flowCase = #{flowCase,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      userId = #{userId,jdbcType=BIGINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 
-	<sql id="base_column">
-		id,clientId,productId,amount,sum,flow,flowCase,remark,createTime
-	</sql>
-	<insert id="insert">
-		INSERT INTO
-		ack_account(clientId,productId,amount,sum,flow,flowCase,remark,createTime)
-		VALUES
-		<if test="createTime != null and createTime !=''">
-			(#{clientId},#{productId},#{amount},#{sum},#{flow},#{flowCase},#{remark},#{createTime})
-		</if>
-		<if test="createTime == null or createTime ==''">
-			(#{clientId},#{productId},#{amount},#{sum},#{flow},#{flowCase},#{remark},now())
-		</if>
-	</insert>
-	<insert id="recharge" >
-		INSERT INTO
-		ack_account(clientId,productId,amount,sum,flow,flowCase,remark,createTime)
-		VALUES
-		<if test="createTime != null and createTime !=''">
-			(#{clientId},#{productId},#{amount},#{sum},#{flow},#{flowCase},#{remark},#{createTime})
-		</if>
-		<if test="createTime == null or createTime ==''">
-			(#{clientId},#{productId},#{amount},#{sum},#{flow},#{flowCase},#{remark},now())
-		</if>
-	</insert>
+    <select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+            resultMap="AccountResultMap">
+        SELECT
+        act.id,
+        act.clientId,
+        act.tradeNumber,
+        act.balance,
+        act.flow,
+        act.flowCase,
+        act.remark,
+        act.createTime,
+        clt.`name` AS client_name,
+        clt.phone AS client_phone
+        FROM
+        ack_account act
+        LEFT JOIN ack_client clt ON act.clientId = clt.id
+        <where>
+            1 = 1
+            <if test="condition.clientId != null and condition.clientId !=''">
+                and act.clientId=#{condition.clientId}
+            </if>
+            <if test="condition.createTime != null and condition.createTime !=''">
+                and ac.createTime=#{condition.createTime}
+            </if>
+        </where>
 
-	<select id="findByIds" parameterType="int" resultMap="AccountResultMap">
-		SELECT
-		<include refid="base_column"></include>
-		FROM ack_account ar
-		where ar.id in
-		<foreach collection="array" item="ids" index="index" open="("
-			close=")" separator=",">
-			#{ids}
-		</foreach>
-	</select>
-
-
-
-	<select id="findById" parameterType="int" resultMap="AccountResultMap">
-		SELECT
-			aa.id,
-			aa.clientId,
-			aa.productId,
-			aa.amount,
-			aa.sum,
-			aa.flow,
-			aa.flowCase,
-			aa.remark,
-			aa.createTime,
-			ac.`name` AS client_name,
-			ac.address AS client_address,
-			ac.phone AS client_phone,
-			ap.`name` AS product_name,
-			ap.unitPrice AS product_unitprice,
-		    aur.id as user_id,
-			aur.surname as user_surname,
-			aur.name as user_name
-		FROM
-		    ack_account aa
-		LEFT JOIN ack_client ac ON ac.id = aa.clientId
-		LEFT JOIN ack_product ap ON ap.id = aa.productId
-		LEFT JOIN ack_user aur ON ac.userId = aur.id
-		WHERE aa.id = #{id}
-	</select>
-	
-	<select id="find" parameterType="int" resultMap="AccountResultMap">
-		SELECT
-			aa.id,
-			aa.clientId,
-			aa.productId,
-			aa.amount,
-			aa.sum,
-			aa.flow,
-			aa.flowCase,
-			aa.remark,
-			aa.createTime,
-			ac.`name` AS client_name,
-			ac.address AS client_address,
-			ac.phone AS client_phone,
-			ap.`name` AS product_name,
-			ap.unitPrice AS product_unitprice,
-		    aur.id as user_id,
-			aur.surname as user_surname,
-			aur.name as user_name
-		FROM
-		    ack_account aa
-		LEFT JOIN ack_client ac ON ac.id = aa.clientId
-		LEFT JOIN ack_product ap ON ap.id = aa.productId
-		LEFT JOIN ack_user aur ON ac.userId = aur.id
-		WHERE id = #{id}
-	</select>
-
-	<update id="update" parameterType="Account">
-		UPDATE
-		ack_account ar
-		<set>
-			<if test="clientId != null and clientId !=''">
-				ar.clientId = #{clientId},
-			</if>
-			<if test="productId != null and productId !=''">
-				ar.productId = #{productId},
-			</if>
-			<if test="amount != null and amount !=''">
-				ar.amount = #{amount},
-			</if>
-			<if test="sum != null and sum !=''">
-				ar.sum = #{sum},
-			</if>
-			<if test="flow != null and flow !=''">
-				ar.flow = #{flow},
-			</if>
-			<if test="createTime != null and createTime !=''">
-				ar.createTime = #{createTime},
-			</if>
-		</set>
-		<where>
-			id = #{id}
-		</where>
-	</update>
-
-	<delete id="deleteById" parameterType="int">
-		DELETE FROM ack_account
-		WHERE id = #{id}
-	</delete>
-
-	<delete id="delete" parameterType="Account">
-		DELETE FROM ack_account
-		WHERE id = #{id}
-	</delete>
-
-	<select id="findAll" resultMap="AccountResultMap">
-		SELECT
-		<include refid="base_column"></include>
-		FROM
-		ack_account
-	</select>
-	
-	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
-		resultMap="AccountResultMap">
-		SELECT
-			aa.id,
-			aa.clientId,
-			aa.productId,
-			aa.amount,
-			aa.sum,
-			aa.flow,
-			aa.flowCase,
-			aa.remark,
-			aa.createTime,
-			ac.`name` AS client_name,
-			ac.address AS client_address,
-			ac.phone AS client_phone,
-			ap.`name` AS product_name,
-			ap.unitPrice AS product_unitprice,
-			aur.id as user_id,
-			aur.surname as user_surname,
-			aur.name as user_name
-		FROM
-		    ack_account aa
-		LEFT JOIN ack_client ac ON ac.id = aa.clientId
-		LEFT JOIN ack_product ap ON ap.id = aa.productId
-		LEFT JOIN ack_user aur ON ac.userId = aur.id
-		<where>
-		    1 = 1
-		    <if test="condition.clientId != null and condition.clientId !=''">
-			    and aa.clientId=#{condition.clientId}
-		    </if>
-		    <if test="condition.amount != null and condition.amount !=''">
-			    and aa.amount=#{condition.amount}
-		    </if>
-			<if test="condition.sum != null and condition.sum !=''">
-				and aa.sum=#{condition.sum}
-			</if>
-			<if test="condition.userId != null and condition.userId !=''">
-				and aur.id=#{condition.userId}
-			</if>
-		</where>
-		
-	</select>
-
+    </select>
+    
 </mapper>

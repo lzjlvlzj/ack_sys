@@ -4,6 +4,7 @@
 	<resultMap type="org.ack.pojo.Client" id="ClientResultMap">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
+		<result property="userId" column="userId" />
 		<result property="address" column="address" />
 		<result property="phone" column="phone" />
 		<result property="qq" column="qq" />
@@ -17,17 +18,17 @@
 	</resultMap>
 
 	<sql id="base_column">
-		id,name,address,phone,qq,weiXin,remark,createTime
+		id,name,address,phone,qq,weiXin,remark,createTime,userId
 	</sql>
-	<insert id="insert">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO
-		ack_client(name,address,phone,qq,weiXin,remark,createTime)
+		ack_client(name,address,phone,qq,weiXin,remark,createTime,userId)
 		VALUES
 		<if test="createTime != null and createTime !=''">
-			(#{name},#{address},#{phone},#{qq},#{weiXin},#{remark},#{createTime})
+			(#{name},#{address},#{phone},#{qq},#{weiXin},#{remark},#{createTime},#{userId})
 		</if>
 		<if test="createTime == null or createTime ==''">
-			(#{name},#{address},#{phone},#{qq},#{weiXin},#{remark},now())
+			(#{name},#{address},#{phone},#{qq},#{weiXin},#{remark},now(),#{userId})
 		</if>
 	</insert>
 	<select id="findClientByUser" parameterType="org.ack.pojo.User" resultMap="ClientResultMap">
@@ -48,7 +49,7 @@
 		</foreach>
 	</select>
 
-	<select id="findById" parameterType="long" resultMap="ClientResultMap">
+	<select id="findById" parameterType="int" resultMap="ClientResultMap">
 		SELECT
 			ac.id,
 			ac.NAME,
@@ -67,7 +68,7 @@
 		WHERE ac.id = #{id}
 	</select>
 	
-	<select id="find" parameterType="long" resultMap="ClientResultMap">
+	<select id="find" parameterType="int" resultMap="ClientResultMap">
 		SELECT
 			ac.id,
 			ac.NAME,
@@ -108,9 +109,12 @@
 			<if test="createTime != null and createTime !=''">
 				ar.createTime = #{createTime},
 			</if>
+			<if test="userId != null and userId !=''">
+				ar.userId = #{userId},
+			</if>
 		</set>
 		<where>
-			id = #{id}
+			ar.id = #{id}
 		</where>
 	</update>
 

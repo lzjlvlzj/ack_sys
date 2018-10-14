@@ -29,23 +29,11 @@ Account.getOneTr = function(n, data, option) {
     var clientPhone = $("<td>"+data.client.phone+"</td>");
     tr.append(clientPhone);
     //账号余额
-    var sum = $("<td>"+data.sum+"</td>");
-    tr.append(sum);
-    //产品名称
-    var productName = $("<td>"+data.product.name+"</td>");
-    tr.append(productName);
-    // 负责人
-    var principal = data.user.surname + data.user.name;
-    var userName = $("<td>"+principal+"</td>");
-    tr.append(userName);
-    //产品数量
-    var weiXin = $("<td>"+data.amount+"</td>");
-    tr.append(weiXin);
-    //产品实际金额
-    var unitPrice = data.product.unitPrice;
-    var actualMoney = unitPrice * data.amount;
-    var am = $("<td>"+actualMoney+"</td>");
-    tr.append(am);
+    var balance = $("<td>"+data.balance+"</td>");
+    tr.append(balance);
+    //交易流水号
+    var tradeNumber = $("<td>"+data.tradeNumber+"</td>");
+    tr.append(tradeNumber);
     //产品实际扣除
     var flow = $("<td>"+data.flow+"</td>");
     tr.append(flow);

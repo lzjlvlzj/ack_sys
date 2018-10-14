@@ -85,6 +85,28 @@ Client.list = function(pageNo){
     });
 }
 /**
+ * 查询所以销售人员
+ */
+Client.showWheelMan = function(uid){
+    var url = "/client/wheelman";
+    var data = {};
+    AckTool.postReq(data,url,function(obj){
+        var select = $("#userId",Client.document).empty();
+        if(!obj){
+            return false;
+        }
+        for(var i = 0; i < obj.length; i++){
+            var user = obj[i];
+            var username = user.surname + user.name;
+            var option = $("<option value='"+user.id+"'>"+username+"</option>");
+            if(user.id == uid){
+                option = $("<option value='" + uid + "' selected='selected'>" + username + "</option>");
+            }
+            select.append(option);
+        }
+    });
+}
+/**
  * 编辑页面
  * @param id 数据id
  * @param flag 0 : 导航客户 , 1 : 功能客户
@@ -102,28 +124,20 @@ Client.eidtUI = function(id) {
             AckTool.postReq({},ClientDataUrl,function(obj){
                 $("#optionFlag",Client.document).val("1");
                 $("#id",Client.document).val(obj.id);
-                $("#ClientName",Client.document).val(obj.ClientName);
-                $("#url",Client.document).val(obj.url);
-                var inputs = $("#ClientType",Client.document).find("input");
-                inputs.each(function(){
-                    var val = $(this).val();
-                    if(val == obj.ClientType){
-                        $(this).attr("checked","checked");
-                    }
-                });
-                $("#Clientlevel",Client.document).val(obj.Clientlevel);
-                $("#permission",Client.document).val(obj.permission);
-                $("#domId",Client.document).val(obj.domId);
-                $("#css",Client.document).val(obj.css);
-                $("#parentId",Client.document).val(obj.parentId);
-                $("#comments",Client.document).val(obj.comments);
+                Client.showWheelMan(obj.user.id);
+                $("#name",Client.document).val(obj.name);
+                $("#address",Client.document).val(obj.address);
+                $("#phone",Client.document).val(obj.phone);
+                $("#qq",Client.document).val(obj.qq);
+                $("#weiXin",Client.document).val(obj.weiXin);
+                $("#remark",Client.document).val(obj.remark);
             });
         });
     } else {
         url = "/client/add/ui";
         Client.modal.open(url,data,function(){
-
             $("#optionFlag",Client.document).val("0");
+            Client.showWheelMan();
         });
     }
 }
@@ -144,14 +158,17 @@ Client.eidt = function(flag) {
 
     var data = $("#ack-add-form", Client.document).serialize();
     AckTool.postReq(data, url, function(obj) {
-        if (obj == 1) {
-            //关闭modal
+        if (obj.code >= 1) {
+            // 关闭modal
             Client.modal.close();
-            //刷新当前页面
+            // 刷新当前页面
             Client.showList();
-        } else {
+
+        } else if(obj.code == 0){
+            AckTool.formValidator.validate("#ack-add-form", Client.document, obj.message);
+        }else {
             alert("系统错误");
-            //关闭modal
+            // 关闭modal
             Client.modal.close();
         }
 

@@ -196,6 +196,22 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		return roleList;
 	}
 
+	@Override
+	public Set<User> findUserByRoleId(int roleId) {
+		String roleIdLikeStr = roleId + "";
+		List<User> users = userMapper.findUserByRoleId(roleIdLikeStr);
+		Set<User> set = new HashSet<>();
+		for(User user : users){
+			String[] ids = user.getRoleIds().split(",");
+			for(String id : ids){
+				if(roleId == Integer.parseInt(id)){
+					set.addAll(users);
+				}
+			}
+		}
+		return set;
+	}
+
 	private int findMaxWeight(Set<Role> roles) {
 		int max = 0;
 		for(Role role : roles){

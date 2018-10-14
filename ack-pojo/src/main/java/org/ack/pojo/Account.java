@@ -1,5 +1,6 @@
 package org.ack.pojo;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,34 +11,19 @@ import java.util.Date;
 public class Account implements Serializable {
     private static final long serialVersionUID = -4188836418617337481L;
     private Integer id;                  // 数据库id
+    @NotNull(message="{account.client.null}")
     private Integer clientId;            // 客户id
-    private Long productId;              // 产品id
-    private Integer amount;              // 产品数量
-    private BigDecimal sum;              // 账号总金额
+    private String tradeNumber;          // 交易码
+    private BigDecimal balance;          // 账号余金额
+    @NotNull(message="{account.flow.null}")
     private BigDecimal flow;             // 资金流向: 进账为正,出账为负
+    @NotNull(message="{account.flowCase.null}")
     private String flowCase;             // 资金流转原因
     private String remark;               // 备注
     private Date createTime;             // 创建时间
-
-    private User user;                   // 负责人
-    private Client client;
-    private Product product;
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+    private Long userId;                 // 记录添加人id
+    private User user;                   // 记录创建人
+    private Client client;               // 客户
 
     public Integer getId() {
         return id;
@@ -55,28 +41,20 @@ public class Account implements Serializable {
         this.clientId = clientId;
     }
 
-    public Long getProductId() {
-        return productId;
+    public String getTradeNumber() {
+        return tradeNumber;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setTradeNumber(String tradeNumber) {
+        this.tradeNumber = tradeNumber;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public BigDecimal getBalance() {
+        return balance;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public BigDecimal getSum() {
-        return sum;
-    }
-
-    public void setSum(BigDecimal sum) {
-        this.sum = sum;
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     public BigDecimal getFlow() {
@@ -111,6 +89,14 @@ public class Account implements Serializable {
         this.createTime = createTime;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public User getUser() {
         return user;
     }
@@ -119,18 +105,26 @@ public class Account implements Serializable {
         this.user = user;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
                 "id=" + id +
                 ", clientId=" + clientId +
-                ", productId=" + productId +
-                ", amount=" + amount +
-                ", sum=" + sum +
+                ", tradeNumber='" + tradeNumber + '\'' +
+                ", balance=" + balance +
                 ", flow=" + flow +
                 ", flowCase='" + flowCase + '\'' +
                 ", remark='" + remark + '\'' +
                 ", createTime=" + createTime +
+                ", userId=" + userId +
                 '}';
     }
 }

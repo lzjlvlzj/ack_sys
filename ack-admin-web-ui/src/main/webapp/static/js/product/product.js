@@ -140,7 +140,6 @@ Product.eidtUI = function(id) {
 	   });
 	} else {
 	   url = "/product/add/ui";
-	   var brandUrl = "/product/find/brand";
 	   Product.modal.open(url,data,function(){
            $("#optionFlag",Product.document).val("0");
            Product.findAllBrand();

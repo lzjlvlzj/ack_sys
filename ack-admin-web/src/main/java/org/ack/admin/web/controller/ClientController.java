@@ -2,21 +2,24 @@ package org.ack.admin.web.controller;
 
 import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
+import org.ack.common.message.MessageEntry;
 import org.ack.persist.page.Page;
 import org.ack.pojo.Client;
+import org.ack.pojo.User;
 import org.ack.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/client")
@@ -69,8 +72,76 @@ public class ClientController extends AckPageController<Client, Integer>{
 	@AckPermission(value="client:add")
 	@ResponseBody
 	@Override
-	public Integer insert(HttpServletRequest request,
-			HttpServletResponse response, Model model, Client t) {
-		return super.insert(request, response, model, t);
+	public MessageEntry insert(HttpServletRequest request,
+							   HttpServletResponse response, Model model,
+							   @Valid Client t, BindingResult result) {
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new MessageEntry(0, msg);
+		}
+		User user = getCurrentUser(request);
+		int r = clientServiceImpl.insert(t, user);
+		return new MessageEntry(r , "");
+	}
+
+	@RequestMapping(value = "/id/{id}")
+	@ResponseBody
+	public Client findById(HttpServletRequest request,
+							HttpServletResponse response, Model model, @PathVariable Integer id) {
+		return clientServiceImpl.findById(id);
+	}
+
+	@RequestMapping(value = "/del/{id}")
+	@AckPermission(value = "client:delete")
+	@ResponseBody
+	public Integer deleteById(HttpServletRequest request,
+							  HttpServletResponse response, Model model, @PathVariable Integer id) {
+		return super.deleteById(request, response, model, id);
+	}
+
+	@RequestMapping("/edit/ui/{id}")
+	@AckPermission(value = "client:update")
+	public String eidtUI(@PathVariable Integer id){
+		if (logger.isDebugEnabled()) {
+			logger.debug("修改项目:{}", id);
+		}
+		return "client/clientEdit";
+	}
+
+	@RequestMapping(value = "/edit")
+	@AckPermission(value = "client:update")
+	@ResponseBody
+	public MessageEntry edit(HttpServletRequest request,
+							 HttpServletResponse response, Model model,
+							 @Valid Client client, BindingResult result) {
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new MessageEntry(0, msg);
+		}
+
+		Integer r = clientServiceImpl.update(client);
+
+		return new MessageEntry(r, "");
+	}
+	
+
+	@RequestMapping(value = "/wheelman")
+	@AckPermission(value="client:add or client:update")
+	@ResponseBody
+	public Set<User> findWheelMan(){
+		if (logger.isDebugEnabled()) {
+			logger.debug("查询所以负责人");
+		}
+		return clientServiceImpl.findWheelMan();
 	}
 }

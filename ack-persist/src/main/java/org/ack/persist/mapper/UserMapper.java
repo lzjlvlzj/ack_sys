@@ -1,11 +1,12 @@
 package org.ack.persist.mapper;
 
-import java.util.Map;
-import java.util.Set;
-
 import org.ack.persist.AckMapper;
 import org.ack.pojo.Role;
 import org.ack.pojo.User;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 用户mapper接口
@@ -43,5 +44,10 @@ public interface UserMapper extends AckMapper<User, Long> {
 	 * @param map
 	 */
 	public void updateRoleByUser(Map<String, Object> map);
+    /**
+	 * 根据角色查询用户
+	 *
+	 * */
+	List<User> findUserByRoleId(String roleId);
 
 }

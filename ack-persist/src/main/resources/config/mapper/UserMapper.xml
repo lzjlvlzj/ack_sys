@@ -186,4 +186,18 @@
 
 	</select>
 
+	<select id="findUserByRoleId" parameterType="string" resultMap="userResultMap">
+		SELECT
+			aur.id,
+			aur.roleids,
+			aur.loginName,
+			aur.surname,
+			aur. NAME
+		FROM
+			ack_user aur
+		WHERE
+			aur.roleids  LIKE CONCAT('%',#{roleId},'%')
+		GROUP BY aur.id
+	</select>
+
 </mapper>

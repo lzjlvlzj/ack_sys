@@ -31,7 +31,6 @@ public class AccountMapperTest extends BaseTest{
         List<Account> list = accountMapper.findInterceptorPageList(page);
         for(Account c : list){
             System.out.println(c);
-            System.out.println(c.getUser().getSurname());
         }
 
     }
@@ -41,8 +40,7 @@ public class AccountMapperTest extends BaseTest{
         Account account = accountMapper.findById(1);
         System.out.println(account);
         System.out.println(account.getClient());
-        System.out.println(account.getProduct());
-
+        System.out.println(account.getClient().getName());
         Assert.assertNotNull(account);
     }
 
@@ -50,16 +48,14 @@ public class AccountMapperTest extends BaseTest{
     @Test
     public void testInsert(){
         Account account = new Account();
-        account.setProductId(1L);
-        account.setAmount(10);
-        BigDecimal flow = new BigDecimal(2000.0);
-        account.setFlow(flow);
-        BigDecimal sum = new BigDecimal(30000.0);
-        account.setSum(sum);
         account.setClientId(1);
-        account.setFlowCase("洗面奶客户");
-        account.setRemark("老客户");
         account.setCreateTime(new Date());
+        account.setFlowCase("账号初始化");
+        account.setRemark("账号初始化");
+        account.setUserId(7L);
+        BigDecimal initVal = new BigDecimal(0.00);
+        account.setBalance(initVal);
+        account.setFlow(initVal);
 
         int r = accountMapper.insert(account);
         sqlSession.commit();

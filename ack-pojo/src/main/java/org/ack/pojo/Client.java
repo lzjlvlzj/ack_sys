@@ -1,18 +1,28 @@
 package org.ack.pojo;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
 public class Client implements Serializable {
     private static final long serialVersionUID = 6970998417324640061L;
     private Integer id;
+    @NotBlank(message="{client.name.null}")
+    @Size(min=1, max=128, message="{client.name.length.illegal}")
     private String name;
     private String address;
+    @NotBlank(message="{client.phone.null}")
+    @Size(min=1, max=128, message="{client.name.phone.illegal}")
     private String phone;
     private String qq;
     private String weiXin;
     private String remark;
     private Date createTime;
+    @NotNull(message="{client.userId.null}")
+    private Long userId;
     private User user;
 
 
@@ -86,6 +96,14 @@ public class Client implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
