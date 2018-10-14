@@ -14,7 +14,7 @@ AckSystem.user = {
 		AckSystem.user.email();
 		AckSystem.user.info();
 	},
-	/**TODO 代办信息*/
+	/**TODO 代办信息**/
 	task : function(){
 		console.log("用户代办任务信息初始化");
 	},
