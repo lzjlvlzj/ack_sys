@@ -40,7 +40,12 @@ Brand.getOneTr = function(n, data, option) {
     tr.append(createTime);
     //操作按钮
     var optionTd = $("<td></td>");
-    optionTd.append(AckTool.optionButton.simpleOption);
+    var d = option.data;
+    var opt = {};
+    opt.data = d;
+    opt.prefix = "trademark";
+    var buttons = AckTool.optionButton.getTrAuthButtons(opt);
+    optionTd.append(buttons);
     tr.append(optionTd);
     return tr;
 }
@@ -96,21 +101,10 @@ Brand.eidtUI = function(id) {
             AckTool.postReq({},BrandDataUrl,function(obj){
                 $("#optionFlag",Brand.document).val("1");
                 $("#id",Brand.document).val(obj.id);
-                $("#BrandName",Brand.document).val(obj.BrandName);
-                $("#url",Brand.document).val(obj.url);
-                var inputs = $("#BrandType",Brand.document).find("input");
-                inputs.each(function(){
-                    var val = $(this).val();
-                    if(val == obj.BrandType){
-                        $(this).attr("checked","checked");
-                    }
-                });
-                $("#Brandlevel",Brand.document).val(obj.Brandlevel);
-                $("#permission",Brand.document).val(obj.permission);
-                $("#domId",Brand.document).val(obj.domId);
-                $("#css",Brand.document).val(obj.css);
-                $("#parentId",Brand.document).val(obj.parentId);
-                $("#comments",Brand.document).val(obj.comments);
+                $("#name",Brand.document).val(obj.name);
+                $("#address",Brand.document).val(obj.address);
+                $("#phone",Brand.document).val(obj.phone);
+                $("#remark",Brand.document).val(obj.remark);
             });
         });
     } else {

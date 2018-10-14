@@ -61,7 +61,12 @@ Account.getOneTr = function(n, data, option) {
     tr.append(createTime);
     //操作按钮
     var optionTd = $("<td></td>");
-    optionTd.append(AckTool.optionButton.simpleOption);
+    var d = option.data;
+    var opt = {};
+    opt.data = d;
+    opt.prefix = "account";
+    var buttons = AckTool.optionButton.getTrAuthButtons(opt);
+    optionTd.append(buttons);
     tr.append(optionTd);
     return tr;
 }

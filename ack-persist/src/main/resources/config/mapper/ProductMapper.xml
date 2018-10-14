@@ -5,24 +5,31 @@
 		<result property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="type" column="type" />
+		<result property="brandId" column="brandId" />
 		<result property="unitPrice" column="unitPrice" />
 		<result property="url" column="url" />
 		<result property="remark" column="remark" />
 		<result property="createTime" column="createTime" />
+		<association  property="brand" javaType="org.ack.pojo.Brand">
+			<id property="id" column="brandId"></id>
+			<result property="name" column="brand_name"></result>
+			<result property="address" column="brand_address"></result>
+			<result property="phone" column="brand_phone"></result>
+		</association>
 	</resultMap>
 
 	<sql id="base_column">
-		id,name,type,unitPrice,url,remark,createTime
+		id,name,type,unitPrice,url,brandId,remark,createTime
 	</sql>
 	<insert id="insert">
 		INSERT INTO
-		ack_product(name,type,unitPrice,url,remark,createTime)
+		ack_product(name,type,unitPrice,url,brandId,remark,createTime)
 		VALUES
 		<if test="createTime != null and createTime !=''">
-			(#{name},#{type},#{unitPrice},#{url},#{remark},#{createTime})
+			(#{name},#{type},#{unitPrice},#{url},#{brandId},#{remark},#{createTime})
 		</if>
 		<if test="createTime == null or createTime ==''">
-			(#{name},#{type},#{unitPrice},#{url},#{remark},now())
+			(#{name},#{type},#{unitPrice},#{url},#{brandId},#{remark},now())
 		</if>
 	</insert>
 
@@ -41,10 +48,21 @@
 
 	<select id="findById" parameterType="int" resultMap="ProductResultMap">
 		SELECT
-		<include refid="base_column"></include>
+			ap.id,
+			ap.NAME,
+			ap.type,
+			ap.unitPrice,
+			ap.url,
+			ap.brandId,
+			ap.remark,
+			ap.createTime,
+			abr.`name` AS brand_name,
+			abr.address AS brand_address,
+			abr.phone AS brand_phone
 		FROM
-		ack_product
-		WHERE id = #{id}
+		    ack_product ap
+		LEFT JOIN ack_brand abr ON ap.brandId = abr.id
+		WHERE ap.id = #{id}
 	</select>
 	
 	<select id="find" parameterType="int" resultMap="ProductResultMap">
@@ -62,17 +80,20 @@
 			<if test="name != null and name !=''">
 				ar.name = #{name},
 			</if>
+			<if test="brandId != null and brandId !=''">
+				ar.brandId = #{brandId},
+			</if>
 			<if test="type != null and type !=''">
 				ar.type = #{type},
+			</if>
+			<if test="remark != null and remark !=''">
+				ar.remark = #{remark},
 			</if>
 			<if test="unitPrice != null and unitPrice !=''">
 				ar.unitPrice = #{unitPrice},
 			</if>
 			<if test="url != null and url !=''">
 				ar.url = #{url},
-			</if>
-			<if test="unitPrice != null and unitPrice !=''">
-				ar.unitPrice = #{unitPrice},
 			</if>
 			<if test="createTime != null and createTime !=''">
 				ar.createTime = #{createTime},
@@ -103,16 +124,24 @@
 	<select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
 		resultMap="ProductResultMap">
 		SELECT
-		<include refid="base_column"></include>
+			ap.id,
+			ap.NAME,
+			ap.type,
+			ap.unitPrice,
+			ap.url,
+			ap.brandId,
+			ap.remark,
+			ap.createTime,
+			abr.`name` AS brand_name,
+			abr.address AS brand_address,
+			abr.phone AS brand_phone
 		FROM
-		ack_product
+		    ack_product ap
+		LEFT JOIN ack_brand abr ON ap.brandId = abr.id
 		<where>
 		    1 = 1
 		    <if test="condition.name != null and condition.name !=''">
-			    and name=#{condition.name}
-		    </if>
-		    <if test="condition.type != null and condition.type !=''">
-			    and type=#{condition.type}
+			    and ap.name=#{condition.name}
 		    </if>
 		</where>
 		

@@ -17,8 +17,6 @@ Product.config = function(){
 }
 
 Product.getOneTr = function(n, data, option) {
-	var excludeFields = option.excludeFields;
-	var item;
 	var tr = $("<tr></tr>");
 	tr.attr("id",data.id);
 	//序号
@@ -27,12 +25,12 @@ Product.getOneTr = function(n, data, option) {
 	//产品名称
 	var ProductName = $("<td>"+data.name+"</td>");
 	tr.append(ProductName);
-	//产品url
-	var url = $("<td>"+data.url+"</td>");
-	tr.append(url);
 	//产品类型
 	var ProductType = $("<td>"+data.type+"</td>");
 	tr.append(ProductType);
+    //产品品牌
+    var url = $("<td>"+data.brand.name+"</td>");
+    tr.append(url);
 	//产品单价
 	var ProductUnitPrice = $("<td>"+data.unitPrice+"</td>");
 	tr.append(ProductUnitPrice);
@@ -44,9 +42,14 @@ Product.getOneTr = function(n, data, option) {
 	var createTime = $("<td>"+tm+"</td>");
 	tr.append(createTime);
 	//操作按钮
-	var optionTd = $("<td></td>");
-	optionTd.append(AckTool.optionButton.simpleOption);
-	tr.append(optionTd);
+    var optionTd = $("<td></td>");
+    var d = option.data;
+    var opt = {};
+    opt.data = d;
+    opt.prefix = "product";
+    var buttons = AckTool.optionButton.getTrAuthButtons(opt);
+    optionTd.append(buttons);
+    tr.append(optionTd);
 	return tr;
 }
 
@@ -83,6 +86,26 @@ Product.list = function(pageNo){
 		}
 	});
 }
+
+Product.findAllBrand = function(bid){
+    var brandUrl = "/product/find/brand";
+    AckTool.postReq({},brandUrl,function(obj){
+        var select = $("#brandId",Product.document).empty();
+        if(obj){
+            var len = obj.length;
+            for(var i = 0; i < len; i++){
+                var brand = obj[i];
+                var option = $("<option value='" + brand.id + "'>" + brand.name + "</option>");
+                if(brand.id == bid){
+                    option = $("<option value='" + brand.id + "' selected='selected'>" + brand.name + "</option>");
+				}
+                select.append(option);
+            }
+        }
+    });
+
+}
+
 /**
  * 编辑页面
  * @param id 数据id
@@ -99,29 +122,28 @@ Product.eidtUI = function(id) {
 	   //这里需要有个请求回显数据
 	   Product.modal.open(url,data,function(){
 		   AckTool.postReq({},ProductDataUrl,function(obj){
+		   	   var brandId = obj.brandId;
+               Product.findAllBrand(brandId);
 			   $("#optionFlag",Product.document).val("1");
 			   $("#id",Product.document).val(obj.id);
-			   $("#ProductName",Product.document).val(obj.ProductName);
-			   $("#url",Product.document).val(obj.url);
-			   var inputs = $("#ProductType",Product.document).find("input");
+			   $("#name",Product.document).val(obj.name);
+			   $("#unitPrice",Product.document).val(obj.unitPrice);
+			   var inputs = $("#type",Product.document).find("input");
 			   inputs.each(function(){
 				   var val = $(this).val();
-				   if(val == obj.ProductType){
+				   if(val == obj.type){
 					   $(this).attr("checked","checked");
 				   }
 			   });
-			   $("#Productlevel",Product.document).val(obj.Productlevel);
-			   $("#permission",Product.document).val(obj.permission);
-			   $("#domId",Product.document).val(obj.domId);
-			   $("#css",Product.document).val(obj.css);
-			   $("#parentId",Product.document).val(obj.parentId);
-			   $("#comments",Product.document).val(obj.comments);
+			   $("#remark",Product.document).val(obj.remark);
 		   });
 	   });
 	} else {
 	   url = "/product/add/ui";
+	   var brandUrl = "/product/find/brand";
 	   Product.modal.open(url,data,function(){
-		   $("#optionFlag",Product.document).val("0");
+           $("#optionFlag",Product.document).val("0");
+           Product.findAllBrand();
 	   });
 	}
 }
@@ -142,16 +164,19 @@ Product.eidt = function(flag) {
 	
 	var data = $("#ack-add-form", Product.document).serialize();
 	AckTool.postReq(data, url, function(obj) {
-		if (obj == 1) {
-			//关闭modal
-			Product.modal.close();
-			//刷新当前页面
-			Product.showList();
-		} else {
-			alert("系统错误");
-			//关闭modal
-			Product.modal.close();
-		}
+        if (obj.code >= 1) {
+            // 关闭modal
+            Product.modal.close();
+            // 刷新当前页面
+            Product.showList();
+
+        } else if(obj.code == 0){
+            AckTool.formValidator.validate("#ack-add-form", Product.document, obj.message);
+        }else {
+            alert("系统错误");
+            // 关闭modal
+            Product.modal.close();
+        }
 		
 	});
 	

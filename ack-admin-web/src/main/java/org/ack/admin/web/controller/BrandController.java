@@ -13,10 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,5 +84,50 @@ public class BrandController extends AckPageController<Brand, Integer>{
 		}
 		int r = brandServiceImpl.insert(t);
 		return new MessageEntry(r , "");
+	}
+
+	@RequestMapping(value = "/id/{id}")
+	@ResponseBody
+	public Brand findById(HttpServletRequest request,
+							HttpServletResponse response, Model model, @PathVariable Integer id) {
+		return brandServiceImpl.findById(id);
+	}
+
+	@RequestMapping(value = "/del/{id}")
+	@AckPermission(value = "trademark:delete")
+	@ResponseBody
+	public Integer deleteById(HttpServletRequest request,
+							  HttpServletResponse response, Model model, @PathVariable Integer id) {
+		return super.deleteById(request, response, model, id);
+	}
+
+	@RequestMapping("/edit/ui/{id}")
+	@AckPermission(value = "trademark:update")
+	public String eidtUI(@PathVariable Integer id){
+		if (logger.isDebugEnabled()) {
+			logger.debug("修改项目:{}", id);
+		}
+		return "brand/brandEdit";
+	}
+
+	@RequestMapping(value = "/edit")
+	@AckPermission(value = "trademark:update")
+	@ResponseBody
+	public MessageEntry edit(HttpServletRequest request,
+							  HttpServletResponse response, Model model,
+							  @Valid Brand brand, BindingResult result) {
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new MessageEntry(0, msg);
+		}
+
+		Integer r = brandServiceImpl.update(brand);
+
+		return new MessageEntry(r, "");
 	}
 }

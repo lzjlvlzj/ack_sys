@@ -19,6 +19,16 @@
 				<input type="hidden" name="id" id="id" value="">
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
+						for="brandId"> 品牌名称 </label>
+
+					<div class="col-sm-9">
+						<select class="col-xs-10 col-sm-8" id="brandId" multiple="multiple" name="brandId">
+
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right"
 						for="name"> 产品名称 </label>
 
 					<div class="col-sm-9">
@@ -28,13 +38,14 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="url"> 产品单价(￥) </label>
+						for="unitPrice"> 产品单价(￥) </label>
 
 					<div class="col-sm-9">
-						<input type="text" id="unitPrice" placeholder="产品单价" name="unitPrice"
-							value="" class="col-xs-10 col-sm-8">
+						<input type="number" id="unitPrice"  placeholder="产品单价" name="unitPrice"
+							value="" class="col-xs-10 col-sm-8" onkeyup="">
 					</div>
 				</div>
+				<!--
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
 						for="url"> url </label>
@@ -44,6 +55,7 @@
 							value="" class="col-xs-10 col-sm-8">
 					</div>
 				</div>
+				-->
 				<div class="form-group control-group" id="productType">
 					<label class="col-sm-3 control-label no-padding-right"
 						for="productType"> 产品类型 </label>
