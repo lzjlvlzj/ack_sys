@@ -110,21 +110,14 @@ Account.eidtUI = function(id) {
             AckTool.postReq({},AccountDataUrl,function(obj){
                 $("#optionFlag",Account.document).val("1");
                 $("#id",Account.document).val(obj.id);
-                $("#AccountName",Account.document).val(obj.AccountName);
-                $("#url",Account.document).val(obj.url);
-                var inputs = $("#AccountType",Account.document).find("input");
-                inputs.each(function(){
-                    var val = $(this).val();
-                    if(val == obj.AccountType){
-                        $(this).attr("checked","checked");
-                    }
-                });
-                $("#Accountlevel",Account.document).val(obj.Accountlevel);
-                $("#permission",Account.document).val(obj.permission);
-                $("#domId",Account.document).val(obj.domId);
-                $("#css",Account.document).val(obj.css);
-                $("#parentId",Account.document).val(obj.parentId);
-                $("#comments",Account.document).val(obj.comments);
+                $("#tradeNumber",Account.document).val(obj.tradeNumber);
+                $("#clientId",Account.document).val(obj.clientId);
+                $("#balance",Account.document).val(obj.balance);
+                $("#clientName",Account.document).val(obj.client.name);
+                $("#flow",Account.document).val(obj.flow);
+                $("#flowCase",Account.document).val(obj.flowCase);
+                $("#userId",Account.document).val(obj.userId);
+                $("#remark",Account.document).val(obj.remark);
             });
         });
     } else {
@@ -151,14 +144,17 @@ Account.eidt = function(flag) {
 
     var data = $("#ack-add-form", Account.document).serialize();
     AckTool.postReq(data, url, function(obj) {
-        if (obj == 1) {
-            //关闭modal
+        if (obj.code >= 1) {
+            // 关闭modal
             Account.modal.close();
-            //刷新当前页面
+            // 刷新当前页面
             Account.showList();
-        } else {
+
+        } else if(obj.code == 0){
+            AckTool.formValidator.validate("#ack-add-form", Account.document, obj.message);
+        }else {
             alert("系统错误");
-            //关闭modal
+            // 关闭modal
             Account.modal.close();
         }
 

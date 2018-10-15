@@ -21,10 +21,22 @@
     id, clientId, tradeNumber, balance, flow, flowCase, remark, userId, createTime
   </sql>
     <select id="find" resultMap="AccountResultMap" parameterType="int" >
-        select
-        <include refid="Base_Column_List" />
-        from ack_account
-        where id = #{id,jdbcType=BIGINT}
+        SELECT
+            act.id,
+            act.clientId,
+            act.tradeNumber,
+            act.balance,
+            act.flow,
+            act.flowCase,
+            act.remark,
+            act.createTime,
+            act.userId,
+            clt.`name` AS client_name,
+            clt.phone AS client_phone
+        FROM
+            ack_account act
+        LEFT JOIN ack_client clt ON act.clientId = clt.id
+        where act.id = #{id,jdbcType=BIGINT}
     </select>
     <select id="findByClientId" resultMap="AccountResultMap" parameterType="int" >
         select
@@ -33,12 +45,24 @@
         where clientId = #{clientId}
     </select>
     <select id="findById" resultMap="AccountResultMap" parameterType="int" >
-        select
-        <include refid="Base_Column_List" />
-        from ack_account
-        where id = #{id,jdbcType=BIGINT}
+        SELECT
+            act.id,
+            act.clientId,
+            act.tradeNumber,
+            act.balance,
+            act.flow,
+            act.flowCase,
+            act.remark,
+            act.createTime,
+            act.userId,
+            clt.`name` AS client_name,
+            clt.phone AS client_phone
+        FROM
+            ack_account act
+        LEFT JOIN ack_client clt ON act.clientId = clt.id
+        where act.id = #{id,jdbcType=BIGINT}
     </select>
-    <delete id="deleteById" parameterType="java.lang.Long" >
+    <delete id="deleteById" parameterType="int" >
     delete from ack_account
     where id = #{id,jdbcType=BIGINT}
   </delete>

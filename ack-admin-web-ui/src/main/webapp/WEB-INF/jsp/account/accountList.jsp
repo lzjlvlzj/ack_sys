@@ -53,10 +53,12 @@
 		</div>
 
 		<!-- /.span -->
+		<!--
 		<div class='col-xs-12'>
 			<button class="btn btn-primary" id="ack-add-btn" data-toggle="modal"
 				onclick="Account.eidtUI();">新建账簿</button>
 		</div>
+		-->
 	</div>
 
 	<%@include file="../public/footer.jsp"%>
