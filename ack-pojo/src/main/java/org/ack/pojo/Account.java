@@ -14,9 +14,14 @@ public class Account implements Serializable {
     @NotNull(message="{account.client.null}")
     private Integer clientId;            // 客户id
     private String tradeNumber;          // 交易码
+    @NotNull(message="{account.balance.null}")
     private BigDecimal balance;          // 账号余金额
     @NotNull(message="{account.flow.null}")
     private BigDecimal flow;             // 资金流向: 进账为正,出账为负
+    @NotNull(message="{account.coin.null}")
+    private BigDecimal coin;             // 虚拟钱数
+    @NotNull(message="{account.coinFlow.null}")
+    private BigDecimal coinFlow;         // 虚拟钱数流转
     @NotNull(message="{account.flowCase.null}")
     private String flowCase;             // 资金流转原因
     private String remark;               // 备注
@@ -63,6 +68,22 @@ public class Account implements Serializable {
 
     public void setFlow(BigDecimal flow) {
         this.flow = flow;
+    }
+
+    public BigDecimal getCoin() {
+        return coin;
+    }
+
+    public void setCoin(BigDecimal coin) {
+        this.coin = coin;
+    }
+
+    public BigDecimal getCoinFlow() {
+        return coinFlow;
+    }
+
+    public void setCoinFlow(BigDecimal coinFlow) {
+        this.coinFlow = coinFlow;
     }
 
     public String getFlowCase() {
@@ -121,10 +142,14 @@ public class Account implements Serializable {
                 ", tradeNumber='" + tradeNumber + '\'' +
                 ", balance=" + balance +
                 ", flow=" + flow +
+                ", coin=" + coin +
+                ", coinFlow=" + coinFlow +
                 ", flowCase='" + flowCase + '\'' +
                 ", remark='" + remark + '\'' +
                 ", createTime=" + createTime +
                 ", userId=" + userId +
+                ", user=" + user +
+                ", client=" + client +
                 '}';
     }
 }

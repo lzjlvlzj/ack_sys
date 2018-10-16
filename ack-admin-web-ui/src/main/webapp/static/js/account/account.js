@@ -31,12 +31,18 @@ Account.getOneTr = function(n, data, option) {
     //账号余额
     var balance = $("<td>"+data.balance+"</td>");
     tr.append(balance);
-    //交易流水号
-    var tradeNumber = $("<td>"+data.tradeNumber+"</td>");
-    tr.append(tradeNumber);
     //产品实际扣除
     var flow = $("<td>"+data.flow+"</td>");
     tr.append(flow);
+    //产品点券
+    var coin = $("<td>"+data.coin+"</td>");
+    tr.append(coin);
+    //产品点券收支
+    var coinFlow = $("<td>"+data.coinFlow+"</td>");
+    tr.append(coinFlow);
+    //交易流水号
+    var tradeNumber = $("<td>"+data.tradeNumber+"</td>");
+    tr.append(tradeNumber);
     //账号金额流转原因
     var flowCase = $("<td>"+data.flowCase+"</td>");
     tr.append(flowCase);

@@ -6,6 +6,8 @@
         <result column="clientId" property="clientId" jdbcType="INTEGER" />
         <result column="tradeNumber" property="tradeNumber" jdbcType="VARCHAR" />
         <result column="balance" property="balance" jdbcType="DECIMAL" />
+        <result column="coin" property="coin" jdbcType="DECIMAL" />
+        <result column="coinFlow" property="coinFlow" jdbcType="DECIMAL" />
         <result column="flow" property="flow" jdbcType="DECIMAL" />
         <result column="flowCase" property="flowCase" jdbcType="VARCHAR" />
         <result column="remark" property="remark" jdbcType="VARCHAR" />
@@ -18,7 +20,7 @@
         </association>
     </resultMap>
     <sql id="Base_Column_List" >
-    id, clientId, tradeNumber, balance, flow, flowCase, remark, userId, createTime
+    id, clientId, tradeNumber, balance, coin, coinFlow, flow, flowCase, remark, userId, createTime
   </sql>
     <select id="find" resultMap="AccountResultMap" parameterType="int" >
         SELECT
@@ -26,6 +28,8 @@
             act.clientId,
             act.tradeNumber,
             act.balance,
+            act.coin,
+            act.coinFlow,
             act.flow,
             act.flowCase,
             act.remark,
@@ -50,6 +54,8 @@
             act.clientId,
             act.tradeNumber,
             act.balance,
+            act.coin,
+            act.coinFlow,
             act.flow,
             act.flowCase,
             act.remark,
@@ -68,11 +74,12 @@
   </delete>
     <insert id="insert" parameterType="org.ack.pojo.Account" >
     insert into ack_account (id, clientId, tradeNumber,
-      balance, flow, flowCase,
+      balance, flow, coin, coinFlow, flowCase,
       remark, userId, createTime
       )
     values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=INTEGER}, #{tradeNumber,jdbcType=VARCHAR},
-      #{balance,jdbcType=DECIMAL}, #{flow,jdbcType=DECIMAL}, #{flowCase,jdbcType=VARCHAR},
+      #{balance,jdbcType=DECIMAL}, #{flow,jdbcType=DECIMAL}, #{coin,jdbcType=DECIMAL},
+      #{coinFlow,jdbcType=DECIMAL},#{flowCase,jdbcType=VARCHAR},
       #{remark,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -137,7 +144,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateById" parameterType="org.ack.pojo.Account" >
+    <update id="update" parameterType="org.ack.pojo.Account" >
         update ack_account
         <set >
             <if test="clientId != null" >
@@ -151,6 +158,12 @@
             </if>
             <if test="flow != null" >
                 flow = #{flow,jdbcType=DECIMAL},
+            </if>
+            <if test="coin != null" >
+                coin = #{coin,jdbcType=DECIMAL},
+            </if>
+            <if test="coinFlow != null" >
+                coinFlow = #{coinFlow,jdbcType=DECIMAL},
             </if>
             <if test="flowCase != null" >
                 flowCase = #{flowcase,jdbcType=VARCHAR},
@@ -167,11 +180,13 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="update" parameterType="org.ack.pojo.Account" >
+    <update id="updateById" parameterType="org.ack.pojo.Account" >
     update ack_account
     set clientId = #{clientId,jdbcType=INTEGER},
       tradeNumber = #{tradeNumber,jdbcType=VARCHAR},
       balance = #{balance,jdbcType=DECIMAL},
+      coin = #{coin,jdbcType=DECIMAL},
+      coinFlow = #{coinFlow,jdbcType=DECIMAL},
       flow = #{flow,jdbcType=DECIMAL},
       flowCase = #{flowCase,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
@@ -187,6 +202,8 @@
         act.clientId,
         act.tradeNumber,
         act.balance,
+        act.coin,
+        act.coinFlow,
         act.flow,
         act.flowCase,
         act.remark,

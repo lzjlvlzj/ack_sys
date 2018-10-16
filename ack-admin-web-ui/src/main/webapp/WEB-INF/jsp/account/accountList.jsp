@@ -26,10 +26,15 @@
 							aria-controls="dynamic-table" rowspan="1" colspan="1">客户电话</th>
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">账户余额</th>
-						<th class="hidden-480 sorting" tabindex="0"
-							aria-controls="dynamic-table" rowspan="1" colspan="1">交易流水</th>
 						<th class="sorting" rowspan="1" colspan="1"
 							aria-label="dynamic-table">收支情况</th>
+						<th class="sorting" rowspan="1" colspan="1"
+							aria-label="dynamic-table">产品点券</th>
+						<th class="sorting" rowspan="1" colspan="1"
+							aria-label="dynamic-table">点券收支</th>
+						<th class="hidden-480 sorting" tabindex="0"
+							aria-controls="dynamic-table" rowspan="1" colspan="1">交易流水</th>
+
 						<th class="sorting" rowspan="1" colspan="1"
 							aria-label="dynamic-table">收支原因</th>
 						<th class="sorting" rowspan="1" colspan="1"

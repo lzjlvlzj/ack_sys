@@ -67,6 +67,8 @@ public class ClientServiceImpl extends AckMapperServiceImpl<Client, Integer>
 			BigDecimal initVal = new BigDecimal(0.00);
             account.setBalance(initVal);
             account.setFlow(initVal);
+            account.setCoin(initVal);
+            account.setCoinFlow(initVal);
 			r = accountServiceImpl.insert(account);
 			if(r == 1){
 				if(logger.isDebugEnabled()){
