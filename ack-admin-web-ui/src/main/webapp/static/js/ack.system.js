@@ -144,6 +144,9 @@ AckSystem.modal = {
 		}
 
 	},
+	html : function(option){
+        AckSystem.modal.modalTemplate(option);
+	},
 	// (用户只填充需要展示的内容)
 	modalTemplate : function(option) {
 		// 弹框标题

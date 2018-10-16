@@ -11,8 +11,9 @@
 		<typeAlias type="org.ack.pojo.Department" alias="department" />
 		<typeAlias type="org.ack.pojo.Product" alias="product" />
 		<typeAlias type="org.ack.pojo.Client" alias="client" />
-		<typeAlias type="org.ack.pojo.Order" alias="order" />
 		<typeAlias type="org.ack.pojo.Account" alias="account" />
+		<typeAlias type="org.ack.pojo.Flow" alias="flow" />
+		<typeAlias type="org.ack.pojo.Stock" alias="stock" />
 	</typeAliases>
 	<!-- 分页拦截器 -->
 	<plugins>
@@ -43,9 +44,9 @@
 		<!-- our Mapper-->
 		<mapper resource="config/mapper/ClientMapper.xml" />
 		<mapper resource="config/mapper/ProductMapper.xml" />
-		<mapper resource="config/mapper/OrderMapper.xml" />
 		<mapper resource="config/mapper/AccountMapper.xml" />
 		<mapper resource="config/mapper/BrandMapper.xml" />
 		<mapper resource="config/mapper/StockMapper.xml" />
+		<mapper resource="config/mapper/FlowMapper.xml" />
 	</mappers>
 </configuration>

@@ -14,7 +14,7 @@ Client.config = function(){
     option.excludeFileds = [];
     option.getOneTr = Client.getOneTr;
     return option;
-}
+};
 
 Client.getOneTr = function(n, data, option) {
     var tr = $("<tr></tr>");
@@ -28,6 +28,10 @@ Client.getOneTr = function(n, data, option) {
     //客户地址
     var address = $("<td>"+data.address+"</td>");
     tr.append(address);
+    //美导老师
+    var userName = data.user.surname + data.user.name;
+    var user = $("<td>"+userName+"</td>");
+    tr.append(user);
     //客户手机
     var phone = $("<td>"+data.phone+"</td>");
     tr.append(phone);
@@ -46,10 +50,15 @@ Client.getOneTr = function(n, data, option) {
     tr.append(createTime);
     //操作按钮
     var optionTd = $("<td></td>");
-    optionTd.append(AckTool.optionButton.simpleOption);
+    var d = option.data;
+    var opt = {};
+    opt.data = d;
+    opt.prefix = "client";
+    var buttons = AckTool.optionButton.getTrAuthButtons(opt);
+    optionTd.append(buttons);
     tr.append(optionTd);
     return tr;
-}
+};
 
 /**
  *
@@ -69,8 +78,7 @@ Client.showList = function() {
 
         }
     });
-}
-
+};
 Client.list = function(pageNo){
     var url = "/client/page";
     var data = {};
@@ -83,7 +91,7 @@ Client.list = function(pageNo){
             AckTool.table.show(option);
         }
     });
-}
+};
 /**
  * 查询所以销售人员
  */
@@ -105,7 +113,7 @@ Client.showWheelMan = function(uid){
             select.append(option);
         }
     });
-}
+};
 /**
  * 编辑页面
  * @param id 数据id
@@ -140,7 +148,7 @@ Client.eidtUI = function(id) {
             Client.showWheelMan();
         });
     }
-}
+};
 
 /**
  * 编辑操作
@@ -174,7 +182,7 @@ Client.eidt = function(flag) {
 
     });
 
-}
+};
 /**
  * 删除
  *
@@ -207,7 +215,59 @@ Client.del = function(id){
     var modal = this.modal.modalTemplate(option);
     modal.modal('show');
 
-}
+};
+/**recharge ui
+ *@param id
+ */
+Client.rechargeUI = function(id ,name){
+    var url = "/client/recharge/ui";
+    var data = {};
+    data.id = id;
+    data.name = name;
+    Client.modal.open(url,data,function(){
+        $("#clientId",Client.document).val(id);
+        $("#id",Client.document).val(id);
+        $("#name",Client.document).val(name);
+    });
+};
+/**recharge
+ *@param id
+ */
+Client.recharge = function(id){
+    var url = "/client/recharge/";
+    var data = $("#ack-add-form", Client.document).serialize();
+    var option = {fun : {}};
+    option.header = "充值结果";
+    option.fun.selector = ".ack-modal-ok-btn";
+
+
+    AckTool.postReq(data, url, function(obj) {
+        var headerCss = "";
+        if (obj.code >= 1) {
+            option.headerCss = "ack-medal-header-green";
+            var balance = obj.data.balance;
+            var coin = obj.data.coin;
+            var str = "账户余额:" + balance + "</br> 产品点券:" + coin;
+            option.content = str;
+            Client.modal.html(option);
+            // 关闭modal
+            //Client.modal.close();
+            // 刷新当前页面
+            //Client.showList();
+
+        } else if(obj.code == 0){
+            AckTool.formValidator.validate("#ack-add-form", Client.document, obj.message);
+        }else {
+            option.headerCss  = "ack-medal-header-red";
+            option.content = "充值失败请联系管理员";
+            Client.modal.html(option);
+            // 关闭modal
+            //Client.modal.close();
+        }
+
+    });
+
+};
 
 /**
  * 绑定事件
@@ -216,7 +276,8 @@ Client.bind = function() {
     var ackModal = $("#ack-modal", Client.document);
     //修改
     $("#tab-body").on("click",".ack-simple-btn-edit",function(){
-        var id = $(this).parents("tr").attr("id");
+        var tr = $(this).parents("tr");
+        var id = tr.attr("id");
         Client.eidtUI(id);
     });
     //删除
@@ -224,17 +285,30 @@ Client.bind = function() {
         var id = $(this).parents("tr").attr("id");
         Client.del(id);
     });
+    //充值页面
+    $("#tab-body").on("click",".ack-simple-btn-client-recharge",function(){
+        var tr = $(this).parents("tr");
+        var id = tr.attr("id");
+        var name = tr.find("td").eq(1).text();
+        Client.rechargeUI(id, name);
+    });
+    //充值操作
+    ackModal.on("click",".ack-recharge-save-btn", function(){
+        var tr = $(this).parents("tr");
+        var id = tr.attr("clientId");
+        Client.recharge(id);
+    });
     //保存
     ackModal.on("click",".ack-modal-save-btn", function(){
         var fp = $("#optionFlag", Client.document);
         var flag = fp.val();
         Client.eidt(flag);
     });
-}
+};
 
 Client.init = function (){
     Client.showList();
     Client.bind();
-}
+};
 
 

@@ -23,6 +23,8 @@
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">地址</th>
 						<th class="hidden-480 sorting" tabindex="0"
+							aria-controls="dynamic-table" rowspan="1" colspan="1">美导老师</th>
+						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">电话</th>
 						<th class="sorting" rowspan="1" colspan="1"
 							aria-label="dynamic-table">qq</th>

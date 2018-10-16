@@ -4,12 +4,8 @@
     <resultMap id="AccountResultMap" type="org.ack.pojo.Account" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="clientId" property="clientId" jdbcType="INTEGER" />
-        <result column="tradeNumber" property="tradeNumber" jdbcType="VARCHAR" />
         <result column="balance" property="balance" jdbcType="DECIMAL" />
         <result column="coin" property="coin" jdbcType="DECIMAL" />
-        <result column="coinFlow" property="coinFlow" jdbcType="DECIMAL" />
-        <result column="flow" property="flow" jdbcType="DECIMAL" />
-        <result column="flowCase" property="flowCase" jdbcType="VARCHAR" />
         <result column="remark" property="remark" jdbcType="VARCHAR" />
         <result column="userId" property="userId" jdbcType="BIGINT" />
         <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
@@ -18,28 +14,32 @@
             <result property="phone" column="client_phone"></result>
             <result property="name" column="client_name"></result>
         </association>
+        <association  property="user" javaType="org.ack.pojo.User">
+            <id property="id" column="userId"></id>
+            <result property="surname" column="user_surname"></result>
+            <result property="name" column="user_name"></result>
+        </association>
     </resultMap>
     <sql id="Base_Column_List" >
-    id, clientId, tradeNumber, balance, coin, coinFlow, flow, flowCase, remark, userId, createTime
-  </sql>
+    id, clientId, balance, coin, remark, userId, createTime
+    </sql>
     <select id="find" resultMap="AccountResultMap" parameterType="int" >
         SELECT
             act.id,
             act.clientId,
-            act.tradeNumber,
             act.balance,
             act.coin,
-            act.coinFlow,
-            act.flow,
-            act.flowCase,
             act.remark,
             act.createTime,
             act.userId,
             clt.`name` AS client_name,
-            clt.phone AS client_phone
+            clt.phone AS client_phone,
+            aur.surname AS user_surname,
+            aur.`name`as user_name
         FROM
             ack_account act
         LEFT JOIN ack_client clt ON act.clientId = clt.id
+        LEFT JOIN ack_user aur ON act.userId = aur.id
         where act.id = #{id,jdbcType=BIGINT}
     </select>
     <select id="findByClientId" resultMap="AccountResultMap" parameterType="int" >
@@ -49,23 +49,22 @@
         where clientId = #{clientId}
     </select>
     <select id="findById" resultMap="AccountResultMap" parameterType="int" >
-        SELECT
+         SELECT
             act.id,
             act.clientId,
-            act.tradeNumber,
             act.balance,
             act.coin,
-            act.coinFlow,
-            act.flow,
-            act.flowCase,
             act.remark,
             act.createTime,
             act.userId,
             clt.`name` AS client_name,
-            clt.phone AS client_phone
+            clt.phone AS client_phone,
+            aur.surname AS user_surname,
+            aur.`name`as user_name
         FROM
             ack_account act
         LEFT JOIN ack_client clt ON act.clientId = clt.id
+        LEFT JOIN ack_user aur ON act.userId = aur.id
         where act.id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteById" parameterType="int" >
@@ -73,14 +72,11 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
     <insert id="insert" parameterType="org.ack.pojo.Account" >
-    insert into ack_account (id, clientId, tradeNumber,
-      balance, flow, coin, coinFlow, flowCase,
-      remark, userId, createTime
+    insert into ack_account (id, clientId,
+      balance,coin,remark, userId, createTime
       )
-    values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=INTEGER}, #{tradeNumber,jdbcType=VARCHAR},
-      #{balance,jdbcType=DECIMAL}, #{flow,jdbcType=DECIMAL}, #{coin,jdbcType=DECIMAL},
-      #{coinFlow,jdbcType=DECIMAL},#{flowCase,jdbcType=VARCHAR},
-      #{remark,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
+    values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=INTEGER},
+      #{balance,jdbcType=DECIMAL}, #{coin,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
     <insert id="insertSelective" parameterType="org.ack.pojo.Account" >
@@ -92,17 +88,9 @@
             <if test="clientId != null" >
                 clientId,
             </if>
-            <if test="tradeNumber != null" >
-                tradeNumber,
-            </if>
+
             <if test="balance != null" >
                 balance,
-            </if>
-            <if test="flow != null" >
-                flow,
-            </if>
-            <if test="flowCase != null" >
-                flowCase,
             </if>
             <if test="remark != null" >
                 remark,
@@ -119,25 +107,16 @@
                 #{id,jdbcType=BIGINT},
             </if>
             <if test="clientId != null" >
-                #{clientid,jdbcType=INTEGER},
-            </if>
-            <if test="tradeNumber != null" >
-                #{tradenumber,jdbcType=VARCHAR},
+                #{clientId,jdbcType=INTEGER},
             </if>
             <if test="balance != null" >
                 #{balance,jdbcType=DECIMAL},
-            </if>
-            <if test="flow != null" >
-                #{flow,jdbcType=DECIMAL},
-            </if>
-            <if test="flowCase != null" >
-                #{flowcase,jdbcType=VARCHAR},
             </if>
             <if test="remark != null" >
                 #{remark,jdbcType=VARCHAR},
             </if>
             <if test="userId != null" >
-                #{userid,jdbcType=BIGINT},
+                #{userId,jdbcType=BIGINT},
             </if>
             <if test="createTime != null" >
                 #{createTime,jdbcType=TIMESTAMP},
@@ -148,31 +127,22 @@
         update ack_account
         <set >
             <if test="clientId != null" >
-                clientId = #{clientid,jdbcType=INTEGER},
+                clientId = #{clientId,jdbcType=INTEGER},
             </if>
-            <if test="tradeNumber != null" >
-                tradeNumber = #{tradenumber,jdbcType=VARCHAR},
-            </if>
+
             <if test="balance != null" >
                 balance = #{balance,jdbcType=DECIMAL},
             </if>
-            <if test="flow != null" >
-                flow = #{flow,jdbcType=DECIMAL},
-            </if>
+
             <if test="coin != null" >
                 coin = #{coin,jdbcType=DECIMAL},
             </if>
-            <if test="coinFlow != null" >
-                coinFlow = #{coinFlow,jdbcType=DECIMAL},
-            </if>
-            <if test="flowCase != null" >
-                flowCase = #{flowcase,jdbcType=VARCHAR},
-            </if>
+
             <if test="remark != null" >
                 remark = #{remark,jdbcType=VARCHAR},
             </if>
             <if test="userId != null" >
-                userId = #{userid,jdbcType=BIGINT},
+                userId = #{userId,jdbcType=BIGINT},
             </if>
             <if test="createTime != null" >
                 createTime = #{createTime,jdbcType=TIMESTAMP},
@@ -183,12 +153,8 @@
     <update id="updateById" parameterType="org.ack.pojo.Account" >
     update ack_account
     set clientId = #{clientId,jdbcType=INTEGER},
-      tradeNumber = #{tradeNumber,jdbcType=VARCHAR},
       balance = #{balance,jdbcType=DECIMAL},
       coin = #{coin,jdbcType=DECIMAL},
-      coinFlow = #{coinFlow,jdbcType=DECIMAL},
-      flow = #{flow,jdbcType=DECIMAL},
-      flowCase = #{flowCase,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       userId = #{userId,jdbcType=BIGINT},
       createTime = #{createTime,jdbcType=TIMESTAMP}
@@ -200,26 +166,29 @@
         SELECT
         act.id,
         act.clientId,
-        act.tradeNumber,
         act.balance,
         act.coin,
-        act.coinFlow,
-        act.flow,
-        act.flowCase,
         act.remark,
         act.createTime,
+        act.userId,
         clt.`name` AS client_name,
-        clt.phone AS client_phone
+        clt.phone AS client_phone,
+        aur.surname AS user_surname,
+        aur.`name`as user_name
         FROM
         ack_account act
         LEFT JOIN ack_client clt ON act.clientId = clt.id
+        LEFT JOIN ack_user aur ON act.userId = aur.id
         <where>
             1 = 1
             <if test="condition.clientId != null and condition.clientId !=''">
                 and act.clientId=#{condition.clientId}
             </if>
             <if test="condition.createTime != null and condition.createTime !=''">
-                and ac.createTime=#{condition.createTime}
+                and act.createTime=#{condition.createTime}
+            </if>
+            <if test="condition.userId != null and condition.userId !=''">
+                and act.id=#{condition.userId}
             </if>
         </where>
 

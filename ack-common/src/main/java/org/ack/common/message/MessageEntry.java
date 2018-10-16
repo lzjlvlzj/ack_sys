@@ -11,9 +11,15 @@ public class MessageEntry implements Serializable {
 
 	private String message;
 	private Integer code;
+	private Object data;
 	public MessageEntry(int code, String message ){
 		this.code = code;
 		this.message = message;
+	}
+	public MessageEntry(int code, String message, Object data ){
+		this.code = code;
+		this.message = message;
+		this.data = data;
 	}
 
 	public String getMessage() {
@@ -30,6 +36,14 @@ public class MessageEntry implements Serializable {
 
 	public void setCode(Integer code) {
 		this.code = code;
+	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
 	}
 
 	@Override

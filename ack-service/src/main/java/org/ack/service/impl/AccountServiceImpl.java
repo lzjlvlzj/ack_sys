@@ -16,4 +16,9 @@ public class AccountServiceImpl extends AckMapperServiceImpl<Account, Integer> i
     protected AckMapper<Account, Integer> getAckMapper() {
         return accountMapper;
     }
+
+    @Override
+    public Account findByClientId(Integer clientId) {
+        return accountMapper.findByClientId(clientId);
+    }
 }

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ack.persist.mapper.FlowMapper" >
+  <resultMap id="BaseResultMap" type="org.ack.pojo.Flow" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="clientId" property="clientId" jdbcType="BIGINT" />
+    <result column="flow" property="flow" jdbcType="DECIMAL" />
+    <result column="coinFlow" property="coinFlow" jdbcType="DECIMAL" />
+    <result column="cause" property="cause" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <association  property="client" javaType="org.ack.pojo.Client">
+      <id property="id" column="clientId"></id>
+      <result property="phone" column="client_phone"></result>
+      <result property="name" column="client_name"></result>
+    </association>
+    <association  property="user" javaType="org.ack.pojo.User">
+      <id property="id" column="userId"></id>
+      <result property="surname" column="user_surname"></result>
+      <result property="name" column="user_name"></result>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clientId, flow, coinFlow, cause, remark, userId, createTime
+  </sql>
+  <select id="find" parameterType="org.ack.pojo.Flow" resultMap="BaseResultMap">
+
+  </select>
+  <select id="findById" parameterType="int" resultMap="BaseResultMap">
+
+  </select>
+  <insert id="insert" parameterType="org.ack.pojo.Flow" >
+    insert into ack_flow (id, clientId, flow, 
+      coinFlow, cause, userId, 
+      remark, createTime)
+    values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=BIGINT}, #{flow,jdbcType=DECIMAL}, 
+      #{coinFlow,jdbcType=DECIMAL}, #{cause,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <delete id="deleteById" parameterType="int" >
+    delete from ack_flow
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="org.ack.pojo.Flow" >
+    insert into ack_flow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clientId != null" >
+        clientId,
+      </if>
+      <if test="flow != null" >
+        flow,
+      </if>
+      <if test="coinFlow != null" >
+        coinFlow,
+      </if>
+      <if test="cause != null" >
+        cause,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null" >
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="flow != null" >
+        #{flow,jdbcType=DECIMAL},
+      </if>
+      <if test="coinFlow != null" >
+        #{coinFlow,jdbcType=DECIMAL},
+      </if>
+      <if test="cause != null" >
+        #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="org.ack.pojo.Flow" >
+    update ack_flow
+    <set >
+      <if test="clientId != null" >
+        clientId = #{clientid,jdbcType=INTEGER},
+      </if>
+      <if test="flow != null" >
+        flow = #{balance,jdbcType=DECIMAL},
+      </if>
+
+      <if test="coinFlow != null" >
+        coinFlow = #{coinFlow,jdbcType=DECIMAL},
+      </if>
+
+      <if test="cause != null" >
+        cause = #{cause,jdbcType=VARCHAR},
+      </if>
+
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        userId = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+          resultMap="BaseResultMap">
+  </select>
+</mapper>

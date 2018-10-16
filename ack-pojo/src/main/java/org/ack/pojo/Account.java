@@ -13,17 +13,8 @@ public class Account implements Serializable {
     private Integer id;                  // 数据库id
     @NotNull(message="{account.client.null}")
     private Integer clientId;            // 客户id
-    private String tradeNumber;          // 交易码
-    @NotNull(message="{account.balance.null}")
     private BigDecimal balance;          // 账号余金额
-    @NotNull(message="{account.flow.null}")
-    private BigDecimal flow;             // 资金流向: 进账为正,出账为负
-    @NotNull(message="{account.coin.null}")
     private BigDecimal coin;             // 虚拟钱数
-    @NotNull(message="{account.coinFlow.null}")
-    private BigDecimal coinFlow;         // 虚拟钱数流转
-    @NotNull(message="{account.flowCase.null}")
-    private String flowCase;             // 资金流转原因
     private String remark;               // 备注
     private Date createTime;             // 创建时间
     private Long userId;                 // 记录添加人id
@@ -46,13 +37,6 @@ public class Account implements Serializable {
         this.clientId = clientId;
     }
 
-    public String getTradeNumber() {
-        return tradeNumber;
-    }
-
-    public void setTradeNumber(String tradeNumber) {
-        this.tradeNumber = tradeNumber;
-    }
 
     public BigDecimal getBalance() {
         return balance;
@@ -62,36 +46,12 @@ public class Account implements Serializable {
         this.balance = balance;
     }
 
-    public BigDecimal getFlow() {
-        return flow;
-    }
-
-    public void setFlow(BigDecimal flow) {
-        this.flow = flow;
-    }
-
     public BigDecimal getCoin() {
         return coin;
     }
 
     public void setCoin(BigDecimal coin) {
         this.coin = coin;
-    }
-
-    public BigDecimal getCoinFlow() {
-        return coinFlow;
-    }
-
-    public void setCoinFlow(BigDecimal coinFlow) {
-        this.coinFlow = coinFlow;
-    }
-
-    public String getFlowCase() {
-        return flowCase;
-    }
-
-    public void setFlowCase(String flowCase) {
-        this.flowCase = flowCase;
     }
 
     public String getRemark() {
@@ -139,12 +99,8 @@ public class Account implements Serializable {
         return "Account{" +
                 "id=" + id +
                 ", clientId=" + clientId +
-                ", tradeNumber='" + tradeNumber + '\'' +
                 ", balance=" + balance +
-                ", flow=" + flow +
                 ", coin=" + coin +
-                ", coinFlow=" + coinFlow +
-                ", flowCase='" + flowCase + '\'' +
                 ", remark='" + remark + '\'' +
                 ", createTime=" + createTime +
                 ", userId=" + userId +

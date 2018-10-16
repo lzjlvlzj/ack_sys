@@ -14,6 +14,7 @@
 		<association  property="user" javaType="org.ack.pojo.User">
 			<id property="id" column="user_id"></id>
 			<result property="surname" column="user_surname"></result>
+			<result property="name" column="user_name"></result>
 		</association>
 	</resultMap>
 
@@ -58,6 +59,7 @@
 			ac.qq,
 			ac.weiXin,
 			ac.remark,
+			ac.userId,
 			ac.createTime,
 			aur.id AS user_id,
 			aur.surname AS user_surname,
@@ -77,6 +79,7 @@
 			ac.qq,
 			ac.weiXin,
 			ac.remark,
+			ac.userId,
 			ac.createTime,
 			aur.id AS user_id,
 			aur.surname AS user_surname,
@@ -135,6 +138,7 @@
 			ac.address,
 			ac.phone,
 			ac.qq,
+			ac.userId,
 			ac.weiXin,
 			ac.remark,
 			ac.createTime,
@@ -155,6 +159,7 @@
 			ac.phone,
 			ac.qq,
 			ac.weiXin,
+		    ac.userId,
 			ac.remark,
 			ac.createTime,
 			aur.id AS user_id,

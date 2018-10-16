@@ -5,9 +5,11 @@ import org.ack.persist.AckMapper;
 import org.ack.persist.mapper.ClientMapper;
 import org.ack.pojo.Account;
 import org.ack.pojo.Client;
+import org.ack.pojo.Flow;
 import org.ack.pojo.User;
 import org.ack.service.AccountService;
 import org.ack.service.ClientService;
+import org.ack.service.FlowService;
 import org.ack.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,8 @@ public class ClientServiceImpl extends AckMapperServiceImpl<Client, Integer>
 	UserService userServiceImpl;
 	@Autowired
 	AccountService accountServiceImpl;
+	@Autowired
+	FlowService flowServiceImpl;
 
 	@Override
 	protected AckMapper<Client, Integer> getAckMapper() {
@@ -61,14 +65,11 @@ public class ClientServiceImpl extends AckMapperServiceImpl<Client, Integer>
 			Account account = new Account();
 			account.setClientId(client.getId());
 			account.setCreateTime(new Date());
-			account.setFlowCase("账号初始化");
 			account.setRemark("账号初始化");
             account.setUserId(user.getId());
 			BigDecimal initVal = new BigDecimal(0.00);
             account.setBalance(initVal);
-            account.setFlow(initVal);
             account.setCoin(initVal);
-            account.setCoinFlow(initVal);
 			r = accountServiceImpl.insert(account);
 			if(r == 1){
 				if(logger.isDebugEnabled()){
@@ -88,5 +89,30 @@ public class ClientServiceImpl extends AckMapperServiceImpl<Client, Integer>
 		}
 		//创建客户账号信息
 		return r;
+	}
+
+	@Override
+	public Account recharge(Flow flw) {
+		Integer clientId = flw.getClientId();
+		if(logger.isDebugEnabled()){
+			logger.debug("给客户:{}充值", clientId);
+		}
+		//新建一条充值记录
+		Flow newFlow = new Flow();
+		newFlow.setClientId(clientId);
+		newFlow.setCause(flw.getCause());
+		newFlow.setCoinFlow(flw.getCoinFlow());
+		newFlow.setFlow(flw.getFlow());
+		newFlow.setRemark(flw.getRemark());
+		newFlow.setCreateTime(new Date());
+		newFlow.setUserId(flw.getUserId());
+		int r = flowServiceImpl.insert(newFlow);
+		if(r == 1){
+			logger.info("给客户:{}充值成功", clientId);
+		} else{
+			logger.info("给客户:{}充值失败", clientId);
+		}
+		Account account = accountServiceImpl.findByClientId(clientId);
+		return account;
 	}
 }

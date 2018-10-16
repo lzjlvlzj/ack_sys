@@ -4,7 +4,9 @@ import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
 import org.ack.common.message.MessageEntry;
 import org.ack.persist.page.Page;
+import org.ack.pojo.Account;
 import org.ack.pojo.Client;
+import org.ack.pojo.Flow;
 import org.ack.pojo.User;
 import org.ack.service.ClientService;
 import org.slf4j.Logger;
@@ -143,5 +145,54 @@ public class ClientController extends AckPageController<Client, Integer>{
 			logger.debug("查询所以负责人");
 		}
 		return clientServiceImpl.findWheelMan();
+	}
+
+	/**
+	 * 给客户充钱
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/recharge/ui")
+	@AckPermission(value="client:recharge")
+	public String rechargeUI(HttpServletRequest request,
+							 HttpServletResponse response, Model model,
+							 @Valid Account account, BindingResult result) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("给客户:{}充钱页面", account.getClientId());
+		}
+		return "client/clientRecharge";
+	}
+	/**
+	 * 给客户充钱
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/recharge")
+	@AckPermission(value="client:recharge")
+	@ResponseBody
+	public MessageEntry recharge(HttpServletRequest request,
+								 HttpServletResponse response, Model model,
+								 @Valid Flow flow, BindingResult result) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("给客户:{}充钱", flow.getClientId());
+		}
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new MessageEntry(0, msg, null);
+		}
+		User user= getCurrentUser(request);
+		flow.setUserId(user.getId());
+		Account account =  clientServiceImpl.recharge(flow);
+
+		return new MessageEntry(1, "", account);
 	}
 }

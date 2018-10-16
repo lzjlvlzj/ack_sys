@@ -109,14 +109,16 @@ AckTool.optionButton = {
 		div.append(del);
 		return div;
 	},
-	/**
+	/**这块需要重构设计,业务逻辑不能写在这
 	 * 按钮拥有的权限字符
 	 * */
 	authButtonPermissionsConfig : function(prefix){
 		var update = prefix + ":update";//修改
 		var del = prefix + ":delete";//删除
 		var userRole = "user:role";//用户添加角色
-		var roleMenu = "role:menu";//用户添加角色
+		var roleMenu = "role:menu";//用户添加角
+		var clientRecharge = "client:recharge";
+
 		
 		var array = new Array();
 		array[update] = AckTool.optionButton.defaultButton('修改操作', 'btn btn-xs btn-info ack-simple-btn-edit', 'fa-pencil');
@@ -127,6 +129,9 @@ AckTool.optionButton = {
 		if("role" == prefix){
 			array[roleMenu] = AckTool.optionButton.defaultButton('添加菜单', 'btn btn-xs btn-info ack-simple-btn-role-menu', 'fa-circle-o');
 		}
+		if("client" == prefix){
+            array[clientRecharge] = AckTool.optionButton.defaultButton('账号充值', 'btn btn-xs btn-info ack-simple-btn-client-recharge', 'fa-plus');
+        }
 		
 		return array;
 	},

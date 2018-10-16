@@ -50,12 +50,10 @@ public class AccountMapperTest extends BaseTest{
         Account account = new Account();
         account.setClientId(1);
         account.setCreateTime(new Date());
-        account.setFlowCase("账号初始化");
         account.setRemark("账号初始化");
         account.setUserId(7L);
         BigDecimal initVal = new BigDecimal(0.00);
         account.setBalance(initVal);
-        account.setFlow(initVal);
 
         int r = accountMapper.insert(account);
         sqlSession.commit();
