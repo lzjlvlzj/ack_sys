@@ -24,6 +24,12 @@
 							aria-controls="dynamic-table" rowspan="1" colspan="1">产品类型</th>
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">品牌</th>
+						<th class="hidden-480 sorting" tabindex="0"
+							aria-controls="dynamic-table" rowspan="1" colspan="1">规格</th>
+						<th class="hidden-480 sorting" tabindex="0"
+							aria-controls="dynamic-table" rowspan="1" colspan="1">单位</th>
+						<th class="hidden-480 sorting" tabindex="0"
+							aria-controls="dynamic-table" rowspan="1" colspan="1">编码</th>
 						<th class="sorting" rowspan="1" colspan="1"
 							aria-label="dynamic-table">单价</th>
 						<th class="sorting" rowspan="1" colspan="1"

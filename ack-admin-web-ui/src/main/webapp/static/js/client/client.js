@@ -268,6 +268,226 @@ Client.recharge = function(id){
     });
 
 };
+/**
+ * 显示物流
+ * @param clientId
+ */
+Client.showLogistics = function(clientId){
+    var url = "/client/logistics/"+ clientId;
+    var select = $("#logisticsId",Client.document).empty();
+    AckTool.postReq({}, url, function(obj) {
+        if(obj){
+            var len = obj.length;
+            for(var i =0 ; i < len; i++){
+                var item = obj[i];
+                var id = item.id;
+                var vehicle = item.vehicle;
+                var phone = item.phone;
+                var str = vehicle + "==" + phone;
+                var option = $("<option  value='"+id+"' >"+str+"</option>");
+                if(i == 0){
+                    option = $("<option  value='"+id+"' selected='selected'>"+str+"</option>");
+                }
+                select.append(option);
+            }
+        }
+    });
+
+};
+
+Client.addProduct = function(tab, tr){
+    var prductTrLength = tab.children('tr').length;
+    if(length > 20){
+        alert("一次最多添加20个产品，超过请分多个单子。");
+        return false;
+    }
+    var id = tr.attr("id");
+    var name = tr.find("td").eq(1).text();
+    var unitPrice = tr.find("td").eq(2).text();
+    var input = tr.find("td").eq(3).find("input");
+    var type = 0;
+    if(input.attr("checked") == "checked" || input.prop('checked')){
+        type = 1;
+    } else{
+        type = 0;
+    }
+    var amount = tr.find("td").eq(4).find("input").val();
+    if(amount=='' || amount <=0){
+        alert("数量必须大于0");
+        return ;
+    }else if(amount > 99999){
+        alert("数量太大，请分多次添加");
+        return ;
+    }
+    var totalPrice = unitPrice * amount;
+    totalPrice = totalPrice.toFixed(2);
+
+
+    var pTr = $("<tr id='"+id+"'></tr>");
+    var nameTd = $("<td>"+name+"</td>");
+    var uniPriceTd = $("<td>"+unitPrice+"</td>");
+    var amountTd = $("<td>"+amount+"</td>");
+    var totalPriceTd = $("<td>"+totalPrice+"</td>");
+    var isZp = "是";
+    if(type != 1){
+        isZp = "否";
+    }
+    var ipt = $("<input type='hidden' value='"+type+"'/>");
+    var zPTd = $("<td>"+isZp+"</td>");
+    zPTd.append(ipt);
+    var opt = $("<button class='product-del-btn'>删除</button>");
+    var optTd = $("<td></td>");
+    optTd.append(opt);
+    pTr.append(nameTd);
+    pTr.append(amountTd);
+    pTr.append(uniPriceTd);
+    pTr.append(totalPriceTd);
+    pTr.append(zPTd);
+    pTr.append(optTd);
+
+    tab.append(pTr);
+
+
+
+};
+/**
+ * 显示产品
+ */
+Client.showProductList = function(data){
+    var tab = $("#product-tab-body",Client.document).empty();
+    var len = data.length;
+    for(var i = 0; i < len; i++){
+        var item = data[i];
+        var num = i+1;
+        var tr = $("<tr></tr>");
+        tr.attr("id", item.id);
+        var numTd = $("<td>" + num + "</td>");
+        var productNameTd = $("<td>" + item.name + "</td>");
+        var unitPriceTd = $("<td>" + item.unitPrice + "</td>");
+        var div = "";
+        if(item.type == 0){
+            div = $('<input type="checkbox"  name="productType"/>');
+        } else {
+            div = $('<input type="checkbox"  name="productType" checked/>');
+        }
+        var isZpTd = $("<td></td>");
+        isZpTd.append(div);
+        var amount = $('<input type="number" onkeyup="AckTool.formValidator.number(this)" onafterpaste="AckTool.formValidator.number(this)">');
+        var amountTd = $("<td></td>");
+        amountTd.append(amount);
+        var btn = $("<button class='product-add-btn'>添加</button>");
+        var option = $("<td></td>");
+        option.append(btn);
+
+        tr.append(numTd);
+        tr.append(productNameTd);
+        tr.append(unitPriceTd);
+        tr.append(isZpTd);
+        tr.append(amountTd);
+        tr.append(option);
+        tab.append(tr);
+
+    }
+
+};
+Client.productList = function(pageNo){
+    var url = "/product/page";
+    var data = {};
+    data.currentPage = pageNo;
+    data.name = $("#productName",Client.document).val();
+    var option = Product.config();
+    AckTool.postReq(data,url,function(obj){
+        if( obj ){
+            var result =  obj.result;
+            Client.showProductList(result);
+        }
+    });
+};
+/**
+ * 显示产品
+ */
+Client.showProduct = function(){
+    var data = {};
+    var productName = $("#productName",Client.document).val();
+    data.count = 5;
+    data.name = productName;
+    var url = "/product/page";
+
+    AckTool.postReq(data,url,function(obj) {
+        if (obj) {
+            var conf = {totalPage:obj.totalPage, pageNumSize : 5, callback : Client.productList};
+            Client.showProductList(obj.result);
+        }
+    });
+};
+
+/**trade ui
+ *@param id
+ */
+Client.tradeUI = function(id ,name){
+    var url = "/client/trade/ui";
+    var data = {};
+    data.id = id;
+    data.name = name;
+    Client.modal.open(url,data,function(){
+        $("#clientId",Client.document).val(id);
+        $("#name",Client.document).val(name);
+        //显示物流
+        Client.showLogistics(id);
+        //显示产品
+        Client.showProduct();
+    });
+};
+
+Client.trade = function(clientId){
+    var url = "/client/trade";
+    var trade = {};
+    //客户id
+    trade.clientId = clientId;
+    trade.remark = $("#remark",Client.document).val();
+    //物流
+    var logistics = {}
+    var logisticsId = $("#logisticsId",Client.document).val();
+    if(!logisticsId){
+        alert("物流信息不能为空,请给客添加物流信息。");
+        return;
+    }
+    console.log($("#logisticsId",Client.document).val());
+    //产品明细
+    var tradeItems = [];
+    var tab = $("#trade-product-tab-body",Client.document);
+    var trs = tab.find("tr");
+    var len = trs.length;
+    if(len == 0){
+        return ;
+    }
+    for(var i=0; i < len; i++){
+        var tr = $(trs[i]);
+        var tds = tr.find("td");
+        //产品id
+        var item = {};
+        item.productId = tr.attr("id");
+        //单价
+        item.unitPrice = tds.eq(2).text();
+        //数量
+        item.amount = tds.eq(1).text();
+        //总价
+        item.totalPrice = tds.eq(3).text();
+        //是否是赠品
+        item.type = tr.find("input").val();
+        tradeItems.push(item);
+    }
+    trade.logistics = logistics;
+    trade.tradeItems = tradeItems;
+    var data = JSON.stringify(trade);
+    AckTool.postReqJsonType(data, url, function(obj) {
+        if(obj){
+            alert(1);
+        }
+    });
+
+
+};
 
 /**
  * 绑定事件
@@ -285,6 +505,15 @@ Client.bind = function() {
         var id = $(this).parents("tr").attr("id");
         Client.del(id);
     });
+
+    //销售
+    $("#tab-body").on("click",".ack-simple-btn-client-trade",function(){
+        var tr = $(this).parents("tr");
+        var id = tr.attr("id");
+        var name = tr.find("td").eq(1).text();
+        Client.tradeUI(id, name);
+    });
+
     //充值页面
     $("#tab-body").on("click",".ack-simple-btn-client-recharge",function(){
         var tr = $(this).parents("tr");
@@ -304,6 +533,32 @@ Client.bind = function() {
         var flag = fp.val();
         Client.eidt(flag);
     });
+
+    //创建订单
+    ackModal.on("click",".ack-trade-save-btn", function(){
+        var id = $("#clientId", Client.document).val();
+        Client.trade(id);
+    });
+
+    //查询产品
+    ackModal.on("click","#product-find", function(){
+        Client.showProduct();
+    });
+    //添加商品到列表
+    ackModal.on("click",".product-add-btn", function(){
+        var tr = $(this).parents("tr");
+        var tab = $("#trade-product-tab-body",Client.document);
+        Client.addProduct(tab,tr);
+    });
+
+    //商品列表删除
+    ackModal.on("click",".product-del-btn", function(){
+        var tr = $(this).parents("tr");
+        tr.remove();
+    });
+
+
+
 };
 
 Client.init = function (){

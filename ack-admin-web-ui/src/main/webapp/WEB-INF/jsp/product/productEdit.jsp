@@ -45,29 +45,45 @@
 							value="" class="col-xs-10 col-sm-8" onkeyup="">
 					</div>
 				</div>
-				<!--
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="url"> url </label>
+						   for="code"> 产品编码 </label>
 
 					<div class="col-sm-9">
-						<input type="text" id="url" placeholder="url" name="url"
+						<input type="text" id="code" placeholder="code" name="code"
+							   value="" class="col-xs-10 col-sm-8">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right"
+						for="unit"> 产品单位 </label>
+
+					<div class="col-sm-9">
+						<input type="text" id="unit" placeholder="unit" name="unit"
 							value="" class="col-xs-10 col-sm-8">
 					</div>
 				</div>
-				-->
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right"
+						   for="spec"> 产品规格 </label>
+
+					<div class="col-sm-9">
+						<input type="text" id="spec" placeholder="spec" name="spec"
+							   value="" class="col-xs-10 col-sm-8">
+					</div>
+				</div>
 				<div class="form-group control-group" id="productType">
 					<label class="col-sm-3 control-label no-padding-right"
 						for="productType"> 产品类型 </label>
 
 					<div class="radio col-sm-4">
 						<label> <input name="type"  checked="checked" type="radio"
-							class="ace" value="0"> <span class="lbl"> 液体</span>
+							class="ace" value="0"> <span class="lbl"> 非赠品</span>
 						</label>
 					</div>
 					<div class="radio col-sm-5">
 						<label> <input name="type"  type="radio"
-							class="ace" value="1"> <span class="lbl"> 粉末</span>
+							class="ace" value="1"> <span class="lbl"> 赠品</span>
 						</label>
 					</div>
 				</div>

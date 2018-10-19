@@ -156,7 +156,7 @@ User.showList = function() {
          ]
          
      } );
-}
+};
 
 User.list = function(pageNo){
 	

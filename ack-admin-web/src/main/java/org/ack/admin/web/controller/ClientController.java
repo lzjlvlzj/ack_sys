@@ -4,10 +4,7 @@ import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
 import org.ack.common.message.MessageEntry;
 import org.ack.persist.page.Page;
-import org.ack.pojo.Account;
-import org.ack.pojo.Client;
-import org.ack.pojo.Flow;
-import org.ack.pojo.User;
+import org.ack.pojo.*;
 import org.ack.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -56,7 +56,9 @@ public class ClientController extends AckPageController<Client, Integer>{
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.findPage(request, response, model, null, t, currentPage, count,
+		Map<String,Object> map = new HashMap<>();
+		map.put("name", t.getName());
+		return super.findPage(request, response, model, map, t, currentPage, count,
 				orderColumn, orderType);
 	}
 	
@@ -148,7 +150,7 @@ public class ClientController extends AckPageController<Client, Integer>{
 	}
 
 	/**
-	 * 给客户充钱
+	 * 给客户充钱页面
 	 * @param request
 	 * @param response
 	 * @param model
@@ -195,4 +197,34 @@ public class ClientController extends AckPageController<Client, Integer>{
 
 		return new MessageEntry(1, "", account);
 	}
+
+	@RequestMapping("/logistics/{id}")
+	@ResponseBody
+	public List<Logistics> findLogisticsByClientId(@PathVariable Integer id){
+		return clientServiceImpl.findLogisticsByClientId(id);
+	}
+
+	@RequestMapping(value = "/trade/ui")
+	@AckPermission(value="trade:add")
+	public String tradeUI(HttpServletRequest request,
+						  HttpServletResponse response, Model model,
+						  Trade trade) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("给客户:{}创建销售单", trade.getClientId());
+		}
+		return "client/tradeEdit";
+	}
+	@RequestMapping(value = "/trade")
+	@AckPermission(value="trade:add")
+	@ResponseBody
+	public Integer trade(HttpServletRequest request,
+						  HttpServletResponse response, Model model,
+						  @RequestBody Trade trade) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("给客户:{}创建销售单", trade.getClientId());
+		}
+		User user = getCurrentUser(request);
+		return clientServiceImpl.insertTrade(trade, user);
+	}
+
 }

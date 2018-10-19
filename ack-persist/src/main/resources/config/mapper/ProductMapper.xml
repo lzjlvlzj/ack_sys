@@ -8,6 +8,9 @@
 		<result property="brandId" column="brandId" />
 		<result property="unitPrice" column="unitPrice" />
 		<result property="url" column="url" />
+		<result property="unit" column="unit" />
+		<result property="code" column="code" />
+		<result property="spec" column="spec" />
 		<result property="remark" column="remark" />
 		<result property="createTime" column="createTime" />
 		<association  property="brand" javaType="org.ack.pojo.Brand">
@@ -19,17 +22,17 @@
 	</resultMap>
 
 	<sql id="base_column">
-		id,name,type,unitPrice,url,brandId,remark,createTime
+		id,name,type,unitPrice,url,unit,code,spec,brandId,remark,createTime
 	</sql>
 	<insert id="insert">
 		INSERT INTO
-		ack_product(name,type,unitPrice,url,brandId,remark,createTime)
+		ack_product(name,type,unitPrice,url,unit,code,spec,brandId,remark,createTime)
 		VALUES
 		<if test="createTime != null and createTime !=''">
-			(#{name},#{type},#{unitPrice},#{url},#{brandId},#{remark},#{createTime})
+			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spce},#{brandId},#{remark},#{createTime})
 		</if>
 		<if test="createTime == null or createTime ==''">
-			(#{name},#{type},#{unitPrice},#{url},#{brandId},#{remark},now())
+			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spce},#{brandId},#{remark},now())
 		</if>
 	</insert>
 
@@ -53,6 +56,9 @@
 			ap.type,
 			ap.unitPrice,
 			ap.url,
+			ap.code,
+			ap.unit,
+			ap.spec,
 			ap.brandId,
 			ap.remark,
 			ap.createTime,
@@ -95,12 +101,21 @@
 			<if test="url != null and url !=''">
 				ar.url = #{url},
 			</if>
+			<if test="code != null and code !=''">
+				ar.code = #{code},
+			</if>
+			<if test="url != null and url !=''">
+				ar.code = #{code},
+			</if>
+			<if test="unit != null and unit !=''">
+				ar.unit = #{unit},
+			</if>
 			<if test="createTime != null and createTime !=''">
 				ar.createTime = #{createTime},
 			</if>
 		</set>
 		<where>
-			id = #{id}
+			ar.id = #{id}
 		</where>
 	</update>
 
@@ -129,6 +144,9 @@
 			ap.type,
 			ap.unitPrice,
 			ap.url,
+		    ap.code,
+		    ap.unit,
+		    ap.spec,
 			ap.brandId,
 			ap.remark,
 			ap.createTime,
@@ -141,8 +159,11 @@
 		<where>
 		    1 = 1
 		    <if test="condition.name != null and condition.name !=''">
-			    and ap.name=#{condition.name}
+				AND ap.name LIKE CONCAT('%',#{condition.name},'%')
 		    </if>
+			<if test="condition.code != null and condition.code !=''">
+				AND ap.code = #{condition.code}
+			</if>
 		</where>
 		
 	</select>

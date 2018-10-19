@@ -3,14 +3,8 @@ package org.ack.service.impl;
 import org.ack.base.service.impl.AckMapperServiceImpl;
 import org.ack.persist.AckMapper;
 import org.ack.persist.mapper.ClientMapper;
-import org.ack.pojo.Account;
-import org.ack.pojo.Client;
-import org.ack.pojo.Flow;
-import org.ack.pojo.User;
-import org.ack.service.AccountService;
-import org.ack.service.ClientService;
-import org.ack.service.FlowService;
-import org.ack.service.UserService;
+import org.ack.pojo.*;
+import org.ack.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -35,6 +30,12 @@ public class ClientServiceImpl extends AckMapperServiceImpl<Client, Integer>
 	AccountService accountServiceImpl;
 	@Autowired
 	FlowService flowServiceImpl;
+	@Autowired
+	LogisticsService logisticsServiceImpl;
+	@Autowired
+	TradeService tradeServiceImpl;
+
+
 
 	@Override
 	protected AckMapper<Client, Integer> getAckMapper() {
@@ -114,5 +115,15 @@ public class ClientServiceImpl extends AckMapperServiceImpl<Client, Integer>
 		}
 		Account account = accountServiceImpl.findByClientId(clientId);
 		return account;
+	}
+
+	@Override
+	public List<Logistics> findLogisticsByClientId(Integer id) {
+		return logisticsServiceImpl.findByClientId(id);
+	}
+
+	@Override
+	public Integer insertTrade(Trade trade, User user) {
+		return tradeServiceImpl.insert(trade,user);
 	}
 }

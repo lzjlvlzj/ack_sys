@@ -117,9 +117,10 @@ AckTool.optionButton = {
 		var del = prefix + ":delete";//删除
 		var userRole = "user:role";//用户添加角色
 		var roleMenu = "role:menu";//用户添加角
-		var clientRecharge = "client:recharge";
+		var clientRecharge = "client:recharge";//充值
+        var clientTrade = "client:add";//充值
 
-		
+		//
 		var array = new Array();
 		array[update] = AckTool.optionButton.defaultButton('修改操作', 'btn btn-xs btn-info ack-simple-btn-edit', 'fa-pencil');
 		array[del] = AckTool.optionButton.defaultButton('删除操作', 'btn btn-xs btn-danger ack-simple-btn-del', 'fa-trash-o');
@@ -131,6 +132,7 @@ AckTool.optionButton = {
 		}
 		if("client" == prefix){
             array[clientRecharge] = AckTool.optionButton.defaultButton('账号充值', 'btn btn-xs btn-info ack-simple-btn-client-recharge', 'fa-plus');
+            array[clientTrade] = AckTool.optionButton.defaultButton('销售单', 'btn btn-xs btn-info ack-simple-btn-client-trade', 'fa-exchange');
         }
 		
 		return array;
@@ -196,7 +198,8 @@ AckTool.date = function(time, fmt) {
 /**
  * ajax request
  */
-AckTool.postReq = function(data, url, callback) {
+AckTool.postReq = function(data, url, callback, contentType) {
+	var ct = contentType || "application/x-www-form-urlencoded; charset=utf-8";
 	$.ajax({
 		url : url,
 		type : "post",
@@ -205,14 +208,33 @@ AckTool.postReq = function(data, url, callback) {
 		complete : function(){
 			AckTool.iFrameHeight();
 		},
-		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		contentType : ct,
 		success : function(resObj) {
 			// iframe
 			callback(resObj);
 		}
 	});
 };
-
+/**
+ * ajax request
+ */
+AckTool.postReqJsonType = function(data, url, callback) {
+    var ct = "application/json;charset=UTF-8";
+    $.ajax({
+        url : url,
+        type : "post",
+        data : data,
+        dataType : 'json',
+        complete : function(){
+            AckTool.iFrameHeight();
+        },
+        contentType : ct,
+        success : function(resObj) {
+            // iframe
+            callback(resObj);
+        }
+    });
+};
 /**
  * show table
  */
@@ -367,6 +389,13 @@ AckTool.formValidator = {
         if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
             obj.value= parseFloat(obj.value);
         }
-    }
+    },
+	number : function(obj){
+        if( obj.value.length==1){
+            obj.value=obj.value.replace(/[^1-9]/g,'1')
+        }else{
+            obj.value=obj.value.replace(/\D/g,'1')
+        }
+	}
 
 }

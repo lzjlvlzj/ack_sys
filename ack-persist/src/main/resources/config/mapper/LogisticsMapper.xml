@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ack.persist.mapper.LogisticsMapper" >
+  <resultMap id="BaseResultMap" type="org.ack.pojo.Logistics" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="clientId" property="clientId" jdbcType="BIGINT" />
+    <result column="vehicle" property="vehicle" jdbcType="VARCHAR" />
+    <result column="postMan" property="postMan" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="postalCode" property="postalCode" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clientId, vehicle, postMan,phone, address, postalCode, remark, createTime
+  </sql>
+  <select id="findByClientId" parameterType="int" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ack_logistics
+    where clientId = #{clientId}
+  </select>
+  <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ack_logistics
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from ack_logistics
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from ack_logistics
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.ack.pojo.Logistics" >
+    insert into ack_logistics (id, clientId, vehicle, postMan,
+      phone, address, postalCode, 
+      remark, createTime)
+    values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=BIGINT}, #{vehicle,jdbcType=VARCHAR}, #{postMan,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{postalCode,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ack.pojo.Logistics" >
+    insert into ack_logistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clientId != null" >
+        clientId,
+      </if>
+      <if test="vehicle != null" >
+        vehicle,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="postalCode != null" >
+        postalCode,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null" >
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="vehicle != null" >
+        #{vehicle,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="org.ack.pojo.Logistics" >
+    update ack_logistics
+    <set >
+      <if test="clientId != null" >
+        clientId = #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="vehicle != null" >
+        vehicle = #{vehicle,jdbcType=VARCHAR},
+      </if>
+      <if test="postMan != null" >
+        postMan = #{postMan,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        postalCode = #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ack.pojo.Logistics" >
+    update ack_logistics
+    set clientId = #{clientId,jdbcType=BIGINT},
+      vehicle = #{vehicle,jdbcType=VARCHAR},
+      postMan = #{postMan,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      postalCode = #{postalCode,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,20 +1,19 @@
 package org.ack.pojo;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Stock {
-    private Integer id;
-    @NotNull(message="{stock.product.null}")
+    private Long id;
+
+    private String code;
+
     private Integer productId;
-    @NotNull(message="{stock.amount.null}")
-    @Max(9999999)
-    @Min(1)
+
     private Long amount;
-    @NotNull(message="{stock.inspector.null}")
+
     private Long inspectorId;
+
+    private Long tradeId;
 
     private Long userId;
 
@@ -22,17 +21,25 @@ public class Stock {
 
     private Date createTime;
 
-    private Brand brand;
     private Product product;
     private User inspector;
-    private User operator;
+    private User user;
+    private Trade trade;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Integer getProductId() {
@@ -59,6 +66,14 @@ public class Stock {
         this.inspectorId = inspectorId;
     }
 
+    public Long getTradeId() {
+        return tradeId;
+    }
+
+    public void setTradeId(Long tradeId) {
+        this.tradeId = tradeId;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -83,14 +98,6 @@ public class Stock {
         this.createTime = createTime;
     }
 
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
-    }
-
     public Product getProduct() {
         return product;
     }
@@ -107,21 +114,31 @@ public class Stock {
         this.inspector = inspector;
     }
 
-    public User getOperator() {
-        return operator;
+    public User getUser() {
+        return user;
     }
 
-    public void setOperator(User operator) {
-        this.operator = operator;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Trade getTrade() {
+        return trade;
+    }
+
+    public void setTrade(Trade trade) {
+        this.trade = trade;
     }
 
     @Override
     public String toString() {
         return "Stock{" +
                 "id=" + id +
+                ", code='" + code + '\'' +
                 ", productId=" + productId +
                 ", amount=" + amount +
                 ", inspectorId=" + inspectorId +
+                ", tradeId=" + tradeId +
                 ", userId=" + userId +
                 ", remark='" + remark + '\'' +
                 ", createTime=" + createTime +

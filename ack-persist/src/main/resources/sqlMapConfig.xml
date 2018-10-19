@@ -48,5 +48,9 @@
 		<mapper resource="config/mapper/BrandMapper.xml" />
 		<mapper resource="config/mapper/StockMapper.xml" />
 		<mapper resource="config/mapper/FlowMapper.xml" />
+		<mapper resource="config/mapper/LogisticsMapper.xml" />
+		<mapper resource="config/mapper/TradeMapper.xml" />
+		<mapper resource="config/mapper/TradeItemMapper.xml" />
+		<mapper resource="config/mapper/TradeLogisticsMapper.xml" />
 	</mappers>
 </configuration>

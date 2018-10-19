@@ -8,11 +8,14 @@
 	if('ontouchstart' in document.documentElement) document.write("<script src='${pageContext.request.contextPath}/static/3part/ace/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 </script>
 <script src="${pageContext.request.contextPath}/static/3part/ace/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/3part/ace/js/ace.min.js"></script>
 <!-- page specific plugin scripts -->
 <!-- ace scripts -->
 <script src="${pageContext.request.contextPath}/static/3part/ace/js/ace-elements.min.js"></script>
-<script src="${pageContext.request.contextPath}/static/3part/ace/js/ace.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/3part/bootstrapSwitch/js/bootstrap-switch.min.js"></script>
 <!-- vue script -->
 <!-- our script -->
 <script src="${pageContext.request.contextPath}/static/js/ack.tool.js" type="text/javascript"></script>
 <!-- inline scripts related to this page -->
+
+

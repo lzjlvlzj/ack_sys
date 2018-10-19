@@ -17,7 +17,6 @@
 		<context:include-filter type="annotation"
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
-	
 	<mvc:interceptors>
 	    <mvc:interceptor>
 	        <mvc:mapping path="/**"/>

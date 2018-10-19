@@ -25,10 +25,13 @@ public class Product implements Serializable {
 	@NotBlank(message="{product.name.null}")
 	@Size(min=1, max=128, message="{product.name.length.illegal}")
 	private String name;              // 商品名称
-	private Integer type;             // 商品类型
+	private Integer type;             // 商品类型 0 : 正常; 1 : 赠品
 	@NotNull(message="{product.unitPrice.null}")
 	private BigDecimal unitPrice;     // 单价
 	private String url;               // 商品图片
+	private String unit;              // 商品单位
+	private String spec;              // 商品规格
+	private String code;              // 商品编码
 	private String remark;            // 备注
 	private Date createTime;          // 创建时间
 	@NotNull(message="{product.brand.null}")
@@ -96,13 +99,45 @@ public class Product implements Serializable {
 		this.brand = brand;
 	}
 
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getSpec() {
+		return spec;
+	}
+
+	public void setSpec(String spec) {
+		this.spec = spec;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	@Override
 	public String toString() {
-		return "{id:" + id + ", name:" + name 
-				+ ", type:" + type + ", unitPrice:" + unitPrice + ", url:"
-				+ url + ", remark:" + remark + ", createTime:" + createTime
-				+ "}";
+		return "Product{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", type=" + type +
+				", unitPrice=" + unitPrice +
+				", url='" + url + '\'' +
+				", unit='" + unit + '\'' +
+				", spec='" + spec + '\'' +
+				", code='" + code + '\'' +
+				", remark='" + remark + '\'' +
+				", createTime=" + createTime +
+				", brandId=" + brandId +
+				", brand=" + brand +
+				'}';
 	}
-	
-
 }

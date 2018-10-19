@@ -31,6 +31,15 @@ Product.getOneTr = function(n, data, option) {
     //产品品牌
     var url = $("<td>"+data.brand.name+"</td>");
     tr.append(url);
+    //产品规格
+    var spec = $("<td>"+data.spec+"</td>");
+    tr.append(spec);
+    //产品单位
+    var unit = $("<td>"+data.unit+"</td>");
+    tr.append(unit);
+    //产品编码
+    var code = $("<td>"+data.code+"</td>");
+    tr.append(code);
 	//产品单价
 	var ProductUnitPrice = $("<td>"+data.unitPrice+"</td>");
 	tr.append(ProductUnitPrice);
@@ -85,7 +94,7 @@ Product.list = function(pageNo){
 			AckTool.table.show(option);
 		}
 	});
-}
+};
 
 Product.findAllBrand = function(bid){
     var brandUrl = "/product/find/brand";
@@ -128,6 +137,10 @@ Product.eidtUI = function(id) {
 			   $("#id",Product.document).val(obj.id);
 			   $("#name",Product.document).val(obj.name);
 			   $("#unitPrice",Product.document).val(obj.unitPrice);
+               $("#code",Product.document).val(obj.code);
+               $("#spec",Product.document).val(obj.spec);
+               $("#unit",Product.document).val(obj.unit);
+               $("#unitPrice",Product.document).val(obj.unitPrice);
 			   var inputs = $("#type",Product.document).find("input");
 			   inputs.each(function(){
 				   var val = $(this).val();

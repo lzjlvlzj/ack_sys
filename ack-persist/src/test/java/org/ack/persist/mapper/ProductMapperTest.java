@@ -28,7 +28,7 @@ public class ProductMapperTest extends BaseTest{
 	@Test
 	public void testFindInterceptorPageList() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("name", "凝胶");
+		map.put("name", "洗面奶");
 		Page<Product> page = new Page<Product>();
 		page.setCondition(map);
 		

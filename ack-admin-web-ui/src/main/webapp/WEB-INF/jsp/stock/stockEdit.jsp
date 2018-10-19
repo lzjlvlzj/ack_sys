@@ -19,16 +19,16 @@
 				<input type="hidden" name="id" id="id" value="">
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="name"> 品牌名称 </label>
+						for="productId"> 产品名称 </label>
 
 					<div class="col-sm-9">
-						<input type="text" id="name" placeholder="品牌名称"
-							name="name" value="" class="col-xs-10 col-sm-8">
+						<input type="text" id="productId" placeholder="产品名称"
+							name="productId" value="" class="col-xs-10 col-sm-8">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="address"> 品牌地址 </label>
+						for="address"> 产品数量 </label>
 
 					<div class="col-sm-9">
 						<input type="text" id="address" placeholder="品牌地址" name="address"

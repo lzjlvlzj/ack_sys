@@ -1,11 +1,9 @@
 package org.ack.service;
 
 import org.ack.base.service.AckMapperService;
-import org.ack.pojo.Account;
-import org.ack.pojo.Client;
-import org.ack.pojo.Flow;
-import org.ack.pojo.User;
+import org.ack.pojo.*;
 
+import java.util.List;
 import java.util.Set;
 
 public interface ClientService extends AckMapperService<Client, Integer>{
@@ -24,4 +22,19 @@ public interface ClientService extends AckMapperService<Client, Integer>{
      * @return
      */
     Account recharge(Flow flow);
+
+    /***
+     * 根据客户id查询该客户物流地址
+     * @param id
+     * @return
+     */
+    List<Logistics> findLogisticsByClientId(Integer id);
+
+    /**
+     * 填加销售单子
+     * @param trade
+     * @param user
+     * @return
+     */
+    Integer insertTrade(Trade trade, User user);
 }

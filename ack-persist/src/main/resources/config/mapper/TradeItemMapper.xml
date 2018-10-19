@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ack.persist.mapper.TradeItemMapper" >
+  <resultMap id="BaseResultMap" type="org.ack.pojo.TradeItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="productId" property="productId" jdbcType="BIGINT" />
+    <result column="tradeId" property="tradeId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="unitPrice" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="totalPrice" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, productId, tradeId, type, unitPrice, amount, totalPrice, remark, createTime
+  </sql>
+  <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ack_trade_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findByid" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from ack_trade_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from ack_trade_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.ack.pojo.TradeItem" >
+    insert into ack_trade_item (id, productId, tradeId, 
+      type, unitPrice, amount, 
+      totalPrice, remark, createTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{tradeId,jdbcType=BIGINT}, 
+      #{type,jdbcType=INTEGER}, #{unitPrice,jdbcType=DECIMAL}, #{amount,jdbcType=BIGINT}, 
+      #{totalPrice,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.ack.pojo.TradeItem" >
+    insert into ack_trade_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="tradeId != null" >
+        tradeId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="tradeId != null" >
+        #{tradeId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="org.ack.pojo.TradeItem" >
+    update ack_trade_item
+    <set >
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="tradeId != null" >
+        tradeId = #{tradeId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateById" parameterType="org.ack.pojo.TradeItem" >
+    update ack_trade_item
+    set productId = #{productId,jdbcType=BIGINT},
+      tradeId = #{tradeId,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=BIGINT},
+      totalPrice = #{totalPrice,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

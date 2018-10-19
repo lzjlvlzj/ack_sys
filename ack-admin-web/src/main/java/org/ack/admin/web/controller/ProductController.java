@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/product")
@@ -54,7 +56,9 @@ public class ProductController extends AckPageController<Product, Integer>{
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.findPage(request, response, model, null, t, currentPage, count,
+		Map<String,Object> map = new HashMap<>();
+		map.put("name", t.getName());
+		return super.findPage(request, response, model, map, t, currentPage, count,
 				orderColumn, orderType);
 	}
 	
