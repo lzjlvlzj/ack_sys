@@ -22,22 +22,65 @@
     <association  property="logistics" javaType="org.ack.pojo.Logistics">
       <id property="id" column="logistics_id"></id>
       <result property="vehicle" column="logistics_vehicle"></result>
+      <result property="postMan" column="logistics_postMan"></result>
+      <result property="address" column="logistics_address"></result>
+      <result property="phone" column="logistics_phone"></result>
     </association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, number, clientId, status, userId, updateTime, createTime, remark
   </sql>
   <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from ack_trade
-    where id = #{id,jdbcType=BIGINT}
+    SELECT
+        atrd.id,
+        atrd.number,
+        atrd.clientId,
+        atrd. STATUS,
+        atrd.userId,
+        atrd.updateTime,
+        atrd.createTime,
+        atrd.remark,
+        clt.`name` AS client_name,
+        als.id AS logistics_id,
+        als.vehicle AS logistics_vehicle,
+        als.phone AS  logistics_phone,
+        als.postMan AS  logistics_postMan,
+        als.address AS  logistics_address,
+        aur.surname AS user_surname,
+        aur.name AS user_name
+    FROM
+        ack_trade atrd
+    LEFT JOIN ack_client clt ON clt.id = atrd.clientId
+    LEFT JOIN ack_trade_logistics atl ON atl.tradeId = atrd.id
+    LEFT JOIN ack_logistics als ON als.id = atl.logisticsId
+    LEFT JOIN ack_user aur ON aur.id = atrd.userId
+    where atrd.id = #{id,jdbcType=BIGINT}
   </select>
   <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from ack_trade
-    where id = #{id,jdbcType=BIGINT}
+   SELECT
+        atrd.id,
+        atrd.number,
+        atrd.clientId,
+        atrd. STATUS,
+        atrd.userId,
+        atrd.updateTime,
+        atrd.createTime,
+        atrd.remark,
+        clt.`name` AS client_name,
+        als.id AS logistics_id,
+        als.vehicle AS logistics_vehicle,
+        als.phone AS  logistics_phone,
+        als.postMan AS  logistics_postMan,
+        als.address AS  logistics_address,
+        aur.surname AS user_surname,
+        aur.name AS user_name
+    FROM
+        ack_trade atrd
+    LEFT JOIN ack_client clt ON clt.id = atrd.clientId
+    LEFT JOIN ack_trade_logistics atl ON atl.tradeId = atrd.id
+    LEFT JOIN ack_logistics als ON als.id = atl.logisticsId
+    LEFT JOIN ack_user aur ON aur.id = atrd.userId
+    where atrd.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from ack_trade
@@ -145,7 +188,7 @@
         atrd.id,
         atrd.number,
         atrd.clientId,
-        atrd. STATUS,
+        atrd.STATUS,
         atrd.userId,
         atrd.updateTime,
         atrd.createTime,
@@ -153,6 +196,9 @@
         clt.`name` AS client_name,
         als.id AS logistics_id,
         als.vehicle AS logistics_vehicle,
+        als.phone AS  logistics_phone,
+        als.postMan AS  logistics_postMan,
+        als.address AS  logistics_address,
         aur.surname AS user_surname,
         aur.name AS user_name
     FROM
@@ -165,6 +211,9 @@
       1 = 1
       <if test="condition.clientId != null and condition.clientId !=''">
         and atrd.clientId=#{condition.clientId}
+      </if>
+      <if test="condition.status != null and condition.status !='' or 0 == condition.status">
+        and atrd.STATUS=#{condition.status}
       </if>
       <if test="condition.createTime != null and condition.createTime !=''">
         and atrd.createTime=#{condition.createTime}

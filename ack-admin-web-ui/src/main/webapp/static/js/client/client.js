@@ -446,8 +446,9 @@ Client.trade = function(clientId){
     trade.clientId = clientId;
     trade.remark = $("#remark",Client.document).val();
     //物流
-    var logistics = {}
+    var logistics = {};
     var logisticsId = $("#logisticsId",Client.document).val();
+    logistics.id = logisticsId;
     if(!logisticsId){
         alert("物流信息不能为空,请给客添加物流信息。");
         return;
@@ -482,7 +483,14 @@ Client.trade = function(clientId){
     var data = JSON.stringify(trade);
     AckTool.postReqJsonType(data, url, function(obj) {
         if(obj){
-            alert(1);
+            alert("添加成功");
+            //关闭modal
+            Client.modal.close();
+
+            // 跳转交易单
+            /*var sellMem = $("#sell-mem", Client.document);
+            sellMem.click();
+            console.log(sellMem.html());*/
         }
     });
 

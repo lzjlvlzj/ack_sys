@@ -28,6 +28,7 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
     TradeLogisticsService tradeLogisticsServiceImpl;
     @Autowired
     TradeItemService tradeItemServiceImpl;
+
     @Override
     protected AckMapper<Trade, Long> getAckMapper() {
         return tradeMapper;
@@ -82,5 +83,14 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
             }
         }
         return r;
+    }
+
+    @Override
+    public Trade findTradeDetail(Long id) {
+        //查询订单信息
+        Trade trade = tradeMapper.findById(id);
+        List<TradeItem> list = tradeItemServiceImpl.findByTradeId(id);
+        trade.setTradeItems(list);
+        return trade;
     }
 }

@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TradeItemServiceImpl extends AckMapperServiceImpl<TradeItem, Long> implements TradeItemService {
 
@@ -23,4 +25,8 @@ public class TradeItemServiceImpl extends AckMapperServiceImpl<TradeItem, Long> 
     }
 
 
+    @Override
+    public List<TradeItem> findByTradeId(Long id) {
+        return null;
+    }
 }

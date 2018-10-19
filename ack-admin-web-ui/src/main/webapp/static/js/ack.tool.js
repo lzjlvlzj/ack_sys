@@ -112,13 +112,18 @@ AckTool.optionButton = {
 	/**这块需要重构设计,业务逻辑不能写在这
 	 * 按钮拥有的权限字符
 	 * */
-	authButtonPermissionsConfig : function(prefix){
+	authButtonPermissionsConfig : function(option){
+        var prefix = option.prefix;
+        var onlyBtn = option.onlyBtn;
 		var update = prefix + ":update";//修改
 		var del = prefix + ":delete";//删除
 		var userRole = "user:role";//用户添加角色
 		var roleMenu = "role:menu";//用户添加角
 		var clientRecharge = "client:recharge";//充值
-        var clientTrade = "client:add";//充值
+        var clientTrade = "client:addtrade";//销售单
+		var tradeToStock = "trade:upstock";
+		var tradeView = "trade:view";
+        var tradePrint = "trade:print";
 
 		//
 		var array = new Array();
@@ -133,6 +138,18 @@ AckTool.optionButton = {
 		if("client" == prefix){
             array[clientRecharge] = AckTool.optionButton.defaultButton('账号充值', 'btn btn-xs btn-info ack-simple-btn-client-recharge', 'fa-plus');
             array[clientTrade] = AckTool.optionButton.defaultButton('销售单', 'btn btn-xs btn-info ack-simple-btn-client-trade', 'fa-exchange');
+        }
+        if("trade" == prefix){
+            array[tradeView] = AckTool.optionButton.defaultButton('查看销售单', 'btn btn-xs btn-info ack-simple-btn-trade-view', 'fa-eye');
+			for(var i =0; i < onlyBtn.length; i++){
+				var itm = onlyBtn[i];
+                if(itm == "upstock"){
+                    array[tradeToStock] = AckTool.optionButton.defaultButton('提交仓库发货', 'btn btn-xs btn-info ack-simple-btn-trade-2stock', 'fa-cloud-upload');
+                }
+                if(itm == "print"){
+                    array[tradePrint] = AckTool.optionButton.defaultButton('打印发货', 'btn btn-xs btn-info ack-simple-btn-trade-print', 'fa-download');
+                }
+			}
         }
 		
 		return array;
@@ -151,7 +168,7 @@ AckTool.optionButton = {
 			return div;
 		}
 		div = $("<div class='hidden-sm hidden-xs btn-group'></div>");
-		var array = AckTool.optionButton.authButtonPermissionsConfig(prefix);
+		var array = AckTool.optionButton.authButtonPermissionsConfig(option);
 		var permissons = option.permissions || parent.AckSystem.user.permissions();
 		
 		for(var i in array){

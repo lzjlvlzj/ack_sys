@@ -21,7 +21,13 @@
     from ack_trade_item
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="findByid" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="findByTradeId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from ack_trade_item
+    where tradeId = #{tradeId,jdbcType=BIGINT}
+  </select>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
     from ack_trade_item

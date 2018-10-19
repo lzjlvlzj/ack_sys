@@ -6,4 +6,6 @@ import org.ack.pojo.User;
 
 public interface TradeService extends AckMapperService<Trade, Long>{
     Integer insert(Trade trade, User user);
+
+    Trade findTradeDetail(Long id);
 }

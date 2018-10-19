@@ -2,6 +2,7 @@ package org.ack.auth.authenticate;
 
 import org.ack.auth.PermissionStringIsNotRightException;
 import org.ack.auth.authenticate.annotation.AckPermission;
+import org.ack.pojo.Role;
 import org.ack.pojo.User;
 import org.ack.service.UserService;
 import org.ack.util.MD5Util;
@@ -126,6 +127,9 @@ public class Authenticate {
 		if (null == user) {
 			return 1;
 		}
+		//查询用户角色
+		Set<Role> roles = userServiceImpl.findRolesByUser(user);
+		user.setRoles(roles);
 		String s = u.getPassword() + user.getSalt();
 		String p = MD5Util.md5(s.getBytes());
 		if (!p.equals(user.getPassword())) {

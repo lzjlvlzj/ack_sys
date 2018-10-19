@@ -34,7 +34,7 @@ Trade.getOneTr = function(n, data, option) {
     if(status == 0){
         statusStr = "创建成功";
     } else if(status == 1){
-        statusStr = "已提交库房";
+        statusStr = "已提交库房,等待发货";
     } else if( status == 2){
         statusStr = "库房已发货";
     }
@@ -57,6 +57,14 @@ Trade.getOneTr = function(n, data, option) {
     var opt = {};
     opt.data = d;
     opt.prefix = "trade";
+    var onlyBtn = []
+    if(status == 0){
+        onlyBtn.push("upstock");
+    }
+    if(status == 1){
+        onlyBtn.push("print");
+    }
+    opt.onlyBtn = onlyBtn;
     var buttons = AckTool.optionButton.getTrAuthButtons(opt);
     optionTd.append(buttons);
     tr.append(optionTd);
@@ -271,22 +279,73 @@ Trade.recharge = function(id){
     });
 
 };
+/**
+ * 查看销售单
+ */
+Trade.findDetail = function(id){
+    alert("查看销售单: "+id);
+};
+/**
+ * 提交仓库
+ */
+Trade.upToStock = function(id){
+    alert(id);
+    var url = "/trade/2stock";
+    var option = {fun : {}};
+    option.header = "确认操作";
+    option.headerCss = "ack-medal-header-yellow";
+    option.content = "确定将该条销售信息提交仓库发货吗?";
+    option.fun.selector = ".ack-modal-ok-btn";
+    var data = {};
+    data.id = id;
+    //点击弹框"确定"的回调操作
+    option.fun.callback = function(){
+        AckTool.postReq(data, url, function(obj) {
+            if (obj.code == 1) {
+                //关闭modal
+                Trade.modal.close();
+                //刷新当前页面
+                Trade.showList();
+            } else {
+                alert("系统错误");
+                //关闭modal
+                Trade.modal.close();
+            }
+
+        });
+    };
+    var modal = this.modal.modalTemplate(option);
+    modal.modal('show');
+};
 
 /**
  * 绑定事件
  * */
 Trade.bind = function() {
     var ackModal = $("#ack-modal", Trade.document);
+    var tab = $("#tab-body");
     //修改
-    $("#tab-body").on("click",".ack-simple-btn-edit",function(){
+    tab.on("click",".ack-simple-btn-edit",function(){
         var tr = $(this).parents("tr");
         var id = tr.attr("id");
         Trade.eidtUI(id);
     });
     //删除
-    $("#tab-body").on("click",".ack-simple-btn-del",function(){
+    tab.on("click",".ack-simple-btn-del",function(){
         var id = $(this).parents("tr").attr("id");
         Trade.del(id);
+    });
+    //查看销售单
+    tab.on("click",".ack-simple-btn-trade-view", function(){
+        var tr = $(this).parents("tr");
+        var id = tr.attr("id");
+        Trade.findDetail(id);
+    });
+    //提交仓库
+    tab.on("click",".ack-simple-btn-trade-2stock", function(){
+        var tr = $(this).parents("tr");
+        var id = tr.attr("id");
+        Trade.upToStock(id);
     });
     //充值页面
     $("#tab-body").on("click",".ack-simple-btn-trade-recharge",function(){
@@ -307,6 +366,7 @@ Trade.bind = function() {
         var flag = fp.val();
         Trade.eidt(flag);
     });
+
 };
 
 Trade.init = function (){

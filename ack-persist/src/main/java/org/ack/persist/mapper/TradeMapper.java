@@ -7,6 +7,8 @@ public interface TradeMapper extends AckMapper<Trade, Long> {
     int insert(Trade record);
 
     int insertSelective(Trade record);
+
+    Trade findTradeDetail(Long id);
 }
 
 

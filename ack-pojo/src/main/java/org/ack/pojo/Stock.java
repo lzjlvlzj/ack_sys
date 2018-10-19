@@ -25,6 +25,7 @@ public class Stock {
     private User inspector;
     private User user;
     private Trade trade;
+    private Brand brand;
 
     public Long getId() {
         return id;
@@ -128,6 +129,14 @@ public class Stock {
 
     public void setTrade(Trade trade) {
         this.trade = trade;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     @Override

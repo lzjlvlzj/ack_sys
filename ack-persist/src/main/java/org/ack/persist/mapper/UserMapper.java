@@ -27,7 +27,7 @@ public interface UserMapper extends AckMapper<User, Long> {
 	/**
 	 * 根据id查询用户
 	 * 
-	 * @param i
+	 * @param id
 	 * @return
 	 */
 	public Set<Role> findRoleById(Long id);

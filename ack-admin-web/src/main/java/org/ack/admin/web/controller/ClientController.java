@@ -205,7 +205,7 @@ public class ClientController extends AckPageController<Client, Integer>{
 	}
 
 	@RequestMapping(value = "/trade/ui")
-	@AckPermission(value="trade:add")
+	@AckPermission(value="client:addtrade")
 	public String tradeUI(HttpServletRequest request,
 						  HttpServletResponse response, Model model,
 						  Trade trade) {
@@ -215,7 +215,7 @@ public class ClientController extends AckPageController<Client, Integer>{
 		return "client/tradeEdit";
 	}
 	@RequestMapping(value = "/trade")
-	@AckPermission(value="trade:add")
+	@AckPermission(value="client:addtrade")
 	@ResponseBody
 	public Integer trade(HttpServletRequest request,
 						  HttpServletResponse response, Model model,
@@ -225,6 +225,7 @@ public class ClientController extends AckPageController<Client, Integer>{
 		}
 		User user = getCurrentUser(request);
 		return clientServiceImpl.insertTrade(trade, user);
+		//return 1;
 	}
 
 }

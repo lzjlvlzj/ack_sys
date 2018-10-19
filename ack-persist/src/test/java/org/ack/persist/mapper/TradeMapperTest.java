@@ -22,7 +22,7 @@ public class TradeMapperTest extends BaseTest {
     @Test
     public void findInterceptorPageList(){
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("clientId", "1");
+        map.put("status", "0");
         Page<Trade> page = new Page<>();
         page.setCondition(map);
         List<Trade> list = tradeMapper.findInterceptorPageList(page);

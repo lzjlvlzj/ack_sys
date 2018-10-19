@@ -34,14 +34,14 @@ public class StockController extends AckPageController<Stock, Integer>{
 	}
 
 	@RequestMapping(value = "/list/ui")
-	@AckPermission(value="trademark:list")
+	@AckPermission(value="stock:list")
 	public String listUI(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		return "stock/stockList";
 	}
 	
 	@RequestMapping(value = "/page")
-	@AckPermission(value="trademark:list")
+	@AckPermission(value="stock:list")
 	@ResponseBody
 	public Page<Stock> findPage(
 			HttpServletRequest request,
@@ -57,7 +57,7 @@ public class StockController extends AckPageController<Stock, Integer>{
 	}
 	
 	@RequestMapping(value = "/add/ui")
-	@AckPermission(value="trademark:add")
+	@AckPermission(value="stock:add")
 	public String addUI(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		if (logger.isDebugEnabled()) {
@@ -67,7 +67,7 @@ public class StockController extends AckPageController<Stock, Integer>{
 	}
 
 	@RequestMapping(value = "/add")
-	@AckPermission(value="trademark:add")
+	@AckPermission(value="stock:add")
 	@ResponseBody
 	public MessageEntry insert(HttpServletRequest request,
 			HttpServletResponse response, Model model,
@@ -94,7 +94,7 @@ public class StockController extends AckPageController<Stock, Integer>{
 	}
 
 	@RequestMapping(value = "/del/{id}")
-	@AckPermission(value = "trademark:delete")
+	@AckPermission(value = "stock:delete")
 	@ResponseBody
 	public Integer deleteById(HttpServletRequest request,
 							  HttpServletResponse response, Model model, @PathVariable Integer id) {
@@ -102,7 +102,7 @@ public class StockController extends AckPageController<Stock, Integer>{
 	}
 
 	@RequestMapping("/edit/ui/{id}")
-	@AckPermission(value = "trademark:update")
+	@AckPermission(value = "stock:update")
 	public String eidtUI(@PathVariable Integer id){
 		if (logger.isDebugEnabled()) {
 			logger.debug("修改库房:{}", id);
@@ -111,7 +111,7 @@ public class StockController extends AckPageController<Stock, Integer>{
 	}
 
 	@RequestMapping(value = "/edit")
-	@AckPermission(value = "trademark:update")
+	@AckPermission(value = "stock:update")
 	@ResponseBody
 	public MessageEntry edit(HttpServletRequest request,
 							  HttpServletResponse response, Model model,

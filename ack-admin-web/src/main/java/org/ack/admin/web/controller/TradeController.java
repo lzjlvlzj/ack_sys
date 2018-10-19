@@ -4,6 +4,7 @@ import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
 import org.ack.common.message.MessageEntry;
 import org.ack.persist.page.Page;
+import org.ack.pojo.Role;
 import org.ack.pojo.Trade;
 import org.ack.pojo.User;
 import org.ack.service.TradeService;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/trade")
@@ -53,7 +57,21 @@ public class TradeController extends AckPageController<Trade, Long>{
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		return super.findPage(request, response, model, null, t, currentPage, count,
+		Map<String, Object> map = new HashMap();
+		map.put("number", t.getNumber());
+		User user = getCurrentUser(request);
+		Set<Role> roleSet = user.getRoles();
+		for(Role role : roleSet){
+			String abbr = role.getAbbreviation();
+			if("STORK_MEM".equals(abbr)){
+				map.put("status",1);
+			}
+			if("SELLER".equals(abbr)){
+				map.put("status",0);
+			}
+
+		}
+		return super.findPage(request, response, model, map, t, currentPage, count,
 				orderColumn, orderType);
 	}
 	
@@ -132,7 +150,51 @@ public class TradeController extends AckPageController<Trade, Long>{
 
 		return new MessageEntry(r, "");
 	}
-	
+
+	/**
+	 * 提交仓库
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param trade
+	 * @return
+	 */
+	@RequestMapping(value = "/2stock")
+	@AckPermission(value = "trade:upstock")
+	@ResponseBody
+	public MessageEntry toStock(HttpServletRequest request,
+							 HttpServletResponse response, Model model,
+							 Trade trade) {
+		trade.setStatus(1);
+		Integer r = tradeServiceImpl.update(trade);
+        if(r == 1){
+			logger.info("销售单{}提交仓库成功", trade.getId());
+		} else {
+			logger.info("销售单{}提交仓库失败", trade.getId());
+		}
+		return new MessageEntry(r, "");
+	}
+
+	/**
+	 * 查看订单详情
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/detail/{id}")
+	@AckPermission(value = "trade:view")
+	@ResponseBody
+	public Trade findTradeDetail(HttpServletRequest request,
+								HttpServletResponse response, Model model,
+								@PathVariable Long id) {
+		logger.info("查看销售单{}详细情况", id);
+
+		Trade trade = tradeServiceImpl.findTradeDetail(id);
+
+		return trade;
+	}
+
 
 
 
