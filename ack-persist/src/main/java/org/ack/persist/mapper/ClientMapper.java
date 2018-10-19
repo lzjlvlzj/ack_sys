@@ -18,4 +18,11 @@ public interface ClientMapper extends AckMapper<Client, Integer> {
      * @return
      */
     List<Client> findClientByUser(User user);
+
+    /**
+     * 根据电话查询客户
+     * @param clientPhone
+     * @return
+     */
+    Client findByPhone(String clientPhone);
 }

@@ -126,4 +126,9 @@ public class ClientServiceImpl extends AckMapperServiceImpl<Client, Integer>
 	public Integer insertTrade(Trade trade, User user) {
 		return tradeServiceImpl.insert(trade,user);
 	}
+
+	@Override
+	public Client findByPhone(String clientPhone) {
+		return clientMapper.findByPhone(clientPhone);
+	}
 }

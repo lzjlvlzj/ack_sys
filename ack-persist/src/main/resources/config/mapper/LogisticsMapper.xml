@@ -11,6 +11,11 @@
     <result column="postalCode" property="postalCode" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="createTime" property="createTime" jdbcType="VARCHAR" />
+    <association property="client" javaType="org.ack.pojo.Client">
+         <id property="id" column="clientId"></id>
+         <result property="name" column="client_name"></result>
+         <result property="phone" column="client_phone"></result>
+    </association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, clientId, vehicle, postMan,phone, address, postalCode, remark, createTime
@@ -22,16 +27,40 @@
     where clientId = #{clientId}
   </select>
   <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from ack_logistics
-    where id = #{id,jdbcType=BIGINT}
+    SELECT
+        ali.id,
+        ali.clientId,
+        ali.vehicle,
+        ali.postMan,
+        ali.phone,
+        ali.address,
+        ali.postalCode,
+        ali.remark,
+        ali.createTime,
+        clt.`name` AS client_name,
+        clt.phone AS client_phone
+    FROM
+        ack_logistics ali
+    LEFT JOIN ack_client clt ON ali.clientId = clt.id
+    where  ali.id = #{id,jdbcType=BIGINT}
   </select>
   <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from ack_logistics
-    where id = #{id,jdbcType=BIGINT}
+    SELECT
+        ali.id,
+        ali.clientId,
+        ali.vehicle,
+        ali.postMan,
+        ali.phone,
+        ali.address,
+        ali.postalCode,
+        ali.remark,
+        ali.createTime,
+        clt.`name` AS client_name,
+        clt.phone AS client_phone
+    FROM
+        ack_logistics ali
+    LEFT JOIN ack_client clt ON ali.clientId = clt.id
+    where ali.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from ack_logistics
@@ -142,4 +171,36 @@
       createTime = #{createTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+          resultMap="BaseResultMap">
+      SELECT
+        ali.id,
+        ali.clientId,
+        ali.vehicle,
+        ali.postMan,
+        ali.phone,
+        ali.address,
+        ali.postalCode,
+        ali.remark,
+        ali.createTime,
+        clt.`name` AS client_name
+      FROM
+        ack_logistics ali
+      LEFT JOIN ack_client clt ON ali.clientId = clt.id
+      <where>
+        1 = 1
+        <if test="condition.phone != null and condition.phone !=''">
+          and ali.phone=#{condition.phone}
+        </if>
+        <if test="condition.clientId != null and condition.clientId !=''">
+          and ali.clientId=#{condition.clientId}
+        </if>
+        <if test="condition.postalCode != null and condition.postalCode !=''">
+          and ali.postalCode=#{condition.postalCode}
+        </if>
+        <if test="condition.postMan != null and condition.postMan !=''">
+          AND ali.postMan LIKE CONCAT('%',#{condition.postMan},'%')
+        </if>
+      </where>
+  </select>
 </mapper>

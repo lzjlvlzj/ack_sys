@@ -2,13 +2,13 @@ package org.ack.pojo;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Logistics {
     private Long id;
-    @NotNull(message = "{logistics.client.null}")
     private Integer clientId;             // 客户id
+    @NotBlank(message = "{logistics.client.phone.null}")
+    private String clientPhone;
 
     private String vehicle;               // 车辆信息
 
@@ -23,6 +23,7 @@ public class Logistics {
     private String remark;
 
     private Date createTime;
+
 
     private Client client;
 
@@ -104,6 +105,14 @@ public class Logistics {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public String getClientPhone() {
+        return clientPhone;
+    }
+
+    public void setClientPhone(String clientPhone) {
+        this.clientPhone = clientPhone;
     }
 
     @Override

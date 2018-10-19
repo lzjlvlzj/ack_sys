@@ -37,4 +37,11 @@ public interface ClientService extends AckMapperService<Client, Integer>{
      * @return
      */
     Integer insertTrade(Trade trade, User user);
+
+    /**
+     * 根据电话查询客户
+     * @param clientPhone
+     * @return
+     */
+    Client findByPhone(String clientPhone);
 }

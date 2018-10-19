@@ -38,6 +38,12 @@
 		FROM ack_client
 		where userId = #{id}
 	</select>
+	<select id="findByPhone" parameterType="string" resultMap="ClientResultMap">
+		SELECT
+		<include refid="base_column"></include>
+		FROM ack_client
+		where phone = #{phone}
+	</select>
 
 	<select id="findByIds" parameterType="int" resultMap="ClientResultMap">
 		SELECT

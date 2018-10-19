@@ -455,7 +455,9 @@ AckSystem.menu = {
 			a.append(dropwonB);
 			*/
 			this.twoLevel(li, childMenus);
-		} 
+		}
+		console.log("-------------");
+        console.log("11111111");
 		//绑定事件
 		AckSystem.event.menu(menu);
 		return li;
