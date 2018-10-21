@@ -31,7 +31,10 @@ public class Product implements Serializable {
 	private String url;               // 商品图片
 	private String unit;              // 商品单位
 	private String spec;              // 商品规格
+	@NotBlank(message="{product.code.null}")
+	@Size(min=1, max=128, message="{product.code.length.illegal}")
 	private String code;              // 商品编码
+	private Long amount;              // 商品数量
 	private String remark;            // 备注
 	private Date createTime;          // 创建时间
 	@NotNull(message="{product.brand.null}")
@@ -123,6 +126,14 @@ public class Product implements Serializable {
 		this.code = code;
 	}
 
+	public Long getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Long amount) {
+		this.amount = amount;
+	}
+
 	@Override
 	public String toString() {
 		return "Product{" +
@@ -134,6 +145,7 @@ public class Product implements Serializable {
 				", unit='" + unit + '\'' +
 				", spec='" + spec + '\'' +
 				", code='" + code + '\'' +
+				", amount=" + amount +
 				", remark='" + remark + '\'' +
 				", createTime=" + createTime +
 				", brandId=" + brandId +

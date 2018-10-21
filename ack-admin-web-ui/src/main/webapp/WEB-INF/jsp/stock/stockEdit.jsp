@@ -16,39 +16,53 @@
 
 		<div class="modal-body no-padding">
 			<form class="form-horizontal" role="form" id="ack-add-form">
-				<input type="hidden" name="id" id="id" value="">
+				<input type="hidden" name="id" id="id" value=""/>
+				<input type="hidden" name="oldAmount" id="oldAmount" value=""/>
+                <input type="hidden" name="productId" id="productId" value="">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right"
+                           for="productCode"> 产品编码 </label>
+
+                    <div class="col-sm-9">
+                        <input type="text" class="col-xs-10 col-sm-8" placeholder="请输入产品的正确编码，没有请先添加产品。"
+                               id="productCode"  name="productCode">
+
+                        </input>
+                    </div>
+                </div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="productId"> 产品名称 </label>
+						for="productName"> 产品名称 </label>
 
 					<div class="col-sm-9">
-						<input type="text" id="productId" placeholder="产品名称"
-							name="productId" value="" class="col-xs-10 col-sm-8">
+						<input type="text" id="productName" placeholder="产品名称"
+							name="productName" value="" class="col-xs-10 col-sm-8"readonly="readonly"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="address"> 产品数量 </label>
+						for="amount"> 产品数量 </label>
 
 					<div class="col-sm-9">
-						<input type="text" id="address" placeholder="品牌地址" name="address"
-							value="" class="col-xs-10 col-sm-8">
+						<input type="number" id="amount" placeholder="产品数量" name="amount"
+							value="1" class="col-xs-10 col-sm-8">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="phone"> 品牌电话 </label>
+						for="inspectorId"> 质检员 </label>
 
 					<div class="col-sm-9">
-						<input type="text" id="phone" placeholder="phone" name="phone"
-							value="" class="col-xs-10 col-sm-8">
+						<select class="col-xs-10 col-sm-8" id="inspectorId" size="4" name="inspectorId">
+
+						</select>
 					</div>
 				</div>
 
 
 				<div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="remark"> 品牌备注信息</label>
+						for="remark"> 备注信息</label>
 
 					<div class="col-sm-9">
 						<textarea class="col-xs-10 col-sm-8" id="remark"

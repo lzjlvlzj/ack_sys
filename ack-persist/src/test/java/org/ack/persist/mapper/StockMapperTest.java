@@ -1,12 +1,13 @@
 package org.ack.persist.mapper;
 
+import org.ack.persist.page.Page;
 import org.ack.pojo.Stock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
+import java.util.*;
 
 public class StockMapperTest extends BaseTest {
     @Autowired
@@ -15,6 +16,18 @@ public class StockMapperTest extends BaseTest {
     public void init(){
         stockMapper =  sqlSession.getMapper(StockMapper.class);
 
+    }
+
+    @Test
+    public void testFindInterceptorPageList(){
+        Map<String,Object> map = new HashMap<>();
+        Page<Stock> page = new Page<>();
+        page.setCondition(map);
+
+        List<Stock> stockLsit = stockMapper.findInterceptorPageList(page);
+        for(Stock stock : stockLsit){
+            System.out.println(stock);
+        }
     }
 
     @Test

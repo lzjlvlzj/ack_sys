@@ -23,13 +23,17 @@
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">产品名称</th>
 						<th class="hidden-480 sorting" tabindex="0"
-							aria-controls="dynamic-table" rowspan="1" colspan="1">数量</th>
+							aria-controls="dynamic-table" rowspan="1" colspan="1">产品总量</th>
+						<th class="hidden-480 sorting" tabindex="0"
+							aria-controls="dynamic-table" rowspan="1" colspan="1">入库数量</th>
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">质检员</th>
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">记录人</th>
                         <th class="sorting" rowspan="1" colspan="1"
                             aria-label="dynamic-table">备注</th>
+						<th class="sorting" tabindex="0" aria-controls="dynamic-table"
+							rowspan="1" colspan="1"> 修改时间</th>
                         <th class="sorting" tabindex="0" aria-controls="dynamic-table"
 							rowspan="1" colspan="1"><i
 							class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i> 添加时间</th>

@@ -1,16 +1,31 @@
 package org.ack.pojo;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Stock {
     private Long id;
 
-    private String code;
+
+    private String code;//仓库编码预留字段
 
     private Integer productId;
+    @NotBlank(message="{stock.product.code.null}")
+    @Size(min=1, max=128, message="{stock.product.code.length.illegal}")
+    private String productCode;
 
+    @NotNull(message = "{stock.product.amount.null}")
+    @Min(1L)
+    @Max(99999L)
     private Long amount;
+    private Long oldAmount;
 
+    @NotNull(message = "{stock.inspector.null}")
     private Long inspectorId;
 
     private Long tradeId;
@@ -18,6 +33,8 @@ public class Stock {
     private Long userId;
 
     private String remark;
+
+    private Date updateTime;
 
     private Date createTime;
 
@@ -131,6 +148,14 @@ public class Stock {
         this.trade = trade;
     }
 
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
     public Brand getBrand() {
         return brand;
     }
@@ -139,17 +164,35 @@ public class Stock {
         this.brand = brand;
     }
 
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Long getOldAmount() {
+        return oldAmount;
+    }
+
+    public void setOldAmount(Long oldAmount) {
+        this.oldAmount = oldAmount;
+    }
+
     @Override
     public String toString() {
         return "Stock{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", productId=" + productId +
+                ", productCode='" + productCode + '\'' +
                 ", amount=" + amount +
                 ", inspectorId=" + inspectorId +
                 ", tradeId=" + tradeId +
                 ", userId=" + userId +
                 ", remark='" + remark + '\'' +
+                ", updateTime=" + updateTime +
                 ", createTime=" + createTime +
                 '}';
     }

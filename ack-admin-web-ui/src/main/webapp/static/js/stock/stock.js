@@ -28,7 +28,10 @@ Stock.getOneTr = function(n, data, option) {
     //产品名称
     var productName = $("<td>"+data.product.name+"</td>");
     tr.append(productName);
-    //产品数量
+    //产品总量数量
+    var amount = $("<td>"+data.product.amount+"</td>");
+    tr.append(amount);
+    //本次入库产品数量
     var amount = $("<td>"+data.amount+"</td>");
     tr.append(amount);
     //质检员
@@ -36,12 +39,20 @@ Stock.getOneTr = function(n, data, option) {
     var inspector = $("<td>"+inspectorName+"</td>");
     tr.append(inspector);
     //操作员
-    var operatorName = data.operator.surname + data.operator.name;
+    var operatorName = data.user.surname + data.user.name;
     var operator = $("<td>"+operatorName+"</td>");
     tr.append(operator);
     //备注
     var comments = $("<td>"+data.remark+"</td>");
     tr.append(comments);
+    //修改时间
+    if(!data.updateTime){
+        tr.append($("<td></td>"));
+    } else {
+        var um = AckTool.date(data.updateTime, "yyyy-MM-dd hh:mm:ss");
+        var updateTime = $("<td>"+um+"</td>");
+        tr.append(updateTime);
+    }
     //创建时间
     var tm = AckTool.date(data.createTime, "yyyy-MM-dd hh:mm:ss");
     var createTime = $("<td>"+tm+"</td>");
@@ -56,7 +67,7 @@ Stock.getOneTr = function(n, data, option) {
     optionTd.append(buttons);
     tr.append(optionTd);
     return tr;
-}
+};
 
 /**
  *
@@ -76,7 +87,7 @@ Stock.showList = function() {
 
         }
     });
-}
+};
 
 Stock.list = function(pageNo){
     var url = "/stock/page";
@@ -90,7 +101,56 @@ Stock.list = function(pageNo){
             AckTool.table.show(option);
         }
     });
-}
+};
+/**
+ * 查询zhijian
+ */
+Stock.showInspector = function(flag, userId){
+    var url = "/stock/inspectors";
+    var data = {};
+    var select = $("#inspectorId",Stock.document).empty();
+
+
+    AckTool.postReq(data,url,function(obj){
+        if(obj){
+            var len = obj.length;
+            for(var i = 0; i < len; i++){
+                var user = obj[i];
+                var id = user.id;
+                var userName = user.surname + user.name;
+                var option = $("<option value='"+id+"'>" + userName + "</option>");
+                if(flag === 0){ // add
+                    if(i === 0){
+                        option = $("<option value='"+id+"' selected='selected'>" + userName + "</option>");
+                    }
+                } else {
+                    if(id == userId){
+                        option = $("<option value='"+id+"' selected='selected'>" + userName + "</option>");
+                    }
+                }
+
+                select.append(option);
+            }
+        }
+    });
+};
+/**
+ * 根据产品码查询商品
+ */
+Stock.showProduct = function(val){
+    if(!val){
+        return ;
+    }
+    var url = "/stock/product/" + val;
+    var data = {};
+    AckTool.postReq(data,url,function(obj){
+        if( obj ){
+            $("#productId",Stock.document).val(obj.id);
+            $("#productName",Stock.document).val(obj.name);
+        }
+    });
+
+};
 /**
  * 编辑页面
  * @param id 数据id
@@ -109,9 +169,13 @@ Stock.eidtUI = function(id) {
             AckTool.postReq({},StockDataUrl,function(obj){
                 $("#optionFlag",Stock.document).val("1");
                 $("#id",Stock.document).val(obj.id);
-                $("#name",Stock.document).val(obj.name);
-                $("#address",Stock.document).val(obj.address);
-                $("#phone",Stock.document).val(obj.phone);
+                $("#productId",Stock.document).val(obj.productId);
+                $("#productCode",Stock.document).val(obj.product.code);
+                $("#productCode",Stock.document).attr("readonly","readonly");
+                $("#productName",Stock.document).val(obj.product.name);
+                Stock.showInspector(1, obj.userId);
+                $("#amount",Stock.document).val(obj.amount);
+                $("#oldAmount",Stock.document).val(obj.amount);
                 $("#remark",Stock.document).val(obj.remark);
             });
         });
@@ -119,6 +183,7 @@ Stock.eidtUI = function(id) {
         url = "/stock/add/ui";
         Stock.modal.open(url,data,function(){
             $("#optionFlag",Stock.document).val("0");
+            Stock.showInspector(0);
         });
     }
 }
@@ -136,7 +201,6 @@ Stock.eidt = function(flag) {
     if("1" == flag){
         url = "/stock/edit"
     }
-
     var data = $("#ack-add-form", Stock.document).serialize();
     AckTool.postReq(data, url, function(obj) {
         if (obj.code >= 1) {
@@ -211,12 +275,17 @@ Stock.bind = function() {
         var flag = fp.val();
         Stock.eidt(flag);
     });
-}
+    //保存
+    ackModal.on("input","#productCode", function(){
+        var val = $(this).val();
+        Stock.showProduct(val);
+    });
+};
 
 
 Stock.init = function (){
     Stock.showList();
     Stock.bind();
-}
+};
 
 

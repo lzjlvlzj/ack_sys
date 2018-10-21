@@ -9,6 +9,7 @@
 		<result property="unitPrice" column="unitPrice" />
 		<result property="url" column="url" />
 		<result property="unit" column="unit" />
+		<result property="amount" column="amount" />
 		<result property="code" column="code" />
 		<result property="spec" column="spec" />
 		<result property="remark" column="remark" />
@@ -22,17 +23,17 @@
 	</resultMap>
 
 	<sql id="base_column">
-		id,name,type,unitPrice,url,unit,code,spec,brandId,remark,createTime
+		id,name,type,unitPrice,url,unit,code,spec,brandId,amount,remark,createTime
 	</sql>
 	<insert id="insert">
 		INSERT INTO
-		ack_product(name,type,unitPrice,url,unit,code,spec,brandId,remark,createTime)
+		ack_product(name,type,unitPrice,url,unit,code,spec,brandId,amount,remark,createTime)
 		VALUES
 		<if test="createTime != null and createTime !=''">
-			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spce},#{brandId},#{remark},#{createTime})
+			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spce},#{brandId},#{amount},#{remark},#{createTime})
 		</if>
 		<if test="createTime == null or createTime ==''">
-			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spce},#{brandId},#{remark},now())
+			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spce},#{brandId},#{amount},#{remark},now())
 		</if>
 	</insert>
 
@@ -59,6 +60,7 @@
 			ap.code,
 			ap.unit,
 			ap.spec,
+			ap.amount,
 			ap.brandId,
 			ap.remark,
 			ap.createTime,
@@ -69,6 +71,28 @@
 		    ack_product ap
 		LEFT JOIN ack_brand abr ON ap.brandId = abr.id
 		WHERE ap.id = #{id}
+	</select>
+	<select id="findProductByCode" parameterType="string" resultMap="ProductResultMap">
+		SELECT
+			ap.id,
+			ap.NAME,
+			ap.type,
+			ap.unitPrice,
+			ap.url,
+			ap.code,
+			ap.unit,
+			ap.spec,
+			ap.amount,
+			ap.brandId,
+			ap.remark,
+			ap.createTime,
+			abr.`name` AS brand_name,
+			abr.address AS brand_address,
+			abr.phone AS brand_phone
+		FROM
+		    ack_product ap
+		LEFT JOIN ack_brand abr ON ap.brandId = abr.id
+		WHERE ap.code = #{code}
 	</select>
 	
 	<select id="find" parameterType="int" resultMap="ProductResultMap">
@@ -91,6 +115,9 @@
 			</if>
 			<if test="type != null and type !=''">
 				ar.type = #{type},
+			</if>
+			<if test="amount != null and amount !=''">
+				ar.amount = #{amount},
 			</if>
 			<if test="remark != null and remark !=''">
 				ar.remark = #{remark},
@@ -147,6 +174,7 @@
 		    ap.code,
 		    ap.unit,
 		    ap.spec,
+		    ap.amount,
 			ap.brandId,
 			ap.remark,
 			ap.createTime,

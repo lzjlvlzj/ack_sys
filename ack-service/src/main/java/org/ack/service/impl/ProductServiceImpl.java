@@ -28,4 +28,9 @@ public class ProductServiceImpl extends AckMapperServiceImpl<Product, Integer>
 	public List<Brand> findAllBrand() {
 		return brandServiceImpl.findAll();
 	}
+
+	@Override
+	public Product findProductByCode(String code) {
+		return productMapper.findProductByCode(code);
+	}
 }

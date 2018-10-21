@@ -8,6 +8,7 @@
     <result column="inspectorId" property="inspectorId" jdbcType="BIGINT" />
     <result column="userId" property="userId" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <association  property="brand" javaType="org.ack.pojo.Brand">
       <id property="id" column="brand_id"></id>
@@ -16,13 +17,15 @@
     <association  property="product" javaType="org.ack.pojo.Product">
       <id property="id" column="productId"></id>
       <result property="name" column="product_name"></result>
+      <result property="code" column="product_code"></result>
+      <result property="amount" column="product_aomount"></result>
     </association>
     <association  property="inspector" javaType="org.ack.pojo.User">
       <id property="id" column="inspectorId"></id>
       <result property="surname" column="inspector_surname"></result>
       <result property="name" column="inspector_name"></result>
     </association>
-    <association  property="operator" javaType="org.ack.pojo.User">
+    <association  property="user" javaType="org.ack.pojo.User">
       <id property="id" column="userId"></id>
       <result property="surname" column="operator_surname"></result>
       <result property="name" column="operator_name"></result>
@@ -32,16 +35,60 @@
     id, productId, amount, inspectorId, userId, remark, createTime
   </sql>
   <select id="find" resultMap="BaseResultMap" parameterType="int" >
-    select 
-    <include refid="Base_Column_List" />
-    from ack_stock
-    where id = #{id,jdbcType=BIGINT}
+    SELECT
+         ask.id,
+         ask.productId,
+         ask.amount,
+         ask.inspectorId,
+         ask.userId,
+         ask.remark,
+         aur.surname AS inspector_surname ,
+         aur.`name` AS inspector_name,
+         aur2.surname AS operator_surname,
+         aur2.`name` AS operator_name,
+         ask.updateTime,
+         ask.createTime,
+         apt.id AS product_id,
+         apt.`name` AS product_name,
+         apt.code AS  product_code,
+         apt.amount AS product_aomount,
+         abd.id AS brand_id,
+         abd.`name` AS brand_name
+      FROM
+         ack_stock ask
+      LEFT JOIN ack_product apt ON apt.id = ask.productId
+      LEFT JOIN ack_brand abd ON apt.brandId = abd.id
+      LEFT JOIN ack_user aur ON aur.id = ask.inspectorId
+      LEFT JOIN ack_user aur2 ON aur2.id = ask.userId
+      where ask.id = #{id,jdbcType=BIGINT}
   </select>
   <select id="findById" resultMap="BaseResultMap" parameterType="int" >
-    select
-    <include refid="Base_Column_List" />
-    from ack_stock
-    where id = #{id,jdbcType=BIGINT}
+    SELECT
+         ask.id,
+         ask.productId,
+         ask.amount,
+         ask.inspectorId,
+         ask.userId,
+         ask.remark,
+         aur.surname AS inspector_surname ,
+         aur.`name` AS inspector_name,
+         aur2.surname AS operator_surname,
+         aur2.`name` AS operator_name,
+         ask.updateTime,
+         ask.createTime,
+         apt.id AS product_id,
+         apt.`name` AS product_name,
+         apt.code AS  product_code,
+         apt.amount AS product_aomount,
+         abd.id AS brand_id,
+         abd.`name` AS brand_name
+      FROM
+         ack_stock ask
+      LEFT JOIN ack_product apt ON apt.id = ask.productId
+      LEFT JOIN ack_brand abd ON apt.brandId = abd.id
+      LEFT JOIN ack_user aur ON aur.id = ask.inspectorId
+      LEFT JOIN ack_user aur2 ON aur2.id = ask.userId
+      where ask.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteById" parameterType="int" >
     delete from ack_stock
@@ -125,6 +172,9 @@
       <if test="createTime != null" >
         createTime = #{createTime,jdbcType=TIMESTAMP},
       </if>
+    <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+    </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -142,9 +192,11 @@
          aur.`name` AS inspector_name,
          aur2.surname AS operator_surname,
          aur2.`name` AS operator_name,
+         ask.updateTime,
          ask.createTime,
          apt.id AS product_id,
          apt.`name` AS product_name,
+         apt.amount AS product_aomount,
          abd.id AS brand_id,
          abd.`name` AS brand_name
       FROM

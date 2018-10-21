@@ -9,4 +9,5 @@ import org.ack.pojo.Product;
  */
 public interface ProductMapper extends AckMapper<Product, Integer>{
 
+    Product findProductByCode(String code);
 }

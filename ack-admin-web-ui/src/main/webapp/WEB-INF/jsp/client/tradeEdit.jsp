@@ -100,14 +100,7 @@
 							</thead>
 
 							<tbody id='product-tab-body'>
-							<tr>
-								<td>1</td>
-								<td>1</td>
-								<td>1</td>
-								<td>1</td>
-								<td>1</td>
-								<td><button class="product-add-btn">添加</button></td>
-							</tr>
+
 							</tbody>
 						</table>
 						<div class="space-3"></div>

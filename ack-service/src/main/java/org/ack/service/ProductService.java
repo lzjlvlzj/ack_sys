@@ -12,4 +12,6 @@ public interface ProductService extends AckMapperService<Product, Integer>{
      * @return
      */
     List<Brand> findAllBrand();
+
+    Product findProductByCode(String code);
 }

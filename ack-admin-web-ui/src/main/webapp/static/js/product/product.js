@@ -31,6 +31,9 @@ Product.getOneTr = function(n, data, option) {
     //产品品牌
     var url = $("<td>"+data.brand.name+"</td>");
     tr.append(url);
+    //产品数量
+    var amount = $("<td>"+data.amount+"</td>");
+    tr.append(amount);
     //产品规格
     var spec = $("<td>"+data.spec+"</td>");
     tr.append(spec);
