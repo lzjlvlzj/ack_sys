@@ -319,6 +319,7 @@ Client.addProduct = function(tab, tr){
         alert("数量太大，请分多次添加");
         return ;
     }
+    var remark = tr.find("td").eq(5).find("input").val();
     var totalPrice = unitPrice * amount;
     totalPrice = totalPrice.toFixed(2);
 
@@ -335,6 +336,7 @@ Client.addProduct = function(tab, tr){
     var ipt = $("<input type='hidden' value='"+type+"'/>");
     var zPTd = $("<td>"+isZp+"</td>");
     zPTd.append(ipt);
+    var remarkTd = $("<td>"+remark+"</td>");
     var opt = $("<button class='product-del-btn'>删除</button>");
     var optTd = $("<td></td>");
     optTd.append(opt);
@@ -343,6 +345,7 @@ Client.addProduct = function(tab, tr){
     pTr.append(uniPriceTd);
     pTr.append(totalPriceTd);
     pTr.append(zPTd);
+    pTr.append(remarkTd);
     pTr.append(optTd);
 
     tab.append(pTr);
@@ -372,9 +375,12 @@ Client.showProductList = function(data){
         }
         var isZpTd = $("<td></td>");
         isZpTd.append(div);
-        var amount = $('<input type="number" onkeyup="AckTool.formValidator.number(this)" onafterpaste="AckTool.formValidator.number(this)">');
+        var amount = $('<input type="number" style="width: 60px;" onkeyup="AckTool.formValidator.number(this)" onafterpaste="AckTool.formValidator.number(this)">');
         var amountTd = $("<td></td>");
         amountTd.append(amount);
+        var remark = $("<input type='text' name='remark'/>");
+        var remarkTd = $("<td></td>");
+        remarkTd.append(remark);
         var btn = $("<button class='product-add-btn'>添加</button>");
         var option = $("<td></td>");
         option.append(btn);
@@ -384,6 +390,7 @@ Client.showProductList = function(data){
         tr.append(unitPriceTd);
         tr.append(isZpTd);
         tr.append(amountTd);
+        tr.append(remarkTd);
         tr.append(option);
         tab.append(tr);
 
@@ -476,6 +483,8 @@ Client.trade = function(clientId){
         item.totalPrice = tds.eq(3).text();
         //是否是赠品
         item.type = tr.find("input").val();
+        //备注
+        item.remark = tds.eq(5).text();
         tradeItems.push(item);
     }
     trade.logistics = logistics;

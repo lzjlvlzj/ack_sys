@@ -119,8 +119,17 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
         logger.info("账户{}打印后产品券应该是:{}" , account.getId(), total);
         int r = accountServiceImpl.update(newAccount);
         if(r == 1){
-            logger.info("打印更新成功");
             trade.setAccount(newAccount);
+            //更新trade状态
+            Trade td = new Trade();
+            td.setId(trade.getId());
+            td.setStatus(2);
+            r = tradeMapper.update(td);
+            if(r == 1){
+                logger.info("打印更新成功");
+            } else {
+                logger.info("打印更新失败");
+            }
         } else {
             logger.info("打印更新失败");
         }

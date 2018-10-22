@@ -85,7 +85,7 @@
 							<tr role="row">
 								<th class="sorting_disabled"  aria-label="">序号</th>
 								<th class="sorting" tabindex="0" aria-controls="dynamic-table"
-									rowspan="1" colspan="1">产品名称</th>
+									rowspan="1" colspan="1">名称</th>
 								<th class="hidden-480 sorting" tabindex="0"
 									aria-controls="dynamic-table" rowspan="1" colspan="1">单价</th>
 								<%--<th class="sorting" rowspan="1" colspan="1"
@@ -93,7 +93,9 @@
 								<th class="sorting" rowspan="1" colspan="1"
 									aria-label="dynamic-table" >是否是赠品</th>
 								<th class="hidden-480 sorting" tabindex="0"
-									aria-controls="dynamic-table" rowspan="1" colspan="1">产品数量</th>
+									aria-controls="dynamic-table" rowspan="1" colspan="1">数量</th>
+								<th class="hidden-480 sorting" tabindex="0"
+									aria-controls="dynamic-table" rowspan="1" colspan="1">备注</th>
 								<th class="sorting" rowspan="1" colspan="1"
 									aria-label="dynamic-table" >操作</th>
 							</tr>
@@ -110,15 +112,17 @@
 							<thead>
 							<tr role="row">
 								<th class="sorting" tabindex="0" aria-controls="dynamic-table"
-									rowspan="1" colspan="1">产品名称</th>
+									rowspan="1" colspan="1">名称</th>
 								<th class="hidden-480 sorting" tabindex="0"
-									aria-controls="dynamic-table" rowspan="1" colspan="1">产品数量</th>
+									aria-controls="dynamic-table" rowspan="1" colspan="1">数量</th>
 								<th class="hidden-480 sorting" tabindex="0"
-									aria-controls="dynamic-table" rowspan="1" colspan="1">产品单价</th>
+									aria-controls="dynamic-table" rowspan="1" colspan="1">单价</th>
 								<th class="hidden-480 sorting" tabindex="0"
-									aria-controls="dynamic-table" rowspan="1" colspan="1">产品总价</th>
+									aria-controls="dynamic-table" rowspan="1" colspan="1">总价</th>
 								<th class="sorting" rowspan="1" colspan="1"
 									aria-label="dynamic-table" >是否是赠品</th>
+								<th class="sorting" rowspan="1" colspan="1"
+									aria-label="dynamic-table" >备注</th>
 								<th class="sorting" rowspan="1" colspan="1"
 									aria-label="dynamic-table" >操作</th>
 							</tr>
