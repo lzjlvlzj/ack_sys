@@ -11,6 +11,17 @@
     <result column="totalPrice" property="totalPrice" jdbcType="DECIMAL" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <association  property="product" javaType="org.ack.pojo.Product">
+      <id property="id" column="productId"></id>
+      <result property="code" column="product_code"></result>
+      <result property="name" column="product_name"></result>
+      <result property="unit" column="product_unit"></result>
+      <result property="spec" column="product_spec"></result>
+    </association>
+    <association  property="brand" javaType="org.ack.pojo.Brand">
+      <id property="id" column="brand_id"></id>
+      <result property="name" column="product_name"></result>
+    </association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, productId, tradeId, type, unitPrice, amount, totalPrice, remark, createTime
@@ -22,10 +33,27 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="findByTradeId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from ack_trade_item
-    where tradeId = #{tradeId,jdbcType=BIGINT}
+    SELECT
+        ati.id,
+        ati.productId,
+        ati.tradeId,
+        ati.type,
+        ati.unitPrice,
+        ati.amount,
+        ati.totalPrice,
+        ati.remark,
+        ati.createTime,
+        apt.`code` AS product_code,
+        apt.`name` AS product_name,
+        apt.unit AS product_unit,
+        apt.spec AS product_spec,
+        abd.id AS  brand_id,
+        abd.name AS brand_name
+    FROM
+        ack_trade_item ati
+    LEFT JOIN ack_product apt ON ati.productId = apt.id
+    LEFT JOIN ack_brand abd ON abd.id = apt.brandId
+    where ati.tradeId = #{tradeId,jdbcType=BIGINT}
   </select>
   <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -150,4 +178,7 @@
       createTime = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="findAll" parameterType="org.ack.persist.page.Page"
+          resultMap="BaseResultMap">
+  </select>
 </mapper>

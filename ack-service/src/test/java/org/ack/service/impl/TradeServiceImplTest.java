@@ -28,6 +28,17 @@ public class TradeServiceImplTest {
     TradeItemService tradeItemServiceImpl;
     @Autowired
     TradeLogisticsService tradeLogisticsServiceImpl;
+
+    @Test
+    public void findTradeItem(){
+
+        Trade trade = tradeServiceImpl.findTradeDetail(13L);
+        List<TradeItem> items = trade.getTradeItems();
+        for(TradeItem tradeItem : items){
+            System.out.println(tradeItem);
+        }
+    }
+
     @Test
     public void insert(){
         Trade trade = new Trade();

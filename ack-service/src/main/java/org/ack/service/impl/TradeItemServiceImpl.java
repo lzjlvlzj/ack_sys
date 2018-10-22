@@ -27,6 +27,6 @@ public class TradeItemServiceImpl extends AckMapperServiceImpl<TradeItem, Long> 
 
     @Override
     public List<TradeItem> findByTradeId(Long id) {
-        return null;
+        return tradeItemMapper.findByTradeId(id);
     }
 }

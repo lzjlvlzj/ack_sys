@@ -22,7 +22,11 @@ public class TradeItem {
 
     private String remark;
 
+
     private Date createTime;
+    private String productCode;
+    private Product product;
+    private Brand brand;
 
     public Long getId() {
         return id;
@@ -94,5 +98,29 @@ public class TradeItem {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }

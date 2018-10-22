@@ -25,6 +25,7 @@ public class Trade {
 
     private User user;
     private Client client;
+    private Account account;
     private TradeItem tradeItem;
     private Logistics logistics;
     private List<Integer> productIds;
@@ -132,6 +133,14 @@ public class Trade {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public List<TradeItem> getTradeItems() {

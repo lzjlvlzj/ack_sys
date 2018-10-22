@@ -5,6 +5,7 @@ import org.ack.common.TradeNumber;
 import org.ack.persist.AckMapper;
 import org.ack.persist.mapper.TradeMapper;
 import org.ack.pojo.*;
+import org.ack.service.AccountService;
 import org.ack.service.TradeItemService;
 import org.ack.service.TradeLogisticsService;
 import org.ack.service.TradeService;
@@ -28,6 +29,8 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
     TradeLogisticsService tradeLogisticsServiceImpl;
     @Autowired
     TradeItemService tradeItemServiceImpl;
+    @Autowired
+    AccountService accountServiceImpl;
 
     @Override
     protected AckMapper<Trade, Long> getAckMapper() {
@@ -91,6 +94,36 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
         Trade trade = tradeMapper.findById(id);
         List<TradeItem> list = tradeItemServiceImpl.findByTradeId(id);
         trade.setTradeItems(list);
+        return trade;
+    }
+
+    @Override
+    public Trade updateTradeInfoAndPrint(Long id) {
+        logger.info("查询打印订单{}信息", id);
+        Trade trade = findTradeDetail(id);
+        //更新账号信息
+        Account account = trade.getAccount();
+        account = accountServiceImpl.findById(account.getId());
+        // 更新coin
+        Account newAccount = new Account();
+        newAccount.setId(account.getId());
+        double coin = account.getCoin().doubleValue();
+        logger.info("账户{}打印前产品券{}" , account.getId(), coin);
+        double totalPrice = 0.0;
+        List<TradeItem> list = trade.getTradeItems();
+        for(TradeItem item : list){
+            totalPrice = totalPrice + item.getTotalPrice().doubleValue();
+        }
+        BigDecimal total = new BigDecimal(coin - totalPrice);
+        newAccount.setCoin(total);
+        logger.info("账户{}打印后产品券应该是:{}" , account.getId(), total);
+        int r = accountServiceImpl.update(newAccount);
+        if(r == 1){
+            logger.info("打印更新成功");
+            trade.setAccount(newAccount);
+        } else {
+            logger.info("打印更新失败");
+        }
         return trade;
     }
 }

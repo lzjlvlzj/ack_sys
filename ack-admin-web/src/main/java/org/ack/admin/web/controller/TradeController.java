@@ -1,5 +1,6 @@
 package org.ack.admin.web.controller;
 
+import org.ack.admin.web.view.ExcelView;
 import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
 import org.ack.common.message.MessageEntry;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -182,6 +184,20 @@ public class TradeController extends AckPageController<Trade, Long>{
 	 * @param model
 	 * @return
 	 */
+	@RequestMapping(value = "/detail/ui")
+	@AckPermission(value = "trade:view")
+	public String findTradeDetailUI(HttpServletRequest request,
+								 HttpServletResponse response, Model model) {
+		return "trade/tradeView";
+	}
+
+	/**
+	 * 查看订单详情
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/detail/{id}")
 	@AckPermission(value = "trade:view")
 	@ResponseBody
@@ -193,6 +209,28 @@ public class TradeController extends AckPageController<Trade, Long>{
 		Trade trade = tradeServiceImpl.findTradeDetail(id);
 
 		return trade;
+	}
+	/**
+	 * 查看订单详情
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/print/{id}")
+	@AckPermission(value = "trade:print")
+
+	public ModelAndView printTradeDetail(HttpServletRequest request,
+										 HttpServletResponse response, Model model,
+										 @PathVariable Long id) {
+		logger.info("打印销售单{}详细情况", id);
+        User user = getCurrentUser(request);
+		Map<String, Object> map = new HashMap<>();
+		Trade trade = tradeServiceImpl.updateTradeInfoAndPrint(id);
+		map.put("trade",trade);
+		map.put("user",user);
+		ExcelView ev = new ExcelView();
+		return new ModelAndView(ev, map);
 	}
 
 

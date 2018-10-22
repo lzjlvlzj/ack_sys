@@ -279,11 +279,69 @@ Trade.recharge = function(id){
     });
 
 };
+
+Trade.showDetail = function(id){
+    var url = "/trade/detail/"+id;
+    var data = {};
+    AckTool.postReq(data, url, function(obj) {
+        //显示客户信息
+        $("#name",Trade.document).val(obj.client.name);
+        $("#phone",Trade.document).val(obj.client.phone);
+        $("#address",Trade.document).val(obj.client.address);
+        //显示物流信息
+        $("#vehicle",Trade.document).val(obj.logistics.vehicle);
+        $("#postMan",Trade.document).val(obj.logistics.postMan);
+        $("#postPhone",Trade.document).val(obj.logistics.phone);
+        //显示账户余额
+        $("#accountCoin",Trade.document).html(obj.account.coin);
+        //显示销售单商品细节
+        var tab = $("#product-tab-body",Trade.document);
+        var len = obj.tradeItems.length;
+        var tradeItems = obj.tradeItems;
+        for(var i = 0; i < len; i++){
+            var item = tradeItems[i];
+            var tr = $("<tr></tr>");
+            var number = $("<td>"+(i+1)+"</td>");
+            var productCode = $("<td>"+item.product.code+"</td>");
+            var productName = $("<td>"+item.product.name+"</td>");
+            var productUnitPrice = $("<td>"+item.unitPrice+"</td>");
+            var productAmount = $("<td>"+item.amount+"</td>");
+            var productUnit = $("<td>"+item.product.unit+"</td>");
+            var productTotalPrice = $("<td>"+item.totalPrice+"</td>");
+            var type = item.type == 0 ? "" :"赠品";
+            var productType = $("<td>"+type+"</td>");
+            var productRemark = $("<td>"+item.remark+"</td>");
+
+            tr.append(number);
+            tr.append(productCode);
+            tr.append(productName);
+            tr.append(productUnitPrice);
+            tr.append(productAmount);
+            tr.append(productUnit);
+            tr.append(productTotalPrice);
+            tr.append(productType);
+            tr.append(productRemark);
+
+            tab.append(tr);
+        }
+
+
+    });
+};
+
 /**
  * 查看销售单
  */
 Trade.findDetail = function(id){
-    alert("查看销售单: "+id);
+    if(!id){
+        return ;
+    }
+    var url = "/trade/detail/ui";
+    var data = {};
+    Trade.modal.open(url,data,function(){
+        Trade.showDetail(id);
+    });
+
 };
 /**
  * 提交仓库
@@ -317,6 +375,36 @@ Trade.upToStock = function(id){
     var modal = this.modal.modalTemplate(option);
     modal.modal('show');
 };
+/**
+ * 下载打印
+ * @param id
+ */
+Trade.print = function(id){
+    var url = "/trade/print/"+id;
+    var data = {};
+    var option = {fun : {}};
+    option.header = "确认操作";
+    option.headerCss = "ack-medal-header-yellow";
+    option.content = "确认导出Excel?";
+    option.fun.selector = ".ack-modal-ok-btn";
+    //点击弹框"确定"的回调操作
+    option.fun.callback = function(){
+        //关闭modal
+        Trade.modal.close();
+        //刷新当前页面
+        Trade.showList();
+        window.location.href=url;
+       /* AckTool.postReq(data, url, function(obj) {
+            //关闭modal
+            Trade.modal.close();
+            //刷新当前页面
+            Trade.showList();
+
+        });*/
+    };
+    var modal = this.modal.modalTemplate(option);
+    modal.modal('show');
+};
 
 /**
  * 绑定事件
@@ -346,6 +434,12 @@ Trade.bind = function() {
         var tr = $(this).parents("tr");
         var id = tr.attr("id");
         Trade.upToStock(id);
+    });
+    //下载打印
+    tab.on("click",".ack-simple-btn-trade-print", function(){
+        var tr = $(this).parents("tr");
+        var id = tr.attr("id");
+        Trade.print(id);
     });
     //充值页面
     $("#tab-body").on("click",".ack-simple-btn-trade-recharge",function(){
