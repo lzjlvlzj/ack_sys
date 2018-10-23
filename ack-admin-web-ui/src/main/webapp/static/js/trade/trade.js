@@ -391,9 +391,9 @@ Trade.print = function(id){
     option.fun.callback = function(){
         //关闭modal
         Trade.modal.close();
+        window.location.href=url;
         //刷新当前页面
         Trade.showList();
-        window.location.href=url;
        /* AckTool.postReq(data, url, function(obj) {
             //关闭modal
             Trade.modal.close();

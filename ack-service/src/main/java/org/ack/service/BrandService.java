@@ -5,4 +5,5 @@ import org.ack.pojo.Brand;
 
 public interface BrandService extends AckMapperService<Brand, Integer>{
 
+    Brand findByProductId(Integer productId);
 }

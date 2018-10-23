@@ -20,7 +20,7 @@
     </association>
     <association  property="brand" javaType="org.ack.pojo.Brand">
       <id property="id" column="brand_id"></id>
-      <result property="name" column="product_name"></result>
+      <result property="name" column="brand_name"></result>
     </association>
   </resultMap>
   <sql id="Base_Column_List" >

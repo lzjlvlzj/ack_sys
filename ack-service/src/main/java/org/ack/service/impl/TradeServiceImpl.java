@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implements TradeService {
@@ -30,6 +32,8 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
     AccountService accountServiceImpl;
     @Autowired
     ProductService productServiceImpl;
+    @Autowired
+    BrandService brandServiceImpl;
 
     @Override
     protected AckMapper<Trade, Long> getAckMapper() {
@@ -110,8 +114,12 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
         logger.info("账户{}打印前产品券{}" , account.getId(), coin);
         double totalPrice = 0.0;
         List<TradeItem> list = trade.getTradeItems();
+        //品牌集合
+        Set<Brand> brandSet = new HashSet<>();
         int r = 0;
         for(TradeItem item : list){
+            Brand brand = brandServiceImpl.findByProductId(item.getProductId());
+            brandSet.add(brand);
             totalPrice = totalPrice + item.getTotalPrice().doubleValue();
             //更新产品数量
             r = updateProduct(item);
@@ -121,6 +129,7 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
                 logger.info("打印更新产品{}数量失败", item.getProductId());
             }
         }
+        trade.setBrand(brandSet);
         BigDecimal total = new BigDecimal(coin - totalPrice);
         newAccount.setCoin(total);
         logger.info("账户{}打印后产品券应该是:{}" , account.getId(), total);

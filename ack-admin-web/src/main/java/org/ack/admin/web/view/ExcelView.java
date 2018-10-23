@@ -22,6 +22,7 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -71,10 +72,9 @@ public class ExcelView extends AbstractXlsView {
         // 设置制表人信息
         setTableInfo(wb, sheet, trade, userName);
 
-
         response.setContentType("APPLICATION/OCTET-STREAM");
         response.setHeader("Content-disposition", "attachment;filename="
-                + "aaaa.xls");
+                + fileName);
         OutputStream ouputStream = response.getOutputStream();
         workbook.write(ouputStream);
         ouputStream.flush();
@@ -314,13 +314,40 @@ public class ExcelView extends AbstractXlsView {
         HSSFCell poskeyCell = row.createCell(4);
         poskeyCell.setCellValue("仓库地址");
         HSSFCell posValueCell = row.createCell(5);
-        posValueCell.setCellValue("蕙漫香");
+        String brandStr = getBrandStr(trade);
+        posValueCell.setCellValue(brandStr);
         posValueCell.setCellStyle(valueStyle);
 
-        CellRangeAddress posRegion = new CellRangeAddress (1,  1, 5, 9);
+        CellRangeAddress posRegion = new CellRangeAddress (1,  1, 5, 6);
         sheet.addMergedRegion(posRegion);
 
+        HSSFCell numberKeyCell = row.createCell(7);
+        numberKeyCell.setCellValue("流水号");
+        HSSFCell numberValueCell = row.createCell(8);
+        numberValueCell.setCellValue(trade.getNumber());
+        numberValueCell.setCellStyle(valueStyle);
+        CellRangeAddress numberRegion = new CellRangeAddress (1,  1, 8, 9);
+        sheet.addMergedRegion(numberRegion);
 
+
+    }
+
+    private String getBrandStr(Trade trade) {
+        StringBuilder s = new StringBuilder();
+        Set<Brand> set = trade.getBrand();
+        int n = 0;
+        for(Brand brand : set){
+            if(n > 2){
+                s.append("等:");
+                break;
+            }
+            String name = brand.getName();
+            s.append(name);
+            s.append(":");
+            n++;
+        }
+        String str = s.deleteCharAt(s.length()-1).toString();
+        return str;
     }
 
     /**
@@ -354,10 +381,15 @@ public class ExcelView extends AbstractXlsView {
         Client client = trade.getClient();
         String name = client.getName();
         String phone = client.getPhone();
-        String fomat = "yyyy-MM-dd-HH:mm:ss";
-        String date = StringUtils.date2String(trade.getUpdateTime(), fomat);
-        String fileName = name + "_" + phone + "_" + date + ".xls";
-        fileName = URLEncoder.encode(fileName, "UTF-8");
+        String format = "yyyy-MM-dd";
+        Date date = trade.getUpdateTime();
+        if(null == date){
+            date = new Date();
+        }
+        String dateStr = StringUtils.date2String(date, format);
+        name = URLEncoder.encode(name, "UTF-8");
+        String fileName = name + "_" + phone + "_" + dateStr + ".xls";
+        logger.info("文件名称为{}" , fileName);
         return fileName;
     }
 

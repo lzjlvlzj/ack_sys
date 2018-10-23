@@ -2,6 +2,7 @@ package org.ack.pojo;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 交易单，类似订单作用
@@ -30,6 +31,7 @@ public class Trade {
     private Logistics logistics;
     private List<Integer> productIds;
     private List<TradeItem> tradeItems;
+    private Set<Brand> brand;
 
     public Long getId() {
         return id;
@@ -141,6 +143,14 @@ public class Trade {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Set<Brand> getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Set<Brand> brand) {
+        this.brand = brand;
     }
 
     public List<TradeItem> getTradeItems() {

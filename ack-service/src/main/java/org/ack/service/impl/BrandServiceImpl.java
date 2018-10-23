@@ -12,10 +12,14 @@ import org.springframework.stereotype.Service;
 public class BrandServiceImpl extends AckMapperServiceImpl<Brand, Integer>
 		implements BrandService {
 	@Autowired
-	BrandMapper clientMapper;
+	BrandMapper brandMapper;
 	@Override
 	protected AckMapper<Brand, Integer> getAckMapper() {
-		return clientMapper;
+		return brandMapper;
 	}
 
+	@Override
+	public Brand findByProductId(Integer productId) {
+		return brandMapper.findByProductId(productId);
+	}
 }

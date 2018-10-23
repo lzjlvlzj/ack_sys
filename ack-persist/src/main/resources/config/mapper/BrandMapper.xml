@@ -12,8 +12,21 @@
   <sql id="Base_Column_List" >
     id, name, address, phone, remark, createTime
   </sql>
+  <select id="findByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+        abd.id,
+        abd.NAME,
+        abd.address,
+        abd.phone,
+        abd.remark,
+        abd.createTime
+    FROM
+        ack_brand abd
+    LEFT JOIN ack_product apt ON apt.brandId = abd.id
+    WHERE apt.id = #{id}
+  </select>
   <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from ack_brand
     where id = #{id,jdbcType=INTEGER}
