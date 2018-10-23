@@ -52,5 +52,6 @@
 		<mapper resource="config/mapper/TradeMapper.xml" />
 		<mapper resource="config/mapper/TradeItemMapper.xml" />
 		<mapper resource="config/mapper/TradeLogisticsMapper.xml" />
+		<mapper resource="config/mapper/ReturnsMapper.xml" />
 	</mappers>
 </configuration>

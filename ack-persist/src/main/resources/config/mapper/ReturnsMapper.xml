@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ack.persist.mapper.ReturnsMapper" >
+  <resultMap id="BaseResultMap" type="org.ack.pojo.Returns" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="clientId" property="clientId" jdbcType="INTEGER" />
+    <result column="productId" property="productId" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="coin" property="coin"/>
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <association  property="brand" javaType="org.ack.pojo.Brand">
+      <id property="id" column="brand_id"></id>
+      <result property="name" column="brand_name"></result>
+    </association>
+    <association  property="client" javaType="org.ack.pojo.Client">
+      <id property="id" column="clientId"></id>
+      <result property="name" column="client_name"></result>
+      <result property="phone" column="client_phone"></result>
+    </association>
+    <association  property="operator" javaType="org.ack.pojo.User">
+      <id property="id" column="brand_id"></id>
+      <result property="surname" column="opt_surname"></result>
+      <result property="name" column="opt_name"></result>
+    </association>
+    <association  property="seller" javaType="org.ack.pojo.User">
+      <id property="id" column="sel_id"></id>
+      <result property="surname" column="sel_surname"></result>
+      <result property="name" column="sel_name"></result>
+    </association>
+    <association  property="product" javaType="org.ack.pojo.Product">
+      <id property="id" column="productId"></id>
+      <result property="name" column="product_name"></result>
+      <result property="code" column="product_code"></result>
+      <result property="unitPrice" column="product_unit_price"></result>
+      <result property="amount" column="product_amount"></result>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clientId, productId, amount, userId, remark, createTime
+  </sql>
+  <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT
+        ars.id,
+        ars.clientId,
+        ars.productId,
+        ars.amount,
+        ars.coin,
+        ars.userId,
+        ars.remark,
+        ars.createTime,
+        clt.`name` AS client_name,
+        clt.phone AS client_phone,
+        aur.surname AS opt_surname,
+        aur.`name` AS opt_name,
+        sel.surname AS sel_surname,
+        sel.`name` AS sel_name,
+        apt.`name` AS product_name,
+        apt.unitPrice AS product_unit_price,
+        apt.`code` AS product_code,
+        apt.amount AS product_amount,
+        abd.id AS brand_id,
+        abd.`name` AS brand_name
+    FROM
+        ack_returns ars
+    LEFT JOIN ack_client clt ON clt.id = ars.clientId
+    LEFT JOIN ack_user aur ON aur.id = ars.userId
+    LEFT JOIN ack_user sel ON sel.id = clt.userId
+    LEFT JOIN ack_product apt ON apt.id = ars.productId
+    LEFT JOIN ack_brand abd ON abd.id = apt.brandId
+    where ars.id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT
+        ars.id,
+        ars.clientId,
+        ars.productId,
+        ars.amount,
+        ars.coin,
+        ars.userId,
+        ars.remark,
+        ars.createTime,
+        clt.`name` AS client_name,
+        clt.phone AS client_phone,
+        aur.surname AS opt_surname,
+        aur.`name` AS opt_name,
+        sel.surname AS sel_surname,
+        sel.`name` AS sel_name,
+        apt.`name` AS product_name,
+        apt.unitPrice AS product_unit_price,
+        apt.`code` AS product_code,
+        apt.amount AS product_amount,
+        abd.id AS brand_id,
+        abd.`name` AS brand_name
+    FROM
+        ack_returns ars
+    LEFT JOIN ack_client clt ON clt.id = ars.clientId
+    LEFT JOIN ack_user aur ON aur.id = ars.userId
+    LEFT JOIN ack_user sel ON sel.id = clt.userId
+    LEFT JOIN ack_product apt ON apt.id = ars.productId
+    LEFT JOIN ack_brand abd ON abd.id = apt.brandId
+    where ars.id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from ack_returns
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.ack.pojo.Returns" >
+    insert into ack_returns (id, clientId, productId, 
+      amount, coin,userId, remark,
+      createTime)
+    values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=INTEGER}, #{productId,jdbcType=BIGINT}, 
+      #{amount,jdbcType=INTEGER}, #{coin},#{userId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ack.pojo.Returns" >
+    insert into ack_returns
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clientId != null" >
+        clientId,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null" >
+        #{clientId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="org.ack.pojo.Returns" >
+    update ack_returns
+    <set >
+      <if test="clientId != null" >
+        clientId = #{clientId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="coin!= null" >
+        coin = #{coin,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateById" parameterType="org.ack.pojo.Returns" >
+    update ack_returns
+    set clientId = #{clientId,jdbcType=INTEGER},
+      productId = #{productId,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=INTEGER},
+      coin = #{coin},
+      userId = #{userId,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+          resultMap="BaseResultMap">
+    SELECT
+        ars.id,
+        ars.clientId,
+        ars.productId,
+        ars.amount,
+        ars.coin,
+        ars.userId,
+        ars.remark,
+        ars.createTime,
+        clt.`name` AS client_name,
+        clt.phone AS client_phone,
+        aur.surname AS opt_surname,
+        aur.`name` AS opt_name,
+        sel.surname AS sel_surname,
+        sel.`name` AS sel_name,
+        apt.`name` AS product_name,
+        apt.unitPrice AS product_unit_price,
+        apt.`code` AS product_code,
+        apt.amount AS product_amount,
+        abd.id AS brand_id,
+        abd.`name` AS brand_name
+    FROM
+        ack_returns ars
+    LEFT JOIN ack_client clt ON clt.id = ars.clientId
+    LEFT JOIN ack_user aur ON aur.id = ars.userId
+    LEFT JOIN ack_user sel ON sel.id = clt.userId
+    LEFT JOIN ack_product apt ON apt.id = ars.productId
+    LEFT JOIN ack_brand abd ON abd.id = apt.brandId
+    <where>
+      1 = 1
+      <if test="condition.productName != null and condition.productName !=''">
+        AND apt.name LIKE CONCAT('%',#{condition.productName},'%')
+      </if>
+      <if test="condition.clientId != null and condition.clientId !=''">
+        AND ars.clientId = #{condition.clientId}
+      </if>
+      <if test="condition.productId != null and condition.productId !=''">
+        AND ars.productId = #{condition.productId}
+      </if>
+      <if test="condition.sellerId != null and condition.sellerId !=''">
+        AND sel.id = #{condition.sellerId}
+      </if>
+      <if test="condition.operatorId != null and condition.operatorId !=''">
+        AND opt.id = #{condition.operatorId}
+      </if>
+      <if test="condition.brandId != null and condition.brandId !=''">
+        AND abd.id = #{condition.brandId}
+      </if>
+    </where>
+  </select>
+</mapper>

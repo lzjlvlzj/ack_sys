@@ -5,10 +5,7 @@ import org.ack.common.TradeNumber;
 import org.ack.persist.AckMapper;
 import org.ack.persist.mapper.TradeMapper;
 import org.ack.pojo.*;
-import org.ack.service.AccountService;
-import org.ack.service.TradeItemService;
-import org.ack.service.TradeLogisticsService;
-import org.ack.service.TradeService;
+import org.ack.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,8 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
     TradeItemService tradeItemServiceImpl;
     @Autowired
     AccountService accountServiceImpl;
+    @Autowired
+    ProductService productServiceImpl;
 
     @Override
     protected AckMapper<Trade, Long> getAckMapper() {
@@ -104,20 +103,28 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
         //更新账号信息
         Account account = trade.getAccount();
         account = accountServiceImpl.findById(account.getId());
-        // 更新coin
+        // 设置coin
         Account newAccount = new Account();
         newAccount.setId(account.getId());
         double coin = account.getCoin().doubleValue();
         logger.info("账户{}打印前产品券{}" , account.getId(), coin);
         double totalPrice = 0.0;
         List<TradeItem> list = trade.getTradeItems();
+        int r = 0;
         for(TradeItem item : list){
             totalPrice = totalPrice + item.getTotalPrice().doubleValue();
+            //更新产品数量
+            r = updateProduct(item);
+            if(r == 1){
+                logger.info("打印更新产品{}数量成功", item.getProductId());
+            } else {
+                logger.info("打印更新产品{}数量失败", item.getProductId());
+            }
         }
         BigDecimal total = new BigDecimal(coin - totalPrice);
         newAccount.setCoin(total);
         logger.info("账户{}打印后产品券应该是:{}" , account.getId(), total);
-        int r = accountServiceImpl.update(newAccount);
+        r = accountServiceImpl.update(newAccount);
         if(r == 1){
             trade.setAccount(newAccount);
             //更新trade状态
@@ -134,5 +141,23 @@ public class TradeServiceImpl extends AckMapperServiceImpl<Trade, Long> implemen
             logger.info("打印更新失败");
         }
         return trade;
+    }
+
+    /**
+     * 根据产品明细更新产品数量
+     * @param tradeItem
+     * @return
+     */
+    private int updateProduct(TradeItem tradeItem) {
+        Product product = tradeItem.getProduct();
+        product = productServiceImpl.findById(product.getId());
+        Long amount = product.getAmount();
+        logger.info("打印前产品{}的数量为{}", product.getId(), amount);
+        Long newAmount = amount - tradeItem.getAmount();
+        logger.info("打印后产品{}的数量为{}", product.getId(), newAmount);
+        //更新
+        product.setAmount(newAmount);
+        int r = productServiceImpl.update(product);
+        return r;
     }
 }
