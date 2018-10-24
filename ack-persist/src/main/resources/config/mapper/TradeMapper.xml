@@ -56,7 +56,8 @@
         als.address AS  logistics_address,
         aur.surname AS user_surname,
         aur.name AS user_name,
-        act.id AS account_id
+        act.id AS account_id,
+        act.coin AS account_coin
     FROM
         ack_trade atrd
     LEFT JOIN ack_client clt ON clt.id = atrd.clientId
@@ -86,7 +87,8 @@
         als.address AS  logistics_address,
         aur.surname AS user_surname,
         aur.name AS user_name,
-        act.id AS account_id
+        act.id AS account_id,
+        act.coin AS account_coin
     FROM
         ack_trade atrd
     LEFT JOIN ack_client clt ON clt.id = atrd.clientId
