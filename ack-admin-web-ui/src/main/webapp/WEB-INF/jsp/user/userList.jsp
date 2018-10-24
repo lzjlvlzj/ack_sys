@@ -31,6 +31,9 @@
 									aria-label="dynamic-table">名</th>
 								<th class="hidden-480 sorting" tabindex="0"
 									aria-controls="dynamic-table" >
+									电话</th>
+								<th class="hidden-480 sorting" tabindex="0"
+									aria-controls="dynamic-table" >
 									用户状态</th>
 								<th class="sorting" tabindex="0" aria-controls="dynamic-table"
 									><i
@@ -48,9 +51,10 @@
 					</table>
 				</div>
 			</div>
+			<div class="space-10"></div>
 			<div class='col-xs-12'>
 			    <div class='col-xs-12'>
-			    <button class="btn btn-primary" id="ack-add-btn">新建</button>
+			    <button class="btn btn-primary" id="ack-add-btn" onclick="User.eidtUI();">新建</button>
 			    </div>
 			</div>
 		</div>

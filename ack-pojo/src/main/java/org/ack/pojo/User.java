@@ -1,5 +1,8 @@
 package org.ack.pojo;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -16,13 +19,21 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 6892971682937366001L;
 
 	private Long id;                       // 用户id
+	@NotBlank(message="{user.loginName.null}")
+	@Size(min=1, max=128, message="{user.loginName.length.illegal}")
 	private String loginName;              // 登录名称
 	private String salt;                   // 密码盐值
+	@NotBlank(message="{user.surname.null}")
+	@Size(min=1, max=128, message="{user.surname.length.illegal}")
 	private String surname;                // 姓
+	@NotBlank(message="{user.name.null}")
+	@Size(min=1, max=128, message="{user.name.length.illegal}")
 	private String name;                   // 名字
 	private Integer status;                // 用户状态 0 ： 可用 , 1 禁用
 	private String oldPassword;            // 老密码
 	private String password;               // 密码
+	private String phone;                  // 电话
+	private String address;                // 地址
 	private String roleIds;                // 角色id逗号分隔
 	private Date createTime;               // 创建时间
 	private String comments;               // 备注
@@ -101,6 +112,22 @@ public class User implements Serializable {
 
 	public void setOldPassword(String oldPassword) {
 		this.oldPassword = oldPassword;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@Override

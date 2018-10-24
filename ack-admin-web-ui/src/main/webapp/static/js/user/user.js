@@ -12,7 +12,66 @@ User.init = function() {
 };
 
 User.eidtUI = function (id){
-	alert("修改操作 : " + id);
+    var url = "";
+    var data = {};
+    data.reqData = {};
+    if(id){
+        url = "/user/edit/ui/"+id;
+        var UserDataUrl = "/user/id/" + id;
+        //这里需要有个请求回显数据
+        User.modal.open(url,data,function(){
+            AckTool.postReq({},UserDataUrl,function(obj){
+                $("#optionFlag",User.document).val("1");
+                $("#id",User.document).val(obj.id);
+                $("#loginName",User.document).val(obj.loginName);
+                $("#surname",User.document).val(obj.surname);
+                $("#name",User.document).val(obj.name);
+                $("#address",User.document).val(obj.address);
+                $("#phone",User.document).val(obj.phone);
+            });
+        });
+    } else {
+        url = "/user/add/ui";
+        User.modal.open(url,data,function(){
+            $("#optionFlag",User.document).val("0");
+        });
+    }
+};
+
+
+/**
+ * 编辑操作
+ */
+
+User.eidt = function(flag) {
+    var url = "";
+    //添加
+    if("0" == flag){
+        url = "/user/add"
+    }
+    if("1" == flag){
+        url = "/user/edit"
+    }
+
+    var data = $("#ack-add-form", User.document).serialize();
+    AckTool.postReq(data, url, function(obj) {
+        if (obj.code >= 1) {
+            // 关闭modal
+            User.modal.close();
+            // 刷新当前页面
+            //User.showList();
+			$("#user-mem", User.document).click();
+
+        } else if(obj.code == 0){
+            AckTool.formValidator.validate("#ack-add-form", User.document, obj.message);
+        }else {
+            alert("系统错误");
+            // 关闭modal
+            User.modal.close();
+        }
+
+    });
+
 };
 
 User.del = function (id){
@@ -21,6 +80,21 @@ User.del = function (id){
 
 User.setRole = function(id){
 	User.userRoleUI(id);
+};
+
+User.checkLoginName = function(val){
+	var url = "/user/findByLoginName";
+	var data = {};
+	data.loginName = val;
+	var msgDiv = $("#msgDiv", User.document);
+    msgDiv.empty();
+    msgDiv.hide();
+    AckTool.postReq(data,url,function(obj){
+        if(obj == 1){
+            msgDiv.html("用户已存在");
+            msgDiv.show();
+		}
+    });
 };
 /**
  * 重置密码
@@ -80,11 +154,16 @@ User.bind = function() {
 		var id = $(this).parents("tr").attr("id");
 		User.setRole(id);
 	});
-	//保存
+	//保存用户
 	ackModal.on("click",".ack-modal-save-btn", function(){
-		var fp = $("#roleOptionFlag", Role.document);
+		var fp = $("#optionFlag", User.document);
 		var flag = fp.val();
 		User.eidt(flag);
+	});
+	//检查用户名
+	ackModal.on("input","#loginName", function(){
+		var val = $(this).val();
+		User.checkLoginName(val);
 	});
 	//设置角色
 	ackModal.on("click",".ack-modal-user-role-save-btn", function(){
@@ -156,10 +235,8 @@ User.userRoleUI = function(id, self){
 
 
 User.showList = function() {
-	var option = User.config();
-	var data = {};
-	var opt = {};
-	opt.prefix = "user";
+	 var opt = {};
+	 opt.prefix = "user";
 	 $('#ack-dynamic-table').DataTable( {
      	 "processing": true,
          "serverSide": true,
@@ -180,8 +257,13 @@ User.showList = function() {
              { "data": "loginName" },
              { "data": "surname" },
              { "data": "name" },
+             { "data": "phone" },
              { "data": "status" },
-             { "data": "createTime" },
+             { "data": "createTime" , render : function(data,type,full,meta){
+                     var tm = AckTool.date(data, "yyyy-MM-dd hh:mm:ss");
+                     return tm;
+                }
+             },
              {
              	"data" : "id",
              	"render" : function(data, type, full, meta){

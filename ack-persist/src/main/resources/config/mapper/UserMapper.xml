@@ -7,6 +7,8 @@
 		<result property="loginName" column="loginName" />
 		<result property="surname" column="surname" />
 		<result property="name" column="name" />
+		<result property="phone" column="phone" />
+		<result property="address" column="address" />
 		<result property="salt" column="salt" />
 		<result property="status" column="status" />
 		<result property="password" column="password" />
@@ -18,6 +20,8 @@
 	<resultMap type="org.ack.pojo.User" id="userListResultMap">
 		<result property="id" column="id" />
 		<result property="loginName" column="loginName" />
+		<result property="phone" column="phone" />
+		<result property="address" column="address" />
 		<result property="surname" column="surname" />
 		<result property="name" column="name" />
 		<result property="status" column="status" />
@@ -38,10 +42,10 @@
 
 	<insert id="insert">
 		INSERT INTO
-		ack_user(loginName,password,salt,surname,name,status,roleids,createTime)
+		ack_user(loginName,password,salt,phone,address,surname,name,status,roleids,createTime)
 		VALUES
 		(#{loginName},
-		#{password},#{salt},#{surname},#{name},#{status},#{roleIds}, now())
+		#{password},#{salt},#{phone},#{address},#{surname},#{name},#{status},#{roleIds}, now())
 	</insert>
 
 	<update id="update" parameterType="user">
@@ -53,6 +57,12 @@
 		</if>
 		<if test="salt != null and salt !=''">
 			ar.salt = #{salt},
+		</if>
+		<if test="phone != null and phone !=''">
+			ar.phone = #{phone},
+		</if>
+		<if test="address != null and address !=''">
+			ar.address = #{address},
 		</if>
 		<if test="surname != null and surname !=''">
 			ar.surname = #{surname},
@@ -93,6 +103,8 @@
 		au.loginName as loginName,
 		au.PASSWORD as password,
 		au.salt as salt,
+		au.phone as phone,
+		au.address as address,
 		au.surname as surname,
 		au.NAME as name,
 		au.STATUS as status,
@@ -115,6 +127,8 @@
 		au.loginName as loginName,
 		au.PASSWORD as password,
 		au.salt as salt,
+		au.phone as phone,
+		au.address as address,
 		au.surname as surname,
 		au.NAME as name,
 		au.STATUS as status,
@@ -131,6 +145,8 @@
 		loginName,
 		password,
 		salt,
+		phone,
+		address,
 		password,
 		surname,
 		name,
@@ -148,6 +164,8 @@
 		loginName,
 		password,
 		salt,
+		phone,
+		address,
 		surname,
 		name,
 		status,
@@ -164,6 +182,8 @@
 		SELECT
 		id,
 		loginName,
+		phone,
+		address,
 		surname,
 		name,
 		status,
@@ -175,6 +195,9 @@
 		<if test="condition.loginName != null and condition.loginName !='' or condition.loginName != null and condition.loginName !='' or condition.surname != null and condition.surname !='' or condition.name != null and condition.name !='' or condition.status != null and condition.status !=''">
 			and (
 			loginName=#{condition.loginName}<!-- this is a default value -->
+			<if test="condition.phone != null and condition.phone !=''">
+				or phone=#{condition.phone}
+			</if>
 			<if test="condition.surname != null and condition.surname !=''">
 				or surname=#{condition.surname}
 			</if>
@@ -195,6 +218,8 @@
 			aur.id,
 			aur.roleids,
 			aur.loginName,
+			aur.phone,
+			aur.address,
 			aur.surname,
 			aur. NAME
 		FROM

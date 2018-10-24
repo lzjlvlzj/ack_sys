@@ -61,6 +61,19 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		return userMapper.findUserByLoginName(loginName);
 	}
 
+
+	@Override
+	public int insert(User user) {
+		String pass = "1q2w3e";
+		user.setStatus(0);
+		long t = System.currentTimeMillis();
+		user.setSalt(t + "");
+		pass = MD5Util.md5(pass + t);
+		user.setPassword(pass);
+		user.setRoleIds("6");
+		return userMapper.insert(user);
+	}
+
 	@Override
 	public List<Permission> findAuthByUser(User user) {
 		/*String loginName = user.getLoginName();

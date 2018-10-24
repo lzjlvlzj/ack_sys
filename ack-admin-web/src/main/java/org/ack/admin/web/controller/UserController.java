@@ -4,6 +4,7 @@ import org.ack.auth.authenticate.annotation.AckPermission;
 import org.ack.base.service.AckMapperService;
 import org.ack.common.Content;
 import org.ack.common.datatable.DataTableTemplate;
+import org.ack.common.message.MessageEntry;
 import org.ack.common.tree.Tree;
 import org.ack.persist.page.Page;
 import org.ack.pojo.Role;
@@ -15,11 +16,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +84,27 @@ public class UserController extends AckPageController<User, Long> {
 	}
 
 	/**
+	 * 单用户
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/findByLoginName")
+	@AckPermission(value = "user:add or user:update")
+	@ResponseBody
+	public Integer findByLoginName(HttpServletRequest request,
+						 HttpServletResponse response, User user) {
+		User u = userServiceImpl.findUserByLoginName(user.getLoginName());
+		if(null == u){
+			return 0;
+
+		} else {
+			return 1;
+		}
+	}
+
+	/**
 	 * 修改页面
 	 *
 	 * @param request
@@ -87,11 +112,25 @@ public class UserController extends AckPageController<User, Long> {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/edit/ui")
-	@AckPermission(value = "user:list")
-	public String editUI(HttpServletRequest request,
+	@RequestMapping(value = "/add/ui")
+	@AckPermission(value = "user:add")
+	public String addUI(HttpServletRequest request,
 						 HttpServletResponse response, Model model) {
-		return "user/user-edit";
+		return "user/userEdit";
+	}
+
+	/**
+	 * 修改页面
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/edit/ui/{id}")
+	@AckPermission(value = "user:update")
+	public String editUI(HttpServletRequest request,
+						 HttpServletResponse response, @PathVariable Integer id) {
+		return "user/userEdit";
 	}
 
 	/**
@@ -216,11 +255,11 @@ public class UserController extends AckPageController<User, Long> {
 			@ModelAttribute() User t,
 			@RequestParam(required = false, defaultValue = "1") int draw,
 			@RequestParam(required = false, defaultValue = "1") int start,
-			@RequestParam(required = false, defaultValue = "10") int count,
+			@RequestParam(required = false, defaultValue = "10") int length,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		return super.dataTable(request, response, model, map, t, start, count,
+		return super.dataTable(request, response, model, map, t, start, length,
 				draw, orderColumn, orderType);
 	}
 
@@ -233,13 +272,24 @@ public class UserController extends AckPageController<User, Long> {
 		return super.findById(request, response, model, id);
 	}
 
-	@RequestMapping(value = "/insert")
+	@RequestMapping(value = "/add")
 	@AckPermission(value = "user:add")
 	@ResponseBody
-	@Override
-	public Integer insert(HttpServletRequest request,
-						  HttpServletResponse response, Model model, User t) {
-		return super.insert(request, response, model, t);
+	public MessageEntry MessageEntry(HttpServletRequest request,
+						  HttpServletResponse response, Model model,
+						  @Valid User t, BindingResult result) {
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new MessageEntry(0, msg);
+		}
+
+		int r = userServiceImpl.insert(t);
+		return new MessageEntry(r, "");
 	}
 
 	@RequestMapping(value = "/del/{id}")
@@ -255,9 +305,20 @@ public class UserController extends AckPageController<User, Long> {
 	@AckPermission(value = "user:update")
 	@ResponseBody
 	@Override
-	public Integer edit(HttpServletRequest request,
-						HttpServletResponse response, Model model, User t) {
-		return super.edit(request, response, model, t);
+	public MessageEntry edit(HttpServletRequest request,
+						HttpServletResponse response, Model model,
+						@Valid User t, BindingResult result) {
+		boolean b = result.hasErrors();
+		if (b) {
+			FieldError fe = result.getFieldError();
+			String msg = fe.getDefaultMessage();
+			if (logger.isDebugEnabled()) {
+				logger.debug("表单验证错误  : {}", msg);
+			}
+			return new MessageEntry(0, msg);
+		}
+		int r = userServiceImpl.update(t);
+		return new MessageEntry(r, "");
 	}
 
 	@RequestMapping(value = "/password/reset")

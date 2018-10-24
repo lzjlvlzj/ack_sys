@@ -113,7 +113,7 @@ Brand.eidtUI = function(id) {
             $("#optionFlag",Brand.document).val("0");
         });
     }
-}
+};
 
 /**
  * 编辑操作
@@ -147,7 +147,7 @@ Brand.eidt = function(flag) {
 
     });
 
-}
+};
 /**
  * 删除
  *

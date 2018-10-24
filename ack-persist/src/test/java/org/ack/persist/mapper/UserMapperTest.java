@@ -119,10 +119,14 @@ public class UserMapperTest extends BaseTest {
 	@Test
 	public void testInsert() {
 		User user = new User();
-		user.setLoginName("zhangsan");
+		user.setLoginName("goujian");
 		user.setPassword("123");
-		user.setSurname("张");
-		user.setName("三");
+		user.setSalt("689");
+		user.setPhone("123654");
+		user.setAddress("北京市朝阳区");
+		user.setSurname("勾");
+		user.setName("贱");
+		user.setStatus(0);
 		user.setCreateTime(new Date());
 
 		Integer r = userMapper.insert(user);
