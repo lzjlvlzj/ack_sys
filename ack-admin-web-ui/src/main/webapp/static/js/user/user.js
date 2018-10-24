@@ -9,19 +9,50 @@ User.init = function() {
 	User.showList();
 	//绑定事件
 	User.bind();
-}
+};
 
 User.eidtUI = function (id){
 	alert("修改操作 : " + id);
-}
+};
 
 User.del = function (id){
 	alert("删除操作 : " + id);
-}
+};
 
 User.setRole = function(id){
 	User.userRoleUI(id);
-}
+};
+/**
+ * 重置密码
+ * @param id
+ */
+User.resetPassword = function(id){
+	if(!id){
+		return ;
+	}
+    var url = "/user/password/reset";
+    var data = {};
+    data.id = id;
+    var option = {fun : {}};
+    option.header = "重置结果";
+    //
+    option.content = "重置成功";
+    //option.fun.selector = ".ack-modal-ok-btn";
+    //点击弹框"确定"的回调操作
+    //option.fun.callback = function(){};
+    AckTool.postReq(data, url, function(obj) {
+        if (obj == 1) {
+            option.content = "重置成功";
+            option.headerCss = "ack-medal-header-green";
+        } else {
+            option.content = "重置失败,请联系管理员。";
+            option.headerCss = "ack-medal-header-red";
+        }
+        var modal = User.modal.modalTemplate(option);
+        modal.modal('show');
+    });
+
+};
 
 /**
  * 绑定事件
@@ -39,6 +70,11 @@ User.bind = function() {
     	var id = $(this).parents("tr").attr("id");
     	User.del(id);
 	});
+    //设置角色
+    table.on("click",".ack-modal-user-reset-password-btn", function(){
+        var id = $(this).parents("tr").attr("id");
+        User.resetPassword(id);
+    });
 	//设置角色
 	table.on("click",".ack-simple-btn-user-role",function(){
 		var id = $(this).parents("tr").attr("id");
@@ -54,7 +90,9 @@ User.bind = function() {
 	ackModal.on("click",".ack-modal-user-role-save-btn", function(){
 		User.setRoles();
 	});
-}
+
+
+};
 
 
 User.config = function (){

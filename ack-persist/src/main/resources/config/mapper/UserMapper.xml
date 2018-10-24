@@ -130,6 +130,8 @@
 		id,
 		loginName,
 		password,
+		salt,
+		password,
 		surname,
 		name,
 		status,
@@ -144,6 +146,8 @@
 		SELECT
 		id,
 		loginName,
+		password,
+		salt,
 		surname,
 		name,
 		status,

@@ -12,6 +12,9 @@ import org.ack.pojo.User;
 import org.ack.service.PermissionService;
 import org.ack.service.RoleService;
 import org.ack.service.UserService;
+import org.ack.util.MD5Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,9 @@ import java.util.*;
 @Service
 public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		UserService {
+
+    private static final Logger logger = LoggerFactory
+            .getLogger(UserServiceImpl.class);
 
 	/**
 	 * 存放
@@ -212,6 +218,27 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		return set;
 	}
 
+	@Override
+	public Integer updateUserPassword(User user, int flag) {
+		String pass = user.getPassword();
+		String oldPassword = user.getOldPassword();
+
+		user = userMapper.findById(user.getId());
+        //检查老密码是否正确
+		if(flag == 1){
+			String oldPass = MD5Util.md5(oldPassword + user.getSalt());
+			if(!oldPass.equals(user.getPassword())){
+				logger.info("用户{}老密码不正确", user.getId());
+				return 2;
+			}
+		}
+		logger.info("用户{}当前盐值:{}", user.getId(), user.getSalt());
+		String newPass = MD5Util.md5(pass + user.getSalt());
+		logger.info("加密后的新密码:{}", newPass);
+		user.setPassword(newPass);
+		return update(user);
+	}
+
 	private int findMaxWeight(Set<Role> roles) {
 		int max = 0;
 		for(Role role : roles){
@@ -222,5 +249,9 @@ public class UserServiceImpl extends AckMapperServiceImpl<User, Long> implements
 		}
 		return max;
 	}
+
+
+
+
 
 }

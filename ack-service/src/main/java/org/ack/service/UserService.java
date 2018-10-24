@@ -90,4 +90,10 @@ public interface UserService extends AckMapperService<User, Long> {
 	 */
 	Set<User> findUserByRoleId(int roleId);
 
+	/**
+	 * 修改密码
+	 * @param user
+	 * @return
+	 */
+    Integer updateUserPassword(User user, int flag);
 }

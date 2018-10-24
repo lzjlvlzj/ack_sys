@@ -312,7 +312,7 @@
 								</li>
 
 								<li>
-									<a href="profile.html">
+									<a href="#" id="reset-password-a">
 										<i class="ace-icon fa fa-user"></i>
 										Profile
 									</a>

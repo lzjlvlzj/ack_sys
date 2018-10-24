@@ -13,6 +13,14 @@ AckSystem.user = {
 		AckSystem.user.message();
 		AckSystem.user.email();
 		AckSystem.user.info();
+        AckSystem.user.setting();
+	},
+	/**用户设置*/
+	setting : function(){
+        $("#reset-password-a").click(function(){
+        	var url = "/user/password/update/ui";
+            AckSystem.iframe(url);
+		});
 	},
 	/**TODO 代办信息**/
 	task : function(){

@@ -28,7 +28,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/3part/ace/css/ace-ie.min.css" />
 <![endif]-->
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/3part/bootstrapSwitch/cssbootstrap3/bootstrap-switch.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/3part/bootstrapSwitch/css/bootstrap3/bootstrap-switch.css" />
 
 <!-- inline styles related to this page -->
 

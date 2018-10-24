@@ -252,7 +252,7 @@ Stock.del = function(id){
     var modal = this.modal.modalTemplate(option);
     modal.modal('show');
 
-}
+};
 
 /**
  * 绑定事件

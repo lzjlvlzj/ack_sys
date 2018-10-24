@@ -27,7 +27,7 @@ public class ReturnsMapperTest extends BaseTest{
         returns.setClientId(31);
         returns.setAmount(3);
         returns.setUserId(8L);
-        returns.setProductId(1L);
+        returns.setProductId(1);
         returns.setRemark("客户店体转让");
         returns.setCreateTime(new Date());
 

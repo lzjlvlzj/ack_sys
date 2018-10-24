@@ -1,22 +1,22 @@
 package org.ack.service.impl;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ack.pojo.Menu;
 import org.ack.pojo.Permission;
 import org.ack.pojo.Role;
 import org.ack.pojo.User;
 import org.ack.service.UserService;
+import org.ack.util.MD5Util;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:serviceSpringContext.xml")
@@ -26,6 +26,21 @@ public class UserServiceImplTest {
 	UserService userServiceImpl;
 	
 	public final ObjectMapper mapper = new ObjectMapper();
+
+	@Test
+	public void updateUserPassword(){
+        User user = new User();
+        user.setId(8L);
+        user.setPassword("123456");
+        String s = MD5Util.md5("123456" + "689");
+		System.out.println(s);
+
+        userServiceImpl.updateUserPassword(user);
+
+		user = userServiceImpl.findById(8L);
+		System.out.println(user.getPassword());
+
+	}
 	
 	@Test
 	public void testFindMenuByUser() throws JsonProcessingException{

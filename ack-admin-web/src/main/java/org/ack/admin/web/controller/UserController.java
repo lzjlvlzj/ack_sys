@@ -260,4 +260,34 @@ public class UserController extends AckPageController<User, Long> {
 		return super.edit(request, response, model, t);
 	}
 
+	@RequestMapping(value = "/password/reset")
+	@AckPermission(value = "user:pass")
+	@ResponseBody
+	public Integer resetPassword(User user){
+		user.setPassword("123456");
+		return userServiceImpl.updateUserPassword(user, 0);
+	}
+
+	/**
+	 * 密码修改页面
+	 *
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/password/update/ui")
+	public String updatePasswordUI(HttpServletRequest request,
+							HttpServletResponse response, Model model) {
+		return "user/userPass";
+	}
+
+	@RequestMapping(value = "/password/update")
+	@ResponseBody
+	public Integer updatePassword(HttpServletRequest request, User user){
+		User u = getCurrentUser(request);
+		user.setId(u.getId());
+		return userServiceImpl.updateUserPassword(user, 1);
+	}
+
 }

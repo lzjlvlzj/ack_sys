@@ -118,6 +118,7 @@ AckTool.optionButton = {
 		var update = prefix + ":update";//修改
 		var del = prefix + ":delete";//删除
 		var userRole = "user:role";//用户添加角色
+		var userPass = "user:pass";
 		var roleMenu = "role:menu";//用户添加角
 		var clientRecharge = "client:recharge";//充值
         var clientTrade = "client:addtrade";//销售单
@@ -130,8 +131,9 @@ AckTool.optionButton = {
 		array[update] = AckTool.optionButton.defaultButton('修改操作', 'btn btn-xs btn-info ack-simple-btn-edit', 'fa-pencil');
 		array[del] = AckTool.optionButton.defaultButton('删除操作', 'btn btn-xs btn-danger ack-simple-btn-del', 'fa-trash-o');
 		if("user" == prefix){
-			array[userRole] = AckTool.optionButton.defaultButton('添加角色', 'btn btn-xs btn-info ack-simple-btn-user-role', 'fa-circle-o');	
-		}
+			array[userRole] = AckTool.optionButton.defaultButton('添加角色', 'btn btn-xs btn-info ack-simple-btn-user-role', 'fa-circle-o');
+            array[userPass] = AckTool.optionButton.defaultButton('重置密码', 'btn btn-xs btn-info ack-modal-user-reset-password-btn', 'fa-key');
+        }
 		if("role" == prefix){
 			array[roleMenu] = AckTool.optionButton.defaultButton('添加菜单', 'btn btn-xs btn-info ack-simple-btn-role-menu', 'fa-circle-o');
 		}

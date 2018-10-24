@@ -21,6 +21,7 @@ public class User implements Serializable {
 	private String surname;                // 姓
 	private String name;                   // 名字
 	private Integer status;                // 用户状态 0 ： 可用 , 1 禁用
+	private String oldPassword;            // 老密码
 	private String password;               // 密码
 	private String roleIds;                // 角色id逗号分隔
 	private Date createTime;               // 创建时间
@@ -92,6 +93,14 @@ public class User implements Serializable {
 	}
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 
 	@Override
