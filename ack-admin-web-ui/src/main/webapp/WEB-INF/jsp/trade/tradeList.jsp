@@ -14,6 +14,34 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<h3 class="header smaller lighter blue">交易管理</h3>
+			<div class="" id="query-div" style="display: none">
+				<form class="form-horizontal" role="form" id="ack-query-form">
+					<input type="hidden" name="clientId" id="clientId" value="">
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right"
+							   for="sellerId"> 美导登录名 </label>
+
+						<div class="col-sm-2">
+							<input type="text" id="sellerId" placeholder="美导登录名"
+								   name="sellerId" value="" class="col-xs-10 col-sm-8"/>
+						</div>
+						<div class="col-sm-2">
+							<input type="text" id="startTime" placeholder="开始时间"
+								   name="startTime" value="" class="col-xs-10 col-sm-8"/>
+						</div>
+						<div class="col-sm-2">
+							<input type="text" id="endTime" placeholder="结束时间"
+								   name="endTime" value="" class="col-xs-10 col-sm-8"/>
+						</div>
+						<div class="col-sm-3">
+							<input type="button" class="btn btn-primary" id="trade-statistics" onclick="Trade.statistics();" value="统计" size="4"></input>
+						</div>
+
+					</div>
+
+				</form>
+			</div>
+			<div class="space-3"></div>
 			<table id="simple-table" class="table  table-bordered table-hover">
 				<thead>
 					<tr role="row">
@@ -22,6 +50,10 @@
 							rowspan="1" colspan="1">流水号</th>
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">客户名称</th>
+						<th class="hidden-480 sorting" tabindex="0"
+							aria-controls="dynamic-table" rowspan="1" colspan="1">美导账号</th>
+						<th class="hidden-480 sorting" tabindex="0"
+							aria-controls="dynamic-table" rowspan="1" colspan="1">美导老师</th>
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">状态</th>
 						<th class="sorting" rowspan="1" colspan="1"
@@ -47,10 +79,10 @@
 		</div>
 
 		<!-- /.span -->
-		<div class='col-xs-12'>
+		<%--<div class='col-xs-12'>
 			<button class="btn btn-primary" id="ack-add-btn" data-toggle="modal"
 				onclick="Trade.eidtUI();">新建交易</button>
-		</div>
+		</div>--%>
 	</div>
 
 	<%@include file="../public/footer.jsp"%>

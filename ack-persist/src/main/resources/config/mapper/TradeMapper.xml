@@ -1,42 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.ack.persist.mapper.TradeMapper" >
-  <resultMap id="BaseResultMap" type="org.ack.pojo.Trade" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="number" property="number" jdbcType="VARCHAR" />
-    <result column="clientId" property="clientId" jdbcType="BIGINT" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="userId" property="userId" jdbcType="BIGINT" />
-    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <association  property="user" javaType="org.ack.pojo.User">
-      <id property="id" column="user_id"></id>
-      <result property="surname" column="user_surname"></result>
-      <result property="name" column="user_name"></result>
-    </association>
-    <association  property="client" javaType="org.ack.pojo.Client">
-      <id property="id" column="clientId"></id>
-      <result property="name" column="client_name"></result>
-      <result property="address" column="client_address"></result>
-      <result property="phone" column="client_phone"></result>
-    </association>
-    <association  property="account" javaType="org.ack.pojo.Account">
-      <id property="id" column="account_id"></id>
-      <result property="coin" column="account_coin"></result>
-    </association>
-    <association  property="logistics" javaType="org.ack.pojo.Logistics">
-      <id property="id" column="logistics_id"></id>
-      <result property="vehicle" column="logistics_vehicle"></result>
-      <result property="postMan" column="logistics_postMan"></result>
-      <result property="address" column="logistics_address"></result>
-      <result property="phone" column="logistics_phone"></result>
-    </association>
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="org.ack.persist.mapper.TradeMapper">
+    <resultMap id="BaseResultMap" type="org.ack.pojo.Trade">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="number" property="number" jdbcType="VARCHAR"/>
+        <result column="clientId" property="clientId" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="userId" property="userId" jdbcType="BIGINT"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <association property="seller" javaType="org.ack.pojo.User">
+            <id property="id" column="user1_id"></id>
+            <result property="loginName" column="user1_login_name"></result>
+            <result property="surname" column="user1_surname"></result>
+            <result property="name" column="user1_name"></result>
+        </association>
+        <association property="user" javaType="org.ack.pojo.User">
+            <id property="id" column="user_id"></id>
+            <result property="surname" column="user_surname"></result>
+            <result property="name" column="user_name"></result>
+        </association>
+        <association property="client" javaType="org.ack.pojo.Client">
+            <id property="id" column="clientId"></id>
+            <result property="name" column="client_name"></result>
+            <result property="address" column="client_address"></result>
+            <result property="phone" column="client_phone"></result>
+        </association>
+        <association property="account" javaType="org.ack.pojo.Account">
+            <id property="id" column="account_id"></id>
+            <result property="coin" column="account_coin"></result>
+        </association>
+        <association property="logistics" javaType="org.ack.pojo.Logistics">
+            <id property="id" column="logistics_id"></id>
+            <result property="vehicle" column="logistics_vehicle"></result>
+            <result property="postMan" column="logistics_postMan"></result>
+            <result property="address" column="logistics_address"></result>
+            <result property="phone" column="logistics_phone"></result>
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, number, clientId, status, userId, updateTime, createTime, remark
   </sql>
-  <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Long">
     SELECT
         atrd.id,
         atrd.number,
@@ -47,15 +53,16 @@
         atrd.createTime,
         atrd.remark,
         clt.`name` AS client_name,
-        clt.address AS client_address,
-        clt.phone AS client_phone,
         als.id AS logistics_id,
         als.vehicle AS logistics_vehicle,
-        als.phone AS  logistics_phone,
-        als.postMan AS  logistics_postMan,
-        als.address AS  logistics_address,
+        als.phone AS logistics_phone,
+        als.postMan AS logistics_postMan,
+        als.address AS logistics_address,
         aur.surname AS user_surname,
-        aur.name AS user_name,
+        aur.`name` AS user_name,
+        aur1.id AS user1_id,
+        aur1.surname AS user1_surname,
+        aur1.`name` AS user1_name,
         act.id AS account_id,
         act.coin AS account_coin
     FROM
@@ -64,10 +71,11 @@
     LEFT JOIN ack_trade_logistics atl ON atl.tradeId = atrd.id
     LEFT JOIN ack_logistics als ON als.id = atl.logisticsId
     LEFT JOIN ack_user aur ON aur.id = atrd.userId
+    LEFT JOIN ack_user aur1 ON aur1.id = clt.userId
     LEFT JOIN ack_account act ON act.clientId = atrd.clientId
     where atrd.id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
    SELECT
         atrd.id,
         atrd.number,
@@ -78,15 +86,16 @@
         atrd.createTime,
         atrd.remark,
         clt.`name` AS client_name,
-        clt.address AS client_address,
-        clt.phone AS client_phone,
         als.id AS logistics_id,
         als.vehicle AS logistics_vehicle,
-        als.phone AS  logistics_phone,
-        als.postMan AS  logistics_postMan,
-        als.address AS  logistics_address,
+        als.phone AS logistics_phone,
+        als.postMan AS logistics_postMan,
+        als.address AS logistics_address,
         aur.surname AS user_surname,
-        aur.name AS user_name,
+        aur.`name` AS user_name,
+        aur1.id AS user1_id,
+        aur1.surname AS user1_surname,
+        aur1.`name` AS user1_name,
         act.id AS account_id,
         act.coin AS account_coin
     FROM
@@ -95,14 +104,15 @@
     LEFT JOIN ack_trade_logistics atl ON atl.tradeId = atrd.id
     LEFT JOIN ack_logistics als ON als.id = atl.logisticsId
     LEFT JOIN ack_user aur ON aur.id = atrd.userId
+    LEFT JOIN ack_user aur1 ON aur1.id = clt.userId
     LEFT JOIN ack_account act ON act.clientId = atrd.clientId
     where atrd.id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteById" parameterType="java.lang.Long" >
+    <delete id="deleteById" parameterType="java.lang.Long">
     delete from ack_trade
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="org.ack.pojo.Trade" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="org.ack.pojo.Trade" useGeneratedKeys="true" keyProperty="id">
     insert into ack_trade (id, number, clientId, 
       status, userId, updateTime, 
       createTime, remark)
@@ -110,83 +120,83 @@
       #{status,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{createTime,jdbcType=TIMESTAMP}, #{remark})
   </insert>
-  <insert id="insertSelective" parameterType="org.ack.pojo.Trade" >
-    insert into ack_trade
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="number != null" >
-        number,
-      </if>
-      <if test="clientId != null" >
-        clientId,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="userId != null" >
-        userId,
-      </if>
-      <if test="updateTime != null" >
-        updateTime,
-      </if>
-      <if test="createTime != null" >
-        createTime,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="number != null" >
-        #{number,jdbcType=VARCHAR},
-      </if>
-      <if test="clientId != null" >
-        #{clientId,jdbcType=BIGINT},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="update" parameterType="org.ack.pojo.Trade" >
-    update ack_trade
-    <set >
-      <if test="number != null" >
-        number = #{number,jdbcType=VARCHAR},
-      </if>
-      <if test="clientId != null" >
-        clientId = #{clientId,jdbcType=BIGINT},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        userId = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="updateTime != null" >
-        updateTime = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createTime != null" >
-        createTime = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR}
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateById" parameterType="org.ack.pojo.Trade" >
+    <insert id="insertSelective" parameterType="org.ack.pojo.Trade">
+        insert into ack_trade
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="clientId != null">
+                clientId,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="userId != null">
+                userId,
+            </if>
+            <if test="updateTime != null">
+                updateTime,
+            </if>
+            <if test="createTime != null">
+                createTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="clientId != null">
+                #{clientId,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="org.ack.pojo.Trade">
+        update ack_trade
+        <set>
+            <if test="number != null">
+                number = #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="clientId != null">
+                clientId = #{clientId,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                userId = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateById" parameterType="org.ack.pojo.Trade">
     update ack_trade
     set number = #{number,jdbcType=VARCHAR},
       clientId = #{clientId,jdbcType=BIGINT},
@@ -198,44 +208,53 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
-          resultMap="BaseResultMap">
-    SELECT
-        atrd.id,
-        atrd.number,
-        atrd.clientId,
-        atrd.STATUS,
-        atrd.userId,
-        atrd.updateTime,
-        atrd.createTime,
-        atrd.remark,
-        clt.`name` AS client_name,
-        als.id AS logistics_id,
-        als.vehicle AS logistics_vehicle,
-        als.phone AS  logistics_phone,
-        als.postMan AS  logistics_postMan,
-        als.address AS  logistics_address,
-        aur.surname AS user_surname,
-        aur.name AS user_name
-    FROM
-        ack_trade atrd
-    LEFT JOIN ack_client clt ON clt.id = atrd.clientId
-    LEFT JOIN ack_trade_logistics atl ON atl.tradeId = atrd.id
-    LEFT JOIN ack_logistics als ON als.id = atl.logisticsId
-    LEFT JOIN ack_user aur ON aur.id = atrd.userId
-    <where>
-      1 = 1
-      <if test="condition.clientId != null and condition.clientId !=''">
-        and atrd.clientId=#{condition.clientId}
-      </if>
-      <if test="condition.status != null and condition.status !='' or 0 == condition.status">
-        and atrd.STATUS=#{condition.status}
-      </if>
-      <if test="condition.createTime != null and condition.createTime !=''">
-        and atrd.createTime=#{condition.createTime}
-      </if>
+    <select id="findInterceptorPageList" parameterType="org.ack.persist.page.Page"
+            resultMap="BaseResultMap">
+        SELECT
+            atrd.id,
+            atrd.number,
+            atrd.clientId,
+            atrd. STATUS,
+            atrd.userId,
+            atrd.updateTime,
+            atrd.createTime,
+            atrd.remark,
+            clt.`name` AS client_name,
+            als.id AS logistics_id,
+            als.vehicle AS logistics_vehicle,
+            als.phone AS logistics_phone,
+            als.postMan AS logistics_postMan,
+            als.address AS logistics_address,
+            aur.surname AS user_surname,
+            aur.`name` AS user_name,
+            aur1.id AS user1_id,
+            aur1.loginName AS user1_login_name,
+            aur1.surname AS user1_surname,
+            aur1.`name` AS user1_name
 
-    </where>
+        FROM
+            ack_trade atrd
+        LEFT JOIN ack_client clt ON clt.id = atrd.clientId
+        LEFT JOIN ack_trade_logistics atl ON atl.tradeId = atrd.id
+        LEFT JOIN ack_logistics als ON als.id = atl.logisticsId
+        LEFT JOIN ack_user aur ON aur.id = atrd.userId
+        LEFT JOIN ack_user aur1 ON aur1.id = clt.userId
+        <where>
+            1 = 1
+            <if test="condition.clientId != null and condition.clientId !=''">
+                and atrd.clientId=#{condition.clientId}
+            </if>
+            <if test="condition.status != null and condition.status !='' or 0 == condition.status">
+                and atrd.STATUS=#{condition.status}
+            </if>
+            <if test="condition.createTime != null and condition.createTime !=''">
+                and atrd.createTime=#{condition.createTime}
+            </if>
+            <if test="condition.sellerId != null and condition.sellerId !=''">
+                and clt.userId=#{condition.sellerId}
+            </if>
 
-  </select>
+        </where>
+
+    </select>
 </mapper>

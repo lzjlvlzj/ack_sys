@@ -27,6 +27,28 @@ AckTool.iFrameHeight = function() {
 		}
 	}
 };
+
+AckTool.auth = {
+    /**
+	 * 判断单个权限
+     * @param authStr
+     */
+	check : function(authStr){
+        var permissions = parent.AckSystem.user.permissions();
+        var len = permissions.length;
+        var b = false;
+        for(var i = 0; i < len; i++){
+        	var item = permissions[i];
+        	if(item === authStr){
+        		b = true;
+        		break;
+			}
+		}
+		return b;
+
+	}
+};
+
 AckTool.optionButton = {
 	/**
 	 * checkbox

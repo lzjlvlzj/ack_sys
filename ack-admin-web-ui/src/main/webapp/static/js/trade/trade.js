@@ -28,6 +28,20 @@ Trade.getOneTr = function(n, data, option) {
     //客户名称
     var clientName = $("<td>"+data.client.name+"</td>");
     tr.append(clientName);
+    var seller = data.seller;
+    var sellerName = "";
+    var sellAccount = "";
+    if(seller){
+        sellerName = seller.surname + seller.name;
+        sellAccount = seller.loginName;
+    }
+    //美导账号
+    var sellerAccount = $("<td>"+sellAccount+"</td>");
+    tr.append(sellerAccount);
+    //美导老师
+
+    var sellName = $("<td>"+sellerName+"</td>");
+    tr.append(sellName);
     //状态
     var status = data.status;
     var statusStr = "";
@@ -124,6 +138,12 @@ Trade.showWheelMan = function(uid){
             select.append(option);
         }
     });
+};
+/***
+ * 统计功能
+ */
+Trade.statistics = function(){
+   alert("统计");
 };
 /**
  * 编辑页面
@@ -462,8 +482,22 @@ Trade.bind = function() {
     });
 
 };
+/**
+ * 页面按钮权限判断
+ *
+ * */
+Trade.pageButtonAuth = function(){
+   var div = $("#query-div");
+   var authStr = "trade:statistics";
+   var b = AckTool.auth.check(authStr);
+   if(b){
+      div.show();
+   }
+
+};
 
 Trade.init = function (){
+    Trade.pageButtonAuth();
     Trade.showList();
     Trade.bind();
 };

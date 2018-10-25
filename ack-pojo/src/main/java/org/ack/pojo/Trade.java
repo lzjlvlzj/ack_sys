@@ -18,13 +18,16 @@ public class Trade {
 
     private Long userId;
 
+    private Long sellerId;
+
     private Date updateTime;
 
     private Date createTime;
 
     private String remark;
 
-    private User user;
+    private User user;//记录人员
+    private User seller; //美导老师
     private Client client;
     private Account account;
     private TradeItem tradeItem;
@@ -159,6 +162,22 @@ public class Trade {
 
     public void setTradeItems(List<TradeItem> tradeItems) {
         this.tradeItems = tradeItems;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
     }
 
     @Override
