@@ -24,6 +24,8 @@ public class Client implements Serializable {
     @NotNull(message="{client.userId.null}")
     private Long userId;
     private User user;
+    private Integer accountId;
+    private Account account;
 
 
     public Integer getId() {
@@ -104,6 +106,22 @@ public class Client implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

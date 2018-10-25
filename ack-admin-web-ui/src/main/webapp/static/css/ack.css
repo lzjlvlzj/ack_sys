@@ -55,6 +55,9 @@ body {
     padding-left: 12px;
     margin-bottom: 1px;
 }
+.ack-modal-width {
+    width: 60%;
+}
 
 .ack_footer {
 	border-top-left-radius: 0;

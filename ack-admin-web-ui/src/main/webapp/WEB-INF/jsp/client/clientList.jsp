@@ -20,6 +20,8 @@
 						<th class="sorting_disabled"  aria-label="">序号</th>
 						<th class="sorting" tabindex="0" aria-controls="dynamic-table"
 							rowspan="1" colspan="1">客户名称</th>
+						<th class="sorting" tabindex="0" aria-controls="dynamic-table"
+							rowspan="1" colspan="1">账户余额</th>
 						<th class="hidden-480 sorting" tabindex="0"
 							aria-controls="dynamic-table" rowspan="1" colspan="1">地址</th>
 						<th class="hidden-480 sorting" tabindex="0"

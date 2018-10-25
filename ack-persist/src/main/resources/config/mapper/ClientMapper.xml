@@ -16,6 +16,10 @@
 			<result property="surname" column="user_surname"></result>
 			<result property="name" column="user_name"></result>
 		</association>
+		<association  property="account" javaType="org.ack.pojo.Account">
+			<id property="id" column="account_id"></id>
+			<result property="coin" column="account_coin"></result>
+		</association>
 	</resultMap>
 
 	<sql id="base_column">
@@ -160,20 +164,23 @@
 		resultMap="ClientResultMap">
 		SELECT
 			ac.id,
-			ac.NAME,
+			ac. NAME,
 			ac.address,
 			ac.phone,
 			ac.qq,
 			ac.weiXin,
-		    ac.userId,
+			ac.userId,
 			ac.remark,
 			ac.createTime,
 			aur.id AS user_id,
 			aur.surname AS user_surname,
-			aur.name AS user_name
+			aur. NAME AS user_name,
+			cnt.id as account_id,
+			cnt.coin as account_coin
 		FROM
 			ack_client ac
 		LEFT JOIN ack_user aur ON ac.userId = aur.id
+		LEFT JOIN ack_account cnt ON cnt.clientId = ac.id
 		<where>
 		    1 = 1
 		    <if test="condition.name != null and condition.name !=''">
@@ -184,6 +191,9 @@
 		    </if>
 			<if test="condition.qq != null and condition.qq !=''">
 				and ac.qq=#{condition.qq}
+			</if>
+			<if test="condition.userId != null and condition.userId !=''">
+				and ac.userId=#{condition.userId}
 			</if>
 		</where>
 		

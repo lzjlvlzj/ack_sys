@@ -47,11 +47,12 @@ public class ClientServiceImpl extends AckMapperServiceImpl<Client, Integer>
 		/**角色id固定更改数据库注意*/
 		Set<User> userSet = new HashSet<>();
         //查询销售
-		int roleId = 6;
+		/*int roleId = 6;//普通员工
 		Set<User> set1 = userServiceImpl.findUserByRoleId(roleId);
-		roleId = 10;
+		*/
+		int roleId = 10;
 		Set<User> set2 = userServiceImpl.findUserByRoleId(roleId);
-		userSet.addAll(set1);
+		//userSet.addAll(set1);
 		userSet.addAll(set2);
 		return userSet;
 	}

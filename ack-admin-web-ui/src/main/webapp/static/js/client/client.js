@@ -25,6 +25,13 @@ Client.getOneTr = function(n, data, option) {
     //客户名称
     var ClientName = $("<td>"+data.name+"</td>");
     tr.append(ClientName);
+    //账号余额
+    var coinVal = 0.0;
+    if(data.account){
+        coinVal = data.account.coin;
+    }
+    var coin = $("<td>"+coinVal+"</td>");
+    tr.append(coin);
     //客户地址
     var address = $("<td>"+data.address+"</td>");
     tr.append(address);
@@ -296,8 +303,8 @@ Client.showLogistics = function(clientId){
 };
 
 Client.addProduct = function(tab, tr){
-    var prductTrLength = tab.children('tr').length;
-    if(length > 20){
+    var productTrLength = tab.children('tr').length;
+    if(productTrLength > 20){
         alert("一次最多添加20个产品，超过请分多个单子。");
         return false;
     }
@@ -305,21 +312,25 @@ Client.addProduct = function(tab, tr){
     var name = tr.find("td").eq(1).text();
     var unitPrice = tr.find("td").eq(2).text();
     var input = tr.find("td").eq(3).find("input");
+    var totalAmount = tr.find("td").eq(4).text();
     var type = 0;
     if(input.attr("checked") == "checked" || input.prop('checked')){
         type = 1;
     } else{
         type = 0;
     }
-    var amount = tr.find("td").eq(4).find("input").val();
+    var amount = tr.find("td").eq(5).find("input").val();
     if(amount=='' || amount <=0){
         alert("数量必须大于0");
         return ;
     }else if(amount > 99999){
         alert("数量太大，请分多次添加");
         return ;
+    } else if(amount > totalAmount){
+        alert("库存不足，到仓储管理添加库存");
+        return ;
     }
-    var remark = tr.find("td").eq(5).find("input").val();
+    var remark = tr.find("td").eq(6).find("input").val();
     var totalPrice = unitPrice * amount;
     totalPrice = totalPrice.toFixed(2);
 
@@ -375,9 +386,12 @@ Client.showProductList = function(data){
         }
         var isZpTd = $("<td></td>");
         isZpTd.append(div);
-        var amount = $('<input type="number" style="width: 60px;" onkeyup="AckTool.formValidator.number(this)" onafterpaste="AckTool.formValidator.number(this)">');
-        var amountTd = $("<td></td>");
-        amountTd.append(amount);
+        //库存
+        var amountTd = $("<td>"+item.amount+"</td>");
+        //要添加的数量
+        var count = $('<input type="number" style="width: 60px;" onkeyup="AckTool.formValidator.number(this)" onafterpaste="AckTool.formValidator.number(this)">');
+        var countTd = $("<td></td>");
+        countTd.append(count);
         var remark = $("<input type='text' name='remark'/>");
         var remarkTd = $("<td></td>");
         remarkTd.append(remark);
@@ -390,6 +404,7 @@ Client.showProductList = function(data){
         tr.append(unitPriceTd);
         tr.append(isZpTd);
         tr.append(amountTd);
+        tr.append(countTd);
         tr.append(remarkTd);
         tr.append(option);
         tab.append(tr);
@@ -431,7 +446,7 @@ Client.showProduct = function(){
 /**trade ui
  *@param id
  */
-Client.tradeUI = function(id ,name){
+Client.tradeUI = function(id ,name, coin){
     var url = "/client/trade/ui";
     var data = {};
     data.id = id;
@@ -439,6 +454,7 @@ Client.tradeUI = function(id ,name){
     Client.modal.open(url,data,function(){
         $("#clientId",Client.document).val(id);
         $("#name",Client.document).val(name);
+        $("#accountCoin",Client.document).val(coin);
         //显示物流
         Client.showLogistics(id);
         //显示产品
@@ -460,7 +476,6 @@ Client.trade = function(clientId){
         alert("物流信息不能为空,请给客添加物流信息。");
         return;
     }
-    console.log($("#logisticsId",Client.document).val());
     //产品明细
     var tradeItems = [];
     var tab = $("#trade-product-tab-body",Client.document);
@@ -469,6 +484,10 @@ Client.trade = function(clientId){
     if(len == 0){
         return ;
     }
+    //所以产品金额要小于账户余额
+    var totalMoney = 0;
+    var accountCoin = $("#accountCoin",Client.document).val();
+
     for(var i=0; i < len; i++){
         var tr = $(trs[i]);
         var tds = tr.find("td");
@@ -481,11 +500,16 @@ Client.trade = function(clientId){
         item.amount = tds.eq(1).text();
         //总价
         item.totalPrice = tds.eq(3).text();
+        totalMoney = parseFloat(item.totalPrice) + totalMoney;
         //是否是赠品
         item.type = tr.find("input").val();
         //备注
         item.remark = tds.eq(5).text();
         tradeItems.push(item);
+    }
+    if(totalMoney > accountCoin){
+        alert("账户余额不足，请联系客户打款充账。");
+        return;
     }
     trade.logistics = logistics;
     trade.tradeItems = tradeItems;
@@ -528,7 +552,8 @@ Client.bind = function() {
         var tr = $(this).parents("tr");
         var id = tr.attr("id");
         var name = tr.find("td").eq(1).text();
-        Client.tradeUI(id, name);
+        var coin = tr.find("td").eq(2).text();
+        Client.tradeUI(id, name, coin);
     });
 
     //充值页面

@@ -70,6 +70,7 @@ public class TradeController extends AckPageController<Trade, Long>{
 			}
 			if("SELLER".equals(abbr)){
 				map.put("status",0);
+				map.put("sellerId", user.getId());
 			}
 
 		}

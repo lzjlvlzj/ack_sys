@@ -30,10 +30,10 @@
 		ack_product(name,type,unitPrice,url,unit,code,spec,brandId,amount,remark,createTime)
 		VALUES
 		<if test="createTime != null and createTime !=''">
-			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spce},#{brandId},#{amount},#{remark},#{createTime})
+			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spec},#{brandId},#{amount},#{remark},#{createTime})
 		</if>
 		<if test="createTime == null or createTime ==''">
-			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spce},#{brandId},#{amount},#{remark},now())
+			(#{name},#{type},#{unitPrice},#{url},#{unit},#{code},#{spec},#{brandId},#{amount},#{remark},now())
 		</if>
 	</insert>
 

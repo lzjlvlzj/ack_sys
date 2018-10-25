@@ -57,7 +57,15 @@ public class ClientController extends AckPageController<Client, Integer>{
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
 		Map<String,Object> map = new HashMap<>();
-		map.put("name", t.getName());
+		User user = getCurrentUser(request);
+		Set<Role> roleSet = user.getRoles();
+		for(Role role : roleSet){
+			String abbr = role.getAbbreviation();
+			if("SELLER".equals(abbr)){
+				map.put("userId", user.getId());
+			}
+
+		}
 		return super.findPage(request, response, model, map, t, currentPage, count,
 				orderColumn, orderType);
 	}

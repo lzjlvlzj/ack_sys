@@ -87,6 +87,7 @@ public class ProductController extends AckPageController<Product, Integer>{
 			}
 			return new MessageEntry(0, msg);
 		}
+		product.setAmount(0L);//默认0
 		int r = productServiceImpl.insert(product);
 		return new MessageEntry(r , "");
 	}

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ include file="../public/common.jsp"%>
-<div class="modal-dialog">
+<div class="modal-dialog ack-modal-width">
 	<div class="modal-content">
 		<div class="modal-header no-padding">
 			<div class="ack-medal-header-default">
@@ -51,6 +51,15 @@
 						</div>
 						<div class="row form-group">
 							<label class="col-sm-3 control-label no-padding-right"
+								   for="accountCoin"> 账户余额 </label>
+							<div class="col-sm-9">
+								<input type="text" id="accountCoin" placeholder=""
+									   name="accountCoin" value="" class="col-xs-10 col-sm-8"
+									   readonly="readonly">
+							</div>
+						</div>
+						<div class="row form-group">
+							<label class="col-sm-3 control-label no-padding-right"
 								   for="remark"> 备注 </label>
 							<div class="col-sm-9">
 								<textarea class="col-xs-10 col-sm-8" id="remark"
@@ -88,10 +97,10 @@
 									rowspan="1" colspan="1">名称</th>
 								<th class="hidden-480 sorting" tabindex="0"
 									aria-controls="dynamic-table" rowspan="1" colspan="1">单价</th>
-								<%--<th class="sorting" rowspan="1" colspan="1"
-									aria-label="dynamic-table" >总价</th>--%>
 								<th class="sorting" rowspan="1" colspan="1"
 									aria-label="dynamic-table" >是否是赠品</th>
+								<th class="sorting" rowspan="1" colspan="1"
+									aria-label="dynamic-table" >库存</th>
 								<th class="hidden-480 sorting" tabindex="0"
 									aria-controls="dynamic-table" rowspan="1" colspan="1">数量</th>
 								<th class="hidden-480 sorting" tabindex="0"
