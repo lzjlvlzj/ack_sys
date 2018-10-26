@@ -59,7 +59,7 @@ public class TradeController extends AckPageController<Trade, Long>{
 			@RequestParam(required = false, defaultValue = "10") int count,
 			@RequestParam(required = false, defaultValue = "createtime") String orderColumn,
 			@RequestParam(required = false, defaultValue = "desc") String orderType) {
-		Map<String, Object> map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 		map.put("number", t.getNumber());
 		User user = getCurrentUser(request);
 		Set<Role> roleSet = user.getRoles();
