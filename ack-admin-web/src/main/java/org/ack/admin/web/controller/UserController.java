@@ -231,7 +231,6 @@ public class UserController extends AckPageController<User, Long> {
 							   HttpServletResponse response, Model model, Map<String, Object> map,
 							   User t, int currentPage,
 							   int count, String orderColumn, String orderType) {
-		User user = getCurrentUser(request);
 		// 查询条件
 		map = new HashMap<String, Object>();
 		// 构造查询page参数

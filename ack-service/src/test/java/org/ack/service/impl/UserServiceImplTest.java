@@ -35,7 +35,7 @@ public class UserServiceImplTest {
         String s = MD5Util.md5("123456" + "689");
 		System.out.println(s);
 
-        userServiceImpl.updateUserPassword(user);
+        userServiceImpl.updateUserPassword(user, 1);
 
 		user = userServiceImpl.findById(8L);
 		System.out.println(user.getPassword());

@@ -125,7 +125,6 @@ public class ExcelView extends AbstractXlsView {
      * @param trade
      */
     private void setTradeDetail(HSSFWorkbook wb, HSSFSheet sheet, Trade trade) {
-        List<TradeItem> tradeItemList = trade.getTradeItems();
         //产品细节头信息
         HSSFRow titalRow = sheet.createRow(4);
         CellStyle borderStype = this.getDetailStyle(wb);

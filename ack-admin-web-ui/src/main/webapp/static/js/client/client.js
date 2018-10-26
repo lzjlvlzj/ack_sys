@@ -313,6 +313,7 @@ Client.addProduct = function(tab, tr){
     var unitPrice = tr.find("td").eq(2).text();
     var input = tr.find("td").eq(3).find("input");
     var totalAmount = tr.find("td").eq(4).text();
+    totalAmount = parseInt(totalAmount);
     var type = 0;
     if(input.attr("checked") == "checked" || input.prop('checked')){
         type = 1;
@@ -320,6 +321,7 @@ Client.addProduct = function(tab, tr){
         type = 0;
     }
     var amount = tr.find("td").eq(5).find("input").val();
+    amount = parseInt(amount);
     if(amount=='' || amount <=0){
         alert("数量必须大于0");
         return ;
