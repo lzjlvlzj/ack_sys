@@ -9,8 +9,8 @@
 		<artifactId>ack-sys</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>ack-sys-cms-service</artifactId>
-	<name>ack-sys-cms-service</name>
+	<artifactId>ack-sys-cms-config</artifactId>
+	<name>ack-sys-cms-config</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,12 +23,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.ack.sys</groupId>
-			<artifactId>ack-sys-service</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.ack.sys</groupId>
-			<artifactId>ack-sys-cms-pojo</artifactId>
+			<artifactId>ack-sys-config</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

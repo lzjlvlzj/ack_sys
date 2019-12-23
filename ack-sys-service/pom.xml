@@ -19,5 +19,10 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+			<groupId>org.ack.sys</groupId>
+			<artifactId>ack-sys-persist</artifactId>
+			<version>${project.version}</version>
+		</dependency>
   </dependencies>
 </project>

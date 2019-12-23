@@ -69,5 +69,6 @@
     <module>ack-sys-util</module>
     <module>ack-sys-config</module>
     <module>ack-sys-cms-web</module>
+    <module>ack-sys-cms-config</module>
   </modules>
 </project>
