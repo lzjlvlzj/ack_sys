@@ -18,11 +18,11 @@ public class Menu extends BasePojo implements Serializable {
 
 	private static final long serialVersionUID = 5674586623836846991L;
 	private Integer id;
-	private String name;
-	private String url;
+	private String name;                      // 菜单名称
+	private String url;                       // vue的路由地址
 	private String icon;
 	private String perms;
-	private Integer type;
+	private Integer type;                     // 0 : 目录; 1:菜单; 2:按钮
 	private Integer level;
 	private Integer orderNum;
 	private Integer creator;

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.sys.cms.persist.mapper.MenuMapper">
+	<resultMap id="BaseResultMap"
+		type="org.ack.sys.cms.pojo.Menu">
+		<id column="id" property="id" />
+		<id column="name" property="name" />
+		<result column="url" property="url" />
+		<result column="icon" property="icon" />
+		<result column="perms" property="perms" />
+		<result column="type" property="type" />
+		<result column="level" property="level" />
+		<result column="orderNum" property="orderNum" />
+		<result column="creator" property="creator" />
+		<result column="createTime" property="createTime" />
+		<result column="modifier" property="modifier" />
+		<result column="updateTime" property="updateTime" />
+		<result column="parentId" property="parentId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, url, icon, perms, type, level, orderNum, creator, createtime, modifier, updateTime, parentId
+	</sql>
+	<insert id="insert">
+		INSERT INTO cms_menu (name, url, icon, perms, type, level, orderNum, creator, createtime, modifier, updateTime, parentId)
+		VALUES (#{name}, #{url}, #{icon}, #{perms}, #{type}, #{level}, #{orderNum}, #{creator}, #{createTime}, #{modifier}, #{updateTime}, #{parentId})
+	</insert>
+	<select id="findById" parameterType="int" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_menu
+	    where id = #{id}
+	</select>
+	<select id="findMenuByUser">
+	</select>
+
+</mapper>

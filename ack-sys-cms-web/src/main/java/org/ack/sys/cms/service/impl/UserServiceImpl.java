@@ -1,5 +1,8 @@
 package org.ack.sys.cms.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.ack.sys.base.persist.page.PageDao;
 import org.ack.sys.base.service.impl.PageServiceImpl;
 import org.ack.sys.cms.persist.mapper.UserMapper;
@@ -29,6 +32,22 @@ public class UserServiceImpl extends PageServiceImpl<User, Integer> implements U
 	public User findUserByUserName(String username) {
 		logger.debug("username = {}" , username);
 		return userMapper.findUserByUserName(username);
+	}
+
+	@Override
+	public List<String> findUserPermissions(String username) {
+		List<String> list = new ArrayList<String>();
+		list.add("sys:user:view");
+		list.add("sys:user:add");
+		list.add("sys:user:edit");
+		list.add("sys:user:delete");
+		list.add("sys:role:view");
+		list.add("sys:role:view");
+		list.add("sys:role:add");
+		list.add("sys:role:edit");
+		list.add("sys:role:delete");
+		
+		return list;
 	}
 
 

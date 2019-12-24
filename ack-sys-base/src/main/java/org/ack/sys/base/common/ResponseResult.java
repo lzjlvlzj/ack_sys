@@ -3,6 +3,7 @@ package org.ack.sys.base.common;
 public class ResponseResult {
     private int code;
     private Object data;
+    private String msg;
 
     public ResponseResult() {
     }
@@ -10,6 +11,7 @@ public class ResponseResult {
     public ResponseResult(int code, Object data) {
         this.code = code;
         this.data = data;
+        this.msg = "";
     }
 
     public int getCode() {
@@ -28,7 +30,15 @@ public class ResponseResult {
         this.data = data;
     }
 
-    @Override
+    public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	@Override
     public String toString() {
         return "ResponseResult{" +
                 "code=" + code +

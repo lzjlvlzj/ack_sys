@@ -25,6 +25,36 @@ class MenuMapperTest extends BaseTest {
 	}
 	
 	@Test
+	public void testInitTestData() {
+		Date date = new Date();
+		Integer userId = 2;
+		Menu menu = menuMapper.findById(1);
+		Menu userMenu = new Menu();
+		userMenu.setName("用戶管理");
+		userMenu.setIcon("el-icon-service");
+		userMenu.setCreator(userId);
+		userMenu.setCreateTime(date);
+		userMenu.setParentId(menu.getId());
+		userMenu.setLevel(1);
+		userMenu.setOrderNum(1);
+		userMenu.setModifier(userId);
+		userMenu.setUpdateTime(date);
+		userMenu.setType(0);
+		
+		Menu roleMenu = new Menu();
+		roleMenu.setName("用戶管理");
+		roleMenu.setIcon("el-icon-service");
+		roleMenu.setCreator(userId);
+		roleMenu.setCreateTime(date);
+		roleMenu.setParentId(menu.getId());
+		roleMenu.setLevel(1);
+		roleMenu.setOrderNum(1);
+		roleMenu.setModifier(userId);
+		roleMenu.setUpdateTime(date);
+		roleMenu.setType(0);
+	}
+	
+	@Test
 	void testCount() {
 		fail("Not yet implemented");
 	}

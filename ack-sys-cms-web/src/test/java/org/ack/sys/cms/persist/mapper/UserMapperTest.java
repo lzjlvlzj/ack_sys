@@ -95,7 +95,9 @@ class UserMapperTest extends BaseTest{
 
 	@Test
 	void testFindById() {
-		fail("Not yet implemented");
+		int id = 2;
+		User user = userMapper.findById(id);
+		assertNotNull(user);
 	}
 
 	@Test

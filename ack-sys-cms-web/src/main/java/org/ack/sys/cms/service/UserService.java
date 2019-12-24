@@ -1,5 +1,7 @@
 package org.ack.sys.cms.service;
 
+import java.util.List;
+
 import org.ack.sys.base.service.PageService;
 import org.ack.sys.cms.pojo.User;
 
@@ -14,5 +16,11 @@ public interface UserService extends PageService<User, Integer>{
 	 * @return User
 	 */
 	public User findUserByUserName(String username);
+
+	/**查询当前用户的权限字符串
+	 * @param username
+	 * @return
+	 */
+	public List<String> findUserPermissions(String username);
 
 }
