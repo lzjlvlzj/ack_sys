@@ -5,6 +5,6 @@ import org.ack.sys.cms.pojo.Menu;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface MenuMapper extends PageDao<Menu, Integer>{
+public interface MenuMapper extends PageDao<Menu, Long>{
 
 }

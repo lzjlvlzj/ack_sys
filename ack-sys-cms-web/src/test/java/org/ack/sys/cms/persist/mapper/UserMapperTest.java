@@ -51,7 +51,7 @@ class UserMapperTest extends BaseTest{
 	@Test
 	void testFind() {
 		User user = new User();
-		user.setId(2);
+		user.setId(2L);
 		user = userMapper.find(user);
 		System.out.println(user);
 		assertNotNull(user);
@@ -95,7 +95,7 @@ class UserMapperTest extends BaseTest{
 
 	@Test
 	void testFindById() {
-		int id = 2;
+		long id = 2;
 		User user = userMapper.findById(id);
 		assertNotNull(user);
 	}

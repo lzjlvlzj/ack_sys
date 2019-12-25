@@ -23,7 +23,7 @@ public class MenuController {
 	private MenuService menuServiceImpl;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Menu findById(@PathVariable Integer id) {
+	public Menu findById(@PathVariable Long id) {
 		logger.debug("menuId = {}", id);
 		return menuServiceImpl.findById(id);
 	}

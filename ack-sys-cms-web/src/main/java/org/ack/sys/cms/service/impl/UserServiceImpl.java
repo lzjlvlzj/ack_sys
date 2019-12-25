@@ -18,13 +18,13 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class UserServiceImpl extends PageServiceImpl<User, Integer> implements UserService {
+public class UserServiceImpl extends PageServiceImpl<User, Long> implements UserService {
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	@Autowired
 	private UserMapper userMapper;
 
 	@Override
-	protected PageDao<User, Integer> getPageDao() {
+	protected PageDao<User, Long> getPageDao() {
 		return userMapper;
 	}
 

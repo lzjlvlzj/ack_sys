@@ -17,7 +17,6 @@ import org.ack.sys.base.pojo.BasePojo;
 public class Menu extends BasePojo implements Serializable {
 
 	private static final long serialVersionUID = 5674586623836846991L;
-	private Integer id;
 	private String name;                      // 菜单名称
 	private String url;                       // vue的路由地址
 	private String icon;
@@ -25,20 +24,9 @@ public class Menu extends BasePojo implements Serializable {
 	private Integer type;                     // 0 : 目录; 1:菜单; 2:按钮
 	private Integer level;
 	private Integer orderNum;
-	private Integer creator;
-	private Date createTime;
-	private Integer modifier;
-	private Date updateTime;
-	private Integer parentId;
+	private Long parentId;
 	private List<Menu> children;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -80,13 +68,6 @@ public class Menu extends BasePojo implements Serializable {
 		this.level = level;
 	}
 
-	public Integer getCreator() {
-		return creator;
-	}
-
-	public void setCreator(Integer creator) {
-		this.creator = creator;
-	}
 
 	public Date getCreateTime() {
 		return createTime;
@@ -96,21 +77,6 @@ public class Menu extends BasePojo implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public Integer getModifier() {
-		return modifier;
-	}
-
-	public void setModifier(Integer modifier) {
-		this.modifier = modifier;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
 
 	public String getIcon() {
 		return icon;
@@ -128,11 +94,11 @@ public class Menu extends BasePojo implements Serializable {
 		this.orderNum = orderNum;
 	}
 
-	public Integer getParentId() {
+	public Long getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(Integer parentId) {
+	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
 
@@ -147,8 +113,7 @@ public class Menu extends BasePojo implements Serializable {
 	@Override
 	public String toString() {
 		return "Menu [id=" + id + ", name=" + name + ", url=" + url + ", perms=" + perms + ", type=" + type + ", level="
-				+ level + ", creator=" + creator + ", createTime=" + createTime + ", modifier=" + modifier
-				+ ", updateTime=" + updateTime + "]";
+				+ level + ", creator=" + creator + ", createTime=" + createTime + ", modifier=" + modifier +  "]";
 	}
 
 }

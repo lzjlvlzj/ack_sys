@@ -32,7 +32,8 @@
 		</environment>
 	</environments>
 	<mappers>
-		<mapper resource="config/mapper/UserMapper.xml" />
-		<mapper resource="config/mapper/MenuMapper.xml" />
+		<mapper resource="config/mappers/UserMapper.xml" />
+		<mapper resource="config/mappers/MenuMapper.xml" />
+		<mapper resource="config/mappers/DepartmentMapper.xml" />
 	</mappers>
 </configuration>

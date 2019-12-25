@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  *
  */
 @Mapper
-public interface UserMapper extends PageDao<User, Integer> {
+public interface UserMapper extends PageDao<User, Long> {
 
 	/** 根据用户登陆名称查询用户信息
 	 * @param username

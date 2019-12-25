@@ -12,7 +12,6 @@ import org.ack.sys.base.pojo.BasePojo;
 public class User extends BasePojo implements Serializable {
 	
 	private static final long serialVersionUID = -787753920861872090L;
-	private Integer id;
 	private String username;
 	private String password;
 	private String realName;
@@ -22,15 +21,7 @@ public class User extends BasePojo implements Serializable {
 	private String qq;
 	private String mobile;
 	private String avatar;
-	private Date createTime;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getUsername() {
 		return username;

@@ -3,7 +3,9 @@ package org.ack.sys.base.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**md5加密工具
+/**
+ * md5加密工具
+ * 
  * @author ack
  *
  */

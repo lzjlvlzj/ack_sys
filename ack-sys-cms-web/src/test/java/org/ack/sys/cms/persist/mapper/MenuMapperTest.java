@@ -27,8 +27,8 @@ class MenuMapperTest extends BaseTest {
 	@Test
 	public void testInitTestData() {
 		Date date = new Date();
-		Integer userId = 2;
-		Menu menu = menuMapper.findById(1);
+		Long userId = 2L;
+		Menu menu = menuMapper.findById(1L);
 		Menu userMenu = new Menu();
 		userMenu.setName("用戶管理");
 		userMenu.setIcon("el-icon-service");
@@ -38,7 +38,7 @@ class MenuMapperTest extends BaseTest {
 		userMenu.setLevel(1);
 		userMenu.setOrderNum(1);
 		userMenu.setModifier(userId);
-		userMenu.setUpdateTime(date);
+		userMenu.setModifyTime(date);
 		userMenu.setType(0);
 		
 		Menu roleMenu = new Menu();
@@ -46,11 +46,11 @@ class MenuMapperTest extends BaseTest {
 		roleMenu.setIcon("el-icon-service");
 		roleMenu.setCreator(userId);
 		roleMenu.setCreateTime(date);
-		roleMenu.setParentId(menu.getId());
+		roleMenu.setParentId(1L);
 		roleMenu.setLevel(1);
 		roleMenu.setOrderNum(1);
 		roleMenu.setModifier(userId);
-		roleMenu.setUpdateTime(date);
+		roleMenu.setModifyTime(date);
 		roleMenu.setType(0);
 	}
 	
@@ -77,18 +77,18 @@ class MenuMapperTest extends BaseTest {
 	@Test
 	void testInsert() {
 		Date date = new Date();
-		Integer userId = 2;
+		Long userId = 2L;
 		
 		Menu menu = new Menu();
 		menu.setName("系统管理");
 		menu.setIcon("el-icon-setting");
 		menu.setCreator(userId);
 		menu.setCreateTime(date);
-		menu.setParentId(0);
+		menu.setParentId(0L);
 		menu.setLevel(1);
 		menu.setOrderNum(1);
 		menu.setModifier(userId);
-		menu.setUpdateTime(date);
+		menu.setModifyTime(date);
 		menu.setType(0);
 		
 		//Menu userMenu = new Menu();

@@ -9,7 +9,7 @@ import org.ack.sys.cms.pojo.User;
  * @author ack
  *
  */
-public interface UserService extends PageService<User, Integer>{
+public interface UserService extends PageService<User, Long>{
 
 	/**根據用户登陆名称查询用户信息
 	 * @param username

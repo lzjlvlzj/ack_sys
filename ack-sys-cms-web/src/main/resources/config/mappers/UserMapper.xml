@@ -13,19 +13,24 @@
 		<result column="qq" property="qq" />
 		<result column="mobile" property="mobile" />
 		<result column="avatar" property="avatar" />
+		<result column="creator" property="creator" />
 		<result column="createTime" property="createTime" />
+		<result column="modifier" property="modifier" />
+		<result column="modifyTime" property="modifyTime" />
+		<result column="deleteStatus" property="deleteStatus" />
+		
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, username, type, state, email, realName, qq, mobile,
-		avatar, createtime
+		avatar, creator, createtime, modifier, modifyTime,deleteStatus
 	</sql>
 	<insert id="insert">
 		INSERT INTO cms_user (username, password, type,
-		state, email, realName, qq,
-		createtime, mobile, avatar)
+		state, email, realName, qq, creator,
+		createtime, mobile, avatar, modifier,modifyTime,deleteStatus)
 		VALUES
 		(#{username}, #{password}, #{type}, #{state}, #{email}, #{realName},
-		#{qq},#{createTime},#{mobile},#{avatar})
+		#{qq},#{creator}, #{createTime},#{mobile},#{avatar},#{modifier}, #{modifyTime},#{deleteStatus})
 	</insert>
 	<select id="findUserByUserName" parameterType="string"
 		resultMap="BaseResultMap">

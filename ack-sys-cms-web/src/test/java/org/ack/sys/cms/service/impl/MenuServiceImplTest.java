@@ -34,7 +34,7 @@ class MenuServiceImplTest {
 
 	@Test
 	void testFindById() {
-		int id = 6;
+		long id = 6L;
 		Menu menu = menuServiceImpl.findById(id);
 		System.out.println(menu);
 		assertNotNull(menu);

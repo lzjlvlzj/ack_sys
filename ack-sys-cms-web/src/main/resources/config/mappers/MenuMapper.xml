@@ -14,15 +14,16 @@
 		<result column="creator" property="creator" />
 		<result column="createTime" property="createTime" />
 		<result column="modifier" property="modifier" />
-		<result column="updateTime" property="updateTime" />
+		<result column="modifyTime" property="modifyTime" />
 		<result column="parentId" property="parentId" />
+		<result column="deleteStatus" property="deleteStatus" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, name, url, icon, perms, type, level, orderNum, creator, createtime, modifier, updateTime, parentId
+		id, name, url, icon, perms, type, level, orderNum, creator, createtime, modifier, modifyTime, parentId,deleteStatus
 	</sql>
 	<insert id="insert">
-		INSERT INTO cms_menu (name, url, icon, perms, type, level, orderNum, creator, createtime, modifier, updateTime, parentId)
-		VALUES (#{name}, #{url}, #{icon}, #{perms}, #{type}, #{level}, #{orderNum}, #{creator}, #{createTime}, #{modifier}, #{updateTime}, #{parentId})
+		INSERT INTO cms_menu (name, url, icon, perms, type, level, orderNum, creator, createtime, modifier, updateTime, parentId,deleteStatus)
+		VALUES (#{name}, #{url}, #{icon}, #{perms}, #{type}, #{level}, #{orderNum}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{parentId},#{deleteStatus})
 	</insert>
 	<select id="findById" parameterType="int" resultMap="BaseResultMap">
 	    select <include refid="Base_Column_List"></include>

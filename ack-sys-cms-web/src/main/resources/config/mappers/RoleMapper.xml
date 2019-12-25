@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.sys.cms.persist.mapper.RoleMapper">
+	<resultMap id="BaseResultMap"
+		type="org.ack.sys.cms.pojo.Role">
+		<id column="id" property="id" />
+		<id column="name" property="name" />
+		<result column="creator" property="creator" />
+		<result column="createTime" property="createTime" />
+		<result column="modifier" property="modifier" />
+		<result column="modifyTime" property="modifyTime" />
+		<result column="deleteStatus" property="deleteStatus" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, creator, createtime, modifier, modifyTime, deleteStatus
+	</sql>
+	<insert id="insert">
+		INSERT INTO cms_role (name, creator, createtime, modifier, modifyTime, deleteStatus)
+		VALUES (#{name}, #{creator}, #{createtime}, #{modifier}, #{modifyTime}, #{deleteStatus})
+	</insert>
+	<select id="findById" parameterType="int" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
+	    where id = #{id}
+	</select>
+	<select id="findRoleByUser">
+	</select>
+
+</mapper>

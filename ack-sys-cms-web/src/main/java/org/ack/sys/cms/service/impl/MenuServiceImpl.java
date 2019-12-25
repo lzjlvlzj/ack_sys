@@ -18,13 +18,13 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class MenuServiceImpl extends PageServiceImpl<Menu, Integer> implements MenuService {
+public class MenuServiceImpl extends PageServiceImpl<Menu, Long> implements MenuService {
 	private static final Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
 	@Autowired
 	private MenuMapper menuMapper;
 
 	@Override
-	protected PageDao<Menu, Integer> getPageDao() {
+	protected PageDao<Menu, Long> getPageDao() {
 		logger.debug("mapper is： {}", menuMapper);
 		return menuMapper;
 	}
@@ -33,10 +33,10 @@ public class MenuServiceImpl extends PageServiceImpl<Menu, Integer> implements M
 	public List<Menu> findMenuByUser(String username) {
 		List<Menu> list = new ArrayList<Menu>();
 		List<Menu> subMenu = new ArrayList<Menu>();
-		Menu sysMenu = menuMapper.findById(6);
+		Menu sysMenu = menuMapper.findById(6L);
 		
-		Menu userMenu = menuMapper.findById(7);
-		Menu roleMenu = menuMapper.findById(8);
+		Menu userMenu = menuMapper.findById(7L);
+		Menu roleMenu = menuMapper.findById(8L);
 		subMenu.add(userMenu);
 		subMenu.add(roleMenu);
 		
