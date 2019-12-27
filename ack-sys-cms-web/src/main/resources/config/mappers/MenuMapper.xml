@@ -25,7 +25,7 @@
 		INSERT INTO cms_menu (name, url, icon, perms, type, level, orderNum, creator, createtime, modifier, updateTime, parentId,deleteStatus)
 		VALUES (#{name}, #{url}, #{icon}, #{perms}, #{type}, #{level}, #{orderNum}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{parentId},#{deleteStatus})
 	</insert>
-	<select id="findById" parameterType="int" resultMap="BaseResultMap">
+	<select id="findById" parameterType="long" resultMap="BaseResultMap">
 	    select <include refid="Base_Column_List"></include>
 	    from cms_menu
 	    where id = #{id}

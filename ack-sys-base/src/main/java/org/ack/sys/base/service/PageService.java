@@ -2,8 +2,8 @@ package org.ack.sys.base.service;
 
 import java.io.Serializable;
 
-import org.ack.sys.base.persist.Page;
-
+import org.ack.sys.base.persist.page.Page;
+import org.ack.sys.base.persist.page.PageRequest;
 
 /**
  * 主要是针对MyBatis服务进行封装
@@ -22,4 +22,6 @@ public interface PageService<T extends Object, PK extends Serializable> extends 
 	 * @return
 	 */
 	public Page<T> findPage(Page<T> page);
+
+	public Page<T> findPage(PageRequest pageRequest);
 }

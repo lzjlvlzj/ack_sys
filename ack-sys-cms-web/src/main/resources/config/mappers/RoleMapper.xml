@@ -16,12 +16,16 @@
 	</sql>
 	<insert id="insert">
 		INSERT INTO cms_role (name, creator, createtime, modifier, modifyTime, deleteStatus)
-		VALUES (#{name}, #{creator}, #{createtime}, #{modifier}, #{modifyTime}, #{deleteStatus})
+		VALUES (#{name}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{deleteStatus})
 	</insert>
 	<select id="findById" parameterType="int" resultMap="BaseResultMap">
 	    select <include refid="Base_Column_List"></include>
 	    from cms_role
 	    where id = #{id}
+	</select>
+	<select id="findAll">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
 	</select>
 	<select id="findRoleByUser">
 	</select>

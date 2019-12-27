@@ -3,7 +3,6 @@ package org.ack.sys.base.persist.page;
 import java.util.List;
 
 import org.ack.sys.base.persist.BaseDao;
-import org.ack.sys.base.persist.Page;
 
 
 

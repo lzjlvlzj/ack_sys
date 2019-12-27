@@ -2,6 +2,7 @@ package org.ack.sys.cms.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.ack.sys.base.pojo.BasePojo;
 
@@ -16,11 +17,13 @@ public class User extends BasePojo implements Serializable {
 	private String password;
 	private String realName;
 	private String email;
-	private int type;
-	private int state;
+	private int type = 0;
+	private int state = 0;
 	private String qq;
 	private String mobile;
 	private String avatar;
+	private Long departmentId;
+	private List<Role> roles;
 
 
 	public String getUsername() {
@@ -101,6 +104,22 @@ public class User extends BasePojo implements Serializable {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	@Override

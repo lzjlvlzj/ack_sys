@@ -24,7 +24,22 @@
 		id, username, type, state, email, realName, qq, mobile,
 		avatar, creator, createtime, modifier, modifyTime,deleteStatus
 	</sql>
-	<insert id="insert">
+	<select id="findInterceptorPageList" parameterType="org.ack.sys.base.persist.page.Page" resultMap="BaseResultMap">
+	    select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		<where>
+		   1 = 1
+		   <if test="condition.username != null and condition.username !=''">
+				and username=#{condition.username}
+		   </if>
+		   <if test="condition.email != null and condition.email !=''">
+				and email=#{condition.email}
+		   </if>
+		</where>
+	</select>
+	
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO cms_user (username, password, type,
 		state, email, realName, qq, creator,
 		createtime, mobile, avatar, modifier,modifyTime,deleteStatus)

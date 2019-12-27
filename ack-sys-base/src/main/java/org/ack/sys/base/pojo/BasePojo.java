@@ -14,7 +14,7 @@ public class BasePojo {
 	protected Long modifier;
 	protected Date createTime;
 	protected Date modifyTime;
-	protected Integer deleteStatus;
+	protected Integer deleteStatus = 0;
 
 	public Long getId() {
 		return id;
@@ -45,6 +45,9 @@ public class BasePojo {
 	}
 
 	public void setCreateTime(Date createTime) {
+		if (null == createTime) {
+			createTime = new Date();
+		}
 		this.createTime = createTime;
 	}
 
@@ -54,6 +57,7 @@ public class BasePojo {
 
 	public void setModifyTime(Date modifyDate) {
 		this.modifyTime = modifyDate;
+		
 	}
 
 	public Integer getDeleteStatus() {

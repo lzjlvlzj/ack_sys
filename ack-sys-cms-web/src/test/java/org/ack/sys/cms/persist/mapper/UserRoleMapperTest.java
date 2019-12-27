@@ -3,39 +3,23 @@ package org.ack.sys.cms.persist.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.Date;
-
 import org.ack.sys.cms.persist.BaseTest;
-import org.ack.sys.cms.pojo.Department;
+import org.ack.sys.cms.pojo.UserRole;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class DepartmentMapperTest extends BaseTest{
-
-	DepartmentMapper departmentMapper;
+class UserRoleMapperTest extends BaseTest{
+	
+	UserRoleMapper userRoleMapper;
 	@BeforeEach
 	public void init() {
-		departmentMapper = sqlSession.getMapper(DepartmentMapper.class);
+		userRoleMapper = sqlSession.getMapper(UserRoleMapper.class);
 	}
 	
 	@AfterEach
 	void after() {
 		close();
-	}
-	@Test
-	void testCount() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testFindPageList() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testFindInterceptorPageList() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -45,22 +29,13 @@ class DepartmentMapperTest extends BaseTest{
 
 	@Test
 	void testInsert() {
-		Long userId = 2L;
-		Date date = new Date();
-		
-		Department dept = new Department();
-		dept.setName("销售一部");
-		dept.setCreator(userId);
-		dept.setCreateTime(date);
-		dept.setDeleteStatus(3);
-		dept.setModifier(userId);
-		dept.setModifyTime(date);
-		dept.setParentId(0L);
-		
-		int r = departmentMapper.insert(dept);
+		UserRole ur = new UserRole();
+		ur.setUserId(2L);
+		ur.setRoleId(1L);
+		int r = userRoleMapper.insert(ur);
 		System.out.println(r);
+		
 		assertEquals(1, r);
-		commit();
 	}
 
 	@Test

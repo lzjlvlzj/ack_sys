@@ -6,23 +6,26 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.Date;
 
 import org.ack.sys.cms.persist.BaseTest;
-import org.ack.sys.cms.pojo.Department;
+import org.ack.sys.cms.pojo.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class DepartmentMapperTest extends BaseTest{
-
-	DepartmentMapper departmentMapper;
+class RoleMapperTest extends BaseTest{
+	
+	RoleMapper roleMapper;
+	
 	@BeforeEach
 	public void init() {
-		departmentMapper = sqlSession.getMapper(DepartmentMapper.class);
+		roleMapper = sqlSession.getMapper(RoleMapper.class);
 	}
 	
 	@AfterEach
 	void after() {
 		close();
 	}
+	
+
 	@Test
 	void testCount() {
 		fail("Not yet implemented");
@@ -45,22 +48,21 @@ class DepartmentMapperTest extends BaseTest{
 
 	@Test
 	void testInsert() {
-		Long userId = 2L;
 		Date date = new Date();
+		Long id = 2L;
+		Role role = new Role();
+		role.setName("销售人员");
+		role.setCreator(id);
+		role.setCreateTime(date);
+		role.setModifier(id);
+		role.setModifyTime(date);
+		role.setRemark("销售人员");
+		role.setDeleteStatus(0);
 		
-		Department dept = new Department();
-		dept.setName("销售一部");
-		dept.setCreator(userId);
-		dept.setCreateTime(date);
-		dept.setDeleteStatus(3);
-		dept.setModifier(userId);
-		dept.setModifyTime(date);
-		dept.setParentId(0L);
-		
-		int r = departmentMapper.insert(dept);
-		System.out.println(r);
-		assertEquals(1, r);
+		int r = roleMapper.insert(role);
+		System.out.println("r = " + r);
 		commit();
+		assertEquals(1, r);
 	}
 
 	@Test
