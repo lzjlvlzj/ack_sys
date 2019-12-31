@@ -21,11 +21,14 @@ public class User extends BasePojo implements Serializable {
 	private int state = 0;
 	private String qq;
 	private String mobile;
+	private String address;
 	private String avatar;
 	private Long departmentId;
+	private Department department;
 	private List<Role> roles;
-
-
+	private String departmentName;
+	private String deptName;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -114,12 +117,47 @@ public class User extends BasePojo implements Serializable {
 		this.departmentId = departmentId;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public List<Role> getRoles() {
 		return roles;
 	}
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public String getDeptName() {
+		if(null != this.getDepartment()) {
+			deptName = this.getDepartment().getName();
+		}
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 
 	@Override

@@ -3,25 +3,29 @@ package org.ack.sys.cms.web.controller;
 import java.util.List;
 
 import org.ack.sys.base.common.ResponseResult;
-import org.ack.sys.cms.pojo.Role;
-import org.ack.sys.cms.service.RoleService;
+import org.ack.sys.cms.pojo.Department;
+import org.ack.sys.cms.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * @author ack
+ *
+ */
 @Controller
-@RequestMapping("/role")
-public class RoleController {
+@RequestMapping("/dept")
+public class DepartmentController {
 	@Autowired
-	private RoleService roleServiceImpl;
-
-	@GetMapping("/list")
+	private DepartmentService departmentServiceImpl;
+	
+	@GetMapping("/tree")
 	@ResponseBody
-	public ResponseResult findAll() {
-		List<Role> list = roleServiceImpl.findAll();
-		ResponseResult result = new ResponseResult(200, list);
-		return result;
+	public ResponseResult findTree() {
+		List<Department> departmentList = departmentServiceImpl.findTree();
+		return new ResponseResult(200, departmentList);
 	}
+
 }

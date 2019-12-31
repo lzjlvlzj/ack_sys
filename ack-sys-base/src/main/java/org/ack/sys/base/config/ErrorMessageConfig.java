@@ -2,7 +2,8 @@ package org.ack.sys.base.config;
 
 public enum ErrorMessageConfig {
 	LOGIN_CAPTCHA_INVALIDATE(400, "验证码不正确"), 
-    LOGIN_USERNAME_PASSWORD_INVALIDATE(400, "用户名称或密码不正确");
+    LOGIN_USERNAME_PASSWORD_INVALIDATE(400, "用户名称或密码不正确"),
+	LOGIN_NOT_AUTHORITY(401, "未登录");
     private int code ;
 	private String message;
 	ErrorMessageConfig(int code, String message) {

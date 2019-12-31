@@ -5,9 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Date;
+import java.util.List;
 
+import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.util.MD5Util;
 import org.ack.sys.cms.persist.BaseTest;
+import org.ack.sys.cms.pojo.Department;
 import org.ack.sys.cms.pojo.User;
 import org.ack.sys.cms.pojo.UserRole;
 import org.junit.jupiter.api.AfterEach;
@@ -50,7 +53,13 @@ class UserMapperTest extends BaseTest{
 
 	@Test
 	void testFindInterceptorPageList() {
-		fail("Not yet implemented");
+		Page<User> page = new Page<>();
+		List<User> list = userMapper.findInterceptorPageList(page);
+		for(User user : list) {
+			Department dept = user.getDepartment();
+			System.out.println(dept);
+		}
+		assertNotNull(list);
 	}
 
 	@Test

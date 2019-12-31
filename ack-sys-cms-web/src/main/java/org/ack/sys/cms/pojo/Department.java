@@ -1,11 +1,14 @@
 package org.ack.sys.cms.pojo;
 
+import java.util.List;
+
 import org.ack.sys.base.pojo.BasePojo;
 
 public class Department extends BasePojo {
 
     private String name;
     private Long parentId;
+    private List<Department> children;
 
     public String getName() {
         return name;
@@ -21,6 +24,14 @@ public class Department extends BasePojo {
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
+	}
+
+	public List<Department> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Department> children) {
+		this.children = children;
 	}
 
 	@Override

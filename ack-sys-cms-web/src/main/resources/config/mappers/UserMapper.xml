@@ -8,6 +8,7 @@
 		<result column="password" property="password" />
 		<result column="realName" property="realName" />
 		<result column="email" property="email" />
+		<result column="address" property="address" />
 		<result column="type" property="type" />
 		<result column="state" property="state" />
 		<result column="qq" property="qq" />
@@ -20,14 +21,39 @@
 		<result column="deleteStatus" property="deleteStatus" />
 		
 	</resultMap>
+	<resultMap type="org.ack.sys.cms.pojo.User" id="UserPageResultMap" extends="BaseResultMap">
+	    <result column="departmentName" property="departmentName" />
+	    <association property="department" javaType="org.ack.sys.cms.pojo.Department">
+	       <id property="id" column="dept_id"/>
+	       <result property="name" column="dept_name"/>
+	    </association>
+	</resultMap>
 	<sql id="Base_Column_List">
-		id, username, type, state, email, realName, qq, mobile,
+		id, username, type, state, email, realName, qq, mobile,address
 		avatar, creator, createtime, modifier, modifyTime,deleteStatus
 	</sql>
-	<select id="findInterceptorPageList" parameterType="org.ack.sys.base.persist.page.Page" resultMap="BaseResultMap">
-	    select
-		<include refid="Base_Column_List"></include>
-		from cms_user
+	<select id="findInterceptorPageList" parameterType="org.ack.sys.base.persist.page.Page" resultMap="UserPageResultMap">
+	    SELECT
+			cu.id,
+			cu.username,
+			cu.type,
+			cu.state,
+			cu.email,
+			cu.realName,
+			cu.qq,
+			cu.mobile,
+			cu.avatar,
+			cu.address,
+			cu.creator,
+			cu.createtime,
+			cu.modifier,
+			cu.modifyTime,
+			cu.deleteStatus,
+			cd.id AS dept_id,
+			cd.`name` AS dept_name
+		FROM
+			cms_user cu
+		LEFT JOIN cms_department cd ON cu.departmentId = cd.id
 		<where>
 		   1 = 1
 		   <if test="condition.username != null and condition.username !=''">
@@ -41,11 +67,11 @@
 	
 	<insert id="insert"  useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO cms_user (username, password, type,
-		state, email, realName, qq, creator,
+		state, email, realName, qq, address, creator,
 		createtime, mobile, avatar, modifier,modifyTime,deleteStatus)
 		VALUES
 		(#{username}, #{password}, #{type}, #{state}, #{email}, #{realName},
-		#{qq},#{creator}, #{createTime},#{mobile},#{avatar},#{modifier}, #{modifyTime},#{deleteStatus})
+		#{qq},#{address}, #{creator}, #{createTime},#{mobile},#{avatar},#{modifier}, #{modifyTime},#{deleteStatus})
 	</insert>
 	<select id="findUserByUserName" parameterType="string"
 		resultMap="BaseResultMap">
@@ -61,7 +87,7 @@
 		from cms_user
 		where id = #{id}
 	</select>
-	<select id="findById" parameterType="int" resultMap="BaseResultMap">
+	<select id="findById" parameterType="int" resultMap="UserPageResultMap">
 		select
 		<include refid="Base_Column_List" ></include>
 		from cms_user
