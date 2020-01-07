@@ -2,6 +2,8 @@ package org.ack.sys.cms.pojo;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import org.ack.sys.base.pojo.BasePojo;
 
 /**
@@ -13,7 +15,7 @@ import org.ack.sys.base.pojo.BasePojo;
 public class Role extends BasePojo implements Serializable {
 
 	private static final long serialVersionUID = 6061619168823283893L;
-
+	@NotBlank(message = "{role.name.notblank}")
 	private String name;
 	private String remark;
 

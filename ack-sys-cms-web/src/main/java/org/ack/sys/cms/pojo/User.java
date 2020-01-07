@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 import org.ack.sys.base.pojo.BasePojo;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 用户
@@ -13,13 +17,18 @@ import org.ack.sys.base.pojo.BasePojo;
 public class User extends BasePojo implements Serializable {
 	
 	private static final long serialVersionUID = -787753920861872090L;
+	@NotBlank(message = "{user.name.notblank}")
 	private String username;
+	@NotEmpty(message = "密码不能为空")
+    @Length(min = 1, max = 12, message = "密码长度为1-12位。")
 	private String password;
 	private String realName;
+	@NotBlank(message = "邮箱不能为空")
 	private String email;
 	private int type = 0;
 	private int state = 0;
 	private String qq;
+	@NotBlank(message = "{user.mobile.notblank}")
 	private String mobile;
 	private String address;
 	private String avatar;

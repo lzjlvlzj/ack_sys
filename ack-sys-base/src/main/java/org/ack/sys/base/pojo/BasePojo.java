@@ -45,9 +45,6 @@ public class BasePojo {
 	}
 
 	public void setCreateTime(Date createTime) {
-		if (null == createTime) {
-			createTime = new Date();
-		}
 		this.createTime = createTime;
 	}
 

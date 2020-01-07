@@ -57,22 +57,23 @@ public class LoginController {
 		// 检查用户名密码
 		ResponseResult rt = null;
 		String token = Token.getToken(new Date());
-		boolean lg = checkLogin(user);
-		
+		String username = user.getUsername();
+		User dbUser = userServiceImpl.findUserByUserName(username);
+		boolean lg = checkLogin(user, dbUser);
 		if(!lg) {
 			rt = new ResponseResult(ErrorMessageConfig.LOGIN_USERNAME_PASSWORD_INVALIDATE.getCode(),
 					ErrorMessageConfig.LOGIN_USERNAME_PASSWORD_INVALIDATE.getMessage());
 			logger.debug("用户登陆失敗");
 		}else{
 			rt = new ResponseResult(200, token);
-			session.setAttribute(Content.SESSION_KEY_USER, new SessionUser(token, user));
+			session.setAttribute(Content.SESSION_KEY_USER, new SessionUser(token, dbUser));
 			logger.debug("用户登陆成功");
 		}
 		
 		return rt;
 	}
 
-	private boolean checkLogin(User user) {
+	private boolean checkLogin(LoginUser user, User dbUser) {
 		if(null == user 
 				|| StringUtils.isBlank(user.getUsername()) 
 				|| StringUtils.isBlank(user.getPassword())) {
@@ -80,15 +81,13 @@ public class LoginController {
 			return false;
 		}
 		boolean b = false;
-		String username = user.getUsername();
-		User dbUser = userServiceImpl.findUserByUserName(username);
 		if(null == dbUser) {
-			logger.debug("用户{}不存在", username);
+			logger.debug("用户{}不存在", user.getUsername());
 			b =  false;
 		} else {
 			String pwd = MD5Util.md5(user.getPassword());
 			if(!pwd.equals(user.getPassword())) {
-				logger.debug("用户{}輸入的密碼不正確.", username);
+				logger.debug("用户{}輸入的密碼不正確.", user.getUsername());
 				b = false;
 			} 
 			b = true;

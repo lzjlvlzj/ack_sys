@@ -17,28 +17,60 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UserMapperTest extends BaseTest{
+class UserMapperTest extends BaseTest {
 	UserMapper userMapper;
 	UserRoleMapper userRoleMapper;
-	
+
 	@BeforeEach
 	public void init() {
 		userMapper = sqlSession.getMapper(UserMapper.class);
 		userRoleMapper = sqlSession.getMapper(UserRoleMapper.class);
 	}
-	
+
 	@AfterEach
 	void after() {
 		close();
 	}
-	
-	
+
+	@Test
+	void testInitData() {
+		Long cid = 2L;
+		Date date = new Date();
+		for (int i = 0; i < 17; i++) {
+			User user = new User();
+			user.setUsername("ack_"+i);
+			String pass = "123";
+			String password = MD5Util.md5(pass);
+			user.setPassword(password);
+			user.setEmail("22"+i+"@qq.com");
+			user.setMobile("15801232"+i);
+			user.setQq("1236547");
+			user.setRealName("张三2");
+			user.setType(0);
+			user.setAvatar("/aaa/b.png");
+			user.setCreator(cid);
+			user.setCreateTime(date);
+			user.setModifier(cid);
+			user.setModifyTime(date);
+			user.setDepartmentId(2L);
+
+			UserRole ur = new UserRole();
+			ur.setUserId(2L);
+			Integer r = userMapper.insert(user);
+			System.out.println("r = " + r);
+			//sqlSession.commit();
+			System.out.println(user.getId());
+			assertEquals(1, r);
+		}
+		
+	}
+
 	@Test
 	void testFindUserByUserName() {
 		String username = "ack";
-	    User user = userMapper.findUserByUserName(username);
-	    System.out.println(user);
-	    assertNotNull(user);
+		User user = userMapper.findUserByUserName(username);
+		System.out.println(user);
+		assertNotNull(user);
 	}
 
 	@Test
@@ -55,7 +87,7 @@ class UserMapperTest extends BaseTest{
 	void testFindInterceptorPageList() {
 		Page<User> page = new Page<>();
 		List<User> list = userMapper.findInterceptorPageList(page);
-		for(User user : list) {
+		for (User user : list) {
 			Department dept = user.getDepartment();
 			System.out.println(dept);
 		}
@@ -75,7 +107,7 @@ class UserMapperTest extends BaseTest{
 	void testInsert() {
 		Long cid = 2L;
 		Date date = new Date();
-		
+
 		User user = new User();
 		user.setUsername("ack1");
 		String pass = "123";
@@ -92,10 +124,10 @@ class UserMapperTest extends BaseTest{
 		user.setModifier(cid);
 		user.setModifyTime(date);
 		user.setDepartmentId(2L);
-		
+
 		UserRole ur = new UserRole();
 		ur.setUserId(2L);
-		Integer r  = userMapper.insert(user);
+		Integer r = userMapper.insert(user);
 		System.out.println("r = " + r);
 		sqlSession.commit();
 		System.out.println(user.getId());
@@ -104,7 +136,13 @@ class UserMapperTest extends BaseTest{
 
 	@Test
 	void testUpdate() {
-		fail("Not yet implemented");
+		User user = new User();
+		user.setId(4L);
+		user.setRealName("疙瘩汤");
+		int r = userMapper.update(user);
+		System.out.println(r);
+		commit();
+		assertEquals(1, r);
 	}
 
 	@Test

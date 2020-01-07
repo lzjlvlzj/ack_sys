@@ -68,5 +68,17 @@ public abstract class BaseServiceImpl<T extends Object, PK extends Serializable>
 		return 0;
 	}
 
+	@Override
+	public int batchUpdate(List<T> list) {
+		return getDao().batchUpdate(list);
+	}
+	
+	@Override
+	public int batchDelete(List<T> list) {
+		return getDao().batchUpdate(list);
+	}
+	
+	
+
 	
 }

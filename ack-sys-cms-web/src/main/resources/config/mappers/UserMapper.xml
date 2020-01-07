@@ -19,59 +19,161 @@
 		<result column="modifier" property="modifier" />
 		<result column="modifyTime" property="modifyTime" />
 		<result column="deleteStatus" property="deleteStatus" />
-		
+		<result column="departmentId" property="departmentId" />
+
 	</resultMap>
-	<resultMap type="org.ack.sys.cms.pojo.User" id="UserPageResultMap" extends="BaseResultMap">
-	    <result column="departmentName" property="departmentName" />
-	    <association property="department" javaType="org.ack.sys.cms.pojo.Department">
-	       <id property="id" column="dept_id"/>
-	       <result property="name" column="dept_name"/>
-	    </association>
+	<resultMap type="org.ack.sys.cms.pojo.User"
+		id="UserPageResultMap" extends="BaseResultMap">
+		<result column="departmentName" property="departmentName" />
+		<association property="department"
+			javaType="org.ack.sys.cms.pojo.Department">
+			<id property="id" column="dept_id" />
+			<result property="name" column="dept_name" />
+		</association>
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, username, type, state, email, realName, qq, mobile,address
-		avatar, creator, createtime, modifier, modifyTime,deleteStatus
+		id, username, type, state, email, realName, qq,
+		mobile,address,departmentId
+		avatar, creator, createtime, modifier,
+		modifyTime,deleteStatus
 	</sql>
-	<select id="findInterceptorPageList" parameterType="org.ack.sys.base.persist.page.Page" resultMap="UserPageResultMap">
-	    SELECT
-			cu.id,
-			cu.username,
-			cu.type,
-			cu.state,
-			cu.email,
-			cu.realName,
-			cu.qq,
-			cu.mobile,
-			cu.avatar,
-			cu.address,
-			cu.creator,
-			cu.createtime,
-			cu.modifier,
-			cu.modifyTime,
-			cu.deleteStatus,
-			cd.id AS dept_id,
-			cd.`name` AS dept_name
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" separator=";" item="user">
+			update cms_user
+			<set>
+				<if test="type != null">
+					type = #{type},
+				</if>
+				<if test="state != null">
+					state = #{state},
+				</if>
+				<if test="email != null">
+					email = #{email},
+				</if>
+				<if test="realName != null">
+					realName = #{realName},
+				</if>
+				<if test="qq != null">
+					qq = #{qq},
+				</if>
+				<if test="mobile != null">
+					mobile = #{mobile},
+				</if>
+				<if test="address != null">
+					address = #{address},
+				</if>
+				<if test="departmentId != null">
+					departmentId = #{departmentId},
+				</if>
+				<if test="avatar != null">
+					avatar = #{avatar},
+				</if>
+				<if test="deleteStatus != null">
+					deleteStatus = #{deleteStatus},
+				</if>
+				<if test="modifier != null">
+					modifier = #{modifier},
+				</if>
+				<if test="modifyTime != null">
+					modifyTime = #{modifyTime},
+				</if>
+			</set>
+			where id = #{id}
+		</foreach>
+	</update>
+	<update id="update" parameterType="org.ack.sys.cms.pojo.User">
+		update cms_user
+		<set>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="state != null">
+				state = #{state},
+			</if>
+			<if test="email != null">
+				email = #{email},
+			</if>
+			<if test="realName != null">
+				realName = #{realName},
+			</if>
+			<if test="qq != null">
+				qq = #{qq},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="departmentId != null">
+				departmentId = #{departmentId},
+			</if>
+			<if test="avatar != null">
+				avatar = #{avatar},
+			</if>
+			<if test="deleteStatus != null">
+				deleteStatus = #{deleteStatus},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="modifyTime != null">
+				modifyTime = #{modifyTime},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="findInterceptorPageList"
+		parameterType="org.ack.sys.base.persist.page.Page"
+		resultMap="UserPageResultMap">
+		SELECT
+		cu.id,
+		cu.username,
+		cu.type,
+		cu.state,
+		cu.email,
+		cu.realName,
+		cu.qq,
+		cu.mobile,
+		cu.avatar,
+		cu.address,
+		cu.creator,
+		cu.createtime,
+		cu.modifier,
+		cu.modifyTime,
+		cu.deleteStatus,
+		cu.departmentId,
+		cd.id AS dept_id,
+		cd.`name` AS dept_name
 		FROM
-			cms_user cu
-		LEFT JOIN cms_department cd ON cu.departmentId = cd.id
+		cms_user cu
+		LEFT JOIN cms_department cd ON
+		cu.departmentId = cd.id
 		<where>
-		   1 = 1
-		   <if test="condition.username != null and condition.username !=''">
-				and username=#{condition.username}
-		   </if>
-		   <if test="condition.email != null and condition.email !=''">
-				and email=#{condition.email}
-		   </if>
+			1 = 1
+			and cu.deleteStatus = 0
+			<if test="condition.username != null and condition.username !=''">
+				and cu.username=#{condition.username}
+			</if>
+			<if test="condition.email != null and condition.email !=''">
+				and cu.email=#{condition.email}
+			</if>
 		</where>
 	</select>
-	
-	<insert id="insert"  useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO cms_user (username, password, type,
-		state, email, realName, qq, address, creator,
-		createtime, mobile, avatar, modifier,modifyTime,deleteStatus)
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO cms_user (username, password, type,
+		state, email, realName,
+		departmentId, qq, address, creator,
+		createtime, mobile, avatar,
+		modifier,modifyTime,deleteStatus)
 		VALUES
-		(#{username}, #{password}, #{type}, #{state}, #{email}, #{realName},
-		#{qq},#{address}, #{creator}, #{createTime},#{mobile},#{avatar},#{modifier}, #{modifyTime},#{deleteStatus})
+		(#{username}, #{password},
+		#{type}, #{state}, #{email}, #{realName},#{departmentId},
+		#{qq},#{address}, #{creator},
+		#{createTime},#{mobile},#{avatar},#{modifier},
+		#{modifyTime},#{deleteStatus})
 	</insert>
 	<select id="findUserByUserName" parameterType="string"
 		resultMap="BaseResultMap">
@@ -80,6 +182,45 @@
 		from cms_user
 		where username = #{username}
 	</select>
+	<select id="findUserByEmail" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		where email = #{email}
+	</select>
+	<select id="findUserByMobile" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		where mobile = #{mobile}
+	</select>
+	<select id="findUserByQq" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		where qq = #{qq}
+	</select>
+	<select id="findBySelected" parameterType="map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		<where>
+		    username=#{username}
+			<if test="email != null and email !=''">
+				and email=#{email}
+			</if>
+			<if test="qq != null and qq !=''">
+				and qq=#{qq}
+			</if>
+			<if test="mobile != null and mobile !=''">
+				and mobile=#{mobile}
+			</if>
+		</where>
+	</select>
 	<select id="find" parameterType="org.ack.sys.cms.pojo.User"
 		resultMap="BaseResultMap">
 		select
@@ -87,9 +228,10 @@
 		from cms_user
 		where id = #{id}
 	</select>
-	<select id="findById" parameterType="int" resultMap="UserPageResultMap">
+	<select id="findById" parameterType="int"
+		resultMap="UserPageResultMap">
 		select
-		<include refid="Base_Column_List" ></include>
+		<include refid="Base_Column_List"></include>
 		from cms_user
 		where id = #{id}
 	</select>

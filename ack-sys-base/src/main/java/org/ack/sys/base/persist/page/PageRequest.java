@@ -8,7 +8,7 @@ import java.util.Map;
 public class PageRequest {
 	private int currentPage = 1; //当前页码
 	private int pageSize = 10;   //每页显示多少条
-	private String orderColumn = "creatTime"; //排序字段
+	private String orderColumn = ""; //排序字段
 	private String orderType = "asc"; //排序的方式
 	/**
 	 * 每页显示的字段

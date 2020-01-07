@@ -1,7 +1,6 @@
 package org.ack.sys.base.persist.page;
 
 public class ColumnFilter {
-
 	/**
 	 * 过滤列名
 	 */
@@ -10,6 +9,15 @@ public class ColumnFilter {
 	 * 查询的值
 	 */
 	private String value;
+
+	public ColumnFilter() {
+
+	}
+
+	public ColumnFilter(String name, String value) {
+		this.name = name;
+		this.value = value;
+	}
 
 	public String getName() {
 		return name;

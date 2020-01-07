@@ -13,6 +13,11 @@ public class ResponseResult {
         this.data = data;
         this.msg = "";
     }
+    public ResponseResult(int code, String msg, Object data) {
+    	this.code = code;
+    	this.data = data;
+    	this.msg = msg;
+    }
 
     public int getCode() {
         return code;

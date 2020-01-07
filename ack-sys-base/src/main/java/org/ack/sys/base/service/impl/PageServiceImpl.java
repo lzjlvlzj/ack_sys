@@ -12,6 +12,7 @@ import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.persist.page.PageDao;
 import org.ack.sys.base.persist.page.PageRequest;
 import org.ack.sys.base.service.PageService;
+import org.ack.sys.base.util.StringUtils;
 
 
 /**
@@ -48,6 +49,10 @@ public abstract class PageServiceImpl<T extends Object, PK extends Serializable>
 		Page<T> page = new Page<T>();
 		page.setCurrentPage(pageRequest.getCurrentPage());
 		page.setPageSize(pageRequest.getPageSize());
+		/*防止没有排序字段报错*/
+		if(StringUtils.isNotBlank(pageRequest.getOrderColumn())) {
+			page.setOrderColumn(pageRequest.getOrderColumn());
+		}
 		Map<String, Object> condition = new HashMap<String, Object>();
 		Map<String, ColumnFilter> map = pageRequest.getColumnFilters();
 		Set<String> set = map.keySet();
@@ -56,6 +61,7 @@ public abstract class PageServiceImpl<T extends Object, PK extends Serializable>
 			String value = cf.getValue();
 			condition.put(key, value);
 		}
+		page.setCondition(condition);
 		return findPage(page);
 	}
 }

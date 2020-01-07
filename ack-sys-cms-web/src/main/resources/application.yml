@@ -1,5 +1,4 @@
 spring:
-  
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://127.0.0.1:3306/portal?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
@@ -20,16 +19,19 @@ spring:
     testOnReturn : false
     poolPreparedStatements : true
     maxPoolPreparedStatementPerConnectionSize : 20
-    filters : stat,wall,log4j
+    #wall不支持批量更新
+    #filters : stat,wall,log4j
+    filters : stat,log4j
     connectionProperties : druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     useGlobalDataSourceStat : true
-
+mybatis:
+    config-location: classpath:config/mybatis-config.xml
+    type-aliases-package: org.ack.sys.cms.pojo
 server:
     port: 8080
 logging:
     level:
        root: debug
-mybatis:
-    config-location: classpath:config/mybatis-config.xml
-    type-aliases-package: org.ack.sys.cms.pojo
-       
+####自定义配置
+user:
+    avatar: /aaa/bb.png          

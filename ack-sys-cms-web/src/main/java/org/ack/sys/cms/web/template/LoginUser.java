@@ -1,8 +1,9 @@
 package org.ack.sys.cms.web.template;
 
-import org.ack.sys.cms.pojo.User;
+import java.io.Serializable;
 
-public class LoginUser extends User {
+
+public class LoginUser implements Serializable {
 	private static final long serialVersionUID = 6967493146289676845L;
 	private String username;
 	private String password;

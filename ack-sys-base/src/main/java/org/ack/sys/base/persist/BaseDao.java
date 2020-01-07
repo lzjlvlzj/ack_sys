@@ -1,6 +1,8 @@
 package org.ack.sys.base.persist;
 
 import java.util.List;
+import java.util.Map;
+
 
 public interface BaseDao<T, PK> {
 	/**
@@ -50,6 +52,12 @@ public interface BaseDao<T, PK> {
 	 * @return T
 	 */
 	public T findById(PK id);
+	
+	/**根據具體字段查詢
+	 * @param map
+	 * @return
+	 */
+	public T findBySelected(Map<String, String> map);
 
 	/**
 	 * 查询所有
@@ -73,4 +81,11 @@ public interface BaseDao<T, PK> {
 	 * @return
 	 */
 	public Integer deleteByIds(String[] id);
+	
+    
+    /**批量修改
+     * @param list
+     * @return
+     */
+    public Integer batchUpdate(List<T> list);
 }

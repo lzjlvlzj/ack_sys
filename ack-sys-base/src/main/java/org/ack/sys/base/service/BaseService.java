@@ -75,5 +75,16 @@ public interface BaseService<T extends Object, PK extends Serializable> {
 	 * 全部删除
 	 */
 	public int deleteAll();
+	
+    /** 批量修改
+     * @param list
+     * @return
+     */
+    public int batchDelete(List<T> list);
+    /** 批量修改
+     * @param list
+     * @return
+     */
+    public int batchUpdate(List<T> list);
 
 }

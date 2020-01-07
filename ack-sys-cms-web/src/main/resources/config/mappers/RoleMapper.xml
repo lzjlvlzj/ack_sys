@@ -5,6 +5,7 @@
 		type="org.ack.sys.cms.pojo.Role">
 		<id column="id" property="id" />
 		<id column="name" property="name" />
+		<id column="remark" property="remark" />
 		<result column="creator" property="creator" />
 		<result column="createTime" property="createTime" />
 		<result column="modifier" property="modifier" />
@@ -12,20 +13,59 @@
 		<result column="deleteStatus" property="deleteStatus" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, name, creator, createtime, modifier, modifyTime, deleteStatus
+		id, name,remark, creator, createtime, modifier, modifyTime, deleteStatus
 	</sql>
 	<insert id="insert">
-		INSERT INTO cms_role (name, creator, createtime, modifier, modifyTime, deleteStatus)
-		VALUES (#{name}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{deleteStatus})
+		INSERT INTO cms_role (name,remark, creator, createtime, modifier, modifyTime, deleteStatus)
+		VALUES (#{name},#{remark}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{deleteStatus})
 	</insert>
+	<update id="update" parameterType="org.ack.sys.cms.pojo.Role">
+	   update cms_role
+		<set>
+			
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			<if test="deleteStatus != null">
+				deleteStatus = #{deleteStatus},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="modifyTime != null">
+				modifyTime = #{modifyTime},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
 	<select id="findById" parameterType="int" resultMap="BaseResultMap">
 	    select <include refid="Base_Column_List"></include>
 	    from cms_role
 	    where id = #{id}
 	</select>
+	<select id="findRoleByName" resultMap="BaseResultMap" parameterType="string">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
+	    where name = #{name}
+	</select>
+	
 	<select id="findAll" resultMap="BaseResultMap">
 	    select <include refid="Base_Column_List"></include>
 	    from cms_role
+	</select>
+	<select id="findInterceptorPageList" parameterType="org.ack.sys.base.persist.page.Page" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
+	    <where>
+	        1 = 1
+	        and deleteStatus = 0
+	        <if test="condition.name != null and condition.name !=''">
+				and name=#{condition.name}
+			</if>
+	    </where>
 	</select>
 	<select id="findRoleByUser">
 	</select>

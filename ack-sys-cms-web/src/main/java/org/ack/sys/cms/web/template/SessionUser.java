@@ -10,7 +10,7 @@ public class SessionUser {
 	private String token;
 	private User user;
 	
-	public SessionUser(String token ,User user) {
+	public SessionUser(String token, User user) {
 		this.token = token;
 		this.user = user;
 	}

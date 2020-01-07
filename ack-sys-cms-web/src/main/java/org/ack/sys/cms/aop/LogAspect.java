@@ -5,6 +5,7 @@ import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 
 import org.ack.sys.base.common.ResponseResult;
+import org.ack.sys.base.util.HttpUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -17,8 +18,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 /**
@@ -46,7 +45,7 @@ public class LogAspect {
             Object o =  pjp.proceed();
             long t2 = System.currentTimeMillis();
             long result = t2 - t1;
-            logger.debug("执行时间: " + result + "ms.");
+            logger.debug("执行时间: " + result + " ms");
             logger.debug("3、Around：方法环绕结束，结果是 :" + o);
             return o;
         } catch (Throwable e) {
@@ -60,10 +59,10 @@ public class LogAspect {
     @Before(value = "LogPointCut()")
     public void before(JoinPoint joinPoint){
         logger.debug("2、Before：方法执行开始...");
-        // 接收到请求，记录请求内容
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        assert attributes != null;
-        HttpServletRequest request = attributes.getRequest();
+        HttpServletRequest request = HttpUtil.getHttpServletRequest();
+        if(null == request) {
+        	return;
+        }
         if(logger.isDebugEnabled()) {
         	// 记录下请求内容
             logger.debug("URL : " + request.getRequestURL().toString());
