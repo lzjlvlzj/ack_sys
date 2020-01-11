@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.common.Validation;
+import org.ack.sys.base.core.auth.annotation.AckPermission;
 import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.persist.page.PageRequest;
 import org.ack.sys.cms.pojo.User;
@@ -35,6 +36,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userServiceImpl;
 
+	@AckPermission("sys:user:add")
 	@PostMapping("/add")
 	@ResponseBody
 	public ResponseResult insert(@RequestBody @Validated User user, BindingResult result, HttpServletRequest request,
@@ -73,13 +75,15 @@ public class UserController extends BaseController {
 
 	}
 
+	@AckPermission("sys:user:edit")
 	@PatchMapping("/edit")
 	@ResponseBody
 	public ResponseResult edit(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
 		int r = userServiceImpl.update(user);
 		return new ResponseResult(200, r);
 	}
-
+	
+	@AckPermission("sys:user:delete")
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public ResponseResult delete(@RequestBody List<User> list, HttpServletRequest request,
@@ -101,6 +105,7 @@ public class UserController extends BaseController {
 		return new ResponseResult(200, rt);
 	}
 
+	@AckPermission("sys:user:view")
 	@PostMapping("/findPage")
 	@ResponseBody
 	public ResponseResult findPage(@RequestBody PageRequest pageRequest) {
@@ -110,6 +115,7 @@ public class UserController extends BaseController {
 		return result;
 	}
 
+	@AckPermission("sys:user:view")
 	@GetMapping("/findPermissions")
 	@ResponseBody
 	public ResponseResult findUserPermissions(@RequestParam String username, HttpServletRequest request) {

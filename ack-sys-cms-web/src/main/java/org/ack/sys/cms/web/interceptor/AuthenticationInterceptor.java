@@ -17,7 +17,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * @author: Mr.superbeyone
  * @create: 2018-11-08 09:37
  **/
-public class HttpInterceptor extends HandlerInterceptorAdapter   {
+public class AuthenticationInterceptor extends HandlerInterceptorAdapter   {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -25,7 +25,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter   {
 		String token = request.getHeader("token");
 		String json = "{\"code\":401, \"msg\":\"未登录\", \"data\":\"\"}";
 		if(StringUtils.isBlank(token)) {
-			HttpUtil.responseJson(response, json);
+			HttpUtil.responseJson(response, 401, json);
 			return false;
 		}
 		HttpSession session = request.getSession();

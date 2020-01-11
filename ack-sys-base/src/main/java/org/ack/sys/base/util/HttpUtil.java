@@ -69,9 +69,18 @@ public class HttpUtil {
 	 * @param json
 	 */
 	public static void responseJson(HttpServletResponse response, String json) {
+		responseJson(response, 200, json);
+
+	}
+	/**返回json
+	 * @param response
+	 * @param json
+	 */
+	public static void responseJson(HttpServletResponse response, int code, String json) {
 		PrintWriter writer = null;
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
+		response.setStatus(code);
 		try {
 			writer = response.getWriter();
 			writer.print(json);

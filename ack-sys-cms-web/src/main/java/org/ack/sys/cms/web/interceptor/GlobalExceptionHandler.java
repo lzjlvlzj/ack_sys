@@ -4,7 +4,6 @@ import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.exception.BaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,11 +22,14 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
-	public ModelMap handleException(Exception e) {
-		ModelMap modelMap = new ModelMap();
-		modelMap.addAttribute("msg", "后台异常捕获");
-		modelMap.addAttribute("Exception", e);
-		return modelMap;
+	public ResponseResult handleException(Exception e) {
+		logger.debug("捕获到异常");
+		e.printStackTrace();
+		String msg = e.getMessage();
+		int code = 500;
+		ResponseResult ex = new ResponseResult(code, msg);
+		logger.debug(ex.toString());
+		return ex;
 	}
 
 	
