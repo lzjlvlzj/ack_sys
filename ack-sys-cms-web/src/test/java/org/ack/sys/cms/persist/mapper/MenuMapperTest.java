@@ -80,16 +80,18 @@ class MenuMapperTest extends BaseTest {
 		Long userId = 2L;
 		
 		Menu menu = new Menu();
-		menu.setName("系统管理");
-		menu.setIcon("el-icon-setting");
+		menu.setName("菜单删除");
+		menu.setIcon("el-icon-service");
 		menu.setCreator(userId);
 		menu.setCreateTime(date);
-		menu.setParentId(0L);
+		menu.setParentId(8L);
 		menu.setLevel(1);
 		menu.setOrderNum(1);
 		menu.setModifier(userId);
 		menu.setModifyTime(date);
-		menu.setType(0);
+		menu.setType(2);
+		menu.setUrl("");
+		menu.setPerms("sys:role:delete");
 		
 		//Menu userMenu = new Menu();
 		

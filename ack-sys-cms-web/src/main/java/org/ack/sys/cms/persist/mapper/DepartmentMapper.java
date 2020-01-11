@@ -7,5 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DepartmentMapper extends PageDao<Department, Long> {
 
+	public Department findByName(String name);
+
 
 }

@@ -8,5 +8,7 @@ import org.ack.sys.cms.pojo.Department;
 public interface DepartmentService extends BaseService<Department, Long> {
 
 	public List<Department> findTree();
+	
+	public Department findByName(String name);
 
 }

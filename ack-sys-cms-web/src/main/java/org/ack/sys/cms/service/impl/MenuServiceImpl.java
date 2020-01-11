@@ -1,7 +1,9 @@
 package org.ack.sys.cms.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.ack.sys.base.persist.page.PageDao;
 import org.ack.sys.base.service.impl.PageServiceImpl;
@@ -12,8 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-/**用戶邏輯
+/**
+ * 用戶邏輯
+ * 
  * @author ack
  *
  */
@@ -28,27 +34,72 @@ public class MenuServiceImpl extends PageServiceImpl<Menu, Long> implements Menu
 		logger.debug("mapper is： {}", menuMapper);
 		return menuMapper;
 	}
-
+	
 	@Override
-	public List<Menu> findMenuByUser(String username) {
-		List<Menu> list = new ArrayList<Menu>();
-		List<Menu> subMenu = new ArrayList<Menu>();
-		Menu sysMenu = menuMapper.findById(6L);
-		
-		Menu userMenu = menuMapper.findById(7L);
-		Menu roleMenu = menuMapper.findById(8L);
-		subMenu.add(userMenu);
-		subMenu.add(roleMenu);
-		
-		sysMenu.setChildren(subMenu);
-		list.add(sysMenu);
-		return list;
+	@Transactional
+	public int insert(Menu t) {
+		Menu dbMenu = findByName(t.getName());
+		if(null != dbMenu) {
+			logger.debug("菜单:{}已经存在", t.getName());
+			return -1;
+		}
+		return super.insert(t);
+	}
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+	public Menu findByName(String name) {
+		return menuMapper.findByName(name);
 	}
 
-	
+	@Override
+	@Transactional
+	public int batchDelete(List<Menu> list) {
+		int size = list.size();
+		int r = 0;
+		for (int i = 0; i < size; i++) {
+			Menu menu = list.get(i);
+			logger.debug("用户id : {}", menu.getId());
+			menu.setDeleteStatus(1);
+			int rt = update(menu);
+			r = r + rt;
+		}
+		logger.debug("需要修改的数据为{}条,实际修改{}条", size, r);
+		return r;
+	}
 
+	private Menu getSortedMenu(List<Menu> list, Menu parent) {
+		List<Menu> children = new ArrayList<Menu>();
+		for (Menu menu : list) {
+			if (parent.getId() == menu.getParentId()) {
+				if (menu.getType() != 2L) {
+					children.add(menu);
+					getSortedMenu(list, menu);
+				}
+			}
+		}
+		parent.setChildren(children);
+		return parent;
+	}
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+	public List<Menu> findNoReapetListByUserId(Long id) {
+		List<Menu> list = menuMapper.findByUserId(id);
+		// 去重
+		Set<Menu> set = new HashSet<Menu>();
+		for (Menu menu : list) {
+			set.add(menu);
+		}
+		List<Menu> result = new ArrayList<Menu>(set);
+		return result;
+	}
 
-
-	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+	public List<Menu> findByUserId(Long id) {
+		List<Menu> result = findNoReapetListByUserId(id);
+		Menu root = new Menu();
+		root.setId(0L);
+		List<Menu> sortedList = getSortedMenu(result, root).getChildren();
+		return sortedList;
+	}
 
 }

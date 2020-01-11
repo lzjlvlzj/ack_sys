@@ -1,24 +1,22 @@
 package org.ack.sys.cms.persist.mapper;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Date;
-import java.util.List;
 
 import org.ack.sys.cms.persist.BaseTest;
-import org.ack.sys.cms.pojo.UserRole;
+import org.ack.sys.cms.pojo.RoleMenu;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UserRoleMapperTest extends BaseTest{
+class RoleMenuMapperTest extends BaseTest{
 	
-	UserRoleMapper userRoleMapper;
+	RoleMenuMapper roleMenuMapper;
 	@BeforeEach
 	public void init() {
-		userRoleMapper = sqlSession.getMapper(UserRoleMapper.class);
+		roleMenuMapper = sqlSession.getMapper(RoleMenuMapper.class);
 	}
 	
 	@AfterEach
@@ -30,32 +28,25 @@ class UserRoleMapperTest extends BaseTest{
 	void testFind() {
 		fail("Not yet implemented");
 	}
-	
-	@Test
-	void testFindByUserId() {
-		Long userId = 2L;
-		List<UserRole> list = userRoleMapper.findByUserId(userId);
-		System.out.println(list.size());
-		assertNotNull(list);
-	}
 
 	@Test
 	void testInsert() {
 		Date date = new Date();
 		Long id = 2L;
-		UserRole ur = new UserRole();
-		ur.setUserId(2L);
-		ur.setRoleId(1L);
-		ur.setCreator(id);
-		ur.setCreateTime(date);
-		ur.setModifier(id);
-		ur.setModifyTime(date);
 		
-		int r = userRoleMapper.insert(ur);
-		System.out.println(r);
+		RoleMenu rm = new RoleMenu();
+		rm.setCreator(id);
+		rm.setCreateTime(date);
+		rm.setModifier(id);
+		rm.setModifyTime(date);
+		rm.setRoleId(1L);
+		rm.setMenuId(28L);
 		
-		assertEquals(1, r);
+		int r = roleMenuMapper.insert(rm);
 		commit();
+		assertEquals(1, r);
+		
+		
 	}
 
 	@Test
@@ -79,6 +70,11 @@ class UserRoleMapperTest extends BaseTest{
 	}
 
 	@Test
+	void testFindBySelected() {
+		fail("Not yet implemented");
+	}
+
+	@Test
 	void testFindAll() {
 		fail("Not yet implemented");
 	}
@@ -90,6 +86,11 @@ class UserRoleMapperTest extends BaseTest{
 
 	@Test
 	void testDeleteByIds() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testBatchUpdate() {
 		fail("Not yet implemented");
 	}
 

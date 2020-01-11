@@ -2,11 +2,16 @@ package org.ack.sys.cms.pojo;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.ack.sys.base.pojo.BasePojo;
 
 public class Department extends BasePojo {
 
+	@NotBlank(message = "{dept.name.notblank}")
     private String name;
+	@NotNull(message = "{dept.parentid.notblank}")
     private Long parentId;
     private List<Department> children;
 

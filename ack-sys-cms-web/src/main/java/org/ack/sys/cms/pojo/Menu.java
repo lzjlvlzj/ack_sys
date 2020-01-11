@@ -4,19 +4,19 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.ack.sys.base.pojo.BasePojo;
 
 /**菜单
  * @author ack
  *
  */
-/**
- * @author ack
- *
- */
 public class Menu extends BasePojo implements Serializable {
 
 	private static final long serialVersionUID = 5674586623836846991L;
+	@NotBlank(message = "{menu.name.notblank}")
 	private String name;                      // 菜单名称
 	private String url;                       // vue的路由地址
 	private String icon;
@@ -24,6 +24,7 @@ public class Menu extends BasePojo implements Serializable {
 	private Integer type;                     // 0 : 目录; 1:菜单; 2:按钮
 	private Integer level;
 	private Integer orderNum;
+	@NotNull(message = "{menu.parentid.notblank}")
 	private Long parentId;
 	private List<Menu> children;
 
@@ -108,6 +109,28 @@ public class Menu extends BasePojo implements Serializable {
 
 	public void setChildren(List<Menu> children) {
 		this.children = children;
+	}
+	
+	@Override
+	public int hashCode() {
+		Menu m = (Menu)this;
+		if(null == m.getId()){
+			return super.hashCode();
+		}
+		return m.getId().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Menu){
+			Menu m = (Menu) obj;
+			if(null == m.getId() || null == id){
+				return super.equals(obj);
+			}
+			boolean b = (m.getId() == id);
+			return b;
+		}
+		return super.equals(obj);
 	}
 
 	@Override

@@ -2,8 +2,12 @@ package org.ack.sys.cms.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.ack.sys.base.service.PageService;
 import org.ack.sys.cms.pojo.User;
+import org.ack.sys.cms.web.template.LoginUser;
 
 /**
  * 用户接口
@@ -20,6 +24,7 @@ public interface UserService extends PageService<User, Long> {
 	 * @return User
 	 */
 	public User findUserByEmail(String email);
+
 	/**
 	 * 根據用户登陆名称查询用户信息
 	 * 
@@ -50,6 +55,17 @@ public interface UserService extends PageService<User, Long> {
 	 * @param username
 	 * @return
 	 */
-	public List<String> findUserPermissions(String username);
+	public List<String> findUserPermissions(Long id);
+
+	/**
+	 * 用户登录
+	 * 
+	 * @param request
+	 * @param response
+	 * @param user
+	 * @param token 
+	 * @return
+	 */
+	public int login(HttpServletRequest request, HttpServletResponse response, LoginUser user, String token);
 
 }

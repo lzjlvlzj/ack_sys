@@ -112,8 +112,13 @@ public class UserController extends BaseController {
 
 	@GetMapping("/findPermissions")
 	@ResponseBody
-	public ResponseResult findUserPermissions(@RequestParam String username) {
-		List<String> list = userServiceImpl.findUserPermissions(username);
+	public ResponseResult findUserPermissions(@RequestParam String username, HttpServletRequest request) {
+		User user = getCurrentUser(request);
+		if(!user.getUsername().equals(username)) {
+			logger.warn("当前登录用户:{},传参用户名:{}",user.getUsername(), username);
+			return new ResponseResult(200, null);
+		}
+		List<String> list = userServiceImpl.findUserPermissions(user.getId());
 		ResponseResult result = new ResponseResult(200, list);
 		return result;
 	}

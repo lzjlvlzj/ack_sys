@@ -18,19 +18,104 @@
 		<result column="parentId" property="parentId" />
 		<result column="deleteStatus" property="deleteStatus" />
 	</resultMap>
+	<resultMap type="org.ack.sys.cms.pojo.Menu" id="RolePageResultMap"></resultMap>
 	<sql id="Base_Column_List">
-		id, name, url, icon, perms, type, level, orderNum, creator, createtime, modifier, modifyTime, parentId,deleteStatus
+		id, name, url, icon, perms, type, level, orderNum, creator,
+		createtime, modifier, modifyTime, parentId,deleteStatus
 	</sql>
 	<insert id="insert">
-		INSERT INTO cms_menu (name, url, icon, perms, type, level, orderNum, creator, createtime, modifier, updateTime, parentId,deleteStatus)
-		VALUES (#{name}, #{url}, #{icon}, #{perms}, #{type}, #{level}, #{orderNum}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{parentId},#{deleteStatus})
+		INSERT INTO cms_menu (name, url, icon, perms, type,
+		level, orderNum, creator, createtime, modifier, modifyTime,
+		parentId,deleteStatus)
+		VALUES (#{name}, #{url}, #{icon}, #{perms},
+		#{type}, #{level}, #{orderNum}, #{creator}, #{createTime},
+		#{modifier}, #{modifyTime}, #{parentId},#{deleteStatus})
 	</insert>
-	<select id="findById" parameterType="long" resultMap="BaseResultMap">
-	    select <include refid="Base_Column_List"></include>
-	    from cms_menu
-	    where id = #{id}
+	<select id="findInterceptorPageList"
+		parameterType="org.ack.sys.base.persist.page.Page"
+		resultMap="RolePageResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_menu 
+		<where>
+		  1 = 1
+		  and deleteStatus = 0
+		  <if test="condition.name != null and condition.name !=''">
+				and name=#{condition.name}
+		  </if>
+		</where>
 	</select>
-	<select id="findMenuByUser">
+	<select id="findById" parameterType="long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_menu
+		where id = #{id}
+	</select>
+	<select id="findAll">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_menu
+	</select>
+	<select id="findByName" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_menu
+		where name = #{name}
+	</select>
+	<delete id="delete">
+	</delete>
+	<update id="update" parameterType="org.ack.sys.cms.pojo.Menu">
+	    update cms_menu
+	    <set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="url != null">
+				url = #{url},
+			</if>
+			<if test="icon != null">
+				icon = #{icon},
+			</if>
+			<if test="perms != null">
+				perms = #{perms},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="level != null">
+				level = #{level},
+			</if>
+			<if test="orderNum != null">
+				orderNum = #{orderNum},
+			</if>
+			<if test="parentId != null">
+				parentId = #{parentId},
+			</if>
+			<if test="deleteStatus != null">
+				deleteStatus = #{deleteStatus},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="modifyTime != null">
+				modifyTime = #{modifyTime},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="findByUserId" parameterType="long"
+		resultMap="BaseResultMap">
+		SELECT
+		  cm.*
+		FROM
+		cms_menu cm
+		LEFT JOIN cms_role_menu crm ON cm.id = crm.menuId
+		LEFT JOIN cms_user_role cur ON cur.roleId = crm.roleId
+		LEFT JOIN cms_user cu ON cu.id = cur.userId
+		WHERE
+		  cu.id = #{id}
 	</select>
 
 </mapper>

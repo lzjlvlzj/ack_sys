@@ -1,6 +1,8 @@
 package org.ack.sys.base.common;
 
-public class ResponseResult {
+import org.ack.sys.base.core.BaseMessage;
+
+public class ResponseResult implements BaseMessage{
     private int code;
     private Object data;
     private String msg;
@@ -47,6 +49,7 @@ public class ResponseResult {
     public String toString() {
         return "ResponseResult{" +
                 "code=" + code +
+                "code=" + msg +
                 ", data=" + data +
                 '}';
     }

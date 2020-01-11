@@ -22,8 +22,8 @@ class MenuServiceImplTest {
 
 	@Test
 	void testFindMenuByUser() {
-		String username = "ack";
-		List<Menu> menu = menuServiceImpl.findMenuByUser(username);
+		Long id = 2L;
+		List<Menu> menu = menuServiceImpl.findByUserId(id);
 		assertNotNull(menu);
 	}
 

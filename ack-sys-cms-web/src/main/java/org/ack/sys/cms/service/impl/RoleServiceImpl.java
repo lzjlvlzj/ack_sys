@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**用戶邏輯
  * @author ack
@@ -31,6 +33,7 @@ public class RoleServiceImpl extends PageServiceImpl<Role, Long> implements Role
 	}
 	
 	@Override
+	@Transactional
 	public int insert(Role t) {
        Role role = findRoleByName(t.getName());
        if(null != role) {
@@ -41,6 +44,7 @@ public class RoleServiceImpl extends PageServiceImpl<Role, Long> implements Role
 	}
 
 	@Override
+	@Transactional
 	public int update(Role t) {
 	   Role role = findRoleByName(t.getName());
        if(null != role) {
@@ -53,6 +57,7 @@ public class RoleServiceImpl extends PageServiceImpl<Role, Long> implements Role
 	}
 
 	@Override
+	@Transactional
 	public int batchDelete(List<Role> list) {
 		int size = list.size();
 		int r = 0;
@@ -67,6 +72,7 @@ public class RoleServiceImpl extends PageServiceImpl<Role, Long> implements Role
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
 	public Role findRoleByName(String name) {
 		return roleMapper.findRoleByName(name);
 	}

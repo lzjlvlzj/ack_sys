@@ -7,7 +7,7 @@
     <result column="roleId" jdbcType="INTEGER" property="roleId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, userId, roleId
+    id, userId, roleId, creator, createtime, modifier, modifyTime
   </sql>
   <select id="findById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -15,42 +15,25 @@
     from cms_user_role
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="findByUserId" parameterType="long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cms_user_role
+    where userId = #{id}
+  </select>
   <delete id="deleteById" parameterType="java.lang.Integer">
     delete from cms_user_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.ack.sys.cms.pojo.UserRole">
-    insert into cms_user_role (id, userId, roleId
+    insert into cms_user_role (id, userId, roleId, creator, createtime, modifier, modifyTime
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}
+    ,#{creator}, #{createTime}, #{modifier}, #{modifyTime}
       )
   </insert>
-  <insert id="insertSelective" parameterType="org.ack.sys.cms.pojo.UserRole">
-    insert into cms_user_role
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userId != null">
-        userId,
-      </if>
-      <if test="roleId != null">
-        roleId,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateById" parameterType="org.ack.sys.cms.pojo.UserRole">
+ 
+  <update id="update" parameterType="org.ack.sys.cms.pojo.UserRole">
     update cms_user_role
     <set>
       <if test="userId != null">
@@ -59,6 +42,12 @@
       <if test="roleId != null">
         roleId = #{roleId,jdbcType=INTEGER},
       </if>
+      <if test="modifier != null">
+		modifier = #{modifier},
+	  </if>
+	  <if test="modifyTime != null">
+		modifyTime = #{modifyTime},
+	  </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

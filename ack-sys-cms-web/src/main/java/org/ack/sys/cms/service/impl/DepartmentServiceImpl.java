@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**用戶邏輯
  * @author ack
@@ -31,6 +33,40 @@ public class DepartmentServiceImpl extends PageServiceImpl<Department, Long> imp
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public int insert(Department t) {
+		Department dbDept = findByName(t.getName());
+		if(null != dbDept) {
+			logger.debug("部门:{}已经存在", t.getName());
+			return -1;
+		}
+		return super.insert(t);
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+	public Department findByName(String name) {
+		return departmentMapper.findByName(name);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public int batchDelete(List<Department> list) {
+		int size = list.size();
+		int r = 0;
+		for (int i = 0; i < size; i++) {
+			Department dept = list.get(i);
+			logger.debug("部门id : {}", dept.getId());
+			dept.setDeleteStatus(1);
+			int rt = update(dept);
+			r = r + rt;
+		}
+		logger.debug("需要修改的数据为{}条,实际修改{}条", size, r);
+		return r;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
 	public List<Department> findTree() {
 		List<Department> list = departmentMapper.findAll();
 		List<Department> deptList = new ArrayList<Department>();

@@ -37,5 +37,6 @@
 		<mapper resource="config/mappers/DepartmentMapper.xml" />
 		<mapper resource="config/mappers/RoleMapper.xml" />
 		<mapper resource="config/mappers/UserRoleMapper.xml" />
+		<mapper resource="config/mappers/RoleMenuMapper.xml" />
 	</mappers>
 </configuration>
