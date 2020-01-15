@@ -1,8 +1,10 @@
 package org.ack.sys.cms.persist.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import org.ack.sys.base.persist.page.PageDao;
+import org.ack.sys.cms.pojo.Role;
 import org.ack.sys.cms.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -54,5 +56,13 @@ public interface UserMapper extends PageDao<User, Long> {
 	 * @return
 	 */
 	public User findBySelected(Map<String, String> map);
+
+	/**
+	 * 根据用户id查询角色信息
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public List<Role> findUserRoles(Long id);
 
 }

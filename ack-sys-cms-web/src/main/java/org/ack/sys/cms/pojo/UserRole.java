@@ -6,7 +6,14 @@ public class UserRole extends BasePojo{
     private Long userId;
 
     private Long roleId;
-
+    
+    public UserRole() {
+    	
+    }
+    public UserRole(Long userId, Long roleId) {
+    	this.userId = userId;
+    	this.roleId = roleId;
+    }
 	public Long getUserId() {
         return userId;
     }

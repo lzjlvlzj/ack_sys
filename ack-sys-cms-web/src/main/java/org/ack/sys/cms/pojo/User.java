@@ -1,6 +1,7 @@
 package org.ack.sys.cms.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class User extends BasePojo implements Serializable {
 	private List<Role> roles;
 	private String departmentName;
 	private String deptName;
+	private List<UserRole> userRoles = new ArrayList<>();
 	
 	public String getUsername() {
 		return username;
@@ -167,6 +169,14 @@ public class User extends BasePojo implements Serializable {
 
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
+	}
+
+	public List<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRols(List<UserRole> userRoles) {
+		this.userRoles = userRoles;
 	}
 
 	@Override

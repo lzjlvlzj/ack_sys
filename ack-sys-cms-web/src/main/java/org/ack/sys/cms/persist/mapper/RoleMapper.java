@@ -1,5 +1,7 @@
 package org.ack.sys.cms.persist.mapper;
 
+import java.util.List;
+
 import org.ack.sys.base.persist.page.PageDao;
 import org.ack.sys.cms.pojo.Role;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,5 +14,11 @@ public interface RoleMapper extends PageDao<Role, Long>{
 	 * @return Role
 	 */
 	public Role findRoleByName(String name);
+
+	/**根据用户id查询角色
+	 * @param id
+	 * @return
+	 */
+	public List<Role> findByUserId(Long id);
 
 }

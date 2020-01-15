@@ -29,10 +29,29 @@ public interface MenuService extends PageService<Menu, Long> {
 	 */
 	public List<Menu> findNoReapetListByUserId(Long id);
 
-	/**根据名称查询菜单
+	/**
+	 * 根据名称查询菜单
+	 * 
 	 * @param name
 	 * @return
 	 */
 	public Menu findByName(String name);
+
+	/**
+	 * find tree
+	 * 
+	 * @param id
+	 * 
+	 * @return
+	 */
+	public List<Menu> findTree();
+
+	/**
+	 * 根据角色查询菜单
+	 * 
+	 * @param roleId
+	 * @return
+	 */
+	public List<Menu> findByRoleId(Long roleId);
 
 }

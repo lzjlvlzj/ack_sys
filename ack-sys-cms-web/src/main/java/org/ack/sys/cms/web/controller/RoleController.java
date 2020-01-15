@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.common.Validation;
+import org.ack.sys.base.core.auth.annotation.AckPermission;
 import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.persist.page.PageRequest;
+import org.ack.sys.cms.pojo.Menu;
 import org.ack.sys.cms.pojo.Role;
 import org.ack.sys.cms.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -29,7 +32,7 @@ public class RoleController {
 	@Autowired
 	private RoleService roleServiceImpl;
 	
-	
+	@AckPermission("sys:role:add")
 	@PostMapping("/add")
 	@ResponseBody
 	public ResponseResult insert(@RequestBody @Validated Role role, BindingResult result, HttpServletRequest request,
@@ -56,6 +59,25 @@ public class RoleController {
 
 	}
 	
+	@AckPermission("sys:role:view")
+	@GetMapping("/findMenuByRoleId")
+	@ResponseBody
+	public ResponseResult findMenuByRoleId(@RequestParam Long roleId) {
+		List<Menu> list = roleServiceImpl.findMenuByRoleId(roleId);
+		ResponseResult result = new ResponseResult(200, list);
+		return result;
+	}
+	
+	@AckPermission("sys:role:edit")
+	@PostMapping("/saveRoleMenus")
+	@ResponseBody
+	public ResponseResult saveRoleMenus(@RequestBody Role role, HttpServletRequest request) {
+		Integer r = roleServiceImpl.saveRoleMenus(role);
+		ResponseResult result = new ResponseResult(200, r);
+		return result;
+	}
+	
+	@AckPermission("sys:role:edit")
 	@PatchMapping("/edit")
 	@ResponseBody
 	public ResponseResult edit(@RequestBody Role role, HttpServletRequest request, HttpServletResponse response) {
@@ -75,6 +97,7 @@ public class RoleController {
 		return new ResponseResult(code, msg, data);
 	}
 	
+	@AckPermission("sys:role:delete")
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public ResponseResult delete(@RequestBody List<Role> list, HttpServletRequest request,
@@ -89,7 +112,7 @@ public class RoleController {
 		return new ResponseResult(code, msg, rt);
 	}
 	
-
+	@AckPermission("sys:role:view")
 	@GetMapping("/list")
 	@ResponseBody
 	public ResponseResult findAll() {
@@ -98,6 +121,7 @@ public class RoleController {
 		return result;
 	}
 	
+	@AckPermission("sys:role:view")
 	@PostMapping("/findPage")
 	@ResponseBody
 	public ResponseResult findPage(@RequestBody PageRequest pageRequest) {

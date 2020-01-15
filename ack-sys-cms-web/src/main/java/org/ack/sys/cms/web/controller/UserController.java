@@ -10,6 +10,7 @@ import org.ack.sys.base.common.Validation;
 import org.ack.sys.base.core.auth.annotation.AckPermission;
 import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.persist.page.PageRequest;
+import org.ack.sys.cms.pojo.Role;
 import org.ack.sys.cms.pojo.User;
 import org.ack.sys.cms.service.UserService;
 import org.slf4j.Logger;
@@ -127,6 +128,14 @@ public class UserController extends BaseController {
 		List<String> list = userServiceImpl.findUserPermissions(user.getId());
 		ResponseResult result = new ResponseResult(200, list);
 		return result;
+	}
+	
+	@GetMapping("/findUserRoles")
+	@ResponseBody
+	public ResponseResult findUserRoles(@RequestParam Long id) {
+		logger.debug("用户id = {}", id);
+		List<Role> list = userServiceImpl.findUserRoles(id);
+		return new ResponseResult(200, list);
 	}
 
 	@GetMapping("/name/{username}")

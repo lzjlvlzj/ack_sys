@@ -14,8 +14,12 @@ import org.ack.sys.base.util.MD5Util;
 import org.ack.sys.base.util.StringUtils;
 import org.ack.sys.cms.persist.mapper.UserMapper;
 import org.ack.sys.cms.pojo.Menu;
+import org.ack.sys.cms.pojo.Role;
 import org.ack.sys.cms.pojo.User;
+import org.ack.sys.cms.pojo.UserRole;
 import org.ack.sys.cms.service.MenuService;
+import org.ack.sys.cms.service.RoleService;
+import org.ack.sys.cms.service.UserRoleService;
 import org.ack.sys.cms.service.UserService;
 import org.ack.sys.cms.web.template.LoginUser;
 import org.ack.sys.cms.web.template.SessionUser;
@@ -42,10 +46,37 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 	private String deaultAvatar;
 	@Autowired
 	private MenuService menuServiceImpl;
+	@Autowired
+	private RoleService roleServiceImpl;
+	@Autowired
+	private UserRoleService userRoleServiceImpl;
 
 	@Override
 	protected PageDao<User, Long> getPageDao() {
 		return userMapper;
+	}
+
+	@Override
+	public int update(User user) {
+		logger.debug("用户修改");
+		if(StringUtils.isNotBlank(user.getPassword())) {
+			String pwd = MD5Util.md5(user.getPassword());
+			user.setPassword(pwd);
+		}
+		List<UserRole> userRoles = user.getUserRoles();
+		//删除用户原来的角色
+		int delCount = userRoleServiceImpl.deleteByUserId(user.getId());
+		logger.debug("删除{}条记录", delCount);
+		int incCount = 0;
+		//插入新角色
+		if(null !=userRoles && userRoles.size() > 0) {
+			for(UserRole userRole : userRoles) {
+				int n = userRoleServiceImpl.insert(userRole);
+				incCount += n;
+			}
+			logger.debug("插入{}新条记录", incCount);
+		}
+		return super.update(user);
 	}
 
 	@Override
@@ -75,6 +106,7 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 			logger.debug("用户手机{}已存在", user.getMobile());
 			return -4;
 		}
+		//设置默认角色为普通员工
 		user.setAvatar(deaultAvatar);
 		String pass = MD5Util.md5(user.getPassword());
 		user.setPassword(pass);
@@ -181,6 +213,11 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 			session.setAttribute(Content.SESSION_KEY_USER, new SessionUser(token, dbUser));
 		}
 		return rt;
+	}
+
+	@Override
+	public List<Role> findUserRoles(Long id) {
+		return roleServiceImpl.findByUserId(id);
 	}
 
 }

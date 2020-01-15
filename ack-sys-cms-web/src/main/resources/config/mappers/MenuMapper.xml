@@ -52,7 +52,7 @@
 		from cms_menu
 		where id = #{id}
 	</select>
-	<select id="findAll">
+	<select id="findAll" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List"></include>
 		from cms_menu
@@ -63,6 +63,15 @@
 		<include refid="Base_Column_List"></include>
 		from cms_menu
 		where name = #{name}
+	</select>
+	<select id="findByRoleId" parameterType="long" resultMap="BaseResultMap">
+	    SELECT
+			cm.*
+		FROM
+			cms_menu cm
+		LEFT JOIN cms_role_menu crm ON crm.menuId = cm.id
+		WHERE
+			crm.roleId = #{roleId}
 	</select>
 	<delete id="delete">
 	</delete>

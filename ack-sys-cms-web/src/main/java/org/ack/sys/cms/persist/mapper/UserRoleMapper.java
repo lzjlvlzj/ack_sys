@@ -16,4 +16,12 @@ public interface UserRoleMapper extends PageDao<UserRole, Long> {
 	 * @return
 	 */
 	public List<UserRole> findByUserId(Long id);
+
+	/**
+	 * 根据用户id删除
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public int deleteByUserId(Long userId);
 }

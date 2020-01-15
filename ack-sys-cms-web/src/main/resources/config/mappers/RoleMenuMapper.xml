@@ -15,12 +15,17 @@
 		id, roleId, menuId, creator, createtime, modifier, modifyTime
 	</sql>
 	<select id="selectByPrimaryKey"
-		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		parameterType="java.lang.Long" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from cms_role_menu
-		where id = #{id,jdbcType=INTEGER}
+		where id = #{id}
 	</select>
+	<delete id="deleteByRoleId"
+		parameterType="java.lang.Long">
+		delete from cms_role_menu
+		where roleId = #{roleId}
+	</delete>
 	<delete id="deleteByPrimaryKey"
 		parameterType="java.lang.Integer">
 		delete from cms_role_menu
@@ -28,11 +33,28 @@
 	</delete>
 	<insert id="insert"
 		parameterType="org.ack.sys.cms.pojo.RoleMenu">
-		insert into cms_role_menu (id, roleId, menuId,creator, createtime, modifier, modifyTime
+		insert into cms_role_menu (roleId, menuId,creator, createtime, modifier, modifyTime
 		)
-		values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER},
-		#{menuId,jdbcType=INTEGER},#{creator}, #{createTime}, #{modifier}, #{modifyTime}
+		values ( #{roleId},#{menuId},#{creator}, #{createTime}, #{modifier}, #{modifyTime}
 		)
+	</insert>
+	<insert id="save" parameterType="org.ack.sys.cms.pojo.UserRole">
+	    insert into cms_role_menu (menuId, roleId, creator, createtime, modifier, modifyTime)
+	    values (#{menuId},#{roleId},#{creator}, 
+		#{createTime}, #{modifier},#{modifyTime})
+		ON DUPLICATE KEY UPDATE
+		<if test="menuId != null">
+			menuId=#{menuId},
+		</if>
+		<if test="roleId != null">
+			roleId=#{roleId},
+		</if>
+		<if test="modifier != null">
+			modifier = #{modifier},
+		</if>
+		<if test="modifyTime != null">
+			modifyTime = #{modifyTime}
+		</if>
 	</insert>
 	<insert id="insertSelective"
 		parameterType="org.ack.sys.cms.pojo.RoleMenu">

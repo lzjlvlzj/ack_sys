@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.ack.sys.base.service.PageService;
+import org.ack.sys.cms.pojo.Role;
 import org.ack.sys.cms.pojo.User;
 import org.ack.sys.cms.web.template.LoginUser;
 
@@ -63,9 +64,17 @@ public interface UserService extends PageService<User, Long> {
 	 * @param request
 	 * @param response
 	 * @param user
-	 * @param token 
+	 * @param token
 	 * @return
 	 */
 	public int login(HttpServletRequest request, HttpServletResponse response, LoginUser user, String token);
+
+	/**
+	 * 根据用户id查询角色
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public List<Role> findUserRoles(Long id);
 
 }

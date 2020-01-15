@@ -13,4 +13,12 @@ public interface UserRoleService extends PageService<UserRole, Long> {
 	 * @return
 	 */
 	public List<UserRole> findByUserId(Long id);
+
+	/**
+	 * 根据用户id删除
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public int deleteByUserId(Long id);
 }

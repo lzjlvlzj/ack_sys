@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -95,6 +96,22 @@ public class MenuController extends BaseController {
 		pageRequest.setOrderColumn("createTime");
 		Page<Menu> page = menuServiceImpl.findPage(pageRequest);
 		ResponseResult result = new ResponseResult(200, page);
+		return result;
+	}
+	
+	@GetMapping("/findTree")
+	@ResponseBody
+	public ResponseResult findTree() {
+		List<Menu> list = menuServiceImpl.findTree();
+		ResponseResult result = new ResponseResult(200, list);
+		return result;
+	}
+	
+	@GetMapping("/findByRoleId")
+	@ResponseBody
+	public ResponseResult findByRoleId(@RequestParam Long roleId) {
+		List<Menu> list = menuServiceImpl.findByRoleId(roleId);
+		ResponseResult result = new ResponseResult(200, list);
 		return result;
 	}
 	

@@ -78,6 +78,11 @@ public abstract class BaseServiceImpl<T extends Object, PK extends Serializable>
 		return getDao().batchUpdate(list);
 	}
 	
+	@Override
+	public Integer save(T t) {
+		return getDao().save(t);
+	}
+	
 	
 
 	

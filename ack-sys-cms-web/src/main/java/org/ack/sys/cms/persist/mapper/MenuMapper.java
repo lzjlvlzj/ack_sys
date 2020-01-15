@@ -25,4 +25,10 @@ public interface MenuMapper extends PageDao<Menu, Long> {
 	 */
 	public Menu findByName(String name);
 
+	/**
+	 * @param roleId
+	 * @return
+	 */
+	public List<Menu> findByRoleId(Long roleId);
+
 }

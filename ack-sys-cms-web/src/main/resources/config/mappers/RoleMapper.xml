@@ -41,10 +41,19 @@
 		</set>
 		where id = #{id}
 	</update>
-	<select id="findById" parameterType="int" resultMap="BaseResultMap">
+	<select id="findById" parameterType="long" resultMap="BaseResultMap">
 	    select <include refid="Base_Column_List"></include>
 	    from cms_role
 	    where id = #{id}
+	</select>
+	<select id="findByUserId" parameterType="long" resultMap="BaseResultMap">
+	    SELECT
+			cr.*
+		FROM
+			cms_role cr
+		LEFT JOIN cms_user_role cur ON cur.roleId = cr.id
+		WHERE
+			cur.userId = #{id}
 	</select>
 	<select id="findRoleByName" resultMap="BaseResultMap" parameterType="string">
 	    select <include refid="Base_Column_List"></include>

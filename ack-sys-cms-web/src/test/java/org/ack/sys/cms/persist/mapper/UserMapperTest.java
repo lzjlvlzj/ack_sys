@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.util.MD5Util;
@@ -86,12 +88,17 @@ class UserMapperTest extends BaseTest {
 	@Test
 	void testFindInterceptorPageList() {
 		Page<User> page = new Page<>();
+		Map<String, Object> map = new HashMap<>();
+		map.put("username", "admin");
+		page.setCondition(map);
 		List<User> list = userMapper.findInterceptorPageList(page);
+		assertNotNull(list);
 		for (User user : list) {
 			Department dept = user.getDepartment();
 			System.out.println(dept);
+			List<UserRole> url = user.getUserRoles();
+			System.out.println(url.size());
 		}
-		assertNotNull(list);
 	}
 
 	@Test

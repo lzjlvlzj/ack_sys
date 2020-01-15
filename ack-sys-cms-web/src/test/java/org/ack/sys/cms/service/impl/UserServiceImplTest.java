@@ -1,5 +1,6 @@
 package org.ack.sys.cms.service.impl;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -13,6 +14,7 @@ import org.ack.sys.base.persist.page.ColumnFilter;
 import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.persist.page.PageRequest;
 import org.ack.sys.base.util.MD5Util;
+import org.ack.sys.cms.pojo.Role;
 import org.ack.sys.cms.pojo.User;
 import org.ack.sys.cms.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -56,7 +58,7 @@ class UserServiceImplTest {
 	void testFindPagePageRequest() {
 		PageRequest request = new PageRequest();
 		Map<String,ColumnFilter> map = new HashMap<String,ColumnFilter>();
-		ColumnFilter cf = new ColumnFilter("username","zz");
+		ColumnFilter cf = new ColumnFilter("username","admin");
 		map.put("username",cf);
 		request.setColumnFilters(map);
 		
@@ -66,7 +68,17 @@ class UserServiceImplTest {
 			System.out.println(user);
 		}
 	}
-
+	
+	@Test
+    void testFindUserRoles() {
+    	Long id = 2L;
+    	List<Role> list = userServiceImpl.findUserRoles(id);
+    	assertNotNull(list);
+    	for(Role role : list) {
+    		System.out.println(role);
+    	}
+    }
+	
 	@Test
 	void testFindById() {
 		fail("Not yet implemented");

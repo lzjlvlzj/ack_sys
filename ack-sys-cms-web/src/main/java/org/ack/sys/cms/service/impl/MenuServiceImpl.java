@@ -34,19 +34,20 @@ public class MenuServiceImpl extends PageServiceImpl<Menu, Long> implements Menu
 		logger.debug("mapper is： {}", menuMapper);
 		return menuMapper;
 	}
-	
+
 	@Override
 	@Transactional
 	public int insert(Menu t) {
 		Menu dbMenu = findByName(t.getName());
-		if(null != dbMenu) {
+		if (null != dbMenu) {
 			logger.debug("菜单:{}已经存在", t.getName());
 			return -1;
 		}
 		return super.insert(t);
 	}
+
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Menu findByName(String name) {
 		return menuMapper.findByName(name);
 	}
@@ -67,20 +68,35 @@ public class MenuServiceImpl extends PageServiceImpl<Menu, Long> implements Menu
 		return r;
 	}
 
-	private Menu getSortedMenu(List<Menu> list, Menu parent) {
+	private Menu getSortedNavMenu(List<Menu> list, Menu parent) {
 		List<Menu> children = new ArrayList<Menu>();
 		for (Menu menu : list) {
 			if (parent.getId() == menu.getParentId()) {
 				if (menu.getType() != 2L) {
+					menu.setParentName(parent.getName());
 					children.add(menu);
-					getSortedMenu(list, menu);
+					getSortedNavMenu(list, menu);
 				}
 			}
 		}
 		parent.setChildren(children);
 		return parent;
 	}
-	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+
+	private Menu getSortedAllMenu(List<Menu> list, Menu parent) {
+		List<Menu> children = new ArrayList<Menu>();
+		for (Menu menu : list) {
+			if (parent.getId() == menu.getParentId()) {
+				menu.setParentName(parent.getName());
+				children.add(menu);
+				getSortedAllMenu(list, menu);
+			}
+		}
+		parent.setChildren(children);
+		return parent;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Menu> findNoReapetListByUserId(Long id) {
 		List<Menu> list = menuMapper.findByUserId(id);
 		// 去重
@@ -93,13 +109,28 @@ public class MenuServiceImpl extends PageServiceImpl<Menu, Long> implements Menu
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Menu> findByUserId(Long id) {
 		List<Menu> result = findNoReapetListByUserId(id);
 		Menu root = new Menu();
 		root.setId(0L);
-		List<Menu> sortedList = getSortedMenu(result, root).getChildren();
+		List<Menu> sortedList = getSortedNavMenu(result, root).getChildren();
 		return sortedList;
+	}
+
+	@Override
+	public List<Menu> findTree() {
+		List<Menu> result = findAll();
+		Menu root = new Menu();
+		root.setId(0L);
+		List<Menu> sortedList = getSortedAllMenu(result, root).getChildren();
+		return sortedList;
+	}
+
+	@Override
+	public List<Menu> findByRoleId(Long roleId) {
+		
+		return menuMapper.findByRoleId(roleId);
 	}
 
 }

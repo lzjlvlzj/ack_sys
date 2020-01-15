@@ -30,6 +30,11 @@
 			<id property="id" column="dept_id" />
 			<result property="name" column="dept_name" />
 		</association>
+		<!--  
+		<collection property="userRoles" ofType="org.ack.sys.cms.pojo.UserRole"
+		  select="org.ack.sys.cms.persist.mapper.UserRoleMapper.findByUserId" column="id">
+		</collection>
+		-->
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, username, password, type, state, email, realName, qq,

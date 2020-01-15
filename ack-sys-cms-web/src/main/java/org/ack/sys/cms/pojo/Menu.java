@@ -26,6 +26,7 @@ public class Menu extends BasePojo implements Serializable {
 	private Integer orderNum;
 	@NotNull(message = "{menu.parentid.notblank}")
 	private Long parentId;
+	private String parentName;
 	private List<Menu> children;
 
 
@@ -101,6 +102,14 @@ public class Menu extends BasePojo implements Serializable {
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
+	}
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
 	}
 
 	public List<Menu> getChildren() {
