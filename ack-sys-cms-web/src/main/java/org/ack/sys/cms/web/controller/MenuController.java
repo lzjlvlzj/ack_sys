@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.common.Validation;
+import org.ack.sys.base.core.auth.annotation.AckPermission;
 import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.persist.page.PageRequest;
 import org.ack.sys.cms.pojo.Menu;
@@ -36,6 +37,7 @@ public class MenuController extends BaseController {
 	@Autowired
 	private MenuService menuServiceImpl;
 	
+	@AckPermission("sys:menu:add")
 	@PostMapping("/add")
 	@ResponseBody
 	public ResponseResult insert(@RequestBody @Validated Menu menu, 
@@ -62,6 +64,7 @@ public class MenuController extends BaseController {
 		
 	}
 	
+	@AckPermission("sys:menu:edit")
 	@PatchMapping("/edit")
 	@ResponseBody
 	public ResponseResult edit(@RequestBody Menu menu, HttpServletRequest request, HttpServletResponse response) {
@@ -69,6 +72,7 @@ public class MenuController extends BaseController {
 		return new ResponseResult(200, r);
 	}
 	
+	@AckPermission("sys:menu:delete")
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public ResponseResult delete(@RequestBody List<Menu> list, HttpServletRequest request,
@@ -90,6 +94,7 @@ public class MenuController extends BaseController {
 		return menuServiceImpl.findById(id);
 	}
 	
+	@AckPermission("sys:menu:view")
 	@PostMapping("/findPage")
 	@ResponseBody
 	public ResponseResult findPage(@RequestBody PageRequest pageRequest) {
@@ -99,6 +104,7 @@ public class MenuController extends BaseController {
 		return result;
 	}
 	
+	@AckPermission("sys:menu:view")
 	@GetMapping("/findTree")
 	@ResponseBody
 	public ResponseResult findTree() {
@@ -107,6 +113,7 @@ public class MenuController extends BaseController {
 		return result;
 	}
 	
+	@AckPermission("sys:menu:view")
 	@GetMapping("/findByRoleId")
 	@ResponseBody
 	public ResponseResult findByRoleId(@RequestParam Long roleId) {
@@ -115,6 +122,7 @@ public class MenuController extends BaseController {
 		return result;
 	}
 	
+	@AckPermission("sys:menu:view")
 	@ResponseBody
 	@RequestMapping(value = "/findNavTree", method = RequestMethod.GET)
 	public ResponseResult findNvaTree(@RequestParam String username, HttpServletRequest request) {

@@ -5,7 +5,9 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="parentId" jdbcType="INTEGER" property="parentId" />
+    <result column="parentName" jdbcType="INTEGER" property="parentName" />
     <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="createName" jdbcType="INTEGER" property="createName" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modifier" jdbcType="INTEGER" property="modifier" />
     <result column="modifyTime" jdbcType="TIMESTAMP" property="modifyTime" />
@@ -15,10 +17,22 @@
     id, name, creator, createTime, modifier, modifyTime, deleteStatus,parentId
   </sql>
   <select id="findAll" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from cms_department
-    where deleteStatus = 0
+    SELECT
+	dept.id,
+	dept. NAME,
+	dept.creator,
+	dept.parentId,
+	dept.createTime,
+	dept.modifier,
+	dept.modifyTime,
+	dept.deleteStatus,
+	cms_dept. NAME AS parentName,
+	cu.realName as createName
+	FROM
+		cms_department dept
+	LEFT  JOIN cms_department cms_dept ON dept.parentId = cms_dept.id
+	LEFT JOIN cms_user cu on cu.id = dept.creator
+    where dept.deleteStatus = 0
   </select>
   <select id="findById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

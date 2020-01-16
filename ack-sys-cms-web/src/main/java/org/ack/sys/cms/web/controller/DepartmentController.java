@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.common.Validation;
+import org.ack.sys.base.core.auth.annotation.AckPermission;
 import org.ack.sys.cms.pojo.Department;
 import org.ack.sys.cms.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService departmentServiceImpl;
 	
+	@AckPermission("sys:dept:view")
 	@GetMapping("/tree")
 	@ResponseBody
 	public ResponseResult findTree() {
@@ -38,6 +40,7 @@ public class DepartmentController {
 		return new ResponseResult(200, departmentList);
 	}
 	
+	@AckPermission("sys:dept:add")
 	@PostMapping("/add")
 	@ResponseBody
 	public ResponseResult insert(@RequestBody @Validated Department menu, 
@@ -64,6 +67,7 @@ public class DepartmentController {
 		
 	}
 	
+	@AckPermission("sys:dept:edit")
 	@PatchMapping("/edit")
 	@ResponseBody
 	public ResponseResult edit(@RequestBody Department menu, HttpServletRequest request, HttpServletResponse response) {
@@ -71,6 +75,7 @@ public class DepartmentController {
 		return new ResponseResult(200, r);
 	}
 	
+	@AckPermission("sys:dept:delete")
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public ResponseResult delete(@RequestBody List<Department> list, HttpServletRequest request,

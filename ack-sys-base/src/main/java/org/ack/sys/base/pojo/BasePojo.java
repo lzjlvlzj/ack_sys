@@ -11,9 +11,11 @@ import java.util.Date;
 public class BasePojo {
 	protected Long id;
 	protected Long creator;
+	protected String createName;
 	protected Long modifier;
 	protected Date createTime;
 	protected Date modifyTime;
+	protected String modifyName;
 	protected Integer deleteStatus = 0;
 
 	public Long getId() {
@@ -30,6 +32,14 @@ public class BasePojo {
 
 	public void setCreator(Long creator) {
 		this.creator = creator;
+	}
+
+	public String getCreateName() {
+		return createName;
+	}
+
+	public void setCreateName(String createName) {
+		this.createName = createName;
 	}
 
 	public Long getModifier() {
@@ -54,7 +64,7 @@ public class BasePojo {
 
 	public void setModifyTime(Date modifyDate) {
 		this.modifyTime = modifyDate;
-		
+
 	}
 
 	public Integer getDeleteStatus() {
@@ -64,7 +74,13 @@ public class BasePojo {
 	public void setDeleteStatus(Integer deleteStatus) {
 		this.deleteStatus = deleteStatus;
 	}
-	
-	
+
+	public String getModifyName() {
+		return modifyName;
+	}
+
+	public void setModifyName(String modifyName) {
+		this.modifyName = modifyName;
+	}
 
 }

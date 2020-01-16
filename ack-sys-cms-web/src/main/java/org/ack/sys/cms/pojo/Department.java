@@ -13,6 +13,7 @@ public class Department extends BasePojo {
     private String name;
 	@NotNull(message = "{dept.parentid.notblank}")
     private Long parentId;
+	private String parentName;
     private List<Department> children;
 
     public String getName() {
@@ -37,6 +38,22 @@ public class Department extends BasePojo {
 
 	public void setChildren(List<Department> children) {
 		this.children = children;
+	}
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+	public String getCreateName() {
+		return createName;
+	}
+
+	public void setCreateName(String createName) {
+		this.createName = createName;
 	}
 
 	@Override
