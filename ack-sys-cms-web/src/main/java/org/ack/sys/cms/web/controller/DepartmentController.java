@@ -72,7 +72,7 @@ public class DepartmentController {
 	@ResponseBody
 	public ResponseResult edit(@RequestBody Department menu, HttpServletRequest request, HttpServletResponse response) {
 		int r = departmentServiceImpl.update(menu);
-		return new ResponseResult(200, r);
+		return new ResponseResult(200, r); 
 	}
 	
 	@AckPermission("sys:dept:delete")
