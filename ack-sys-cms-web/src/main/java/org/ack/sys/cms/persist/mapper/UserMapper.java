@@ -65,4 +65,12 @@ public interface UserMapper extends PageDao<User, Long> {
 	 */
 	public List<Role> findUserRoles(Long id);
 
+	/**
+	 * 根据用户名称修改
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public int updateByUserName(User user);
+
 }

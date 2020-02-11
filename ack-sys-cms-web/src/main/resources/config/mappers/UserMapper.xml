@@ -12,6 +12,8 @@
 		<result column="type" property="type" />
 		<result column="state" property="state" />
 		<result column="qq" property="qq" />
+		<result column="sex" property="sex" />
+		<result column="birthday" property="birthday" />
 		<result column="mobile" property="mobile" />
 		<result column="avatar" property="avatar" />
 		<result column="creator" property="creator" />
@@ -23,22 +25,23 @@
 
 	</resultMap>
 	<resultMap type="org.ack.sys.cms.pojo.User"
-		id="UserPageResultMap" extends="BaseResultMap">
+		id="UserResultMap" extends="BaseResultMap">
 		<result column="departmentName" property="departmentName" />
 		<association property="department"
 			javaType="org.ack.sys.cms.pojo.Department">
 			<id property="id" column="dept_id" />
 			<result property="name" column="dept_name" />
 		</association>
-		<!--  
-		<collection property="userRoles" ofType="org.ack.sys.cms.pojo.UserRole"
-		  select="org.ack.sys.cms.persist.mapper.UserRoleMapper.findByUserId" column="id">
+		 
+		<collection property="roles" ofType="org.ack.sys.cms.pojo.Role">
+		    <id property="id" column="role_id" />
+			<result property="name" column="role_name" />
 		</collection>
-		-->
+		
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, username, password, type, state, email, realName, qq,
-		mobile,address,departmentId
+		mobile,address,departmentId,sex,birthday,
 		avatar, creator, createtime, modifier,
 		modifyTime,deleteStatus
 	</sql>
@@ -86,13 +89,28 @@
 			where id = #{id}
 		</foreach>
 	</update>
+	<update id="updateByUserName" parameterType="org.ack.sys.cms.pojo.User">
+		update cms_user
+		<set>
+			<if test="password != null">
+				password = #{password},
+			</if>
+		</set>
+		where username = #{username}
+	</update>
 	<update id="update" parameterType="org.ack.sys.cms.pojo.User">
 		update cms_user
 		<set>
-			<if test="type != null">
+			<if test="type >= 0">
 				type = #{type},
 			</if>
-			<if test="state != null">
+			<if test="sex >= 0">
+				sex = #{sex},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday},
+			</if>
+			<if test="state >= null">
 				state = #{state},
 			</if>
 			<if test="email != null">
@@ -116,7 +134,7 @@
 			<if test="avatar != null">
 				avatar = #{avatar},
 			</if>
-			<if test="deleteStatus != null">
+			<if test="deleteStatus >= 0">
 				deleteStatus = #{deleteStatus},
 			</if>
 			<if test="modifier != null">
@@ -130,7 +148,7 @@
 	</update>
 	<select id="findInterceptorPageList"
 		parameterType="org.ack.sys.base.persist.page.Page"
-		resultMap="UserPageResultMap">
+		resultMap="UserResultMap">
 		SELECT
 		cu.id,
 		cu.username,
@@ -139,6 +157,8 @@
 		cu.email,
 		cu.realName,
 		cu.qq,
+		cu.sex,
+		cu.birthday,
 		cu.mobile,
 		cu.avatar,
 		cu.address,
@@ -169,22 +189,49 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT
 		INTO cms_user (username, password, type,
-		state, email, realName,
+		state, email, realName,sex, birthday,
 		departmentId, qq, address, creator,
 		createtime, mobile, avatar,
 		modifier,modifyTime,deleteStatus)
 		VALUES
 		(#{username}, #{password},
-		#{type}, #{state}, #{email}, #{realName},#{departmentId},
+		#{type}, #{state}, #{email}, #{realName},
+		#{sex},#{birthday},#{departmentId},
 		#{qq},#{address}, #{creator},
 		#{createTime},#{mobile},#{avatar},#{modifier},
 		#{modifyTime},#{deleteStatus})
 	</insert>
 	<select id="findUserByUserName" parameterType="string"
-		resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List"></include>
-		from cms_user
+		resultMap="UserResultMap">
+		SELECT
+			cu.id,
+			cu.username,
+			cu.PASSWORD,
+			cu.type,
+			cu.state,
+			cu.email,
+			cu.realName,
+			cu.qq,
+			cu.mobile,
+			cu.address,
+			cu.departmentId,
+			cu.sex,
+			cu.birthday,
+			cu.avatar,
+			cu.creator,
+			cu.createtime,
+			cu.modifier,
+			cu.modifyTime,
+			cu.deleteStatus,
+		  cd.id as dept_id,
+			cd.NAME AS dept_name,
+		  cr.id as role_id,
+			cr.NAME AS roleName
+		FROM
+			cms_user cu
+		LEFT JOIN cms_department cd ON cu.departmentId = cd.id
+		LEFT JOIN cms_user_role cur ON cur.userId = cu.id
+		LEFT JOIN cms_role cr ON cr.id = cur.roleId
 		where username = #{username}
 	</select>
 	<select id="findUserByEmail" parameterType="string"
@@ -234,7 +281,7 @@
 		where id = #{id}
 	</select>
 	<select id="findById" parameterType="int"
-		resultMap="UserPageResultMap">
+		resultMap="UserResultMap">
 		select
 		<include refid="Base_Column_List"></include>
 		from cms_user

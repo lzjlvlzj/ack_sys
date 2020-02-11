@@ -33,6 +33,18 @@ class UserMapperTest extends BaseTest {
 	void after() {
 		close();
 	}
+	
+	@Test
+	void updateByUserName(){
+		User user = new User();
+		user.setUsername("admin");
+		String pass = MD5Util.md5("123456");
+		user.setPassword(pass);
+		
+		int r = userMapper.updateByUserName(user);
+		sqlSession.commit();
+		assertEquals(1, r);
+	}
 
 	@Test
 	void testInitData() {
@@ -116,13 +128,13 @@ class UserMapperTest extends BaseTest {
 		Date date = new Date();
 
 		User user = new User();
-		user.setUsername("ack1");
+		user.setUsername("dmd");
 		String pass = "123";
 		String password = MD5Util.md5(pass);
 		user.setPassword(password);
-		user.setEmail("223112@qq.com");
-		user.setMobile("15801232246");
-		user.setQq("1236547");
+		user.setEmail("2231121@qq.com");
+		user.setMobile("15801232244");
+		user.setQq("1236543");
 		user.setRealName("张三2");
 		user.setType(0);
 		user.setAvatar("/aaa/b.png");
@@ -146,6 +158,8 @@ class UserMapperTest extends BaseTest {
 		User user = new User();
 		user.setId(4L);
 		user.setRealName("疙瘩汤");
+		user.setBirthday(new Date());
+		user.setDeleteStatus(1);
 		int r = userMapper.update(user);
 		System.out.println(r);
 		commit();

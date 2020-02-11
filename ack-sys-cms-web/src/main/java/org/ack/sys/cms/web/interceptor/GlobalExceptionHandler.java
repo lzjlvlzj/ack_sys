@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
 		logger.debug("捕获到异常");
 		String msg = e.getMessage();
 		int code = e.getCode();
-		ResponseResult ex = new ResponseResult(code, msg);
+		ResponseResult ex = new ResponseResult(code, msg, msg);
 		logger.debug(ex.toString());
 		return ex;
 	}

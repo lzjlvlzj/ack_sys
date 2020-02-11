@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.ack.sys.base.common.Content;
 import org.slf4j.Logger;
@@ -41,7 +42,9 @@ public class CaptchaController {
 		String capText = defaultKaptcha.createText();
 		logger.debug("验证码:{}" , capText);
 		// store the text in the session
-		request.getSession().setAttribute(Content.SESSION_KEY_KAPTCHA, capText);
+		HttpSession session = request.getSession();
+		logger.debug("sid = {}", session.getId());
+		session.setAttribute(Content.SESSION_KEY_KAPTCHA, capText);
 		// create the image with the text
 		BufferedImage bi = defaultKaptcha.createImage(capText);
 		ServletOutputStream out = null;

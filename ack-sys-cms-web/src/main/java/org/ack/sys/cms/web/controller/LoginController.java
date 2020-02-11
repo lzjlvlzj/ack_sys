@@ -9,7 +9,9 @@ import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.common.Token;
 import org.ack.sys.cms.config.web.LonginResponseConfig;
 import org.ack.sys.cms.exception.CaptchaException;
+import org.ack.sys.cms.exception.LoginException;
 import org.ack.sys.cms.exception.UserAndPasswordException;
+import org.ack.sys.cms.exception.UserLockedException;
 import org.ack.sys.cms.service.UserService;
 import org.ack.sys.cms.web.template.LoginUser;
 import org.slf4j.Logger;
@@ -37,16 +39,22 @@ public class LoginController {
 		}
 		ResponseResult rt = null;
 		String token = Token.getToken(new Date());
-		int result = userServiceImpl.login(request, response, user, token);
+		LoginUser loginUser = userServiceImpl.login(request, response, user, token);
+		if (null == loginUser) {
+			throw new LoginException();
+		}
+		int result = loginUser.getStatus();
 		if (result == 1) {
 			throw new CaptchaException();
 		} else if (result == 2) {
 			throw new UserAndPasswordException();
 		} else if (result == 3) {
 			throw new UserAndPasswordException(LonginResponseConfig.LOGIN_USER_NOT_EXISIT);
+		} else if (result == 4) {
+			throw new UserLockedException();
 		} else if (result == 0) {
 			logger.debug("用户登陆成功");
-			rt = new ResponseResult(200, token);
+			rt = new ResponseResult(200, loginUser);
 		}
 		return rt;
 	}

@@ -116,7 +116,9 @@ public class UserController extends BaseController {
 		return result;
 	}
 
-	@AckPermission("sys:user:view")
+	/**
+	 * 公共读取,不需要设置具体的权限,否则对后面开发新功能有影响.
+	 */
 	@GetMapping("/findPermissions")
 	@ResponseBody
 	public ResponseResult findUserPermissions(@RequestParam String username, HttpServletRequest request) {

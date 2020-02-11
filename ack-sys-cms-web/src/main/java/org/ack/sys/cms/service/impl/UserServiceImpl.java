@@ -59,23 +59,26 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 	@Override
 	public int update(User user) {
 		logger.debug("用户修改");
-		if(StringUtils.isNotBlank(user.getPassword())) {
+		if (StringUtils.isNotBlank(user.getPassword())) {
 			String pwd = MD5Util.md5(user.getPassword());
 			user.setPassword(pwd);
 		}
 		List<UserRole> userRoles = user.getUserRoles();
-		//删除用户原来的角色
-		int delCount = userRoleServiceImpl.deleteByUserId(user.getId());
-		logger.debug("删除{}条记录", delCount);
-		int incCount = 0;
-		//插入新角色
-		if(null !=userRoles && userRoles.size() > 0) {
-			for(UserRole userRole : userRoles) {
-				int n = userRoleServiceImpl.insert(userRole);
-				incCount += n;
+		if (null != userRoles && userRoles.size() > 0) {
+			// 删除用户原来的角色
+			int delCount = userRoleServiceImpl.deleteByUserId(user.getId());
+			logger.debug("删除{}条记录", delCount);
+			int incCount = 0;
+			// 插入新角色
+			if (null != userRoles && userRoles.size() > 0) {
+				for (UserRole userRole : userRoles) {
+					int n = userRoleServiceImpl.insert(userRole);
+					incCount += n;
+				}
+				logger.debug("插入{}新条记录", incCount);
 			}
-			logger.debug("插入{}新条记录", incCount);
 		}
+
 		return super.update(user);
 	}
 
@@ -106,7 +109,7 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 			logger.debug("用户手机{}已存在", user.getMobile());
 			return -4;
 		}
-		//设置默认角色为普通员工
+		// 设置默认角色为普通员工
 		user.setAvatar(deaultAvatar);
 		String pass = MD5Util.md5(user.getPassword());
 		user.setPassword(pass);
@@ -173,46 +176,59 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 	}
 
 	private int checkLogin(LoginUser user, User dbUser) {
-		if(null == user 
-				|| StringUtils.isBlank(user.getUsername()) 
-				|| StringUtils.isBlank(user.getPassword())) {
+		if (null == user || StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())) {
 			logger.debug("用户登陆参数错误。");
 			return 2;
 		}
-		if(null == dbUser) {
+		if (null == dbUser) {
 			logger.debug("用户{}不存在", user.getUsername());
 			return 3;
-		} 
+		}
+		if(dbUser.getDeleteStatus() == 1) {
+			logger.debug("用户{}已删除", user.getUsername());
+			return 3;
+		}
+		if(dbUser.getState() == 1) {
+			logger.debug("用户{}已禁用", user.getUsername());
+			return 4;
+		}
 		String pwd = MD5Util.md5(user.getPassword());
-		if(!pwd.equals(dbUser.getPassword())) {
+		if (!pwd.equals(dbUser.getPassword())) {
 			logger.debug("用户{}輸入的密碼不正確.", user.getUsername());
 			return 2;
-		} 
+		}
 		return 0;
 	}
 
 	@Override
-	public int login(HttpServletRequest request, HttpServletResponse response, LoginUser user, String token) {
+	public LoginUser login(HttpServletRequest request, HttpServletResponse response, LoginUser user, String token) {
 		HttpSession session = request.getSession();
+		logger.debug("sid1 = {}", session.getId());
 		// 检查验证码
 		String captcha = user.getCaptcha();
 		if (StringUtils.isBlank(captcha)) {
-			return 1;
+			return new LoginUser(1);
 		} else {
 			captcha = captcha.trim();
 			String sessionCaptcha = (String) session.getAttribute(Content.SESSION_KEY_KAPTCHA);
 			if (!captcha.equalsIgnoreCase(sessionCaptcha)) {
-				return 1;
+				return new LoginUser(1);
 			}
 
 		}
+		LoginUser loginUser = new LoginUser();
 		String username = user.getUsername();
 		User dbUser = findUserByUserName(username);
 		int rt = checkLogin(user, dbUser);
-		if(rt == 0) {
+		loginUser.setUsername(username);
+		if (rt == 0) {
+			loginUser.setRealName(dbUser.getRealName());
+			loginUser.setAvatar(dbUser.getAvatar());
+			loginUser.setToken(token);
 			session.setAttribute(Content.SESSION_KEY_USER, new SessionUser(token, dbUser));
 		}
-		return rt;
+		loginUser.setStatus(rt);
+		return loginUser;
 	}
 
 	@Override

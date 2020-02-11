@@ -14,12 +14,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 	private static List<String> EXCLUDE_URL = new ArrayList<String>();
 	static {
+		/* 过滤登出 */
+		EXCLUDE_URL.add("/logout");
 		/* 过滤验证码服务 */
 		EXCLUDE_URL.add("/captcha.jpg");
 		/* 过滤登录 */
 		EXCLUDE_URL.add("/login");
-		/* 过滤登出 */
-		EXCLUDE_URL.add("/logout");
+		
 	}
 
 	/* 拦截器需要初始化(拦截器执行时在bean的初始化之前) ，拦截器没有被spring管理 */

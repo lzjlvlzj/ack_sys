@@ -29,6 +29,8 @@ class UserServiceImplTest {
 	
 	@Autowired
 	private UserService userServiceImpl;
+	
+	
 
 	@Test
 	void testFindUserByUserName() {

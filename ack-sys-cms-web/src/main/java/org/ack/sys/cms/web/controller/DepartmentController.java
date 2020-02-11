@@ -32,7 +32,7 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService departmentServiceImpl;
 	
-	@AckPermission("sys:dept:view")
+	@AckPermission("sys:dept:view or sys:user:view or personal:center:view")
 	@GetMapping("/tree")
 	@ResponseBody
 	public ResponseResult findTree() {

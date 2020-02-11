@@ -29,7 +29,7 @@
 			<if test="remark != null">
 				remark = #{remark},
 			</if>
-			<if test="deleteStatus != null">
+			<if test="deleteStatus >= '0'">
 				deleteStatus = #{deleteStatus},
 			</if>
 			<if test="modifier != null">

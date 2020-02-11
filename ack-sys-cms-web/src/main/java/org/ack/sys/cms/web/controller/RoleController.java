@@ -112,7 +112,7 @@ public class RoleController {
 		return new ResponseResult(code, msg, rt);
 	}
 	
-	@AckPermission("sys:role:view")
+	@AckPermission("sys:role:view or sys:user:view")
 	@GetMapping("/list")
 	@ResponseBody
 	public ResponseResult findAll() {

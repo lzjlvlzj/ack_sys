@@ -23,11 +23,16 @@ public class User extends BasePojo implements Serializable {
 	@NotEmpty(message = "密码不能为空")
     @Length(min = 1, max = 12, message = "密码长度为1-12位。")
 	private String password;
+	@NotEmpty(message = "密码不能为空")
+    @Length(min = 1, max = 12, message = "密码长度为6-12位。")
+	private String newPassword;
 	private String realName;
 	@NotBlank(message = "邮箱不能为空")
 	private String email;
-	private int type = 0;
-	private int state = 0;
+	private int type = -1;
+	private int sex = -1;   // 0 : 女 ; 1 ： 男 ; 3 ： 保密
+	private Date birthday;
+	private int state = -1;
 	private String qq;
 	@NotBlank(message = "{user.mobile.notblank}")
 	private String mobile;
@@ -54,6 +59,14 @@ public class User extends BasePojo implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 
 	public String getRealName() {
@@ -102,6 +115,22 @@ public class User extends BasePojo implements Serializable {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public int getSex() {
+		return sex;
+	}
+
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
 	public String getAvatar() {

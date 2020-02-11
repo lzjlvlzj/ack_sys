@@ -67,7 +67,7 @@ public interface UserService extends PageService<User, Long> {
 	 * @param token
 	 * @return
 	 */
-	public int login(HttpServletRequest request, HttpServletResponse response, LoginUser user, String token);
+	public LoginUser login(HttpServletRequest request, HttpServletResponse response, LoginUser user, String token);
 
 	/**
 	 * 根据用户id查询角色

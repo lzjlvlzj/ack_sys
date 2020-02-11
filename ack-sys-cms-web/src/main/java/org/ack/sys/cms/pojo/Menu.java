@@ -21,9 +21,9 @@ public class Menu extends BasePojo implements Serializable {
 	private String url;                       // vue的路由地址
 	private String icon;
 	private String perms;
-	private Integer type;                     // 0 : 目录; 1:菜单; 2:按钮
-	private Integer level;
-	private Integer orderNum;
+	private Integer type = -1;                     // 0 : 目录; 1:菜单; 2:按钮
+	private Integer level = -1;
+	private Integer orderNum = -1;
 	@NotNull(message = "{menu.parentid.notblank}")
 	private Long parentId;
 	private String parentName;

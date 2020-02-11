@@ -16,7 +16,7 @@ public class BasePojo {
 	protected Date createTime;
 	protected Date modifyTime;
 	protected String modifyName;
-	protected Integer deleteStatus = 0;
+	protected Integer deleteStatus = -1;
 
 	public Long getId() {
 		return id;

@@ -5,7 +5,9 @@ import org.ack.sys.base.core.BaseMessage;
 public enum LonginResponseConfig implements BaseMessage {
 	LOGIN_CAPTCHA_INVALIDATE(400, "验证码不正确"), 
 	LOGIN_USERNAME_PASSWORD_INVALIDATE(400, "用户名称或密码不正确"),
+	LOGIN_PASSWORD_INVALIDATE(400, "原密码不正确"),
 	LOGIN_USER_NOT_EXISIT(400, "用户名不存在"),
+	LOGIN_USER_IS_LOCKED(400, "用户名被锁定,请联系管理员。"),
 	LOGIN_NOT_AUTHORITY(401, "未登录");
 
 	private int code;

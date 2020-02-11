@@ -36,12 +36,11 @@ public class MenuController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 	@Autowired
 	private MenuService menuServiceImpl;
-	
+
 	@AckPermission("sys:menu:add")
 	@PostMapping("/add")
 	@ResponseBody
-	public ResponseResult insert(@RequestBody @Validated Menu menu, 
-			BindingResult result, HttpServletRequest request) {
+	public ResponseResult insert(@RequestBody @Validated Menu menu, BindingResult result, HttpServletRequest request) {
 		ResponseResult responseResult = Validation.getValidationResult(result);
 		if (null != responseResult) {
 			return responseResult;
@@ -54,16 +53,16 @@ public class MenuController extends BaseController {
 				code = 200;
 				msg = "";
 				data = r;
-			} else if(r == -1) {
+			} else if (r == -1) {
 				code = 400;
 				msg = "菜单已存在";
 				data = r;
 			}
 			return new ResponseResult(code, msg, data);
 		}
-		
+
 	}
-	
+
 	@AckPermission("sys:menu:edit")
 	@PatchMapping("/edit")
 	@ResponseBody
@@ -71,7 +70,7 @@ public class MenuController extends BaseController {
 		int r = menuServiceImpl.update(menu);
 		return new ResponseResult(200, r);
 	}
-	
+
 	@AckPermission("sys:menu:delete")
 	@DeleteMapping("/delete")
 	@ResponseBody
@@ -87,13 +86,12 @@ public class MenuController extends BaseController {
 		return new ResponseResult(code, msg, rt);
 	}
 
-
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Menu findById(@PathVariable Long id) {
 		logger.debug("menuId = {}", id);
 		return menuServiceImpl.findById(id);
 	}
-	
+
 	@AckPermission("sys:menu:view")
 	@PostMapping("/findPage")
 	@ResponseBody
@@ -103,8 +101,10 @@ public class MenuController extends BaseController {
 		ResponseResult result = new ResponseResult(200, page);
 		return result;
 	}
-	
-	@AckPermission("sys:menu:view")
+
+	/**
+	 * 公共读取tree,不需要设置具体的权限,否则对后面开发新功能有影响.
+	 */
 	@GetMapping("/findTree")
 	@ResponseBody
 	public ResponseResult findTree() {
@@ -112,7 +112,7 @@ public class MenuController extends BaseController {
 		ResponseResult result = new ResponseResult(200, list);
 		return result;
 	}
-	
+
 	@AckPermission("sys:menu:view")
 	@GetMapping("/findByRoleId")
 	@ResponseBody
@@ -121,15 +121,17 @@ public class MenuController extends BaseController {
 		ResponseResult result = new ResponseResult(200, list);
 		return result;
 	}
-	
-	@AckPermission("sys:menu:view")
+
+	/**
+	 * 公共读取tree,不需要设置具体的权限,否则对后面开发新功能有影响.
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/findNavTree", method = RequestMethod.GET)
 	public ResponseResult findNvaTree(@RequestParam String username, HttpServletRequest request) {
 		logger.debug("username = {}", username);
 		User user = getCurrentUser(request);
-		if(!user.getUsername().equals(username)) {
-			logger.warn("当前登录用户:{},传参用户名:{}",user.getUsername(), username);
+		if (!user.getUsername().equals(username)) {
+			logger.warn("当前登录用户:{},传参用户名:{}", user.getUsername(), username);
 			return new ResponseResult(200, null);
 		}
 		List<Menu> menus = menuServiceImpl.findByUserId(user.getId());
