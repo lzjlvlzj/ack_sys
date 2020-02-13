@@ -1,4 +1,3 @@
-
 <?xml version="1.0"?>
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
@@ -27,7 +26,10 @@
 			<artifactId>ack-sys-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
