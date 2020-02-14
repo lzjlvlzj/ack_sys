@@ -63,22 +63,9 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 			String pwd = MD5Util.md5(user.getPassword());
 			user.setPassword(pwd);
 		}
-		List<UserRole> userRoles = user.getUserRoles();
-		if (null != userRoles && userRoles.size() > 0) {
-			// 删除用户原来的角色
-			int delCount = userRoleServiceImpl.deleteByUserId(user.getId());
-			logger.debug("删除{}条记录", delCount);
-			int incCount = 0;
-			// 插入新角色
-			if (null != userRoles && userRoles.size() > 0) {
-				for (UserRole userRole : userRoles) {
-					int n = userRoleServiceImpl.insert(userRole);
-					incCount += n;
-				}
-				logger.debug("插入{}新条记录", incCount);
-			}
-		}
-
+		/*
+		
+        */
 		return super.update(user);
 	}
 
@@ -132,7 +119,13 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 		for (int i = 0; i < size; i++) {
 			User user = list.get(i);
 			logger.debug("用户id : {}", user.getId());
-			user.setDeleteStatus(1);
+			if("admin".equals(user.getUsername())) {
+				user.setDeleteStatus(0);
+				logger.debug("超级管理员不允许删除");
+			} else {
+				user.setDeleteStatus(1);
+			}
+			
 			int rt = update(user);
 			r = r + rt;
 		}
@@ -234,6 +227,26 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 	@Override
 	public List<Role> findUserRoles(Long id) {
 		return roleServiceImpl.findByUserId(id);
+	}
+
+	@Override
+	public int grauntAuth(User user) {
+		List<UserRole> userRoles = user.getUserRoles();
+		if (null != userRoles && userRoles.size() > 0) {
+			// 删除用户原来的角色
+			int delCount = userRoleServiceImpl.deleteByUserId(user.getId());
+			logger.debug("删除{}条用户角色记录", delCount);
+			int incCount = 0;
+			// 插入新角色
+			if (null != userRoles && userRoles.size() > 0) {
+				for (UserRole userRole : userRoles) {
+					int n = userRoleServiceImpl.insert(userRole);
+					incCount += n;
+				}
+				logger.debug("插入{}新用户角色条记录", incCount);
+			}
+		}
+		return 0;
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.common.Validation;
 import org.ack.sys.base.core.auth.annotation.AckPermission;
+import org.ack.sys.base.persist.page.ColumnFilter;
 import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.persist.page.PageRequest;
 import org.ack.sys.cms.pojo.Role;
@@ -36,6 +37,15 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private UserService userServiceImpl;
+	
+	@AckPermission("sys:user:auth")
+	@PatchMapping("/grant")
+	@ResponseBody
+	public ResponseResult grantAuth(@RequestBody User user, HttpServletRequest request,
+			HttpServletResponse response) {
+		int r = userServiceImpl.grauntAuth(user);
+		return new ResponseResult(200, r);
+	}
 
 	@AckPermission("sys:user:add")
 	@PostMapping("/add")
@@ -109,8 +119,13 @@ public class UserController extends BaseController {
 	@AckPermission("sys:user:view")
 	@PostMapping("/findPage")
 	@ResponseBody
-	public ResponseResult findPage(@RequestBody PageRequest pageRequest) {
+	public ResponseResult findPage(@RequestBody PageRequest pageRequest, HttpServletRequest request) {
 		pageRequest.setOrderColumn("createTime");
+		User user = getCurrentUser(request);
+		/*用户只能查看自己所在部门的用户*/
+		Long deptId = user.getDepartmentId();
+		ColumnFilter dept = new ColumnFilter("departmentId", deptId.toString());
+		pageRequest.getColumnFilters().put("departmentId", dept);
 		Page<User> page = userServiceImpl.findPage(pageRequest);
 		ResponseResult result = new ResponseResult(200, page);
 		return result;

@@ -12,7 +12,9 @@ import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.persist.page.PageRequest;
 import org.ack.sys.cms.pojo.Menu;
 import org.ack.sys.cms.pojo.Role;
+import org.ack.sys.cms.pojo.User;
 import org.ack.sys.cms.service.RoleService;
+import org.ack.sys.cms.web.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -115,8 +117,10 @@ public class RoleController {
 	@AckPermission("sys:role:view or sys:user:view")
 	@GetMapping("/list")
 	@ResponseBody
-	public ResponseResult findAll() {
-		List<Role> list = roleServiceImpl.findAll();
+	public ResponseResult findAll(HttpServletRequest request) {
+		User user = WebUtil.getCurrentUser(request);
+		//List<Role> list = roleServiceImpl.findAll();
+		List<Role> list = roleServiceImpl.findRoleListByUser(user);
 		ResponseResult result = new ResponseResult(200, list);
 		return result;
 	}

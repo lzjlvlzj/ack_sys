@@ -43,6 +43,8 @@ public class MenuServiceImpl extends PageServiceImpl<Menu, Long> implements Menu
 			logger.debug("菜单:{}已经存在", t.getName());
 			return -1;
 		}
+		t.setDeleteStatus(0);
+		t.setOrderNum(1);
 		return super.insert(t);
 	}
 

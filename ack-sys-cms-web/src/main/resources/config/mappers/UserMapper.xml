@@ -183,6 +183,9 @@
 			<if test="condition.email != null and condition.email !=''">
 				and cu.email=#{condition.email}
 			</if>
+			<if test="condition.departmentId > 0">
+				and cu.departmentId=#{condition.departmentId}
+			</if>
 		</where>
 	</select>
 

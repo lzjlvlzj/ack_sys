@@ -5,6 +5,7 @@ import java.util.List;
 import org.ack.sys.base.service.PageService;
 import org.ack.sys.cms.pojo.Menu;
 import org.ack.sys.cms.pojo.Role;
+import org.ack.sys.cms.pojo.User;
 
 public interface RoleService extends PageService<Role, Long> {
 	/**
@@ -38,4 +39,10 @@ public interface RoleService extends PageService<Role, Long> {
 	 * @return
 	 */
 	public List<Role> findByUserId(Long id);
+
+	/**查询比当前用户权限小的所有角色
+	 * @param user
+	 * @return
+	 */
+	public List<Role> findRoleListByUser(User user);
 }

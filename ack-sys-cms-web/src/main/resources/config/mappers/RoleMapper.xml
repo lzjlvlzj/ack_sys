@@ -5,6 +5,7 @@
 		type="org.ack.sys.cms.pojo.Role">
 		<id column="id" property="id" />
 		<id column="name" property="name" />
+		<id column="weight" property="weight" />
 		<id column="remark" property="remark" />
 		<result column="creator" property="creator" />
 		<result column="createTime" property="createTime" />
@@ -13,11 +14,11 @@
 		<result column="deleteStatus" property="deleteStatus" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, name,remark, creator, createtime, modifier, modifyTime, deleteStatus
+		id, name,weight, remark, creator, createtime, modifier, modifyTime, deleteStatus
 	</sql>
 	<insert id="insert">
-		INSERT INTO cms_role (name,remark, creator, createtime, modifier, modifyTime, deleteStatus)
-		VALUES (#{name},#{remark}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{deleteStatus})
+		INSERT INTO cms_role (name,weight,remark, creator, createtime, modifier, modifyTime, deleteStatus)
+		VALUES (#{name},#{weight},#{remark}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{deleteStatus})
 	</insert>
 	<update id="update" parameterType="org.ack.sys.cms.pojo.Role">
 	   update cms_role
@@ -25,6 +26,9 @@
 			
 			<if test="name != null">
 				name = #{name},
+			</if>
+			<if test="weight > 0">
+				weight = #{weight},
 			</if>
 			<if test="remark != null">
 				remark = #{remark},
@@ -64,6 +68,11 @@
 	<select id="findAll" resultMap="BaseResultMap">
 	    select <include refid="Base_Column_List"></include>
 	    from cms_role
+	</select>
+	<select id="findRoleByWeight" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
+	    where weight > #{weight}
 	</select>
 	<select id="findInterceptorPageList" parameterType="org.ack.sys.base.persist.page.Page" resultMap="BaseResultMap">
 	    select <include refid="Base_Column_List"></include>

@@ -77,4 +77,12 @@ public interface UserService extends PageService<User, Long> {
 	 */
 	public List<Role> findUserRoles(Long id);
 
+	/**
+	 * 授权
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public int grauntAuth(User user);
+
 }

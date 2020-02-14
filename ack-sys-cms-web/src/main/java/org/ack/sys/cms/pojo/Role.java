@@ -19,6 +19,7 @@ public class Role extends BasePojo implements Serializable {
 	private static final long serialVersionUID = 6061619168823283893L;
 	@NotBlank(message = "{role.name.notblank}")
 	private String name;
+	private Integer weight = -1;//权重 (大于零)权重越小权限越大
 	private String remark;
 	private List<RoleMenu> roleMenus = new ArrayList<>();
 
@@ -28,6 +29,14 @@ public class Role extends BasePojo implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 
 	public String getRemark() {

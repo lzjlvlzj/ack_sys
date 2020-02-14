@@ -1,5 +1,6 @@
 package org.ack.sys.cms.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.ack.sys.base.persist.page.PageDao;
@@ -8,6 +9,7 @@ import org.ack.sys.cms.persist.mapper.RoleMapper;
 import org.ack.sys.cms.pojo.Menu;
 import org.ack.sys.cms.pojo.Role;
 import org.ack.sys.cms.pojo.RoleMenu;
+import org.ack.sys.cms.pojo.User;
 import org.ack.sys.cms.service.MenuService;
 import org.ack.sys.cms.service.RoleMenuService;
 import org.ack.sys.cms.service.RoleService;
@@ -112,6 +114,30 @@ public class RoleServiceImpl extends PageServiceImpl<Role, Long> implements Role
 		}
 		logger.debug("新增{}条记录", incCount);
 		return r;
+	}
+
+	private int getMinWeight(List<Role> roleList) {
+		int size = roleList.size();
+		int[] tmp = new int[size];
+		for (int i = 0; i < size; i++) {
+			Role role = roleList.get(i);
+			int weight = role.getWeight();
+			tmp[i] = weight;
+		}
+		Arrays.sort(tmp);
+		int min = tmp[0];
+		return min;
+	}
+
+	@Override
+	public List<Role> findRoleListByUser(User user) {
+		/*
+		 * 查询当前用户的角色, 找出角色权重最小的值
+		 */
+		List<Role> roleList = findByUserId(user.getId());
+		int minWeight = getMinWeight(roleList);
+		logger.debug("当前用户{}最小权重值为{}", user.getUsername(), minWeight);
+		return roleMapper.findRoleByWeight(minWeight);
 	}
 
 }
