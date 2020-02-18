@@ -101,6 +101,9 @@
 	<update id="update" parameterType="org.ack.sys.cms.pojo.User">
 		update cms_user
 		<set>
+		    <if test="password != null and password !=''">
+				password = #{password},
+			</if>
 			<if test="type >= 0">
 				type = #{type},
 			</if>

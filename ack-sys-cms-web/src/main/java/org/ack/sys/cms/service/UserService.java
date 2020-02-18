@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.ack.sys.base.persist.page.Page;
+import org.ack.sys.base.persist.page.PageRequest;
 import org.ack.sys.base.service.PageService;
 import org.ack.sys.cms.pojo.Role;
 import org.ack.sys.cms.pojo.User;
@@ -83,6 +85,67 @@ public interface UserService extends PageService<User, Long> {
 	 * @param user
 	 * @return
 	 */
-	public int grauntAuth(User user);
+	public int grauntAuth(User user, HttpServletRequest request);
+
+	/**
+	 * 授权
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public int batchDelete(List<User> list, HttpServletRequest request);
+
+	/**
+	 * 重置密码
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public int resetPassword(User user, HttpServletRequest request);
+
+	/**
+	 * 分页
+	 * 
+	 * @param pageRequest
+	 * @param long1
+	 * @return
+	 */
+	public Page<User> findPage(PageRequest pageRequest, User user);
+
+	/**
+	 * 修改
+	 * 
+	 * @param user
+	 * @param request
+	 * @return
+	 */
+	public int update(User user, HttpServletRequest request);
+
+	/**
+	 * 获得是否可以操作权限
+	 * 
+	 * @param user
+	 * @param request
+	 * @return
+	 */
+	public int getOperationStatus(User user, HttpServletRequest request);
+
+	/**
+	 * 删除
+	 * 
+	 * @param user
+	 * @param request
+	 * @return
+	 */
+	public int delete(User user, HttpServletRequest request);
+
+	/**
+	 * 禁用或者激活用户
+	 * 
+	 * @param user
+	 * @param request
+	 * @return
+	 */
+	public int ableUser(User user, HttpServletRequest request);
 
 }

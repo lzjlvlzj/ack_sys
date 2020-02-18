@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.ack.sys.base.common.Content;
+import org.ack.sys.base.persist.page.ColumnFilter;
+import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.base.persist.page.PageDao;
+import org.ack.sys.base.persist.page.PageRequest;
 import org.ack.sys.base.service.impl.PageServiceImpl;
 import org.ack.sys.base.util.MD5Util;
 import org.ack.sys.base.util.StringUtils;
@@ -23,6 +26,7 @@ import org.ack.sys.cms.service.UserRoleService;
 import org.ack.sys.cms.service.UserService;
 import org.ack.sys.cms.web.template.LoginUser;
 import org.ack.sys.cms.web.template.SessionUser;
+import org.ack.sys.cms.web.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,16 +61,32 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 	}
 
 	@Override
-	public int update(User user) {
+	public int update(User user, HttpServletRequest request) {
 		logger.debug("用户修改");
+		/* 检查用户要修改的数据权限是否比当前用户大，如果大则拒绝修改 */
 		if (StringUtils.isNotBlank(user.getPassword())) {
 			String pwd = MD5Util.md5(user.getPassword());
 			user.setPassword(pwd);
 		}
-		/*
-		
-        */
 		return super.update(user);
+	}
+
+	public int getOperationStatus(User user, HttpServletRequest request) {
+		User currentUser = WebUtil.getCurrentUser(request);
+		List<Role> currentUserRoleList = findUserRoles(currentUser.getId());
+		if(null == currentUserRoleList || currentUserRoleList.size() == 0) {
+			logger.debug("当前登录用户{}没有角色信息", currentUser.getUsername());
+			return 1;
+		}
+		int currentWeight = roleServiceImpl.getMinWeight(currentUserRoleList);
+		List<Role> targetUserRoleList = findUserRoles(user.getId());
+		if(null == targetUserRoleList || targetUserRoleList.size() == 0) {
+			logger.debug("当前目标用户{}没有角色信息", currentUser.getUsername());
+			return -1;
+		}
+		int targetWeight = roleServiceImpl.getMinWeight(targetUserRoleList);
+		int r = currentWeight - targetWeight;
+		return r;
 	}
 
 	@Override
@@ -96,11 +116,25 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 			logger.debug("用户手机{}已存在", user.getMobile());
 			return -4;
 		}
-		// 设置默认角色为普通员工
+
 		user.setAvatar(deaultAvatar);
-		String pass = MD5Util.md5(user.getPassword());
+		String password = "123456";
+		String pass = MD5Util.md5(password);
 		user.setPassword(pass);
-		return super.insert(user);
+		//设置非禁用
+		user.setState(0);
+		int r = super.insert(user);
+		if (r == 1) {
+			// 设置默认角色为普通员工
+			Long roleId = 4L;
+			UserRole userRole = new UserRole(user.getId(), roleId);
+			int rt = userRoleServiceImpl.insert(userRole);
+			if (rt != 1) {
+				logger.debug("用户{}分配角色失败", user.getUsername());
+				return 0;
+			}
+		}
+		return r;
 
 	}
 
@@ -113,20 +147,21 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 
 	@Override
 	@Transactional
-	public int batchDelete(List<User> list) {
+	public int batchDelete(List<User> list, HttpServletRequest request) {
 		int size = list.size();
 		int r = 0;
 		for (int i = 0; i < size; i++) {
 			User user = list.get(i);
 			logger.debug("用户id : {}", user.getId());
-			if("admin".equals(user.getUsername())) {
+			if ("admin".equals(user.getUsername())
+					|| 1L == user.getId()) {
 				user.setDeleteStatus(0);
 				logger.debug("超级管理员不允许删除");
 			} else {
 				user.setDeleteStatus(1);
 			}
-			
-			int rt = update(user);
+
+			int rt = update(user, request);
 			r = r + rt;
 		}
 		logger.debug("需要修改的数据为{}条,实际修改{}条", size, r);
@@ -177,11 +212,11 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 			logger.debug("用户{}不存在", user.getUsername());
 			return 3;
 		}
-		if(dbUser.getDeleteStatus() == 1) {
+		if (dbUser.getDeleteStatus() == 1) {
 			logger.debug("用户{}已删除", user.getUsername());
 			return 3;
 		}
-		if(dbUser.getState() == 1) {
+		if (dbUser.getState() == 1) {
 			logger.debug("用户{}已禁用", user.getUsername());
 			return 4;
 		}
@@ -230,7 +265,7 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 	}
 
 	@Override
-	public int grauntAuth(User user) {
+	public int grauntAuth(User user, HttpServletRequest request) {
 		List<UserRole> userRoles = user.getUserRoles();
 		if (null != userRoles && userRoles.size() > 0) {
 			// 删除用户原来的角色
@@ -247,6 +282,52 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public int resetPassword(User user, HttpServletRequest request) {
+		logger.debug("为用户{}重置密码", user.getUsername());
+		String password = "123456";
+		user.setPassword(password);
+		return update(user, request);
+	}
+
+	private boolean getExcludeStatus(Long userId) {
+		boolean b = false;
+		String[] ids = "1,2".split(",");
+		for (int i = 0; i < ids.length; i++) {
+			Long id = Long.parseLong(ids[i]);
+			if (id == userId) {
+				b = true;
+				break;
+			}
+		}
+		return b;
+	}
+
+	@Override
+	public Page<User> findPage(PageRequest pageRequest, User user) {
+		/* 用户只能查看自己所在部门的用户(不包括管理员和超级管理员) */
+		boolean excludeStatus = getExcludeStatus(user.getId());
+		if (!excludeStatus) {
+			Long deptId = user.getDepartmentId();
+			ColumnFilter dept = new ColumnFilter("departmentId", deptId.toString());
+			pageRequest.getColumnFilters().put("departmentId", dept);
+		}
+		return findPage(pageRequest);
+	}
+
+	@Override
+	public int delete(User user, HttpServletRequest request) {
+		logger.debug("删除用户操作");
+		user.setDeleteStatus(1);
+		return update(user, request);
+	}
+
+	@Override
+	public int ableUser(User user, HttpServletRequest request) {
+		logger.debug("禁用启用用户操作");
+		return update(user, request);
 	}
 
 }

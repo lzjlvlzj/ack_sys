@@ -45,4 +45,10 @@ public interface RoleService extends PageService<Role, Long> {
 	 * @return
 	 */
 	public List<Role> findRoleListByUser(User user);
+	
+	/**
+	 * @param roleList
+	 * @return
+	 */
+	public int getMinWeight(List<Role> roleList);
 }

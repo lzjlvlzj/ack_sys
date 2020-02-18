@@ -23,7 +23,7 @@ public class User extends BasePojo implements Serializable {
 	@NotEmpty(message = "密码不能为空")
     @Length(min = 1, max = 12, message = "密码长度为1-12位。")
 	private String password;
-	@NotEmpty(message = "密码不能为空")
+	@NotEmpty(message = "新密码不能为空")
     @Length(min = 1, max = 12, message = "密码长度为6-12位。")
 	private String newPassword;
 	private String realName;

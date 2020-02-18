@@ -56,6 +56,7 @@ public class RoleServiceImpl extends PageServiceImpl<Role, Long> implements Role
 			logger.debug("角色:{}已存在", t.getName());
 			return -1;
 		}
+		t.setDeleteStatus(0);
 		return super.insert(t);
 	}
 
@@ -116,7 +117,7 @@ public class RoleServiceImpl extends PageServiceImpl<Role, Long> implements Role
 		return r;
 	}
 
-	private int getMinWeight(List<Role> roleList) {
+	public int getMinWeight(List<Role> roleList) {
 		int size = roleList.size();
 		int[] tmp = new int[size];
 		for (int i = 0; i < size; i++) {

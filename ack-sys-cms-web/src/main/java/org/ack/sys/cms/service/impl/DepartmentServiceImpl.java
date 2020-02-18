@@ -40,6 +40,7 @@ public class DepartmentServiceImpl extends PageServiceImpl<Department, Long> imp
 			logger.debug("部门:{}已经存在", t.getName());
 			return -1;
 		}
+		t.setDeleteStatus(0);
 		return super.insert(t);
 	}
 	

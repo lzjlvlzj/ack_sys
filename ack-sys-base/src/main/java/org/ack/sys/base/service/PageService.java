@@ -23,5 +23,9 @@ public interface PageService<T extends Object, PK extends Serializable> extends 
 	 */
 	public Page<T> findPage(Page<T> page);
 
+	/**分页查询
+	 * @param pageRequest
+	 * @return
+	 */
 	public Page<T> findPage(PageRequest pageRequest);
 }
