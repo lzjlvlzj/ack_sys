@@ -8,6 +8,7 @@ import org.ack.sys.cms.web.interceptor.AuthenticationInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 @Configuration
@@ -18,6 +19,16 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		EXCLUDE_URL.add("/logout");
 		/* 过滤验证码服务 */
 		EXCLUDE_URL.add("/captcha.jpg");
+		/* 过滤css服务 */
+		EXCLUDE_URL.add("/avatar/**");
+		/* 过滤图片服务 */
+		EXCLUDE_URL.add("*/css/**");
+		/* 过滤图片服务 */
+		EXCLUDE_URL.add("/js/**");
+		/* 过滤图片服务 */
+		EXCLUDE_URL.add("*.js");
+		/* 过滤图片服务 */
+		EXCLUDE_URL.add("*.icon");
 		/* 过滤登录 */
 		EXCLUDE_URL.add("/login");
 		
@@ -33,6 +44,13 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	public AuthenticationInterceptor authenticationInterceptor() {
 		return new AuthenticationInterceptor();
 	}
+	
+	@Override
+	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/","classpath:/public/","classpath:resources");
+		super.addResourceHandlers(registry);
+	}
+	
 
 	@Override
 	protected void addInterceptors(InterceptorRegistry registry) {

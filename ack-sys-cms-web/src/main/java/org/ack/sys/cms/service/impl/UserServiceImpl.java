@@ -54,6 +54,7 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 	private RoleService roleServiceImpl;
 	@Autowired
 	private UserRoleService userRoleServiceImpl;
+	
 
 	@Override
 	protected PageDao<User, Long> getPageDao() {
@@ -258,6 +259,7 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 		loginUser.setStatus(rt);
 		return loginUser;
 	}
+
 
 	@Override
 	public List<Role> findUserRoles(Long id) {

@@ -24,6 +24,7 @@ spring:
     filters : stat,log4j
     connectionProperties : druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     useGlobalDataSourceStat : true
+  
 mybatis:
     config-location: classpath:config/mybatis-config.xml
     type-aliases-package: org.ack.sys.cms.pojo

@@ -38,5 +38,6 @@
 		<mapper resource="config/mappers/RoleMapper.xml" />
 		<mapper resource="config/mappers/UserRoleMapper.xml" />
 		<mapper resource="config/mappers/RoleMenuMapper.xml" />
+		<mapper resource="config/mappers/DictionaryMapper.xml" />
 	</mappers>
 </configuration>

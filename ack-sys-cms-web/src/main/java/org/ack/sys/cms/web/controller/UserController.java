@@ -59,12 +59,14 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public ResponseResult resetPassword(@RequestBody User user, HttpServletRequest request,
 			HttpServletResponse response) {
-		int status = userServiceImpl.getOperationStatus(user, request);
 		User currentUser = WebUtil.getCurrentUser(request);
 		String username = currentUser.getUsername();
-		if (status >= 0 && !"admin".equals(username)) {
-			logger.debug("当前用户{}没有权限修改目标用户{}的数据",currentUser.getUsername(), user.getUsername());
-			throw new AuthorityException();
+		if(!"admin".equals(username)) {
+			int status = userServiceImpl.getOperationStatus(user, request);
+			if (status >= 0) {
+				logger.debug("当前用户{}没有权限修改目标用户{}的数据",currentUser.getUsername(), user.getUsername());
+				throw new AuthorityException();
+			}
 		}
 		int r = userServiceImpl.resetPassword(user, request);
 		return new ResponseResult(200, r);
@@ -75,12 +77,14 @@ public class UserController extends BaseController {
 	@PatchMapping("/grant")
 	@ResponseBody
 	public ResponseResult grantAuth(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
-		int status = userServiceImpl.getOperationStatus(user, request);
 		User currentUser = WebUtil.getCurrentUser(request);
 		String username = currentUser.getUsername();
-		if (status >= 0 && !"admin".equals(username)) {
-			logger.debug("当前用户{}没有权限修改目标用户{}的数据",currentUser.getUsername(), user.getUsername());
-			throw new AuthorityException();
+		if(!"admin".equals(username)) {
+			int status = userServiceImpl.getOperationStatus(user, request);
+			if (status >= 0) {
+				logger.debug("当前用户{}没有权限修改目标用户{}的数据",currentUser.getUsername(), user.getUsername());
+				throw new AuthorityException();
+			}
 		}
 		int r = userServiceImpl.grauntAuth(user, request);
 		return new ResponseResult(200, r);
@@ -129,12 +133,14 @@ public class UserController extends BaseController {
 	@PatchMapping("/edit")
 	@ResponseBody
 	public ResponseResult edit(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
-		int status = userServiceImpl.getOperationStatus(user, request);
 		User currentUser = WebUtil.getCurrentUser(request);
 		String username = currentUser.getUsername();
-		if (status >= 0 && !"admin".equals(username)) {
-			logger.debug("当前用户{}没有权限修改目标用户{}的数据",currentUser.getUsername(), user.getUsername());
-			throw new AuthorityException();
+		if(!"admin".equals(username)) {
+			int status = userServiceImpl.getOperationStatus(user, request);
+			if (status >= 0) {
+				logger.debug("当前用户{}没有权限修改目标用户{}的数据",currentUser.getUsername(), user.getUsername());
+				throw new AuthorityException();
+			}
 		}
 		int r = userServiceImpl.update(user, request);
 		return new ResponseResult(200, r);
@@ -147,7 +153,7 @@ public class UserController extends BaseController {
 			HttpServletResponse response) {
 		int status = userServiceImpl.getOperationStatus(user, request);
 		User currentUser = WebUtil.getCurrentUser(request);
-		if (status > 0) {
+		if (status >= 0) {
 			logger.debug("当前用户{}没有权限修改目标用户{}的数据",currentUser.getUsername(), user.getId());
 			throw new AuthorityException();
 		}
