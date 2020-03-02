@@ -24,6 +24,10 @@ spring:
     filters : stat,log4j
     connectionProperties : druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     useGlobalDataSourceStat : true
+  servlet:
+    multipart:
+         enable:true
+         max-file-size:200MB
   
 mybatis:
     config-location: classpath:config/mybatis-config.xml
