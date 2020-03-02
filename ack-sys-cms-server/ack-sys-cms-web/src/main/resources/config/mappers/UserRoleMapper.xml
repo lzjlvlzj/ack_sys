@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.sys.cms.persist.mapper.UserRoleMapper">
+	<resultMap id="BaseResultMap"
+		type="org.ack.sys.cms.pojo.UserRole">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="userId" jdbcType="INTEGER" property="userId" />
+		<result column="roleId" jdbcType="INTEGER" property="roleId" />
+		<result column="creator" property="creator" />
+		<result column="createTime" property="createTime" />
+		<result column="modifier" property="modifier" />
+		<result column="modifyTime" property="modifyTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, userId, roleId, creator, createtime, modifier, modifyTime
+	</sql>
+	<select id="findById" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_user_role
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="findByUserId" parameterType="long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_user_role
+		where userId = #{id}
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from cms_user_role
+		where id = #{id}
+	</delete>
+	<delete id="deleteByUserId" parameterType="java.lang.Long">
+		delete from cms_user_role
+		where userId = #{userId}
+	</delete>
+	<delete id="deleteByRoleId" parameterType="java.lang.Long">
+		delete from cms_user_role
+		where id = #{roleId}
+	</delete>
+	<insert id="insert"
+		parameterType="org.ack.sys.cms.pojo.UserRole">
+		insert into cms_user_role ( userId, roleId, creator, createtime,
+		modifier, modifyTime)
+		values (#{userId,jdbcType=INTEGER},#{roleId,jdbcType=INTEGER}
+		,#{creator}, #{createTime}, #{modifier}, #{modifyTime})
+	</insert>
+	<insert id="save" parameterType="org.ack.sys.cms.pojo.UserRole">
+	    insert into cms_user_role (userId, roleId, creator, createtime, modifier, modifyTime)
+	    values (#{userId},#{roleId},#{creator}, 
+		#{createTime}, #{modifier},#{modifyTime})
+		ON DUPLICATE KEY UPDATE
+		<if test="userId != null">
+			userId=#{userId},
+		</if>
+		<if test="roleId != null">
+			roleId=#{roleId}
+		</if>
+	</insert>
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator=";">
+			insert into cms_user_role (userId, roleId, creator, createtime, modifier, modifyTime)
+			values (#{item.userId},#{item.roleId},#{item.creator}, 
+			#{item.createTime}, #{item.modifier},#{item.modifyTime})
+			ON DUPLICATE KEY UPDATE
+			<if test="item.userId != null">
+				userId=#{item.userId},
+			</if>
+			<if test="item.roleId != null">
+				roleId=#{item.roleId}
+			</if>
+		</foreach>
+	</update>
+	<update id="update"
+		parameterType="org.ack.sys.cms.pojo.UserRole">
+		update cms_user_role
+		<set>
+			<if test="userId != null">
+				userId = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null">
+				roleId = #{roleId,jdbcType=INTEGER},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="modifyTime != null">
+				modifyTime = #{modifyTime},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

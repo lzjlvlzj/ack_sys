@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.sys.cms.persist.mapper.RoleMenuMapper">
+	<resultMap id="BaseResultMap"
+		type="org.ack.sys.cms.pojo.RoleMenu">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="roleId" jdbcType="INTEGER" property="roleId" />
+		<result column="menuId" jdbcType="INTEGER" property="menuId" />
+		<result column="creator" property="creator" />
+		<result column="createTime" property="createTime" />
+		<result column="modifier" property="modifier" />
+		<result column="modifyTime" property="modifyTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, roleId, menuId, creator, createtime, modifier, modifyTime
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_role_menu
+		where id = #{id}
+	</select>
+	<delete id="deleteByRoleId"
+		parameterType="java.lang.Long">
+		delete from cms_role_menu
+		where roleId = #{roleId}
+	</delete>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from cms_role_menu
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="org.ack.sys.cms.pojo.RoleMenu">
+		insert into cms_role_menu (roleId, menuId,creator, createtime, modifier, modifyTime
+		)
+		values ( #{roleId},#{menuId},#{creator}, #{createTime}, #{modifier}, #{modifyTime}
+		)
+	</insert>
+	<insert id="save" parameterType="org.ack.sys.cms.pojo.UserRole">
+	    insert into cms_role_menu (menuId, roleId, creator, createtime, modifier, modifyTime)
+	    values (#{menuId},#{roleId},#{creator}, 
+		#{createTime}, #{modifier},#{modifyTime})
+		ON DUPLICATE KEY UPDATE
+		<if test="menuId != null">
+			menuId=#{menuId},
+		</if>
+		<if test="roleId != null">
+			roleId=#{roleId},
+		</if>
+		<if test="modifier != null">
+			modifier = #{modifier},
+		</if>
+		<if test="modifyTime != null">
+			modifyTime = #{modifyTime}
+		</if>
+	</insert>
+	<insert id="insertSelective"
+		parameterType="org.ack.sys.cms.pojo.RoleMenu">
+		insert into cms_role_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="roleId != null">
+				roleId,
+			</if>
+			<if test="menuId != null">
+				menuId,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=INTEGER},
+			</if>
+			<if test="menuId != null">
+				#{menuId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="update"
+		parameterType="org.ack.sys.cms.pojo.RoleMenu">
+		update cms_role_menu
+		<set>
+			<if test="roleId != null">
+				roleId = #{roleId,jdbcType=INTEGER},
+			</if>
+			<if test="menuId != null">
+				menuId = #{menuId,jdbcType=INTEGER},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="modifyTime != null">
+				modifyTime = #{modifyTime},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="org.ack.sys.cms.pojo.RoleMenu">
+		update cms_role_menu
+		set roleId = #{roleId,jdbcType=INTEGER},
+		menuId = #{menuId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

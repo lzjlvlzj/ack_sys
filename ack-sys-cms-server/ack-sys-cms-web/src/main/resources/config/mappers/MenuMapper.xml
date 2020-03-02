@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.sys.cms.persist.mapper.MenuMapper">
+	<resultMap id="BaseResultMap"
+		type="org.ack.sys.cms.pojo.Menu">
+		<id column="id" property="id" />
+		<id column="name" property="name" />
+		<result column="url" property="url" />
+		<result column="icon" property="icon" />
+		<result column="perms" property="perms" />
+		<result column="type" property="type" />
+		<result column="level" property="level" />
+		<result column="orderNum" property="orderNum" />
+		<result column="creator" property="creator" />
+		<result column="createTime" property="createTime" />
+		<result column="modifier" property="modifier" />
+		<result column="modifyTime" property="modifyTime" />
+		<result column="parentId" property="parentId" />
+		<result column="deleteStatus" property="deleteStatus" />
+	</resultMap>
+	<resultMap type="org.ack.sys.cms.pojo.Menu" id="RolePageResultMap"></resultMap>
+	<sql id="Base_Column_List">
+		id, name, url, icon, perms, type, level, orderNum, creator,
+		createtime, modifier, modifyTime, parentId,deleteStatus
+	</sql>
+	<insert id="insert">
+		INSERT INTO cms_menu (name, url, icon, perms, type,
+		level, orderNum, creator, createtime, modifier, modifyTime,
+		parentId,deleteStatus)
+		VALUES (#{name}, #{url}, #{icon}, #{perms},
+		#{type}, #{level}, #{orderNum}, #{creator}, #{createTime},
+		#{modifier}, #{modifyTime}, #{parentId},#{deleteStatus})
+	</insert>
+	<select id="findInterceptorPageList"
+		parameterType="org.ack.sys.base.persist.page.Page"
+		resultMap="RolePageResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_menu 
+		<where>
+		  1 = 1
+		  and deleteStatus = 0
+		  <if test="condition.name != null and condition.name !=''">
+				and name=#{condition.name}
+		  </if>
+		</where>
+	</select>
+	<select id="findById" parameterType="long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_menu
+		where id = #{id}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_menu
+	</select>
+	<select id="findByName" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_menu
+		where name = #{name}
+	</select>
+	<select id="findByRoleId" parameterType="long" resultMap="BaseResultMap">
+	    SELECT
+			cm.*
+		FROM
+			cms_menu cm
+		LEFT JOIN cms_role_menu crm ON crm.menuId = cm.id
+		WHERE
+			crm.roleId = #{roleId}
+	</select>
+	<delete id="delete">
+	</delete>
+	<update id="update" parameterType="org.ack.sys.cms.pojo.Menu">
+	    update cms_menu
+	    <set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="url != null">
+				url = #{url},
+			</if>
+			<if test="icon != null">
+				icon = #{icon},
+			</if>
+			<if test="perms != null">
+				perms = #{perms},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="level != null">
+				level = #{level},
+			</if>
+			<if test="orderNum != null">
+				orderNum = #{orderNum},
+			</if>
+			<if test="parentId != null">
+				parentId = #{parentId},
+			</if>
+			<if test="deleteStatus != null">
+				deleteStatus = #{deleteStatus},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="modifyTime != null">
+				modifyTime = #{modifyTime},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="findByUserId" parameterType="long"
+		resultMap="BaseResultMap">
+		SELECT
+		  cm.*
+		FROM
+		cms_menu cm
+		LEFT JOIN cms_role_menu crm ON cm.id = crm.menuId
+		LEFT JOIN cms_user_role cur ON cur.roleId = crm.roleId
+		LEFT JOIN cms_user cu ON cu.id = cur.userId
+		WHERE
+		  cu.id = #{id}
+	</select>
+
+</mapper>
