@@ -17,6 +17,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	static {
 		/* 过滤登出 */
 		EXCLUDE_URL.add("/logout");
+		/* 过滤登出 */
+		EXCLUDE_URL.add("/vec_w/wmts");
+		EXCLUDE_URL.add("/tile/test");
+		/* 过滤登出 */
+		EXCLUDE_URL.add("/redis/test");
 		/* 过滤验证码服务 */
 		EXCLUDE_URL.add("/captcha.jpg");
 		/* 过滤css服务 */

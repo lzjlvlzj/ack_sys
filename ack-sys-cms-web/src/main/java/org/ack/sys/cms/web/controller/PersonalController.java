@@ -1,5 +1,6 @@
 package org.ack.sys.cms.web.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,11 +33,14 @@ public class PersonalController extends BaseController {
 	private PersonalService personalServiceImpl;
 	
 	@AckPermission("personal:center:view")
-	@GetMapping("/uploadAvatar")
+	@PostMapping("/uploadAvatar")
 	@ResponseBody
 	public ResponseResult upload(@RequestParam(value = "avatarFile") MultipartFile file, Model model,
 			HttpServletRequest request) {
-		return null;
+		String path = personalServiceImpl.uploadAvatar(file, request);
+		//File targetFile = personalServiceImpl.getTargetFile();
+		
+		return new ResponseResult(200, path);
 	}
 	
 	@AckPermission("personal:center:view")

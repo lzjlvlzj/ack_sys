@@ -3,6 +3,7 @@ package org.ack.sys.base.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,19 +17,34 @@ public class StringUtils {
 
 	Pattern pattern = null;
 
-	/** is date
+	/**
+	 * 生成uuid
+	 * 
+	 * @return
+	 */
+	public static String uuidString() {
+		String uuid = UUID.randomUUID().toString();
+		uuid = uuid.replaceAll("-", "");
+		return uuid;
+	}
+
+	/**
+	 * is date
+	 * 
 	 * @param s
 	 * @return
 	 */
-	public static boolean isDateString(String s){
-		if(isBlank(s)){
+	public static boolean isDateString(String s) {
+		if (isBlank(s)) {
 			return false;
 		}
 		String p = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 		return matcher(p, s);
 	}
 
-	/** is
+	/**
+	 * is
+	 * 
 	 * @param p
 	 * @param s
 	 * @return
@@ -51,7 +67,7 @@ public class StringUtils {
 
 	/**
 	 * 判断一个字符串是否由纯数字组成
-	 * */
+	 */
 	public static boolean isNumeric(String s) {
 		if (null == s || s.length() == 0) {
 			return false;

@@ -20,6 +20,8 @@ public class Content {
 	
 	public static final String MONGO_PAGE_ID_NAME = "lastId";
 	
+	public static final String STATIC_RESOURCE_PREFIX = "static";
+	
 	
 	
 }

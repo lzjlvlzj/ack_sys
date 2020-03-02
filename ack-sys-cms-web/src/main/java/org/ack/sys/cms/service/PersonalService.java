@@ -1,7 +1,10 @@
 package org.ack.sys.cms.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.ack.sys.base.service.BaseService;
 import org.ack.sys.cms.pojo.User;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 个人接口
@@ -26,5 +29,13 @@ public interface PersonalService extends BaseService<User, Long> {
 	 * @return
 	 */
 	public int changePwd(User user);
+
+	/**
+	 * 头像上传
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public String uploadAvatar(MultipartFile file, HttpServletRequest request);
 
 }
