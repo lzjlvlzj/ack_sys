@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.sys.persist.mapper.UserMapper">
+	<resultMap id="BaseResultMap"
+		type="org.ack.sys.pojo.User">
+		<id column="id" property="id" />
+		<id column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="realName" property="realName" />
+		<result column="email" property="email" />
+		<result column="address" property="address" />
+		<result column="type" property="type" />
+		<result column="state" property="state" />
+		<result column="qq" property="qq" />
+		<result column="sex" property="sex" />
+		<result column="birthday" property="birthday" />
+		<result column="mobile" property="mobile" />
+		<result column="avatar" property="avatar" />
+		<result column="creator" property="creator" />
+		<result column="createTime" property="createTime" />
+		<result column="modifier" property="modifier" />
+		<result column="modifyTime" property="modifyTime" />
+		<result column="deleteStatus" property="deleteStatus" />
+		<result column="departmentId" property="departmentId" />
+
+	</resultMap>
+	<resultMap type="org.ack.sys.pojo.User"
+		id="UserResultMap" extends="BaseResultMap">
+		<result column="departmentName" property="departmentName" />
+		<association property="department"
+			javaType="org.ack.sys.pojo.Department">
+			<id property="id" column="dept_id" />
+			<result property="name" column="dept_name" />
+		</association>
+		 
+		<collection property="roles" ofType="org.ack.sys.pojo.Role">
+		    <id property="id" column="role_id" />
+			<result property="name" column="role_name" />
+		</collection>
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, username, password, type, state, email, realName, qq,
+		mobile,address,departmentId,sex,birthday,
+		avatar, creator, createtime, modifier,
+		modifyTime,deleteStatus
+	</sql>
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" separator=";" item="user">
+			update cms_user
+			<set>
+				<if test="type != null">
+					type = #{type},
+				</if>
+				<if test="state != null">
+					state = #{state},
+				</if>
+				<if test="email != null">
+					email = #{email},
+				</if>
+				<if test="realName != null">
+					realName = #{realName},
+				</if>
+				<if test="qq != null">
+					qq = #{qq},
+				</if>
+				<if test="mobile != null">
+					mobile = #{mobile},
+				</if>
+				<if test="address != null">
+					address = #{address},
+				</if>
+				<if test="departmentId != null">
+					departmentId = #{departmentId},
+				</if>
+				<if test="avatar != null">
+					avatar = #{avatar},
+				</if>
+				<if test="deleteStatus != null">
+					deleteStatus = #{deleteStatus},
+				</if>
+				<if test="modifier != null">
+					modifier = #{modifier},
+				</if>
+				<if test="modifyTime != null">
+					modifyTime = #{modifyTime},
+				</if>
+			</set>
+			where id = #{id}
+		</foreach>
+	</update>
+	<update id="updateByUserName" parameterType="org.ack.sys.pojo.User">
+		update cms_user
+		<set>
+			<if test="password != null">
+				password = #{password},
+			</if>
+		</set>
+		where username = #{username}
+	</update>
+	<update id="update" parameterType="org.ack.sys.pojo.User">
+		update cms_user
+		<set>
+		    <if test="password != null and password !=''">
+				password = #{password},
+			</if>
+			<if test="type >= 0">
+				type = #{type},
+			</if>
+			<if test="sex >= 0">
+				sex = #{sex},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday},
+			</if>
+			<if test="state >= null">
+				state = #{state},
+			</if>
+			<if test="email != null">
+				email = #{email},
+			</if>
+			<if test="realName != null">
+				realName = #{realName},
+			</if>
+			<if test="qq != null">
+				qq = #{qq},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="departmentId != null">
+				departmentId = #{departmentId},
+			</if>
+			<if test="avatar != null">
+				avatar = #{avatar},
+			</if>
+			<if test="deleteStatus >= 0">
+				deleteStatus = #{deleteStatus},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="modifyTime != null">
+				modifyTime = #{modifyTime},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="findInterceptorPageList"
+		parameterType="org.ack.sys.base.persist.page.Page"
+		resultMap="UserResultMap">
+		SELECT
+		cu.id,
+		cu.username,
+		cu.type,
+		cu.state,
+		cu.email,
+		cu.realName,
+		cu.qq,
+		cu.sex,
+		cu.birthday,
+		cu.mobile,
+		cu.avatar,
+		cu.address,
+		cu.creator,
+		cu.createtime,
+		cu.modifier,
+		cu.modifyTime,
+		cu.deleteStatus,
+		cu.departmentId,
+		cd.id AS dept_id,
+		cd.`name` AS dept_name
+		FROM
+		cms_user cu
+		LEFT JOIN cms_department cd ON
+		cu.departmentId = cd.id
+		<where>
+			1 = 1
+			and cu.deleteStatus = 0
+			<if test="condition.username != null and condition.username !=''">
+				and cu.username=#{condition.username}
+			</if>
+			<if test="condition.email != null and condition.email !=''">
+				and cu.email=#{condition.email}
+			</if>
+			<if test="condition.departmentId > 0">
+				and cu.departmentId=#{condition.departmentId}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO cms_user (username, password, type,
+		state, email, realName,sex, birthday,
+		departmentId, qq, address, creator,
+		createtime, mobile, avatar,
+		modifier,modifyTime,deleteStatus)
+		VALUES
+		(#{username}, #{password},
+		#{type}, #{state}, #{email}, #{realName},
+		#{sex},#{birthday},#{departmentId},
+		#{qq},#{address}, #{creator},
+		#{createTime},#{mobile},#{avatar},#{modifier},
+		#{modifyTime},#{deleteStatus})
+	</insert>
+	<select id="findUserByUserName" parameterType="string"
+		resultMap="UserResultMap">
+		SELECT
+			cu.id,
+			cu.username,
+			cu.PASSWORD,
+			cu.type,
+			cu.state,
+			cu.email,
+			cu.realName,
+			cu.qq,
+			cu.mobile,
+			cu.address,
+			cu.departmentId,
+			cu.sex,
+			cu.birthday,
+			cu.avatar,
+			cu.creator,
+			cu.createtime,
+			cu.modifier,
+			cu.modifyTime,
+			cu.deleteStatus,
+		  cd.id as dept_id,
+			cd.NAME AS dept_name,
+		  cr.id as role_id,
+			cr.NAME AS roleName
+		FROM
+			cms_user cu
+		LEFT JOIN cms_department cd ON cu.departmentId = cd.id
+		LEFT JOIN cms_user_role cur ON cur.userId = cu.id
+		LEFT JOIN cms_role cr ON cr.id = cur.roleId
+		where username = #{username}
+	</select>
+	<select id="findUserByEmail" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		where email = #{email}
+	</select>
+	<select id="findUserByMobile" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		where mobile = #{mobile}
+	</select>
+	<select id="findUserByQq" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		where qq = #{qq}
+	</select>
+	<select id="findBySelected" parameterType="map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		<where>
+		    username=#{username}
+			<if test="email != null and email !=''">
+				and email=#{email}
+			</if>
+			<if test="qq != null and qq !=''">
+				and qq=#{qq}
+			</if>
+			<if test="mobile != null and mobile !=''">
+				and mobile=#{mobile}
+			</if>
+		</where>
+	</select>
+	<select id="find" parameterType="org.ack.sys.pojo.User"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		where id = #{id}
+	</select>
+	<select id="findById" parameterType="int"
+		resultMap="UserResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from cms_user
+		where id = #{id}
+	</select>
+
+</mapper>

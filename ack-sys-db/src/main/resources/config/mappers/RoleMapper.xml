@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ack.sys.persist.mapper.RoleMapper">
+	<resultMap id="BaseResultMap"
+		type="org.ack.sys.pojo.Role">
+		<id column="id" property="id" />
+		<id column="name" property="name" />
+		<id column="weight" property="weight" />
+		<id column="remark" property="remark" />
+		<result column="creator" property="creator" />
+		<result column="createTime" property="createTime" />
+		<result column="modifier" property="modifier" />
+		<result column="modifyTime" property="modifyTime" />
+		<result column="deleteStatus" property="deleteStatus" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name,weight, remark, creator, createtime, modifier, modifyTime, deleteStatus
+	</sql>
+	<insert id="insert">
+		INSERT INTO cms_role (name,weight,remark, creator, createtime, modifier, modifyTime, deleteStatus)
+		VALUES (#{name},#{weight},#{remark}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{deleteStatus})
+	</insert>
+	<update id="update" parameterType="org.ack.sys.pojo.Role">
+	   update cms_role
+		<set>
+			
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="weight > 0">
+				weight = #{weight},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			<if test="deleteStatus >= '0'">
+				deleteStatus = #{deleteStatus},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="modifyTime != null">
+				modifyTime = #{modifyTime},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="findById" parameterType="long" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
+	    where id = #{id}
+	</select>
+	<select id="findByUserId" parameterType="long" resultMap="BaseResultMap">
+	    SELECT
+			cr.*
+		FROM
+			cms_role cr
+		LEFT JOIN cms_user_role cur ON cur.roleId = cr.id
+		WHERE
+			cur.userId = #{id}
+	</select>
+	<select id="findRoleByName" resultMap="BaseResultMap" parameterType="string">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
+	    where name = #{name}
+	</select>
+	
+	<select id="findAll" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
+	</select>
+	<select id="findRoleByWeight" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
+	    where weight > #{weight}
+	</select>
+	<select id="findInterceptorPageList" parameterType="org.ack.sys.base.persist.page.Page" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List"></include>
+	    from cms_role
+	    <where>
+	        1 = 1
+	        and deleteStatus = 0
+	        <if test="condition.name != null and condition.name !=''">
+				and name=#{condition.name}
+			</if>
+	    </where>
+	</select>
+	<select id="findRoleByUser">
+	</select>
+
+</mapper>
