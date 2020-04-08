@@ -82,5 +82,6 @@
 		<module>ack-sys-cms-server</module>
 		<module>ack-sys-base</module>
 		<module>ack-sys-db</module>
+		<module>ack-sys-portal-server</module>
 	</modules>
 </project>

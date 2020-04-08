@@ -1,0 +1,22 @@
+package org.ack.sys.cms.web.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.ack.sys.base.common.ResponseResult;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping("/redis")
+public class RedisController {
+	@GetMapping("/test")
+	@ResponseBody
+	public ResponseResult deleteById( HttpServletRequest request, HttpServletResponse response) {
+		
+		return new ResponseResult(200, "test");
+	}
+
+}
