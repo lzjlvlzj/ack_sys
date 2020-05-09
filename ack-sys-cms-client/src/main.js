@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/iconfont/iconfont.css'
 
+
 // 引入mockjs
 //require('./mock/index')
 
