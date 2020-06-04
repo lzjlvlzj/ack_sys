@@ -10,10 +10,11 @@ import store from './store'
 import api from './http'
 import  '@/mock/index'
 import  '../static/css/base.css'
+import BaiduMap from 'vue-baidu-map'
 Vue.config.productionTip = false
 Vue.use(ElementUI, { locale })
-
 Vue.use(api)
+Vue.use(BaiduMap,{ak:"VEVXv35TGb5bSIqqcpmvIxEf7rbHc8Yr"})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

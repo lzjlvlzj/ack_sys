@@ -1,8 +1,8 @@
-export function findCarouselImages(){
+export function findCarouselImages(params){
   let res = {}
   res.url = "/carousel/images"
   res.method = "get"
-  let rt  = {
+  let rt = {
     "code":"200",
     "msg":"success",
     "data":[

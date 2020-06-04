@@ -15,17 +15,32 @@
 
 
 <script>
+  //import bus from '@/util/bus'
   export default {
     name: 'NavTree',
     props: {
       menu: {
         type: Object,
-
       }
     },
     data() {
       return {
 
+      }
+    },
+    methods:{
+      handleRoute(menu){
+        let path = menu.url
+        path = "/" + path
+        let currentPath = this.$route.path
+        //console.log("currentPath = " + currentPath)
+        if(path == currentPath){
+          //console.log("不需要跳转")
+          return
+        }
+        //bus.$emit("currentMenu",menu)
+
+        this.$router.push(path)
       }
     },
     created(){

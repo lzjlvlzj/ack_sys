@@ -179,6 +179,7 @@ function addDynamicRoutes (menuList = [], routes = []) {
          }
          url = url.substring(0, url.length - 1)
          route['component'] = resolve => require([`@/views/${url}`], resolve)
+
        } catch (e) {}
      }
      routes.push(route)

@@ -3,9 +3,16 @@ import {mockUrl} from '../config/url'
 
 import * as menu from './modules/menu'
 import * as carousel from './modules/carousel'
+import * as contentSummary from './modules/contentSummary'
+import * as department from './modules/department'
+import * as notice from './modules/notice'
 
 createMockData(menu, true)
 createMockData(carousel, true)
+createMockData(contentSummary, true)
+createMockData(department, true)
+createMockData(notice, true)
+
 function createMockData(mod, isOpen = true) {
   if (isOpen) {
     for (var key in mod) {
