@@ -30,7 +30,7 @@
       and `name` = #{name,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" parameterType="org.ack.sys.pojo.PortalMenu">
-    insert into portal_menu (id, `name`, icon,
+    insert into portal_menu (id, `name`,icon,
       url, remark, parentId, creator,
       createTime, modifier, modifyTime, 
       deleteStatus)
