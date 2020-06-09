@@ -4,6 +4,7 @@ import org.ack.sys.cms.service.ThymeleafService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -12,13 +13,13 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Service
 public class ThymeleafServiceImpl implements ThymeleafService {
 
     @Autowired
     private TemplateEngine templateEngine;
     private static final Logger logger = LoggerFactory.getLogger(ThymeleafServiceImpl.class);
-    public static final String destPath = "D:/temp/static";
+    public static final String destPath = "F:\\idea_workspace\\me\\ack_sys\\ack-sys-portal-page";
 
     public Map<String, Object> loadModel(Long id) {
         // 讲道理，这里加载的数据是根据id从数据库查询出来的，我这里就写固定了

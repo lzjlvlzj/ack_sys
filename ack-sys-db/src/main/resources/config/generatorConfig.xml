@@ -6,8 +6,8 @@
 <generatorConfiguration>
 
     <!--导入属性配置-->
-    <properties resource="jdbc.properties"></properties>
-    <classPathEntry location="${jdbc.jar}"/>
+   <!-- <properties resource="jdbc.properties"></properties>
+    <classPathEntry location="${jdbc.jar}"/>-->
 
     <context id="DB2Tables" targetRuntime="MyBatis3">
        
@@ -17,11 +17,10 @@
         </commentGenerator>
 
         <!--jdbc的数据库连接 -->
-        <jdbcConnection
-                driverClass="${jdbc.driverClass}"
-                connectionURL="${jdbc.jdbcUrl}"
-                userId="${jdbc.user}"
-                password="${jdbc.password}">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/portal?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B8"
+                        userId="root"
+                        password="root">
         </jdbcConnection>
 
         <javaTypeResolver >
@@ -59,7 +58,7 @@
         </javaClientGenerator>
 
 
-        <table tableName="cms_dict" domainObjectName="Dictionary" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <table tableName="portal_menu" domainObjectName="PortalMenu" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
 

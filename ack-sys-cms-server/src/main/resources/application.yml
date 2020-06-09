@@ -38,6 +38,8 @@ spring:
       #内容类别,可不用配置
       servlet:
          content-type: text/html
+      #配置模板路径，默认是templates，可以不用配置
+      prefix: classpath:/templates/
   
 mybatis:
     config-location: classpath:config/mybatis-config.xml
