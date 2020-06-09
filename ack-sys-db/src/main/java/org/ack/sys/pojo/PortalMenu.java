@@ -12,10 +12,6 @@ public class PortalMenu extends BasePojo {
 
     private String remark;
 
-    private Integer creator;
-
-    private Integer modifier;
-
     public String getName() {
         return name;
     }
