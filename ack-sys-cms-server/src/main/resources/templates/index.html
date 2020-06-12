@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>首页</title>
+    <object th:include="components/header::header" th:remove="tag" />
+    <!-- <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    Tell the browser to be responsive to screen width
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    Font Awesome
+    <link rel="stylesheet" href="static/lib/fontawesome-free/css/all.min.css">
+    Ionicons
+    <link rel="stylesheet" href="static/lib/alt/ionicons/ionicons.min.css">
+    overlayScrollbars
+    <link rel="stylesheet" href="static/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/base.css">
+    Google Font: Source Sans Pro
+    <link href="static/lib/alt/gl/gl.css" rel="stylesheet"> -->
+</head>
+<body class="">
+<div class="wrapper">
+    <div class="main-header">
+        <div class="container ">
+            <div class="row logo">
+                <div class="col-lg-6">
+                    <img src="static/img/pt/logo.png"/>
+                </div>
+                <div class="col-lg-6 aboutus">
+                    232323232
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-md bg-success navbar-dark">
+            <div class="container">
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapsibleNavbar" aria-expanded="false">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="collapsibleNavbar" style="">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link2</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link3</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+    <div class="content-wrapper">
+        <section class="main-content">
+            <div class="container-fluid carousel-warpper content-position">
+                <div id="demo" class="carousel slide" data-ride="carousel">
+                    <!-- 指示符 -->
+                    <ul class="carousel-indicators">
+                        <li data-target="#demo" data-slide-to="0" class="active"></li>
+                        <li data-target="#demo" data-slide-to="1"></li>
+                        <li data-target="#demo" data-slide-to="2"></li>
+                    </ul>
+                    <!-- 轮播图片 -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="static/img/pt/c-1.jpg">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="static/img/pt/c-2.jpg">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="static/img/pt/c-3.jpg">
+                        </div>
+                    </div>
+                    <!-- 左右切换按钮 -->
+                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+
+                </div>
+            </div>
+            <div class="container content-position">
+                <div class="summery-content row ">
+                    <div class="col-lg-4">
+                        <div class="card summery-card">
+                            <img class="card-img-top" src="static/img/pt/cs-1.jpg" alt="Card image" style="width:100%">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6"><h4 class="card-title">医院公告</h4></div>
+                                    <div class="col-lg-6"><a class="more">查看更多</a></div>
+                                </div>
+                                <ul class="text item">
+                                    <li>
+                                        <a target="_blank" href="/article/0/0" class="ellipsis">北京协和医院2020年五一门诊工作安排</a>
+                                    </li>
+                                    <li>
+                                        <a target="_blank" href="/article/0/1" class="ellipsis">北京协和医院试剂采购公告（第35期）</a>
+                                    </li>
+                                    <li>
+                                        <a target="_blank" href="/article/0/2" class="ellipsis">北京协和医院试剂采购公告（第34期）</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card summery-card">
+                            <img class="card-img-top" src="static/img/pt/cs-2.jpg" alt="Card image" style="width:100%">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6"><h4 class="card-title">医院新闻</h4></div>
+                                    <div class="col-lg-6"><a class="more">查看更多</a></div>
+                                </div>
+                                <ul class="text item">
+                                    <li>
+                                        <a target="_blank" href="/article/0/0" class="ellipsis">北京协和医院2020年五一门诊工作安排</a>
+                                    </li>
+                                    <li>
+                                        <a target="_blank" href="/article/0/1" class="ellipsis">北京协和医院试剂采购公告（第35期）</a>
+                                    </li>
+                                    <li>
+                                        <a target="_blank" href="/article/0/2" class="ellipsis">北京协和医院试剂采购公告（第34期）</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card summery-card">
+                            <img class="card-img-top" src="static/img/pt/cs-3.png" alt="Card image" style="width:100%">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6"><h4 class="card-title">健康科普</h4></div>
+                                    <div class="col-lg-6"><a class="more">查看更多</a></div>
+                                </div>
+                                <ul class="text item">
+                                    <li>
+                                        <a target="_blank" href="/article/0/0" class="ellipsis">北京协和医院2020年五一门诊工作安排</a>
+                                    </li>
+                                    <li>
+                                        <a target="_blank" href="/article/0/1" class="ellipsis">北京协和医院试剂采购公告（第35期）</a>
+                                    </li>
+                                    <li>
+                                        <a target="_blank" href="/article/0/2" class="ellipsis">北京协和医院试剂采购公告（第34期）</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container ksdh">
+                <div class="row gutter-20 ">
+                    <div class="col-lg-5">
+                        <a href="#">
+                            <img src="static/img/pt/ks-1.jpg" class="ksdh-img">
+                        </a>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card card-primary card-outline card-outline-tabs border-0">
+                            <div class="card-header p-0 border-bottom-0">
+                                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill"
+                                           href="#custom-tabs-four-home" role="tab"
+                                           aria-controls="custom-tabs-four-home" aria-selected="true">内科</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill"
+                                           href="#custom-tabs-four-profile" role="tab"
+                                           aria-controls="custom-tabs-four-profile" aria-selected="false">外科</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill"
+                                           href="#custom-tabs-four-messages" role="tab"
+                                           aria-controls="custom-tabs-four-messages" aria-selected="false">医技</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill"
+                                           href="#custom-tabs-four-settings" role="tab"
+                                           aria-controls="custom-tabs-four-settings" aria-selected="false">更多</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-four-tabContent">
+                                    <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel"
+                                         aria-labelledby="custom-tabs-four-home-tab">
+                                        <ul  class="ksdh-tab">
+                                            <li>
+                                                <a>内外科</a>
+                                            </li>
+                                            <li>
+                                                <a>内分泌科</a>
+                                            </li>
+                                            <li>
+                                                <a>神经内科</a>
+                                            </li>
+                                            <li>
+                                                <a>中风内科</a>
+                                            </li>
+                                            <li>
+                                                <a>肛肠内科</a>
+                                            </li>
+                                            <li>
+                                                <a>消化内科</a>
+                                            </li>
+                                            <li>
+                                                <a>肾内科</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel"
+                                         aria-labelledby="custom-tabs-four-profile-tab">
+                                        Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris
+                                        pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor
+                                        sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus
+                                        orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a
+                                        luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus.
+                                        Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc
+                                        euismod pellentesque diam.
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel"
+                                         aria-labelledby="custom-tabs-four-messages-tab">
+                                        Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris.
+                                        Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget
+                                        condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum
+                                        orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna
+                                        a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam
+                                        vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet
+                                        sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum,
+                                        lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem
+                                        eu risus tincidunt eleifend ac ornare magna.
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel"
+                                         aria-labelledby="custom-tabs-four-settings-tab">
+                                        Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis
+                                        tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque
+                                        tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum
+                                        consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec
+                                        pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam.
+                                        Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst.
+                                        Praesent imperdiet accumsan ex sit amet facilisis.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <div class="link">
+                <span class="l">友情链接：</span>
+                <div class="a">
+                    <a href="http://www.nhc.gov.cn/" target="_blank">中华人民共和国国家卫生健康委员会</a>
+                    <a href="http://wjw.beijing.gov.cn/" target="_blank">北京市卫生健康委员会</a>
+                    <a href="http://www.cams.ac.cn/" target="_blank">中国医学科学院</a>
+                    <a href="http://www.pumf.org/" target="_blank">北京协和医学基金会</a>
+                    <a href="http://www.xiehekjkf.com/" target="_blank">协和科技开发有限责任公司</a>
+                    <a class="last" href="http://www.xiehejx.com/" target="_blank">协和化妆品</a>
+                </div>
+            </div>
+            <div class="copy row">
+                <div class="col-lg-6 left">
+                    <div class="siteMap">
+                        <a href="/sitemap.html">网站地图</a>
+                        <a href="/research/gudie.html">关于我们</a>
+                    </div>
+                    <p class="cf address">
+                        <span>地　　址：</span>
+                        <span class="div">
+                <b>（东单院区）北京市东城区帅府园一号，100730；</b>
+                <b>（西单院区）北京市西城区大木仓胡同41号，100032</b>
+              </span>
+                    </p>
+                    <p>服务热线： 010-69156114</p>
+                </div>
+                <div class="col-lg-6 right">
+                    <p>Copyright 北京协和医院 All Rights Reserved. 本站内容仅供参考，不作为诊断及医疗依据 <br> 京ICP 备 05067313号-1
+                        文保网安备案号：1101010023
+                        京卫网审字【2014】第39号</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="static/lib/jquery/jquery-3.3.1.min.js"></script>
+<script src="static/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="static/js/base.js"></script>
+<script>
+    PortalBase.ksdh.init();
+</script>
+</body>
+</html>

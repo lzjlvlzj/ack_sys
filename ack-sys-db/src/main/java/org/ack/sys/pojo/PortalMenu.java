@@ -1,5 +1,7 @@
 package org.ack.sys.pojo;
 
+import java.util.List;
+
 import org.ack.sys.base.pojo.BasePojo;
 
 public class PortalMenu extends BasePojo {
@@ -11,6 +13,10 @@ public class PortalMenu extends BasePojo {
     private String url;
 
     private String remark;
+    
+    private Long parentId;
+    
+    private List<PortalMenu> children;
 
     public String getName() {
         return name;
@@ -44,7 +50,23 @@ public class PortalMenu extends BasePojo {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    @Override
+    public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+	public List<PortalMenu> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<PortalMenu> children) {
+		this.children = children;
+	}
+
+	@Override
     public String toString() {
         return "PortalMenu{" +
                 "name='" + name + '\'' +

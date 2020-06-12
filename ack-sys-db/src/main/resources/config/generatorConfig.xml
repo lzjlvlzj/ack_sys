@@ -58,7 +58,11 @@
         </javaClientGenerator>
 
 
-        <table tableName="portal_menu" domainObjectName="PortalMenu" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <table tableName="portal_article_meta" domainObjectName="PortalArticleMeta" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        
+         <table tableName="portal_article_detail" domainObjectName="PortalArticleDetail" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
 
