@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Title</title>
@@ -8,7 +8,7 @@
 	<div class="footer" th:fragment="footer">
 		<div class="container">
 			<div class="link">
-				<span class="l">友情链接：</span>
+				<span class="l">友情链接1：</span>
 				<div class="a">
 					<a href="http://www.nhc.gov.cn/" target="_blank">中华人民共和国国家卫生健康委员会</a>
 					<a href="http://wjw.beijing.gov.cn/" target="_blank">北京市卫生健康委员会</a>
@@ -38,6 +38,12 @@
 				</div>
 			</div>
 		</div>
+		<script src="../static/lib/jquery/jquery-3.3.1.min.js" th:src="@{/lib/jquery/jquery-3.3.1.min.js}"></script>
+		<script src="../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+		<script src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+		<script>
+            PortalBase.ksdh.init();
+		</script>
 	</div>
 </body>
 </html>

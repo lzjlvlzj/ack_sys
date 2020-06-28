@@ -40,5 +40,7 @@
 		<mapper resource="config/mappers/RoleMenuMapper.xml" />
 		<mapper resource="config/mappers/DictionaryMapper.xml" />
 		<mapper resource="config/mappers/PortalMenuMapper.xml" />
+		<mapper resource="config/mappers/PortalArticleMapper.xml" />
+		<mapper resource="config/mappers/PortalArticleDetailMapper.xml" />
 	</mappers>
 </configuration>

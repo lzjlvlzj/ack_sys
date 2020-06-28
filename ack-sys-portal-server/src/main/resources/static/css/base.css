@@ -3,6 +3,7 @@ html{
 }
 body {
     min-height: 100%;
+    font-family: "微软雅黑",Arial;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,6 +29,13 @@ a:focus{outline:none;}
 a:hover{ color:#01763a; }
 .wrapper {
     position: relative;
+}
+
+.navbar-bg{
+    background: #0e5b44;
+}
+div.dropdown-menu {
+    background:#0e5b44;
 }
 .aboutus{
     float: right;

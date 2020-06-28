@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+
 public class ThymeleafServiceImpl implements ThymeleafService {
 
     @Autowired
