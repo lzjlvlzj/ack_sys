@@ -57,12 +57,12 @@
             <property name="rootInterface" value="org.ack.sys.base.persist.page.PageDao" />
         </javaClientGenerator>
 
-
+        <!--
         <table tableName="portal_article_meta" domainObjectName="PortalArticleMeta" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
-        
-         <table tableName="portal_article_detail" domainObjectName="PortalArticleDetail" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        -->
+         <table tableName="portal_carousel" domainObjectName="PortalCarousel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
 

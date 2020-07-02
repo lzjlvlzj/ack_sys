@@ -1,22 +1,21 @@
 package org.ack.sys.cms.service.impl;
 
 import org.ack.sys.cms.service.ThymeleafService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class ThymeleafServiceImpl implements ThymeleafService {
+    @Override
+    public void createHtml(Long id) {
 
-    @Autowired
+    }
+
+    @Override
+    public void deleteHtml(Long id) {
+
+    }
+
+/*
     private TemplateEngine templateEngine;
     private static final Logger logger = LoggerFactory.getLogger(ThymeleafServiceImpl.class);
     public static final String destPath = "F:\\idea_workspace\\me\\ack_sys\\ack-sys-portal-page";
@@ -53,4 +52,6 @@ public class ThymeleafServiceImpl implements ThymeleafService {
     public void deleteHtml(Long id) {
 
     }
+    */
+
 }

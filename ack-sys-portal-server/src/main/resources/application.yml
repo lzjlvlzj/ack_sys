@@ -30,7 +30,7 @@ spring:
          max-file-size:200MB
   thymeleaf:
     #模板的模式，支持 HTML, XML TEXT JAVASCRIPT
-    mode: HTML
+    mode: HTML5
     #编码 可不用配置
     encoding: UTF-8
     #开发配置为false,避免修改模板还要重启服务器
@@ -55,11 +55,12 @@ spring:
 mybatis:
     config-location: classpath:config/mybatis-config.xml
     type-aliases-package: org.ack.sys.pojo
-uesr:
-  menuId: 4,5,6
 server:
     port: 7070
 logging:
     level:
        root: debug
 ####自定义配置
+user:
+  conf:
+    menu: 4,5,6

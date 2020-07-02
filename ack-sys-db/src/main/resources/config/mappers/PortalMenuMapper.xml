@@ -6,6 +6,7 @@
         <id column="name" jdbcType="VARCHAR" property="name"/>
         <result column="icon" jdbcType="VARCHAR" property="icon"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="bgUrl" jdbcType="VARCHAR" property="bgUrl"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="parentId" jdbcType="INTEGER" property="parentId"/>
         <result column="creator" jdbcType="INTEGER" property="creator"/>
@@ -15,7 +16,7 @@
         <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, `name`, icon, url, remark,parentId, creator, createTime, modifier, modifyTime, deleteStatus
+    id, `name`, icon, url, bgUrl, remark,parentId, creator, createTime, modifier, modifyTime, deleteStatus
     </sql>
     <select id="selectByPrimaryKey" parameterType="org.ack.sys.pojo.PortalMenu" resultMap="BaseResultMap">
         select
@@ -36,11 +37,11 @@
     </delete>
     <insert id="insert" parameterType="org.ack.sys.pojo.PortalMenu">
     insert into portal_menu (id, `name`,icon,
-      url, remark, parentId, creator,
+      url, bgUrl, remark, parentId, creator,
       createTime, modifier, modifyTime, 
       deleteStatus)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{parentId}, #{creator,jdbcType=INTEGER},
+      #{url,jdbcType=VARCHAR}, #{bgUrl,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{parentId}, #{creator,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, 
       #{deleteStatus,jdbcType=INTEGER})
   </insert>

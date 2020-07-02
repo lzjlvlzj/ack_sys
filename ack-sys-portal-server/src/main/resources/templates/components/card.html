@@ -5,25 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-<div class="col-lg-4">
-    <div class="card summery-card">
-        <img class="card-img-top" src="../static/img/pt/cs-2.jpg" th:src="@{/img/pt/cs-2.jpg}" alt="Card image" style="width:100%">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-6"><h4 class="card-title">医院新闻</h4></div>
-                <div class="col-lg-6"><a class="more">查看更多</a></div>
+<div class="summery-content row " th:fragment="card">
+    <div class="col-lg-4" th:each="card:${cardList}" >
+        <div class="card summery-card">
+            <img class="card-img-top" src="../static/img/pt/cs-2.jpg" th:src="${card.portalMenu.bgUrl}" alt="Card image"
+                 style="width:100%">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6"><h4 class="card-title" th:text="${card.portalMenu.name}"></h4></div>
+                    <div class="col-lg-6"><a class="more" th:href="${card.portalMenu.url}">查看更多</a></div>
+                </div>
+                <ul class="text item">
+                    <li th:each="article:${card.portalArticleList}">
+                        <a target="_blank" href="/article/0/0" th:href="${article.url}" class="ellipsis" th:text="${article.title}"></a>
+                    </li>
+                    <!--
+                    <li>
+                        <a target="_blank" href="/article/0/1" class="ellipsis">北京协和医院试剂采购公告（第35期）</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="/article/0/2" class="ellipsis">北京协和医院试剂采购公告（第34期）</a>
+                    </li>
+                    -->
+                </ul>
             </div>
-            <ul class="text item">
-                <li>
-                    <a target="_blank" href="/article/0/0" class="ellipsis">北京协和医院2020年五一门诊工作安排</a>
-                </li>
-                <li>
-                    <a target="_blank" href="/article/0/1" class="ellipsis">北京协和医院试剂采购公告（第35期）</a>
-                </li>
-                <li>
-                    <a target="_blank" href="/article/0/2" class="ellipsis">北京协和医院试剂采购公告（第34期）</a>
-                </li>
-            </ul>
         </div>
     </div>
 </div>

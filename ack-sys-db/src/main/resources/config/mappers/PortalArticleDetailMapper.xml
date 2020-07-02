@@ -25,7 +25,7 @@
     delete from portal_article_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.ack.sys.pojo.PortalArticleDetail">
+  <insert id="insert" parameterType="org.ack.sys.pojo.PortalArticleDetail" useGeneratedKeys="true" keyProperty = "id" keyColumn = "id">
     insert into portal_article_detail (id, content)
     values (#{id,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>

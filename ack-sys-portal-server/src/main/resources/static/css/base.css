@@ -80,6 +80,12 @@ a.more:hover{
     opacity: 0.8;
     text-decoration: none;
 }
+.ellipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
 /**gutter*/
 .row.gutter-0 {
     margin-left: 0;

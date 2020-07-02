@@ -3,6 +3,7 @@
 <mapper namespace="org.ack.sys.persist.mapper.portal.PortalArticleMapper">
   <resultMap id="BaseResultMap" type="org.ack.sys.pojo.PortalArticle">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="pageView" jdbcType="INTEGER" property="pageView" />
     <result column="source" jdbcType="VARCHAR" property="source" />
@@ -16,14 +17,97 @@
     <result column="detailId" jdbcType="INTEGER" property="detailId" />
     <result column="menuId" jdbcType="INTEGER" property="menuId" />
   </resultMap>
+  <resultMap id="MenuArticleMap" type="org.ack.sys.pojo.PortalArticle" extends="BaseResultMap">
+    <association property="portalMenu" javaType="org.ack.sys.pojo.PortalMenu">
+      <result column="menuName" jdbcType="VARCHAR" property="name" />
+      <result column="menuUrl" jdbcType="VARCHAR" property="url" />
+      <result column="menuBgUrl" jdbcType="VARCHAR" property="bgUrl" />
+    </association>
+  </resultMap>
   <sql id="Base_Column_List">
-    id, author, pageView, url,source, remark, creator, createTime, modifier, modifyTime,
+    id, title, author, pageView, url,source, remark, creator, createTime, modifier, modifyTime,
     deleteStatus, detailId, menuId
   </sql>
+  <select id="findInterceptorPageList"
+          parameterType="org.ack.sys.base.persist.page.Page"
+          resultMap="MenuArticleMap">
+    SELECT
+    pa.id,
+    pa.title,
+    pa.author,
+    pa.pageView,
+    pa.url,
+    pa.source,
+    pa.remark,
+    pa.creator,
+    pa.createTime,
+    pa.modifier,
+    pa.modifyTime,
+    pa.deleteStatus,
+    pa.detailId,
+    pa.menuId,
+    pm.`name` as menuName,
+    pm.url as menuUrl,
+    pm.bgUrl as menuBgUrl
+    FROM
+    portal_article pa
+    LEFT JOIN portal_menu pm ON pm.id = pa.menuId
+    <where>
+      1 = 1
+      and pa.deleteStatus = 0
+      <if test="condition.menuId > 0">
+        and  pa.menuId = #{condition.menuId}
+      </if>
+      <if test="condition.name != null and condition.menuId !=''">
+        and  pa.title = #{condition.title}
+      </if>
+      <if test="condition.author != null and condition.author !=''">
+        and  pa.author = #{condition.author}
+      </if>
+      <if test="condition.source != null and condition.source !=''">
+        and  pa.source = #{condition.source}
+      </if>
+      <if test="condition.startTime!=null">
+        <![CDATA[  and pa.createTime >= #{condition.startTime, jdbcType=TIMESTAMP}  ]]>
+      </if>
+      <if test="condition.endTime!=null">
+        <![CDATA[  and pa.createTime <= #{condition.endTime ,jdbcType=TIMESTAMP}  ]]>
+      </if>
+
+    </where>
+
+  </select>
+  <select id="findByMenuId" resultMap="MenuArticleMap">
+    SELECT
+    pa.id,
+    pa.title,
+    pa.author,
+    pa.pageView,
+    pa.url,
+    pa.source,
+    pa.remark,
+    pa.creator,
+    pa.createTime,
+    pa.modifier,
+    pa.modifyTime,
+    pa.deleteStatus,
+    pa.detailId,
+    pa.menuId,
+    pm.`name` as menuName,
+    pm.url as menuUrl,
+    pm.bgUrl as menuBgUrl
+    FROM
+    portal_article pa
+    LEFT JOIN portal_menu pm ON pm.id = pa.menuId
+    WHERE pa.menuId in
+    <foreach collection="array" item = "id" open="(" separator="," close=")" index="index">
+      #{id}
+    </foreach>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from portal_article_meta
+    from portal_article
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -31,12 +115,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.ack.sys.pojo.PortalArticle">
-    insert into portal_article_meta (id, author, pageView,url,
+    insert into portal_article (id, title, author, pageView,url,
       source, remark, creator,
       createTime, modifier, modifyTime,
       deleteStatus, detailId, menuId
       )
-    values (#{id,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, #{pageView,jdbcType=INTEGER},#{url,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{pageView,jdbcType=INTEGER},#{url,jdbcType=VARCHAR},
       #{source,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP},
       #{deleteStatus,jdbcType=INTEGER}, #{detailId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}

@@ -51,6 +51,6 @@ logging:
        root: debug
 ####自定义配置
 user:
-    avatar: /aaa/bb.png 
+  avatar: /aaa/bb.png
 portal:
-    page-positon: F:\workspace\me\ack2\ack_sys\ack-sys-portal-page\portal\             
+  page-positon: F:\workspace\me\ack2\ack_sys\ack-sys-portal-page\portal\

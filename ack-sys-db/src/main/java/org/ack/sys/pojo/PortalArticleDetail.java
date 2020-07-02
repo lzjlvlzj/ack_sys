@@ -6,6 +6,14 @@ public class PortalArticleDetail {
 
     private String content;
 
+    public PortalArticleDetail(){
+
+    }
+
+    public PortalArticleDetail(String content){
+        this.content = content;
+    }
+
     public Long getId() {
     	return this.id;
     }

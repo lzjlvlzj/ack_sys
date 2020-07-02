@@ -12,6 +12,8 @@ public class PortalMenu extends BasePojo {
 
     private String url;
 
+    private String bgUrl;
+
     private String remark;
     
     private Long parentId;
@@ -40,6 +42,14 @@ public class PortalMenu extends BasePojo {
 
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
+    }
+
+    public String getBgUrl() {
+        return bgUrl;
+    }
+
+    public void setBgUrl(String bgUrl) {
+        this.bgUrl = bgUrl;
     }
 
     public String getRemark() {

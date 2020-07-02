@@ -20,7 +20,7 @@ public class PortalArticleServiceImpl extends BaseServiceImpl<PortalArticle, Lon
 
 	@Override
 	public BaseDao<PortalArticle, Long> getDao() {
-		return null;
+		return portalArticleMapper;
 	}
 
 	@Override

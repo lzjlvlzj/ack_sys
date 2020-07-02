@@ -46,7 +46,7 @@ public class UserServiceImpl extends PageServiceImpl<User, Long> implements User
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	@Autowired
 	private UserMapper userMapper;
-	@Value(value = "${portal.avatar}")
+	@Value(value = "${user.avatar}")
 	private String deaultAvatar;
 	@Autowired
 	private MenuService menuServiceImpl;

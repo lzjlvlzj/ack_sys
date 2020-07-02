@@ -1,6 +1,9 @@
 package org.ack.sys.portal.service;
 
 import org.ack.sys.pojo.PortalMenu;
+import org.ack.sys.portal.pojo.Card;
+
+import java.util.List;
 
 public interface HomeService {
     /**
@@ -9,6 +12,9 @@ public interface HomeService {
      */
     public PortalMenu findMenu();
 
-
-
+    /**
+     * 查询card
+     * @return
+     */
+    List<Card> findCardList();
 }

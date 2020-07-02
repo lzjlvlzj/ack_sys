@@ -4,6 +4,8 @@ import org.ack.sys.base.pojo.BasePojo;
 
 public class PortalArticle extends BasePojo {
 
+	private String title;
+
 	private String author;
 
 	private Integer pageView;
@@ -14,11 +16,21 @@ public class PortalArticle extends BasePojo {
 
 	private String remark;
 
-	private Integer detailId;
+	private Long detailId;
 
-	private Integer menuId;
+	private Long menuId;
+
+	private PortalMenu portalMenu;
 
 	private PortalArticleDetail portalArticleDetail;
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public String getAuthor() {
 		return author;
@@ -59,19 +71,19 @@ public class PortalArticle extends BasePojo {
 		this.remark = remark == null ? null : remark.trim();
 	}
 
-	public Integer getDetailId() {
+	public Long getDetailId() {
 		return detailId;
 	}
 
-	public void setDetailId(Integer detailId) {
+	public void setDetailId(Long detailId) {
 		this.detailId = detailId;
 	}
 
-	public Integer getMenuId() {
+	public Long getMenuId() {
 		return menuId;
 	}
 
-	public void setMenuId(Integer menuId) {
+	public void setMenuId(Long menuId) {
 		this.menuId = menuId;
 	}
 
@@ -82,7 +94,13 @@ public class PortalArticle extends BasePojo {
 	public void setPortalArticleDetail(PortalArticleDetail portalArticleDetail) {
 		this.portalArticleDetail = portalArticleDetail;
 	}
+	public PortalMenu getPortalMenu() {
+		return portalMenu;
+	}
 
+	public void setPortalMenu(PortalMenu portalMenu) {
+		this.portalMenu = portalMenu;
+	}
 	@Override
 	public String toString() {
 		return "PortalArticle [author=" + author + ", pageView=" + pageView + ", source=" + source + ", remark="

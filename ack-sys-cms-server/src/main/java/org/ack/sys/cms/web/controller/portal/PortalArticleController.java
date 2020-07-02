@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.common.Validation;
 import org.ack.sys.cms.service.portal.PortalArticleService;
+import org.ack.sys.pojo.PortalArticle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class PortalArticleController {
 	
 	@PostMapping("/add")
 	@ResponseBody
-	public ResponseResult insert(@RequestBody @Validated PortalArticle article, 
+	public ResponseResult insert(@RequestBody @Validated PortalArticle article,
 			BindingResult result, HttpServletRequest request) {
 		logger.debug("新建文章");
 		ResponseResult responseResult = Validation.getValidationResult(result);
