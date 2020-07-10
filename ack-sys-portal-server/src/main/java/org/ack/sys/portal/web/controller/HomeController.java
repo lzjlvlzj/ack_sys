@@ -1,5 +1,6 @@
 package org.ack.sys.portal.web.controller;
 
+import org.ack.sys.pojo.PortalCarousel;
 import org.ack.sys.pojo.PortalMenu;
 import org.ack.sys.portal.pojo.Card;
 import org.ack.sys.portal.service.HomeService;
@@ -21,9 +22,11 @@ public class HomeController {
     public String home(Model model){
         PortalMenu menu = homeServiceImpl.findMenu();
         List<Card> cardList = homeServiceImpl.findCardList();
+        List<PortalCarousel> portalCarouselList = homeServiceImpl.findCarouselByPosition();
         model.addAttribute("aaa", "bbbbb");
         model.addAttribute("menus", menu.getChildren());
         model.addAttribute("cardList", cardList);
+        model.addAttribute("carouselList", portalCarouselList);
         return "index";
     }
     @RequestMapping("/test")

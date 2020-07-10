@@ -72,7 +72,7 @@ public class FileUtil {
 	/**
 	 * properties文件处理
 	 * 
-	 * @param in
+	 * @param file
 	 * @return
 	 */
 	public static Properties getProperAddr(File  file) {
@@ -144,7 +144,7 @@ public class FileUtil {
 	 * @return
 	 */
 	public static File createFile(String outputPath, boolean b) {
-		return createFile(outputPath, File.pathSeparator, b);
+		return createFile(outputPath, File.separator, b);
 	}
 	
 	/**
@@ -155,6 +155,8 @@ public class FileUtil {
 	 * @return
 	 */
 	public static File createFile(String outputPath, String separator, boolean b) {
+		// 分隔符转换
+		outputPath = separatorOperation(outputPath);
 		int index = outputPath.lastIndexOf(separator);
 		File file = null;
 		if(-1 == index){
@@ -182,6 +184,27 @@ public class FileUtil {
 		}
 		return realFile;
 	}
+
+	private static String separatorOperation(String outputPath) {
+		String str = "";
+		String separator = "/";
+		String tmp = "";
+		if(OsUtil.isWindows()){
+			str = outputPath.replace("/","\\");
+			separator = "\\\\";
+		} else {
+			str = outputPath.replace("\\", "/");
+		}
+		String[] strs = str.split(separator);
+		for(int i = 0; i < strs.length; i++){
+			if(StringUtils.isNotBlank(strs[i])){
+				tmp += strs[i] + File.separator;
+			}
+		}
+		str = tmp.substring(0 , tmp.length() - 1);
+		return str;
+	}
+
 	public static boolean isSymlink(File file) throws IOException {
         if (file == null) {
             throw new NullPointerException("File must not be null");

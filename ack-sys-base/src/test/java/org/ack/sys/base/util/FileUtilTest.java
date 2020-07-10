@@ -9,6 +9,27 @@ import org.junit.jupiter.api.Test;
 class FileUtilTest {
 
 	@Test
+	void testStr(){
+		String path = "E:\\myftp\\\\aaa\\bb.jpg";
+		String[] strs = path.split("\\\\");
+		System.out.println(File.separator);
+		System.out.println(File.pathSeparatorChar);
+		System.out.println(File.pathSeparator);
+		for(int i = 0; i < strs.length; i++){
+			String s = strs[i];
+			System.out.println("index = " + i + " str = " + s);
+		}
+	}
+
+	@Test
+	void testCreateFile(){
+		String path = "E:\\myftp\\/20200708/111.jpg";
+		File file = FileUtil.createFile(path);
+		assertNotNull(file);
+		System.out.println(file.getAbsolutePath());
+	}
+
+	@Test
 	void testGetCurrentPath() {
 		fail("Not yet implemented");
 	}

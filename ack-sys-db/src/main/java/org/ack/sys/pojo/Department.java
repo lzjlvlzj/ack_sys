@@ -11,6 +11,9 @@ public class Department extends BasePojo {
 
 	@NotBlank(message = "{dept.name.notblank}")
     private String name;
+	private String icon;
+	@NotNull(message = "{dept.img.notblank}")
+	private String img;
 	@NotNull(message = "{dept.parentid.notblank}")
     private Long parentId;
 	private String parentName;
@@ -23,6 +26,22 @@ public class Department extends BasePojo {
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
 
 	public Long getParentId() {
 		return parentId;

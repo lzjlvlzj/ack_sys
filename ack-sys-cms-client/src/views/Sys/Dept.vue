@@ -64,6 +64,25 @@
               :nodeKey="''+dataForm.parentId" :currentChangeHandle="handleTreeSelectChange">
             </popup-tree-input>
         </el-form-item>
+        <el-form-item label="小图标" prop="icon">
+          <el-input v-model="dataForm.icon" placeholder="小图标"></el-input>
+        </el-form-item>
+        <el-form-item label="大图标" prop="img">
+          <el-input v-model="dataForm.img" placeholder="大图图标" v-if="imgShow"></el-input>
+          <el-upload
+            class="upload-demo"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="3"
+            :on-exceed="handleExceed"
+            :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+        </el-form-item>
         <el-form-item v-if="dataForm.type !== 2" label="排序编号" prop="orderNum">
           <el-input-number v-model="dataForm.orderNum" controls-position="right" :min="0" label="排序编号"></el-input-number>
         </el-form-item>
@@ -93,6 +112,8 @@ export default {
 		return {
 			size: 'small',
 			loading: false,
+      imgShow:false,
+      fileList:[],
 			filters: {
 				name: ''
       },
@@ -101,6 +122,8 @@ export default {
       dataForm: {
         id: 0,
         name: '',
+        icon:'',
+        img:'',
         parentId: 0,
         parentName: '',
         orderNum: 0
@@ -108,6 +131,9 @@ export default {
       dataRule: {
         name: [
           { required: true, message: '机构名称不能为空', trigger: 'blur' }
+        ],
+        img: [
+          { required: true, message: '大图不能为空', trigger: 'blur' }
         ],
         parentName: [
           { required: true, message: '上级机构不能为空', trigger: 'change' }
@@ -187,6 +213,20 @@ export default {
       this.dataForm.parentId = data.id
       this.dataForm.parentName = data.name
     },
+    /*---上传图片---*/
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    /*---上传图片---*/
     // 表单提交
     submitForm () {
       this.$refs['dataForm'].validate((valid) => {

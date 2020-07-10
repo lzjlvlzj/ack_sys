@@ -1,5 +1,6 @@
 package org.ack.sys.portal.service;
 
+import org.ack.sys.pojo.PortalCarousel;
 import org.ack.sys.pojo.PortalMenu;
 import org.ack.sys.portal.pojo.Card;
 
@@ -17,4 +18,6 @@ public interface HomeService {
      * @return
      */
     List<Card> findCardList();
+
+    List<PortalCarousel> findCarouselByPosition();
 }

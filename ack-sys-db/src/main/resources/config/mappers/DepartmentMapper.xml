@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="org.ack.sys.pojo.Department">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
     <result column="parentId" jdbcType="INTEGER" property="parentId" />
     <result column="parentName" jdbcType="INTEGER" property="parentName" />
     <result column="creator" jdbcType="INTEGER" property="creator" />
@@ -14,12 +16,14 @@
     <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, creator, createTime, modifier, modifyTime, deleteStatus,parentId
+    id, name, icon, img, creator, createTime, modifier, modifyTime, deleteStatus,parentId
   </sql>
   <select id="findAll" resultMap="BaseResultMap">
     SELECT
 	dept.id,
 	dept. NAME,
+	dept.icon,
+	dept.img,
 	dept.creator,
 	dept.parentId,
 	dept.createTime,
@@ -51,10 +55,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.ack.sys.pojo.Department">
-    insert into cms_department (id, name, creator, 
+    insert into cms_department (id, name, icon, img, creator,
       createTime, modifier, modifyTime,parentId, 
       deleteStatus)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},#{icon,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, 
       #{parentId,jdbcType=INTEGER}, #{deleteStatus,jdbcType=INTEGER})
   </insert>
@@ -64,6 +68,12 @@
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
       </if>
       <if test="creator != null">
         creator = #{creator,jdbcType=INTEGER},
@@ -89,7 +99,8 @@
   <update id="updateById" parameterType="org.ack.sys.pojo.Department">
     update cms_department
     set name = #{name,jdbcType=VARCHAR},
-      name = #{parentId,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=INTEGER},
       createTime = #{createTime,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=INTEGER},

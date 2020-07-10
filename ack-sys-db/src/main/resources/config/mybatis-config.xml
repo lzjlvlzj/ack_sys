@@ -42,5 +42,6 @@
 		<mapper resource="config/mappers/PortalMenuMapper.xml" />
 		<mapper resource="config/mappers/PortalArticleMapper.xml" />
 		<mapper resource="config/mappers/PortalArticleDetailMapper.xml" />
+		<mapper resource="config/mappers/PortalCarouselMapper.xml" />
 	</mappers>
 </configuration>
