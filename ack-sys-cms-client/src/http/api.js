@@ -9,6 +9,9 @@ import * as menu from './moudules/menu'
 import * as dict from './moudules/dict'
 import * as log from './moudules/log'
 import * as personal from './moudules/personal'
+import * as portalMenu from './moudules/portalMenu'
+import * as portalArticle from './moudules/portalArticle'
+
 
 
 // 默认全部导出
@@ -21,4 +24,6 @@ export default {
     dict,
     log,
     personal,
+    portalMenu,
+    portalArticle,
 }

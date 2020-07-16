@@ -21,6 +21,11 @@ public class Content {
 	public static final String MONGO_PAGE_ID_NAME = "lastId";
 	
 	public static final String STATIC_RESOURCE_PREFIX = "static";
+
+	/*
+	 * 默认图片格式
+	 */
+	public static final String[] DEFAULT_IMG_SUFFIX = {"png", "jpg", "jpeg"};
 	
 	
 	

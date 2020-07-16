@@ -37,11 +37,11 @@ public class FileServiceImpl implements FileService {
         if (result.getCode() != 200) {
             return result;
         }
-        logger.debug("存储文件的绝对路径为:{}", path);
         File newFile = FileUtil.createFile(path);
+        logger.debug("存储文件的绝对路径为:{}", newFile.getAbsolutePath());
         try {
             file.transferTo(newFile);
-            String url = baseUrl + path;
+            String url = baseUrl + userPath;
             logger.debug("上传文件的访问路径:{}", url);
             return new ResponseResult(FileStatus.UPLOAD_SUCCESS.getCode(), url);
         } catch (IOException e) {

@@ -15,9 +15,40 @@
         <result column="modifyTime" jdbcType="TIMESTAMP" property="modifyTime"/>
         <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus"/>
     </resultMap>
+    <resultMap id="PortalResultMap" extends="BaseResultMap" type="org.ack.sys.pojo.PortalMenu">
+        <result column="createName" jdbcType="VARCHAR" property="createName"/>
+    </resultMap>
     <sql id="Base_Column_List">
-    id, `name`, icon, url, bgUrl, remark,parentId, creator, createTime, modifier, modifyTime, deleteStatus
+        id, `name`, icon, url, bgUrl, remark,parentId, creator, createTime, modifier, modifyTime, deleteStatus
     </sql>
+    <select id="findInterceptorPageList"
+            parameterType="org.ack.sys.base.persist.page.Page"
+            resultMap="BaseResultMap">
+        SELECT
+            pm.id,
+            pm.NAME,
+            pm.icon,
+            pm.url,
+            pm.bgUrl,
+            pm.remark,
+            pm.parentId,
+            pm.creator,
+            pm.createTime,
+            pm.modifier,
+            pm.modifyTime,
+            pm.deleteStatus,
+            cus.realName AS createName
+        FROM
+            portal_menu pm
+        LEFT JOIN cms_user cus ON cus.id = pm.creator
+        <where>
+            1 = 1
+            and pm.deleteStatus = 0
+            <if test="condition.name != null and condition.name !=''">
+                and pm.name=#{condition.name}
+            </if>
+        </where>
+    </select>
     <select id="selectByPrimaryKey" parameterType="org.ack.sys.pojo.PortalMenu" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

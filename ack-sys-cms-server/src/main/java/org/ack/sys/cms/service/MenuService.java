@@ -15,8 +15,7 @@ public interface MenuService extends PageService<Menu, Long> {
 
 	/**
 	 * 根據用户登陆名称查询用户信息
-	 * 
-	 * @param Menuname
+	 *
 	 * @return Menu
 	 */
 	public List<Menu> findByUserId(Long id);

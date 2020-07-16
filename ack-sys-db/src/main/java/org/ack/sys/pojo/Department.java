@@ -12,6 +12,7 @@ public class Department extends BasePojo {
 	@NotBlank(message = "{dept.name.notblank}")
     private String name;
 	private String icon;
+	private Integer type = 0;
 	@NotNull(message = "{dept.img.notblank}")
 	private String img;
 	@NotNull(message = "{dept.parentid.notblank}")
@@ -33,6 +34,14 @@ public class Department extends BasePojo {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 	public String getImg() {

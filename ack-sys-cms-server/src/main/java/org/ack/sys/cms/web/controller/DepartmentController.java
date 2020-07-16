@@ -1,6 +1,8 @@
 package org.ack.sys.cms.web.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.common.Validation;
 import org.ack.sys.base.core.auth.annotation.AckPermission;
+import org.ack.sys.base.util.StringUtils;
 import org.ack.sys.pojo.Department;
 import org.ack.sys.cms.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * @author ack
@@ -31,8 +36,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DepartmentController {
 	@Autowired
 	private DepartmentService departmentServiceImpl;
+
+
+	@PostMapping("/upload")
+	@ResponseBody
+	public ResponseResult upload(MultipartHttpServletRequest request){
+		Map<String, MultipartFile> map = request.getFileMap();
+		int size = map.size();
+		if(size == 0){
+			return new ResponseResult(400, "上传文件不能为空", null);
+		}
+        Set<String> set = map.keySet();
+		MultipartFile file  = null;
+		for(String key : set){
+			file = map.get(key);
+			break;
+		}
+		ResponseResult result = departmentServiceImpl.upload(file);
+
+		return result;
+	}
 	
-	@AckPermission("sys:dept:view or sys:user:view or personal:center:view")
+	@AckPermission("sys:dept:view OR sys:user:view OR personal:center:view")
 	@GetMapping("/tree")
 	@ResponseBody
 	public ResponseResult findTree() {

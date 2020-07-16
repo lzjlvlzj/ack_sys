@@ -8,7 +8,7 @@ package org.ack.sys.base.core.auth;
  * */
 public enum AuthLogic {
 
-	AND("and"), OR("or");
+	AND("AND"), OR("OR");
 	
 	private String value;
 

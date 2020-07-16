@@ -101,6 +101,7 @@ public class RoleServiceImpl extends PageServiceImpl<Role, Long> implements Role
 	}
 
 	@Override
+	@Transactional
 	public Integer saveRoleMenus(Role role) {
 		int r = -1;
 		// 删除原来权限对应的菜单

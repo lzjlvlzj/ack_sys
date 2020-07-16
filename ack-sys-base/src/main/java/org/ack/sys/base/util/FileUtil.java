@@ -9,203 +9,253 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Properties;
+import java.util.UUID;
 
 
 /**
  * 文件常用工具类
- * 
- * @author ack
  *
+ * @author ack
  */
 public class FileUtil {
-	
-	public static String getCurrentPath() {
-		return System.getProperty("user.dir");
-	}
 
-	/**
-	 * properties文件处理
-	 * <p>
-	 * 绝对路径
-	 * 
-	 * @param path
-	 * @return <code>Properties</code>
-	 */
-	public static Properties getProperAddr(String path) {
-		InputStream inputStream = null;
-		Properties p = null;
-		try {
-			inputStream = new FileInputStream(path);
-			p = getProperAddr(inputStream);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return p;
-	}
-	
-	public static String getClassesPath(String path) {
-		ClassLoader classLoader = FileUtil.class.getClassLoader();
-		URL url = classLoader.getResource(path);
-		return url.getPath();
-	}
-	
-	public static String getClassesPath() {
-		//String path = FileUtil.class.getResource("/").getPath();
-		return getClassesPath("");
-	}
 
-	/**
-	 * properties文件处理
-	 * <p>
-	 * jar包或者classPath
-	 * 
-	 * @param path
-	 * @return
-	 */
-	public static Properties getLocalProperAddr(String path) {
-		InputStream inputStream = FileUtil.class.getClassLoader()
-				.getResourceAsStream(path);
-		Properties p = getProperAddr(inputStream);
-		return p;
-	}
+    public static String getCurrentPath() {
+        return System.getProperty("user.dir");
+    }
 
-	/**
-	 * properties文件处理
-	 * 
-	 * @param file
-	 * @return
-	 */
-	public static Properties getProperAddr(File  file) {
-		Properties p = new Properties();
-		try {
-			p.load(new FileInputStream(file));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		return p;
-	}
-	/**
-	 * properties文件处理
-	 * 
-	 * @param in
-	 * @return
-	 */
-	public static Properties getProperAddr(InputStream in) {
-		Properties p = new Properties();
-		try {
-			p.load(in);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		return p;
-	}
-	
-	public static void writeProperties(File file, String keyname,String keyvalue) {          
-        try { 
-        	Properties p = getProperAddr(file);
-            OutputStream fos = new FileOutputStream(file);   
-            p.setProperty(keyname, keyvalue);   
-            p.store(fos, "Update '" + keyname + "' value");   
-        } catch (IOException e) {   
-            System.err.println("属性文件更新错误");   
-        }   
-    } 
-	
-	public static void writeProperties(String file, String keyname,String keyvalue) {          
-		writeProperties(new File(file), keyname, keyvalue);
-	}   
-	
 
-	/**
-	 * 创建新文件
-	 * 
-	 * @param outputPath
-	 * @return
-	 */
-	public static File createFile(String outputPath) {
-		return createFile(outputPath, true);
-	}
-	
-	/**
-	 * 创建新文件
-	 * 
-	 * @param outputPath
-	 * @return
-	 */
-	public static File createFile(String outputPath, String separator) {
-		return createFile(outputPath, separator, true);
-	}
+    public static String formatUri(String uri) {
+        //http://localhost:6060/dept/img\\b846b1f144ac465a9309d558deae5c79.jpg
+        String spr = "\\\\";
+        String[] strs = uri.split(spr);
+        String str = "";
+        if (strs.length == 1) {
+            str = uri.replace("\\", "/");
+        } else {
+            for (int i = 0; i < strs.length; i++) {
+                String s = strs[i];
+                if (StringUtils.isNotBlank(s)) {
+                    str += s + "/";
+                }
+            }
+            str = str.substring(0, str.length() - 1);
+        }
 
-	/**
-	 * @param outputPath
-	 *            文件绝对路径
-	 * @param b
-	 *            true 不在意是否文件已存在 ; false 文件已存在返回null
-	 * @return
-	 */
-	public static File createFile(String outputPath, boolean b) {
-		return createFile(outputPath, File.separator, b);
-	}
-	
-	/**
-	 * @param outputPath
-	 *            文件绝对路径
-	 * @param b
-	 *            true 不在意是否文件已存在 ; false 文件已存在返回null
-	 * @return
-	 */
-	public static File createFile(String outputPath, String separator, boolean b) {
-		// 分隔符转换
-		outputPath = separatorOperation(outputPath);
-		int index = outputPath.lastIndexOf(separator);
-		File file = null;
-		if(-1 == index){
-			file = new File(".");
-		} else {
-			String dir = outputPath.substring(0, index);
-			file = new File(dir);
-			if (!file.exists()) {
-				file.mkdirs();// create dir
-			}
-		}
-		String realName = outputPath.substring(index + 1);
-		File realFile = new File(file, realName);
-		if (realFile.exists()) {
-			if (b) {
-				return realFile;
-			}
-			return null;
-		}
-		try {
-			realFile.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-		return realFile;
-	}
+        return str;
+    }
 
-	private static String separatorOperation(String outputPath) {
-		String str = "";
-		String separator = "/";
-		String tmp = "";
-		if(OsUtil.isWindows()){
-			str = outputPath.replace("/","\\");
-			separator = "\\\\";
-		} else {
-			str = outputPath.replace("\\", "/");
-		}
-		String[] strs = str.split(separator);
-		for(int i = 0; i < strs.length; i++){
-			if(StringUtils.isNotBlank(strs[i])){
-				tmp += strs[i] + File.separator;
-			}
-		}
-		str = tmp.substring(0 , tmp.length() - 1);
-		return str;
-	}
+    public static boolean checkSuffix(String fileName, String[] suffixs) {
+        boolean b = false;
+        int index = fileName.lastIndexOf(".");
+        if (index == 0) {
+            return false;
+        }
+        String suffix = fileName.substring(index + 1);
+        for (String s : suffixs) {
+            if (suffix.equalsIgnoreCase(s)) {
+                b = true;
+                break;
+            }
+        }
+        return b;
+    }
 
-	public static boolean isSymlink(File file) throws IOException {
+    /**
+     * 按照uuid创建文件名
+     *
+     * @return
+     */
+    public static String createFileNameByUUID() {
+        String uuidFileName = UUID.randomUUID().toString().replace("-", "");
+        return uuidFileName;
+    }
+
+    public static String createFileNameByTime() {
+        long t = System.currentTimeMillis();
+        return t + "";
+    }
+
+    /**
+     * properties文件处理
+     * <p>
+     * 绝对路径
+     *
+     * @param path
+     * @return <code>Properties</code>
+     */
+    public static Properties getProperAddr(String path) {
+        InputStream inputStream = null;
+        Properties p = null;
+        try {
+            inputStream = new FileInputStream(path);
+            p = getProperAddr(inputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return p;
+    }
+
+    public static String getClassesPath(String path) {
+        ClassLoader classLoader = FileUtil.class.getClassLoader();
+        URL url = classLoader.getResource(path);
+        return url.getPath();
+    }
+
+    public static String getClassesPath() {
+        //String path = FileUtil.class.getResource("/").getPath();
+        return getClassesPath("");
+    }
+
+    /**
+     * properties文件处理
+     * <p>
+     * jar包或者classPath
+     *
+     * @param path
+     * @return
+     */
+    public static Properties getLocalProperAddr(String path) {
+        InputStream inputStream = FileUtil.class.getClassLoader()
+                .getResourceAsStream(path);
+        Properties p = getProperAddr(inputStream);
+        return p;
+    }
+
+    /**
+     * properties文件处理
+     *
+     * @param file
+     * @return
+     */
+    public static Properties getProperAddr(File file) {
+        Properties p = new Properties();
+        try {
+            p.load(new FileInputStream(file));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return p;
+    }
+
+    /**
+     * properties文件处理
+     *
+     * @param in
+     * @return
+     */
+    public static Properties getProperAddr(InputStream in) {
+        Properties p = new Properties();
+        try {
+            p.load(in);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return p;
+    }
+
+    public static void writeProperties(File file, String keyname, String keyvalue) {
+        try {
+            Properties p = getProperAddr(file);
+            OutputStream fos = new FileOutputStream(file);
+            p.setProperty(keyname, keyvalue);
+            p.store(fos, "Update '" + keyname + "' value");
+        } catch (IOException e) {
+            System.err.println("属性文件更新错误");
+        }
+    }
+
+    public static void writeProperties(String file, String keyname, String keyvalue) {
+        writeProperties(new File(file), keyname, keyvalue);
+    }
+
+
+    /**
+     * 创建新文件
+     *
+     * @param outputPath
+     * @return
+     */
+    public static File createFile(String outputPath) {
+        return createFile(outputPath, true);
+    }
+
+    /**
+     * 创建新文件
+     *
+     * @param outputPath
+     * @return
+     */
+    public static File createFile(String outputPath, String separator) {
+        return createFile(outputPath, separator, true);
+    }
+
+    /**
+     * @param outputPath 文件绝对路径
+     * @param b          true 不在意是否文件已存在 ; false 文件已存在返回null
+     * @return
+     */
+    public static File createFile(String outputPath, boolean b) {
+        return createFile(outputPath, File.separator, b);
+    }
+
+    /**
+     * @param outputPath 文件绝对路径
+     * @param b          true 不在意是否文件已存在 ; false 文件已存在返回null
+     * @return
+     */
+    public static File createFile(String outputPath, String separator, boolean b) {
+        // 分隔符转换
+        outputPath = separatorOperation(outputPath);
+        int index = outputPath.lastIndexOf(separator);
+        File file = null;
+        if (-1 == index) {
+            file = new File(".");
+        } else {
+            String dir = outputPath.substring(0, index);
+            file = new File(dir);
+            if (!file.exists()) {
+                file.mkdirs();// create dir
+            }
+        }
+        String realName = outputPath.substring(index + 1);
+        File realFile = new File(file, realName);
+        if (realFile.exists()) {
+            if (b) {
+                return realFile;
+            }
+            return null;
+        }
+        try {
+            realFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return realFile;
+    }
+
+    private static String separatorOperation(String outputPath) {
+        String str = "";
+        String separator = "/";
+        String tmp = "";
+        if (OsUtil.isWindows()) {
+            str = outputPath.replace("/", "\\");
+            separator = "\\\\";
+        } else {
+            str = outputPath.replace("\\", "/");
+        }
+        String[] strs = str.split(separator);
+        for (int i = 0; i < strs.length; i++) {
+            if (StringUtils.isNotBlank(strs[i])) {
+                tmp += strs[i] + File.separator;
+            }
+        }
+        str = tmp.substring(0, tmp.length() - 1);
+        return str;
+    }
+
+    public static boolean isSymlink(File file) throws IOException {
         if (file == null) {
             throw new NullPointerException("File must not be null");
         }
@@ -227,8 +277,8 @@ public class FileUtil {
             return true;
         }
     }
-	
-	/**
+
+    /**
      * Schedules a directory recursively for deletion on JVM exit.
      *
      * @param directory directory to delete, must not be {@code null}
@@ -245,7 +295,7 @@ public class FileUtil {
             cleanDirectoryOnExit(directory);
         }
     }
-    
+
     /**
      * Schedules a file to be deleted when JVM exits.
      * If file is directory delete it and all sub-directories.
@@ -298,7 +348,7 @@ public class FileUtil {
             throw exception;
         }
     }
-    
+
     /**
      * Deletes a file. If file is a directory, delete it and all sub-directories.
      * <p>
@@ -329,12 +379,12 @@ public class FileUtil {
             }
         }
     }
-    
+
     public static void forceDelete(String path) throws IOException {
-    	File file = new File(path);
-    	forceDelete(file);
+        File file = new File(path);
+        forceDelete(file);
     }
-    
+
     /**
      * Cleans a directory without deleting it.
      *
@@ -371,8 +421,8 @@ public class FileUtil {
             throw exception;
         }
     }
-	
-	public static void deleteDirectory(final File directory) throws IOException {
+
+    public static void deleteDirectory(final File directory) throws IOException {
         if (!directory.exists()) {
             return;
         }
@@ -387,31 +437,31 @@ public class FileUtil {
             throw new IOException(message);
         }
     }
-	
-	public static String getFileType(String fileName) {
-		String[] fileType = fileName.split("\\.");
-		int len = fileType.length;
-		if (len == 1) {
-			return null;
-		}
-		String type = fileType[len - 1];
-		return type;
-		
-	}
 
-	public static boolean typeMatch(String fileName, String types) {
-		boolean b = false;
-		String[] strs = types.split(",");
-		String fileType = getFileType(fileName);
-		if(null == fileType) {
-			return b;
-		}
-		for(String type : strs) {
-			if(fileType.equalsIgnoreCase(type)) {
-				b = true;
-				break;
-			}
-		}
-		return b;
-	}
+    public static String getFileType(String fileName) {
+        String[] fileType = fileName.split("\\.");
+        int len = fileType.length;
+        if (len == 1) {
+            return null;
+        }
+        String type = fileType[len - 1];
+        return type;
+
+    }
+
+    public static boolean typeMatch(String fileName, String types) {
+        boolean b = false;
+        String[] strs = types.split(",");
+        String fileType = getFileType(fileName);
+        if (null == fileType) {
+            return b;
+        }
+        for (String type : strs) {
+            if (fileType.equalsIgnoreCase(type)) {
+                b = true;
+                break;
+            }
+        }
+        return b;
+    }
 }

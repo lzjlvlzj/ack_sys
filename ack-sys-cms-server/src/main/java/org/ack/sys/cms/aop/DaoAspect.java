@@ -33,13 +33,13 @@ public class DaoAspect {
 	private static final String MODIFY_TIME = "modifyTime";
 
 	/* 插入的切入点 */
-	@Pointcut("execution(* org.ack.sys.cms.persist.mapper.*.insert*(..))")
+	@Pointcut("execution(* org.ack.sys.persist.mapper.*.insert*(..))")
 	public void insertPointCut() {
 
 	}
 
 	/* 修改的切入点 */
-	@Pointcut("execution(* org.ack.sys.cms.persist.mapper.*.update*(..))")
+	@Pointcut("execution(* org.ack.sys.persist.mapper.*.update*(..))")
 	public void updatePointCut() {
 
 	}
@@ -58,11 +58,11 @@ public class DaoAspect {
 			if (null != args && args.length > 0) {
 				for (int i = 0; i < args.length; i++) {
 					Object obj = args[i];
+					logger.debug("",obj);
 					ReflectUtil.setFieldValue(obj, CREATOR, user.getId());
 					ReflectUtil.setFieldValue(obj, CREATE_TIME, date);
 					ReflectUtil.setFieldValue(obj, MODIFIER, user.getId());
 					ReflectUtil.setFieldValue(obj, MODIFY_TIME, date);
-					System.out.println(obj);
 				}
 			}
 		}

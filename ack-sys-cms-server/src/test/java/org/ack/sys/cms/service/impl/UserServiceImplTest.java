@@ -122,8 +122,8 @@ class UserServiceImplTest {
 		Long deptId = 3L;
 		
 		User user = new User();
-		user.setUsername("ack2");
-		String password = MD5Util.md5("123");
+		user.setUsername("cbice");
+		String password = MD5Util.md5("123456");
 		user.setPassword(password);
 		user.setEmail("1215545@qq.com");
 		user.setMobile("15614541124");

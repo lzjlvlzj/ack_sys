@@ -15,6 +15,8 @@ public enum FileStatus {
     private String msg;
 
     FileStatus(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
     public int getCode() {

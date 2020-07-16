@@ -8,10 +8,14 @@ import qs from 'qs'
 // import store from '@/store'
 
 export default function $axios(options) {
+  var header = config.headers
+  if(options.isFile){
+    header = {'Content-Type':'multipart/form-data'}
+  }
   return new Promise((resolve, reject) => {
     const instance = axios.create({
       baseURL: config.baseUrl,
-      headers: config.headers,
+      headers: header,
       timeout: config.timeout,
       withCredentials: config.withCredentials
     })

@@ -54,3 +54,4 @@ user:
   avatar: /aaa/bb.png
 portal:
   page-positon: F:\workspace\me\ack2\ack_sys\ack-sys-portal-page\portal\
+  img-server: http://127.0.0.1:6060/upload

@@ -28,10 +28,20 @@ export const batchDelete = (data) => {
         data
     })
 }
+
 // 查询机构树
 export const findDeptTree = () => {
+  return axios({
+    url: '/dept/tree',
+    method: 'get'
+  })
+}
+// 查询机构树
+export const uploadDeptImg = (data) => {
     return axios({
-        url: '/dept/tree',
-        method: 'get'
+        url: '/upload',
+        method: 'post',
+        data,
+        isFile: true
     })
 }

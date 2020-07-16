@@ -9,6 +9,24 @@ import org.junit.jupiter.api.Test;
 class FileUtilTest {
 
 	@Test
+	void testFormatUri(){
+		String s = "http://localhost:6060/dept/img\b846b1f144ac465a9309d558deae5c79.jpg";
+		s = "http://localhost:6060/dept/img\11111.jpg";
+		s = FileUtil.formatUri(s);
+		assertNotNull(s);
+		System.out.println(s);
+
+	}
+
+	@Test
+	void testCheckSuffix(){
+		String fileName = "aa.png";
+		String[] suffixs = {"png", "jpe"};
+		boolean b = FileUtil.checkSuffix(fileName,suffixs);
+		assertTrue(b);
+	}
+
+	@Test
 	void testStr(){
 		String path = "E:\\myftp\\\\aaa\\bb.jpg";
 		String[] strs = path.split("\\\\");
