@@ -33,13 +33,13 @@ public class DaoAspect {
 	private static final String MODIFY_TIME = "modifyTime";
 
 	/* 插入的切入点 */
-	@Pointcut("execution(* org.ack.sys.persist.mapper.*.insert*(..))")
+	@Pointcut("execution(* org.ack.sys.persist.mapper..*.insert*(..))")
 	public void insertPointCut() {
 
 	}
 
 	/* 修改的切入点 */
-	@Pointcut("execution(* org.ack.sys.persist.mapper.*.update*(..))")
+	@Pointcut("execution(* org.ack.sys.persist.mapper..*.update*(..))")
 	public void updatePointCut() {
 
 	}
