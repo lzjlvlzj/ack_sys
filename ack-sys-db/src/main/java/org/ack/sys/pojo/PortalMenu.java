@@ -4,14 +4,16 @@ import java.util.List;
 
 import org.ack.sys.base.pojo.BasePojo;
 
-public class PortalMenu extends BasePojo {
+import javax.validation.constraints.NotBlank;
 
+public class PortalMenu extends BasePojo {
+    @NotBlank(message = "{portal.menu.name.notblank}")
     private String name;
 
     private String icon;
-
+    @NotBlank(message = "{portal.menu.url.notblank}")
     private String url;
-
+    @NotBlank(message = "{portal.menu.bgurl.notblank}")
     private String bgUrl;
 
     private String remark;

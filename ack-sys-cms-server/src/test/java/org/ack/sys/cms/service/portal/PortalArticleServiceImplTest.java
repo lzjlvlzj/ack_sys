@@ -1,6 +1,7 @@
 package org.ack.sys.cms.service.portal;
 
 import org.ack.sys.pojo.PortalArticle;
+import org.ack.sys.pojo.PortalArticleDetail;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,11 @@ class PortalArticleServiceImplTest {
 
     @Test
     void insert() {
-        long menuId = 4L;
+        long menuId = 5L;
         long userId = 1L;
         Date date = new Date();
         PortalArticle pa = new PortalArticle();
-        pa.setTitle("北京协和医院2020年五一门诊工作安排");
+        pa.setTitle("测试新闻2");
         pa.setAuthor("张三");
         pa.setMenuId(menuId);
         pa.setPageView(100);
@@ -44,10 +45,13 @@ class PortalArticleServiceImplTest {
         pa.setSource("源创");
         pa.setCreateTime(date);
         pa.setCreator(userId);
-        pa.setUrl("/notice");
+        pa.setUrl("/notice1111");
         pa.setModifyTime(date);
         pa.setModifier(userId);
         pa.setDeleteStatus(0);
+        PortalArticleDetail pad = new PortalArticleDetail();
+        pad.setContent("aaaaaa");
+        pa.setPortalArticleDetail(pad);
 
         int r = portalArticleServiceImpl.insert(pa);
         assertEquals(1, r);

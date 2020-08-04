@@ -21,6 +21,7 @@
     <sql id="Base_Column_List">
         id, `name`, icon, url, bgUrl, remark,parentId, creator, createTime, modifier, modifyTime, deleteStatus
     </sql>
+
     <select id="findInterceptorPageList"
             parameterType="org.ack.sys.base.persist.page.Page"
             resultMap="BaseResultMap">
@@ -60,11 +61,16 @@
         select
         <include refid="Base_Column_List"/>
         from portal_menu
+        WHERE 1 = 1
+        AND deleteStatus = 0
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="org.ack.sys.pojo.PortalMenu">
+    <delete id="delete" parameterType="org.ack.sys.pojo.PortalMenu">
     delete from portal_menu
     where id = #{id,jdbcType=INTEGER}
-      and `name` = #{name,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteById" parameterType="org.ack.sys.pojo.PortalMenu">
+    delete from portal_menu
+    where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="org.ack.sys.pojo.PortalMenu">
     insert into portal_menu (id, `name`,icon,
@@ -143,9 +149,12 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="org.ack.sys.pojo.PortalMenu">
+    <update id="update" parameterType="org.ack.sys.pojo.PortalMenu">
         update portal_menu
         <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
             <if test="icon != null">
                 icon = #{icon,jdbcType=VARCHAR},
             </if>
@@ -172,7 +181,6 @@
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
-        and name = #{name,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="org.ack.sys.pojo.PortalMenu">
     update portal_menu

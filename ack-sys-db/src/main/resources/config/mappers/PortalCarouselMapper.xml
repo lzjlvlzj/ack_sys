@@ -15,6 +15,15 @@
   <sql id="Base_Column_List">
     id, url, position, remark, creator, createTime, modifier, modifyTime, deleteStatus
   </sql>
+  <select id="findInterceptorPageList" resultMap="BaseResultMap"
+          parameterType="org.ack.sys.base.persist.page.Page">
+    select
+    <include refid="Base_Column_List" />
+    from portal_carousel
+    <where>
+      deleteStatus = 0
+    </where>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -102,7 +111,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.ack.sys.pojo.PortalCarousel">
+  <update id="update" parameterType="org.ack.sys.pojo.PortalCarousel">
     update portal_carousel
     <set>
       <if test="url != null">

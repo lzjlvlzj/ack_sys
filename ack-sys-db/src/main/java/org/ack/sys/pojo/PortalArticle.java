@@ -2,11 +2,16 @@ package org.ack.sys.pojo;
 
 import org.ack.sys.base.pojo.BasePojo;
 
+import javax.validation.constraints.NotBlank;
+
 public class PortalArticle extends BasePojo {
 
+	@NotBlank(message = "{portal.article.title.notblank}")
 	private String title;
-
+	@NotBlank(message = "{portal.article.author.notblank}")
 	private String author;
+	@NotBlank(message = "{portal.article.summery.notblank}")
+	private String summery;
 
 	private Integer pageView;
 
@@ -16,6 +21,8 @@ public class PortalArticle extends BasePojo {
 
 	private String remark;
 
+	private Integer status;
+
 	private Long detailId;
 
 	private Long menuId;
@@ -23,6 +30,14 @@ public class PortalArticle extends BasePojo {
 	private PortalMenu portalMenu;
 
 	private PortalArticleDetail portalArticleDetail;
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
 	public String getTitle() {
 		return title;
@@ -38,6 +53,14 @@ public class PortalArticle extends BasePojo {
 
 	public void setAuthor(String author) {
 		this.author = author == null ? null : author.trim();
+	}
+
+	public String getSummery() {
+		return summery;
+	}
+
+	public void setSummery(String summery) {
+		this.summery = summery;
 	}
 
 	public Integer getPageView() {

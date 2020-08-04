@@ -1,5 +1,8 @@
 package org.ack.sys.cms.service.portal;
 
-public interface PortalArticleDetailService {
+import org.ack.sys.base.service.PageService;
+import org.ack.sys.pojo.PortalArticleDetail;
+
+public interface PortalArticleDetailService extends PageService<PortalArticleDetail, Long> {
 
 }

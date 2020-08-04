@@ -5,11 +5,14 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="summery" jdbcType="VARCHAR" property="summery" />
     <result column="pageView" jdbcType="INTEGER" property="pageView" />
     <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="createName" jdbcType="VARCHAR" property="createName" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modifier" jdbcType="INTEGER" property="modifier" />
     <result column="modifyTime" jdbcType="TIMESTAMP" property="modifyTime" />
@@ -25,7 +28,7 @@
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, title, author, pageView, url,source, remark, creator, createTime, modifier, modifyTime,
+    id, title, author, summery, pageView, url,source, remark, creator, createTime, modifier, modifyTime,
     deleteStatus, detailId, menuId
   </sql>
   <select id="findInterceptorPageList"
@@ -35,6 +38,7 @@
     pa.id,
     pa.title,
     pa.author,
+    pa.summery,
     pa.pageView,
     pa.url,
     pa.source,
@@ -46,20 +50,23 @@
     pa.deleteStatus,
     pa.detailId,
     pa.menuId,
+    pa.`status`,
     pm.`name` as menuName,
     pm.url as menuUrl,
-    pm.bgUrl as menuBgUrl
+    pm.bgUrl as menuBgUrl,
+    cmu.realName as createName
     FROM
     portal_article pa
     LEFT JOIN portal_menu pm ON pm.id = pa.menuId
+    LEFT JOIN cms_user cmu ON pa.creator = cmu.id
     <where>
       1 = 1
       and pa.deleteStatus = 0
       <if test="condition.menuId > 0">
         and  pa.menuId = #{condition.menuId}
       </if>
-      <if test="condition.name != null and condition.menuId !=''">
-        and  pa.title = #{condition.title}
+      <if test="condition.name != null and condition.name !=''">
+        and  pa.title = #{condition.name}
       </if>
       <if test="condition.author != null and condition.author !=''">
         and  pa.author = #{condition.author}
@@ -81,6 +88,7 @@
     SELECT
     pa.id,
     pa.title,
+    pa.summery,
     pa.author,
     pa.pageView,
     pa.url,
@@ -115,12 +123,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.ack.sys.pojo.PortalArticle">
-    insert into portal_article (id, title, author, pageView,url,
+    insert into portal_article (id, title, author, summery, pageView,url,
       source, remark, creator,
       createTime, modifier, modifyTime,
       deleteStatus, detailId, menuId
       )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{pageView,jdbcType=INTEGER},#{url,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR},
+      #{summery,jdbcType=VARCHAR}, #{pageView,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR},
       #{source,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP},
       #{deleteStatus,jdbcType=INTEGER}, #{detailId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}

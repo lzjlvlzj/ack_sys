@@ -29,8 +29,10 @@
         "submit": "提交",
         "comfirm": "确定",
         "cancel": "取消",
-        "reset": "重置"
-
+        "reset": "重置",
+        "publish":"发布",
+        "save":"保存",
+        "preView":"预览"
     },
     "sys": {
         "sysMng": "系统管理",

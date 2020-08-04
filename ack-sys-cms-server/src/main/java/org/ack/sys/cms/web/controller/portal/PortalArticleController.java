@@ -6,8 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.common.Validation;
+import org.ack.sys.base.core.auth.annotation.AckPermission;
+import org.ack.sys.base.persist.page.Page;
+import org.ack.sys.base.persist.page.PageRequest;
 import org.ack.sys.cms.service.portal.PortalArticleService;
 import org.ack.sys.pojo.PortalArticle;
+import org.ack.sys.pojo.PortalMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/portal/artice")
+@RequestMapping("/portal/article")
 public class PortalArticleController {
 	private static final Logger logger = LoggerFactory.getLogger(PortalArticleController.class);
 	@Autowired
@@ -34,7 +38,19 @@ public class PortalArticleController {
 		ResponseResult responseResult = new ResponseResult(200, r);
 		return responseResult;
 	}
-	
+
+	@AckPermission("portal:article:view")
+	@PostMapping("/findPage")
+	@ResponseBody
+	public ResponseResult findPage(@RequestBody PageRequest pageRequest) {
+		logger.debug("查询文章列表");
+		pageRequest.setOrderColumn("createTime");
+		Page<PortalArticle> page = portalArticleServiceImpl.findPage(pageRequest);
+		ResponseResult result = new ResponseResult(200, page);
+		return result;
+	}
+
+	@AckPermission("portal:article:add")
 	@PostMapping("/add")
 	@ResponseBody
 	public ResponseResult insert(@RequestBody @Validated PortalArticle article,
@@ -61,14 +77,15 @@ public class PortalArticleController {
 		}
 		
 	}
-	
+	@AckPermission("portal:article:edit")
 	@PatchMapping("/edit")
 	@ResponseBody
 	public ResponseResult edit(@RequestBody PortalArticle menu, HttpServletRequest request, HttpServletResponse response) {
 		int r = portalArticleServiceImpl.update(menu);
 		return new ResponseResult(200, r); 
 	}
-	
+
+	@AckPermission("portal:article:delete")
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public ResponseResult delete(@RequestBody PortalArticle article, HttpServletRequest request,

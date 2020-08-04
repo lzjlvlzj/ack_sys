@@ -11,6 +11,7 @@ import * as log from './moudules/log'
 import * as personal from './moudules/personal'
 import * as portalMenu from './moudules/portalMenu'
 import * as portalArticle from './moudules/portalArticle'
+import * as portalCarousel from './moudules/portalCarousel'
 
 
 
@@ -26,4 +27,5 @@ export default {
     personal,
     portalMenu,
     portalArticle,
+    portalCarousel,
 }

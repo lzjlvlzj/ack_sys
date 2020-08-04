@@ -37,3 +37,12 @@ export const findPage = (data) => {
     data
   })
 }
+
+// 查找菜单
+export const findAll = (params) => {
+  return axios({
+    url: '/portal/menu/findAll',
+    method: 'get',
+    params
+  })
+}

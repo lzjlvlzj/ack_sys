@@ -12,18 +12,31 @@
                    <img src="/img/pt/logo.png"/>
                </div>
                <div class="col-lg-6 aboutus">
-                   1111
+                   1111224444555
                </div>
            </div>
        </div>
-       <nav class="navbar navbar-expand-md bg-success navbar-dark">
+       <nav class="navbar navbar-expand-md navbar-bg navbar-dark">
            <div class="container">
                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
                        data-target="#collapsibleNavbar" aria-expanded="false">
                    <span class="navbar-toggler-icon"></span>
                </button>
                <div class="navbar-collapse collapse" id="collapsibleNavbar" style="">
-                   <ul class="navbar-nav" th:switch="${area}">
+                   <ul class="navbar-nav" >
+
+                       <li th:each=" menu : ${menus}"  class="nav-item">
+                           <a class="nav-link" th:href="${menu.url}" th:text="${menu.name}" th:if="${#lists.isEmpty(menu.children)}"></a>
+                           <div th:if="${not #lists.isEmpty(menu.children)}">
+                               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                  th:text="${menu.name}">
+                               </a>
+                               <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                                   <a class="dropdown-item" href="#" th:each=" msub : ${menu.children}" th:text="${msub.name}"></a>
+                               </div>
+                           </div>
+                       </li>
 
                        <!--
                        <li th:each=" menu : ${menus}" th:if="${#lists.isEmpty(menu.children)}" class="nav-item">
@@ -31,23 +44,13 @@
                        </li>
 
                        <li class="nav-item dropdown" th:each=" menu : ${menus}" th:if="${not #lists.isEmpty(menu.children)}">
-                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${menu.name}">
+                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                              role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${menu.name}">
                                Dropdown
                            </a>
                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                <a class="dropdown-item" href="#" th:each=" msub : ${menu.children}" th:text="${msub.name}">Action</a>
                            </div>
-                       </li>
-                       -->
-                       <!--
-                       <li class="nav-item">
-                           <a class="nav-link" href="#">Link1</a>
-                       </li>
-                       <li class="nav-item">
-                           <a class="nav-link" href="#">Link2</a>
-                       </li>
-                       <li class="nav-item">
-                           <a class="nav-link" href="#">Link3</a>
                        </li>
                        -->
                    </ul>

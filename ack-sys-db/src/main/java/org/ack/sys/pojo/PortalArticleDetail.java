@@ -1,7 +1,9 @@
 package org.ack.sys.pojo;
 
 
-public class PortalArticleDetail {
+import java.io.Serializable;
+
+public class PortalArticleDetail implements Serializable {
     private Long id;
 
     private String content;

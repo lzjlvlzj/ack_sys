@@ -37,7 +37,7 @@ class PortalArticleMapperTest extends BaseTest {
         page.setPageSize(3);
         //Date date = new Date();
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("menuId",4L);
+        //map.put("name","北京协和医院2020年五一门诊工作安排");
         //map.put("startTime", date);
         //map.put("endTime", date);
         page.setCondition(map);
@@ -58,11 +58,11 @@ class PortalArticleMapperTest extends BaseTest {
     }
     @Test
     void insert() {
-        long menuId = 6L;
+        long menuId = 5L;
         long userId = 1L;
         Date date = new Date();
         PortalArticle pa = new PortalArticle();
-        pa.setTitle("全民营养周 | 营养与癌症之间不得不说的事儿");
+        pa.setTitle("这个是个测试");
         pa.setAuthor("张三");
         pa.setMenuId(menuId);
         pa.setPageView(100);
@@ -76,7 +76,7 @@ class PortalArticleMapperTest extends BaseTest {
         pa.setDeleteStatus(0);
 
 
-        PortalArticleDetail pad = new PortalArticleDetail("bbbbbbbssss");
+        PortalArticleDetail pad = new PortalArticleDetail("bbbbbbbssss2222");
         portalArticleDetailMapper.insert(pad);
         pa.setDetailId(pad.getId());
         int r  = portalArticleMapper.insert(pa);

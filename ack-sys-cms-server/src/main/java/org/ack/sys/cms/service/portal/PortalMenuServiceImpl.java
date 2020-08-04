@@ -8,6 +8,7 @@ import org.ack.sys.base.common.ResponseResult;
 import org.ack.sys.base.persist.page.PageDao;
 import org.ack.sys.base.service.impl.PageServiceImpl;
 import org.ack.sys.base.util.FileUtil;
+import org.ack.sys.cms.config.store.FileStoreConfig;
 import org.ack.sys.cms.service.DictionaryService;
 import org.ack.sys.cms.service.UploadService;
 import org.ack.sys.persist.mapper.portal.PortalMenuMapper;
@@ -22,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class PortalMenuServiceImpl extends PageServiceImpl<PortalMenu, Long> implements PortalMenuService {
     private static final Logger logger = LoggerFactory.getLogger(PortalMenuServiceImpl.class);
-    private static final String PORTAL_MENU_IMG_PATH_KEY = "portal_menu_img";
     @Autowired(required = false)
     private PortalMenuMapper portalMenuMapper;
 	@Autowired
@@ -46,7 +46,7 @@ public class PortalMenuServiceImpl extends PageServiceImpl<PortalMenu, Long> imp
 		}
 		int index = originalFilename.lastIndexOf(".");
 		String suffix = originalFilename.substring(index);
-		Dictionary dictionary = dictionaryServiceImpl.findByKey(PORTAL_MENU_IMG_PATH_KEY);
+		Dictionary dictionary = dictionaryServiceImpl.findByKey(FileStoreConfig.PORTAL_MENU_IMG_PATH_KEY);
 		String path = dictionary.getValue();
 		if (!path.endsWith("/")) {
 			path = path + "/";

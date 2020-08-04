@@ -27,9 +27,12 @@
         "search": "Search",
         "loading": "loading",
         "submit": "Submit",
-        "comfirm": "Comfirm",
+        "comfirm": "Confirm",
         "cancel": "Cancel",
-        "reset": "Reset"
+        "reset": "Reset",
+        "publish": "Publish",
+        "save": "Save",
+        "preView": "PreView"
     },
     "sys": {
         "sysMng": "System Manage",

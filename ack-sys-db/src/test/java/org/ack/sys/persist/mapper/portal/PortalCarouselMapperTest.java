@@ -1,5 +1,6 @@
 package org.ack.sys.persist.mapper.portal;
 
+import org.ack.sys.base.persist.page.Page;
 import org.ack.sys.persist.BaseTest;
 import org.ack.sys.pojo.PortalCarousel;
 import org.junit.jupiter.api.AfterEach;
@@ -31,6 +32,14 @@ class PortalCarouselMapperTest extends BaseTest {
         List<PortalCarousel> list = portalCarouselMapper.findByPosition(position);
         assertNotNull(list);
         System.out.println(list.size());
+    }
+
+    @Test
+    void testFindAll(){
+        Page<PortalCarousel> page = new Page<PortalCarousel>();
+        page.setPageSize(3);
+        List<PortalCarousel> portalCarouselList = portalCarouselMapper.findInterceptorPageList(page);
+        assertEquals(3, portalCarouselList.size());
     }
 
     @Test
