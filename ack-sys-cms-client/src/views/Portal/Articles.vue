@@ -109,6 +109,7 @@
   import {format} from "@/utils/datetime"
   import {baseUrl} from '@/utils/global'
   import Cookies from "js-cookie";
+  import Article from "./Article";
 
   import Editor from '@tinymce/tinymce-vue'
 
@@ -121,6 +122,7 @@
       TableTreeColumn,
       FaIconTooltip,
       Editor,
+      Article,
     },
     data() {
       return {
@@ -264,8 +266,10 @@
       },
       // 显示编辑界面
       handleEdit: function (row) {
-        this.dialogVisible = true;
-        Object.assign(this.dataForm, row);
+        this.$router.push("/portal/article")
+        //let instance = new Article();
+        //this.dialogVisible = true;
+        //Object.assign(this.dataForm, row);
       },
       // 删除
       handleDelete(row) {

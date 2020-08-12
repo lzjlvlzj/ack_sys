@@ -19,12 +19,19 @@ import java.util.UUID;
  */
 public class FileUtil {
 
-
+    /***
+     * 获得当前项目路径
+     * @return
+     */
     public static String getCurrentPath() {
         return System.getProperty("user.dir");
     }
 
-
+    /***
+     * 对url中的反斜杠进行纠正
+     * @param uri
+     * @return
+     */
     public static String formatUri(String uri) {
         //http://localhost:6060/dept/img\\b846b1f144ac465a9309d558deae5c79.jpg
         String spr = "\\\\";
@@ -47,6 +54,9 @@ public class FileUtil {
 
     public static boolean checkSuffix(String fileName, String[] suffixs) {
         boolean b = false;
+        if (null == suffixs) {
+            return b;
+        }
         int index = fileName.lastIndexOf(".");
         if (index == 0) {
             return false;

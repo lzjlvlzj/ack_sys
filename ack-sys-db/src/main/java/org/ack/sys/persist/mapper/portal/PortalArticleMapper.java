@@ -25,4 +25,11 @@ public interface PortalArticleMapper extends PageDao<PortalArticle, Long> {
      * @return
      */
     List<PortalArticle> findByMenuId(Long[] ids);
+
+    /**
+     * 查询文章是否存在结果>0则存在
+     * @param title
+     * @return
+     */
+    int findByTitle(String title);
 }

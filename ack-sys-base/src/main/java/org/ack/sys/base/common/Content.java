@@ -26,7 +26,16 @@ public class Content {
 	 * 默认图片格式
 	 */
 	public static final String[] DEFAULT_IMG_SUFFIX = {"png", "jpg", "jpeg"};
-	
+
+	/**
+	 * 默认影音格式
+	 * */
+	public  static final String[] DEFAULT_MEDIA_SUFFIX = {"mp3", "mp4", "avi", "flv"};
+
+	/**
+	 * 默认文件格式
+	 */
+	public static final String[] DEFAULT_FILE_SUFFIX = {"zip","txt","rar","doc","docx","ppt","pptx","xls","xlsx", "pdf", "7z"};
 	
 	
 }

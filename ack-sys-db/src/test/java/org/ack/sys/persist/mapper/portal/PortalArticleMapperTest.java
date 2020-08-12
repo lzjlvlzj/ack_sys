@@ -32,6 +32,13 @@ class PortalArticleMapperTest extends BaseTest {
     }
 
     @Test
+    void testFindByTitle(){
+        String title = "重大先问";
+        int count = portalArticleMapper.findByTitle(title);
+        assertEquals(1, count);
+    }
+
+    @Test
     void testFindInterceptorPageList(){
         Page<PortalArticle> page = new Page<PortalArticle>();
         page.setPageSize(3);

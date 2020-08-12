@@ -8,7 +8,7 @@
         <el-button size="small" type="primary" @click="submitForm(1)">{{$t('action.publish')}}</el-button>
         <!--<el-button size="small" type="success" @click="submitForm()">{{$t('action.preView')}}</el-button>-->
       </div>
-      <el-tabs tab-position="left" >
+      <el-tabs tab-position="left">
         <el-tab-pane label="基础信息">
           <el-form-item label="分类" prop="title">
             <el-select v-model="dataForm.menuId" placeholder="请选择">
@@ -33,11 +33,11 @@
             <el-input v-model="dataForm.summery" placeholder="摘要"></el-input>
           </el-form-item>
           <el-form-item label="备注" prop="remark">
-            <el-input  type="textarea" v-model="dataForm.remark" placeholder="备注"></el-input>
+            <el-input type="textarea" v-model="dataForm.remark" placeholder="备注"></el-input>
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="文章内容">
-          <el-input type="textarea" id="_portal_content_" v-model="dataForm.content"></el-input>
+          <doc-editor :editorConfig="editorConfig" v-model="dataForm.content" ref="docEditor"></doc-editor>
         </el-tab-pane>
       </el-tabs>
 
@@ -46,32 +46,36 @@
 </template>
 
 <script>
-  //import Editor from '@tinymce/tinymce-vue'
-  import DocEditor from "@/components/DocEditor";
+  import DocEditor from '@/components/DocEditor';
+  import {baseUrl} from '@/utils/global';
+
   export default {
     name: 'PortalArticle',
     components: {
-      'DocEditor': DocEditor
+      DocEditor
     },
-    data(){
-      return{
-        portalMenus : {
-
+    data() {
+      return {
+        portalMenus: {},
+        uploadFile: {
+          url: 'upload',
+          withCredentials: true,
+          multiple: false,
+          limit: 1
         },
-        formConfig:{
+        formConfig: {
           size: "mini",
           labelWidth: "80px",
-
         },
         dataForm: {
           id: 0,
-          menuId:5,
-          summery:'ack',
-          source:'ack',
-          content:'ack',
-          author:'ack',
+          menuId: 5,
+          summery: 'ack',
+          source: 'ack',
+          content: '',
+          author: 'ack',
           title: "测试新闻",
-          remark:"ack",
+          remark: "ack",
           deleteStatus: 0
         },
         dataRule: {
@@ -79,11 +83,14 @@
           author: [{required: true, message: "文章作者不能为空", trigger: "blur"}],
           content: [{required: true, message: "文章内容不能为空", trigger: "blur"}],
         },
-        editorConfig :{
-          selector: '#_portal_content_',
+        editorConfig: {
+          imgUploadUrl: baseUrl + "portal/article/imgUpload",
+          mediaUploadUrl: baseUrl + "portal/article/mediaUpload",
+          fileUploadUrl: baseUrl + "portal/article/fileUpload",
+          mode : "exact",
+          id: '#_portal_content_',
           language: 'zh_CN',
           height: 500,
-          fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt 42pt 48pt 54pt 72pt",
           plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
@@ -97,17 +104,23 @@
              blockquote subscript superscript removeformat | \
             table image media charmap emoticons hr pagebreak insertdatetime print preview |\
             fullscreen | bdmap indent2em lineheight formatpainter axupimgs',
+
         }
       }
     },
-    methods:{
-      submitForm(flag){
+    methods: {
+      getContent(){
+         let content = this.$refs.docEditor.getContent();
+         return content;
+      },
+      submitForm(flag) {
         this.$refs["dataForm"].validate(valid => {
-          if(valid){
-            this.dataForm.content = tinymce.activeEditor.getContent()
-            if(!this.dataForm.content){
+          if (valid) {
+            //this.dataForm.content = tinymce.activeEditor.getContent()
+            this.dataForm.content = this.getContent();
+            if (!this.dataForm.content) {
               this.$message({message: "文章内容不能为空", type: "error"});
-              return ;
+              return;
             }
             this.$confirm("确认提交吗？", "提示", {}).then(() => {
               this.editLoading = true;
@@ -115,7 +128,7 @@
               params.portalArticleDetail = {}
               params.portalArticleDetail.content = this.dataForm.content
               if (!this.dataForm.id) {
-                if(flag == 0){
+                if (flag == 0) {
                   this.$api.portalArticle.save(params).then(res => {
                     this.editLoading = false;
                     if (res.code == 200) {
@@ -154,19 +167,22 @@
 
           }
         })
-        console.log(this.dataForm)
+        //console.log(this.dataForm)
       },
-      findMenus(){
-        this.$api.portalMenu.findAll({}).then(res=>{
+      findMenus() {
+        this.$api.portalMenu.findAll({}).then(res => {
           this.portalMenus = res.data
-        }).catch(err =>{
+        }).catch(err => {
 
         })
       },
-      init(){
-        tinymce.init(this.editorConfig)
-        this.findMenus()
+      init() {
+        this.findMenus();
       }
+    },
+    created() {
+
+
     },
     mounted() {
       this.init()
@@ -174,7 +190,7 @@
   }
 </script>
 <style>
-  .article-btns{
+  .article-btns {
     margin-bottom: 10px;
   }
 </style>

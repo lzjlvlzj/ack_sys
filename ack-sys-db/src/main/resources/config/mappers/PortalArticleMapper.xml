@@ -31,6 +31,9 @@
     id, title, author, summery, pageView, url,source, remark, creator, createTime, modifier, modifyTime,
     deleteStatus, detailId, menuId
   </sql>
+  <select id="findByTitle" parameterType="string" resultType="int">
+    SELECT count(*) FROM portal_article WHERE title = #{title}
+  </select>
   <select id="findInterceptorPageList"
           parameterType="org.ack.sys.base.persist.page.Page"
           resultMap="MenuArticleMap">
